@@ -25,4 +25,4 @@ nbdist/
 
 
 #Angular
-src/main/client/app/node_modules
+src/main/client/BarCodeApp/node_modules
