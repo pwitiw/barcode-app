@@ -1,6 +1,7 @@
 package com.frontwit.barcodeapp.entity;
 
 import com.frontwit.barcodeapp.datatype.Barcode;
+import com.frontwit.barcodeapp.datatype.Process;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,5 +28,6 @@ public class Component {
 
     private LocalTime lastModification;
 
+    private boolean damaged;
 
 }
