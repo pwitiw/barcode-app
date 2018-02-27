@@ -1,23 +1,23 @@
 package com.frontwit.barcodeapp;
 
-import com.frontwit.barcodeapp.entity.Order;
 import com.github.mongobee.changeset.ChangeLog;
 import com.github.mongobee.changeset.ChangeSet;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 @ChangeLog
 public class DatabaseChangelog {
 
-    @ChangeSet(order = "001", id = "New Entry", author = "System")
-    public void script(DB db) {
+    @ChangeSet(order = "001", id = "Counters", author = "Admin")
+    public void createCounters(DB db) {
 
-        DBCollection mycollection = db.getCollection("order");
-        BasicDBObject doc = new BasicDBObject()
-                .append("test", "1")
-                .append("test1", "1")
-                .append("test2", "1");
-        mycollection.insert(doc);
+        DBCollection counters = db.getCollection("counter");
+        DBObject object = new BasicDBObject()
+                .append("_id", "order")
+                .append("value", 0);
+        counters.save(object);
     }
+
 }

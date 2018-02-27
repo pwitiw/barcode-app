@@ -31,6 +31,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('de.codecentric:spring-boot-admin-starter-server')
+	compile('org.hibernate:hibernate-validator:5.3.4.Final')
 	//	Mongo DB dependencies
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	compile 'org.javassist:javassist:3.18.2-GA' // workaround for ${javassist.version} placeholder issue*
