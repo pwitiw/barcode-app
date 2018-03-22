@@ -6,15 +6,14 @@ import com.frontwit.barcodeapp.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RestController;
 
 @Configuration
+@RestController
 public class BeanConfig {
 
     @Autowired
     OrderRepository orderRepository;
-
-    @Autowired
-    CounterService counterService;
 
     @Bean
     public CounterService counterService(CounterRepository counterRepository) {
