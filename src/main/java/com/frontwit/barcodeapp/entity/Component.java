@@ -7,7 +7,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,14 +17,16 @@ public class Component {
     @NotEmpty
     @Indexed(unique = true)
     private Barcode barcode;
+
+    @NotEmpty
+    private Integer height;
+
     @NotEmpty
     private Integer width;
-    @NotEmpty
-    private Integer length;
 
     private List<Process> processingHistory;
 
-    private LocalTime lastModification;
+    private Date lastModification;
 
     private boolean damaged;
 }
