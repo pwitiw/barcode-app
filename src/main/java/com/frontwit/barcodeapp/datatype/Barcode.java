@@ -13,4 +13,9 @@ public class Barcode {
     public static Barcode valueOf(long value) {
         return new Barcode(BigInteger.valueOf(value));
     }
+
+    @Override
+    public String toString() {
+        return value.toString();
+    }
 }

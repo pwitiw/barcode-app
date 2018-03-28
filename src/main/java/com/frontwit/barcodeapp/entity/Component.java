@@ -29,4 +29,9 @@ public class Component {
     private Date lastModification;
 
     private boolean damaged;
+
+    @Override
+    public String toString() {
+        return height + " x " + width;
+    }
 }
