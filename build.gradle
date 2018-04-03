@@ -29,9 +29,17 @@ ext {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
-	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('de.codecentric:spring-boot-admin-starter-server')
+	compile('org.hibernate:hibernate-validator:5.3.4.Final')
+	//	Mongo DB dependencies
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	compile 'org.javassist:javassist:3.18.2-GA' // workaround for ${javassist.version} placeholder issue*
+	compile 'com.github.mongobee:mongobee:0.13'
+	//	BarCode Generator
+	compile group: 'com.google.zxing', name: 'javase', version: '3.3.2'
+	// Pdf libraries
+	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13'
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
