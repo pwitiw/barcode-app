@@ -1,0 +1,40 @@
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Order name</th>
+    <th scope="col">Order date</th>
+    <th scope="col">Is completed</th>
+    <th scope="col">Order components</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <ng-container *ngFor="let order of orders">
+    <tr>
+      <th scope="row">{{order.id}}</th>
+      <td>{{order.name}}</td>
+      <td>{{order.orderDate}}</td>
+      <td>{{order.isComplete}}</td>
+      <td>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" [attr.data-target]="'#' + order.id" >
+          Details
+        </button>
+      </td>
+    </tr>
+
+    <tr class="collapse" id={{order.id}}>
+      <td colspan="5">
+        <div class="card card-body">
+          <ul>
+            <li *ngFor="let component of order.components">
+              {{component.name}} {{component.width}} {{component.height}}
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+
+  </ng-container>
+  </tbody>
+</table>

@@ -1,0 +1,23 @@
+$carpentry-img:url("../../../carpentry.jpg");
+
+.root-container {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-image: $carpentry-img;
+  background-repeat:no-repeat;
+  background-size:cover;
+}
+
+.outer {
+  height:25vh;
+}
+
+.inner {
+  height:50vh;
+}
+.center-box {
+  color: black;
+  background-color: white;
+  opacity: 0.8;
+  border-radius: 10px;
+}
