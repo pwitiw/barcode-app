@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Order } from "../../models/Order";
 import {ORDERS} from "../../models/Orders-mock";
 
 @Component({

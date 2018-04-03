@@ -6,6 +6,7 @@ import { OrdersComponent } from './components/orders/orders.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AppRoutingModule } from "./app-routing.module";
 import { MainPageComponent } from './components/main-page/main-page.component';
+import { ComponentTableComponent } from './components/component-table/component-table.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { MainPageComponent } from './components/main-page/main-page.component';
     StartComponent,
     OrdersComponent,
     PageNotFoundComponent,
-    MainPageComponent
+    MainPageComponent,
+    ComponentTableComponent
   ],
   imports: [
     BrowserModule,

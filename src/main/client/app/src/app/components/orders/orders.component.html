@@ -10,7 +10,7 @@
   </thead>
   <tbody>
 
-  <ng-container *ngFor="let order of orders">
+  <ng-container class="container-hover" *ngFor="let order of orders">
     <tr>
       <th scope="row">{{order.id}}</th>
       <td>{{order.name}}</td>
@@ -23,15 +23,9 @@
       </td>
     </tr>
 
-    <tr class="collapse" id={{order.id}}>
+    <tr class="collapse collapse-styled" id={{order.id}}>
       <td colspan="5">
-        <div class="card card-body">
-          <ul>
-            <li *ngFor="let component of order.components">
-              {{component.name}} {{component.width}} {{component.height}}
-            </li>
-          </ul>
-        </div>
+        <app-component-table [order]="order"></app-component-table>
       </td>
     </tr>
 
