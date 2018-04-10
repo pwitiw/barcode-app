@@ -1,4 +1,5 @@
 $carpentry-img:url("../../../carpentry.jpg");
+$logo-img:url("../../../logo.jpg");
 
 .root-container {
   position: absolute;
@@ -6,6 +7,13 @@ $carpentry-img:url("../../../carpentry.jpg");
   background-image: $carpentry-img;
   background-repeat:no-repeat;
   background-size:cover;
+}
+
+.logo {
+  background: $logo-img;
+  width:393px;
+  height: 95px;
+  margin:auto;
 }
 
 .outer {
@@ -18,6 +26,11 @@ $carpentry-img:url("../../../carpentry.jpg");
 .center-box {
   color: black;
   background-color: white;
-  opacity: 0.8;
   border-radius: 10px;
+  text-align:center;
+  padding:20px;
+}
+
+.welcomeMessage {
+  margin-top:20px;
 }

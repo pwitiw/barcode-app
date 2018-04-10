@@ -13,8 +13,10 @@
       <div class="col-sm-3">
       </div>
       <div class="col-sm-6 center-box" >
-        {{myDate | date: "dd/MM/yyyy"}}
-        {{myDate | date: "HH:mm:ss"}}
+        <h2 class="welcomeMessage">Witamy w aplikacji zarządzania zamówieniami firmy</h2><br>
+        <div class="logo"></div><br>
+        <h5>Dzisiaj {{day}}, {{myDate | date: "dd"}} {{month}}</h5>
+        <h5>Godzina: {{myDate | date: "HH:mm:ss"}}</h5>
       </div>
       <div class="col-sm-3">
       </div>

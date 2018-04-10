@@ -7,6 +7,9 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { AppRoutingModule } from "./app-routing.module";
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { ComponentTableComponent } from './components/component-table/component-table.component';
+import { HeaderComponent } from './components/header/header.component';
+import {NgxSmartModalModule, NgxSmartModalService} from "ngx-smart-modal";
+import { PrintModalComponent } from './components/orders/print-modal/print-modal.component';
 
 
 @NgModule({
@@ -16,13 +19,16 @@ import { ComponentTableComponent } from './components/component-table/component-
     OrdersComponent,
     PageNotFoundComponent,
     MainPageComponent,
-    ComponentTableComponent
+    ComponentTableComponent,
+    HeaderComponent,
+    PrintModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgxSmartModalModule.forRoot()
   ],
-  providers: [],
+  providers: [ NgxSmartModalService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
