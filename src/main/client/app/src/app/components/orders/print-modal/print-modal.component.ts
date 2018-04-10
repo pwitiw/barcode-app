@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgxSmartModalService} from "ngx-smart-modal";
 
 @Component({
   selector: 'app-print-modal',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrintModalComponent implements OnInit {
 
-  constructor() { }
+  constructor(public ngxSmartModalService: NgxSmartModalService) { }
 
   ngOnInit() {
   }
 
+  clearModalData() {
+    this.ngxSmartModalService.resetModalData('print')
+  }
 }

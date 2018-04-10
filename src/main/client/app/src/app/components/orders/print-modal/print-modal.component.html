@@ -1,5 +1,7 @@
-<ngx-smart-modal #print [identifier]="'print'">
-  <h1>Title 1</h1>
-  <p>Hello</p>
+<ngx-smart-modal #print [identifier]="'print'" (onAnyCloseEvent)="clearModalData()">
+  <h1>Koty kreskowe</h1>
+  <div *ngIf="print.hasData()">
+    <pre>{{ print.getData() | json }}</pre>
+  </div>
   <button (click)="print.close()">Close</button>
 </ngx-smart-modal>

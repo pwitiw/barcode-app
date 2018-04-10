@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ORDERS} from "../../models/Orders-mock";
 import {NgxSmartModalService} from '../../../../node_modules/ngx-smart-modal';
+import {Order} from "../../models/Order";
 
 @Component({
   selector: 'app-orders',
@@ -16,14 +17,12 @@ export class OrdersComponent implements AfterViewInit {
     return true;
   }
 
+  setOrder(order: Order) {
+    this.ngxSmartModalService.setModalData(order, 'print');
+  }
+
   ngAfterViewInit() {
-    const pen: Object = {
-      prop1: 'test',
-      prop2: true,
-      prop3: [{ a: 'a', b: 'b' }, { c: 'c', d: 'd' }],
-      prop4: 327652175423
-    };
-    this.ngxSmartModalService.setModalData(pen, 'print');
+
   }
 
 }
