@@ -11,7 +11,9 @@ import { HeaderComponent } from './components/header/header.component';
 import {NgxSmartModalModule, NgxSmartModalService} from "ngx-smart-modal";
 import { PrintModalComponent } from './components/orders/print-modal/print-modal.component';
 
-
+//TODO mudim moim skromnym zdaniem powinnismy wydzielic takie moduly jak sa sa zakladki: czyli u nas na razie tylko home i order,
+// plus jakies common zeby trzymac tam komponenty ktore beda reuzywalne (np tabela, modal) no i moznaby trzymac modele w modulach,
+// w ktorych sie ich uzywa
 @NgModule({
   declarations: [
     AppComponent,

@@ -8,6 +8,7 @@ import {Order} from "../../models/Order";
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
+//TODO mudim dlaczego AfterViewInit,a nie OnInit?
 export class OrdersComponent implements AfterViewInit {
 
   orders = ORDERS;

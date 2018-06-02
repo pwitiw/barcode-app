@@ -7,6 +7,7 @@ import {MainPageComponent} from "./components/main-page/main-page.component";
 
 const appRoutingModule: Routes = [
   { path: 'start', component: StartComponent },
+  //TODO mudim moze zamiast main to jakies home czy cos (ale to jest takie bardziej czepianie sie)
   { path: 'main', component: MainPageComponent },
   { path: 'orders',        component: OrdersComponent },
   { path: '',   redirectTo: '/start', pathMatch: 'full' },
