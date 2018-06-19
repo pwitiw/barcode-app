@@ -1,0 +1,18 @@
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th scope="col">Name</th>
+    <th scope="col">Width</th>
+    <th scope="col">Height</th>
+    <th scope="col">Bar Code</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let component of order.components">
+    <th scope="row">{{component.name}}</th>
+    <td>{{component.width}}</td>
+    <td>{{component.height}}</td>
+    <td>{{component.barCode}}</td>
+  </tr>
+  </tbody>
+</table>
