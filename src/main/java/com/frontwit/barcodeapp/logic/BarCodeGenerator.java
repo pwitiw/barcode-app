@@ -1,13 +1,15 @@
 package com.frontwit.barcodeapp.logic;
 
-import com.frontwit.barcodeapp.entity.Component;
-import com.frontwit.barcodeapp.entity.Order;
+import com.frontwit.barcodeapp.model.Component;
+import com.frontwit.barcodeapp.model.Order;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Writer;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.Code93Writer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,13 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class BarCodeGenerator {
+    private static final Logger LOG = LoggerFactory.getLogger(BarCodeGenerator.class);
+    private static final BarcodeFormat BARCODE_FORMAT = BarcodeFormat.CODE_93;
 
-    private final static BarcodeFormat BARCODE_FORMAT = BarcodeFormat.CODE_93;
-
-    private final static int STAMP_HEIGHT = 60;
-    private final static int STAMP_WIDTH = 120;
-    private final static int BARCODE_HEIGHT = (int) (0.55 * STAMP_HEIGHT);
-    private final static String IMAGE_FORMAT = "png";
+    private static final int STAMP_HEIGHT = 60;
+    private static final int STAMP_WIDTH = 120;
+    private static final int BARCODE_HEIGHT = (int) (0.55 * STAMP_HEIGHT);
+    private static final String IMAGE_FORMAT = "png";
 
     private BarCodeGenerator() {
     }
@@ -32,7 +34,7 @@ public final class BarCodeGenerator {
     public static List<byte[]> getBarCodesAsByteArrays(Order order) {
         Writer writer = new Code93Writer();
         List<byte[]> barcodeBytes = new ArrayList();
-        order.getComponents().stream()
+        order.getComponents()
                 .forEach(component -> {
                     byte[] byteImage = createBarCodeAsByteArray(writer, order.getName(), component);
                     barcodeBytes.add(byteImage);
@@ -50,7 +52,7 @@ public final class BarCodeGenerator {
             ImageIO.write(stamp, IMAGE_FORMAT, baos);
             baos.flush();
         } catch (WriterException | IOException e) {
-            e.printStackTrace();
+            LOG.warn(e.getMessage());
         }
         return baos.toByteArray();
     }
@@ -72,10 +74,10 @@ public final class BarCodeGenerator {
     }
 
     private static class StringDrawer {
-        private final static String FONT_TYPE = "Arial";
-        private final static int TEXT_SIZE = (int) (0.15 * STAMP_HEIGHT);
-        private final static Font BARCODE_FONT = new Font(FONT_TYPE, Font.PLAIN, (int) (TEXT_SIZE));
-        private final static Font ORDER_INFO_FONT = new Font(FONT_TYPE, Font.PLAIN, TEXT_SIZE);
+        private static final String FONT_TYPE = "Arial";
+        private static final int TEXT_SIZE = (int) (0.15 * STAMP_HEIGHT);
+        private static final Font BARCODE_FONT = new Font(FONT_TYPE, Font.PLAIN, (int) (TEXT_SIZE));
+        private static final Font ORDER_INFO_FONT = new Font(FONT_TYPE, Font.PLAIN, TEXT_SIZE);
 
         static void drawBarcode(Graphics2D g2d, final String barcode) {
             g2d.setFont(BARCODE_FONT);
@@ -92,9 +94,8 @@ public final class BarCodeGenerator {
             g2d.setFont(ORDER_INFO_FONT);
             FontMetrics fm = g2d.getFontMetrics();
             int x = ((STAMP_WIDTH - fm.stringWidth(orderInfo)) / 2);
-            int y = STAMP_HEIGHT;
             g2d.setColor(Color.BLACK);
-            g2d.drawString(orderInfo, x, y);
+            g2d.drawString(orderInfo, x, STAMP_HEIGHT);
         }
 
 

@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp.entity;
+package com.frontwit.barcodeapp.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

@@ -1,12 +1,10 @@
 package com.frontwit.barcodeapp.logic;
 
-import com.frontwit.barcodeapp.entity.Counter;
-import com.frontwit.barcodeapp.entity.Order;
+import com.frontwit.barcodeapp.model.Counter;
+import com.frontwit.barcodeapp.model.Order;
 import com.frontwit.barcodeapp.repository.CounterRepository;
 
-import javax.annotation.PostConstruct;
-
-public class CounterService {
+public final class CounterService {
 
     private final static int MAX_COMPONENT_AMOUNT = 1000;
 
