@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {ORDERS} from "../../models/Orders-mock";
+import {orderDetailsHeaders, orders} from "../../models/Orders-mock";
 import {NgxSmartModalService} from '../../../../node_modules/ngx-smart-modal';
 import {Order} from "../../models/Order";
 
@@ -8,22 +8,17 @@ import {Order} from "../../models/Order";
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
-//TODO mudim dlaczego AfterViewInit,a nie OnInit?
-export class OrdersComponent implements AfterViewInit {
 
-  orders = ORDERS;
+export class OrdersComponent {
+
+  private orders: Order[] = orders;
+  private headers: String[] = orderDetailsHeaders;
+  
   constructor(public ngxSmartModalService: NgxSmartModalService) { }
-
-  isNavbar(){
-    return true;
-  }
 
   setOrder(order: Order) {
     this.ngxSmartModalService.setModalData(order, 'print');
   }
 
-  ngAfterViewInit() {
-
-  }
 
 }

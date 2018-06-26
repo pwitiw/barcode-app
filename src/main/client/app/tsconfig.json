@@ -8,6 +8,13 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "baseUrl": "src",
+        "paths": {
+            "actions/*": [ "app/actions/*" ],
+            "selectors/*": [ "app/selectors/*" ],
+            "ui/*": [ "app/ui/*" ],
+            "logger": [ "util/logger" ],
+        },
     "typeRoots": [
       "node_modules/@types"
     ],

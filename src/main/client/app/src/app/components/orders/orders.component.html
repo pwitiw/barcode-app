@@ -31,7 +31,7 @@
 
     <tr class="collapse collapse-styled" id={{order.id}}>
       <td colspan="5">
-        <app-component-table [order]="order"></app-component-table>
+        <app-table [headerList]="headers" [data]="order.components"></app-table>
       </td>
     </tr>
 

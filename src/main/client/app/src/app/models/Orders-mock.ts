@@ -1,6 +1,6 @@
 import { Order } from './Order';
 
-export const ORDERS: Order[] = [
+export const orders: Order[] = [
   {
     id: 1, name: "zamownienie 1", orderDate: "01/02/2020", isComplete:false, components:[
       {id: 1, name:"cyka blat", width:20, height:40, barCode:"barcode1"},
@@ -17,3 +17,5 @@ export const ORDERS: Order[] = [
       {id: 6, name:"niewiadomo", width:20, height:20, barCode:"barcode6"}]
   }
 ]
+
+export const orderDetailsHeaders: String[] = ["Id", "Name", "Width", "Height", "Bar Code"];

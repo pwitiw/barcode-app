@@ -1,0 +1,12 @@
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th *ngFor="let header of headerList" scope="col">{{header}}</th>    
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of data">
+    <th *ngFor="let detail of getKeysOfDataObject(item)"> {{item[detail]}}</th>
+  </tr>
+  </tbody>
+</table>

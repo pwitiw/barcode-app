@@ -20,10 +20,6 @@ export class StartComponent implements OnInit {
     this.updateTime();
   }
 
-  isNavbar(): boolean {
-    return false;
-  }
-
   updateTime(): void {
     setInterval(() => {
       this.myDate = new Date();
