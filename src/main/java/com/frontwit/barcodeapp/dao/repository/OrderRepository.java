@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp.repository;
+package com.frontwit.barcodeapp.dao.repository;
 
 import com.frontwit.barcodeapp.model.Order;
 import org.springframework.data.mongodb.repository.MongoRepository;
