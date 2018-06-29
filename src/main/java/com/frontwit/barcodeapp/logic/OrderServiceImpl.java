@@ -16,8 +16,8 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderMapper mapper;
 
-    public OrderServiceImpl(OrderRepository repository,
-                            OrderMapper mapper) {
+    public OrderServiceImpl(final OrderRepository repository,
+                            final OrderMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
