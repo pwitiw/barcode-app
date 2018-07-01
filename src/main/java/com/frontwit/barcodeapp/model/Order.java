@@ -30,5 +30,5 @@ public class Order {
     private Set<Component> components = new HashSet<>();
 
     @CreatedDate
-    private LocalDate orderDate;
+    private LocalDate orderedAt;
 }

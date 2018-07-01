@@ -6,7 +6,6 @@ import com.frontwit.barcodeapp.dao.repository.OrderRepository;
 import com.frontwit.barcodeapp.logic.CounterService;
 import com.frontwit.barcodeapp.logic.OrderService;
 import com.frontwit.barcodeapp.logic.OrderServiceImpl;
-import com.frontwit.barcodeapp.mapper.OrderMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -27,7 +26,7 @@ public class BeanConfig {
     }
 
     @Bean
-    public OrderService orderService(OrderDao orderDao, OrderMapper orderMapper) {
-        return new OrderServiceImpl(orderDao, orderMapper);
+    public OrderService orderService(OrderDao orderDao) {
+        return new OrderServiceImpl(orderDao);
     }
 }

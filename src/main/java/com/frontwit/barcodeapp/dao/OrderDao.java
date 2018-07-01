@@ -10,7 +10,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
@@ -24,31 +26,46 @@ public class OrderDao {
         this.mongoOps = mongoOps;
     }
 
-    public Page<Order> findAll(Pageable pageable, OrderSearchCriteria searchCriteria) {
-        if (searchCriteria == null || searchCriteria.isEmpty()) {
-            return repository.findAll(pageable);
-        } else {
-            return findOrdersForCriteria(pageable, searchCriteria);
-        }
+    public Order findOne(Long id) {
+        return repository.findOne(id);
     }
 
-    //TODO implement this method
-    private Page<Order> findOrdersForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria) {
-        Criteria criterias = new Criteria();
-        if (searchCriteria.getName() != null && !searchCriteria.getName().equals("")) {
-            criterias.andOperator(where("name").is(searchCriteria.getName()));
-        }
-//        if (searchCriteria.getStage() != null) {
-//        }
+    public Page<Order> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
 
-//            mongoOps.findOne(where("name").is(searchCriteria.getName()));
-//        query = query(where("continent.name").is("Europe"));
-        Query query = Query.query(criterias).with(pageable);
+    public Page<Order> findForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria) {
+        if (OrderSearchCriteria.isEmpty(searchCriteria)) {
+            return findAll(pageable);
+        }
+        return findOrdersForCriteria(pageable, searchCriteria);
+    }
+
+    private Page<Order> findOrdersForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria) {
+
+        Criteria appliedCriterias = getAppliedCriteria(searchCriteria);
+        Query query = Query.query(appliedCriterias).with(pageable);
         List<Order> orders = mongoOps.find(query, Order.class);
 
         return PageableExecutionUtils.getPage(
                 orders,
                 pageable,
                 () -> repository.count());
+    }
+
+    private Criteria getAppliedCriteria(OrderSearchCriteria searchCriteria) {
+        List<Criteria> criterias = new ArrayList<>();
+
+        if (searchCriteria.name != null && !searchCriteria.name.equals("")) {
+            Pattern pattern = Pattern.compile(searchCriteria.name, Pattern.CASE_INSENSITIVE);
+            criterias.add(where("name").regex(pattern));
+        }
+        if (searchCriteria.orderedFrom != null) {
+            criterias.add(where("orderedAt").gte(searchCriteria.orderedFrom));
+        }
+        if (searchCriteria.orderedTo != null) {
+            criterias.add(where("orderedAt").lte(searchCriteria.orderedTo));
+        }
+        return new Criteria().andOperator(criterias.toArray(new Criteria[criterias.size()]));
     }
 }
