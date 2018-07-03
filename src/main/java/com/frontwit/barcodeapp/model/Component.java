@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -30,7 +30,7 @@ public class Component {
 
     private List<Process> processingHistory;
 
-    private Date lastModification;
+    private LocalDate lastModification;
 
     private boolean damaged;
 

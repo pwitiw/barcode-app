@@ -1,8 +1,8 @@
 package com.frontwit.barcodeapp.logic;
 
+import com.frontwit.barcodeapp.dao.repository.CounterRepository;
 import com.frontwit.barcodeapp.model.Counter;
 import com.frontwit.barcodeapp.model.Order;
-import com.frontwit.barcodeapp.repository.CounterRepository;
 
 public final class CounterService {
 

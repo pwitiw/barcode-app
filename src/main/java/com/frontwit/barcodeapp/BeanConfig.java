@@ -1,13 +1,14 @@
 package com.frontwit.barcodeapp;
 
+import com.frontwit.barcodeapp.dao.OrderDao;
+import com.frontwit.barcodeapp.dao.repository.CounterRepository;
+import com.frontwit.barcodeapp.dao.repository.OrderRepository;
 import com.frontwit.barcodeapp.logic.CounterService;
 import com.frontwit.barcodeapp.logic.OrderService;
 import com.frontwit.barcodeapp.logic.OrderServiceImpl;
-import com.frontwit.barcodeapp.mapper.OrderMapper;
-import com.frontwit.barcodeapp.repository.CounterRepository;
-import com.frontwit.barcodeapp.repository.OrderRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.web.bind.annotation.RestController;
 
 @Configuration
@@ -20,7 +21,12 @@ public class BeanConfig {
     }
 
     @Bean
-    public OrderService orderService(OrderRepository orderRepository, OrderMapper orderMapper) {
-        return new OrderServiceImpl(orderRepository, orderMapper);
+    public OrderDao orderDao(OrderRepository orderRepository, MongoOperations mongoOperations) {
+        return new OrderDao(orderRepository, mongoOperations);
+    }
+
+    @Bean
+    public OrderService orderService(OrderDao orderDao) {
+        return new OrderServiceImpl(orderDao);
     }
 }

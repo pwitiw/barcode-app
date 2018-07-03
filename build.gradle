@@ -25,7 +25,6 @@ repositories {
 
 ext {
     springBootAdminVersion = "1.5.7"
-    mapstructVersion = "1.2.0.CR1"
     lombokVersion = "1.16.14"
     log4jVersion = "1.2.17"
     hibernateValidatorVersion = "5.3.4.Final"
@@ -40,7 +39,7 @@ dependencies {
     //  Provides additional info about app (usefull while on prod)
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("de.codecentric:spring-boot-admin-starter-server")
-
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.6'
 
     compile("org.hibernate:hibernate-validator:${hibernateValidatorVersion}")
 
@@ -54,10 +53,6 @@ dependencies {
 
     // Pdf framework
     compile group: "com.itextpdf", name: "itextpdf", version: "5.5.13"
-
-    // Mapping framework
-    compile "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
-    compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
     // Logging framework
     compile "log4j:log4j:${log4jVersion}"
