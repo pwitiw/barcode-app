@@ -3,6 +3,7 @@ package com.frontwit.barcodeapp.dao;
 import com.frontwit.barcodeapp.dao.repository.OrderRepository;
 import com.frontwit.barcodeapp.dto.OrderSearchCriteria;
 import com.frontwit.barcodeapp.model.Order;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -26,8 +27,16 @@ public class OrderDao {
         this.mongoOps = mongoOps;
     }
 
-    public Order findOne(Long id) {
-        return repository.findOne(id);
+    public Order findOne(String id) {
+        Order order= repository.findOne(new ObjectId(id));
+        if(order ==null){
+            throw new IllegalArgumentException();
+        }
+    return order;
+    }
+
+    public Order save(Order order) {
+        return repository.save(order);
     }
 
     public Page<Order> findAll(Pageable pageable) {

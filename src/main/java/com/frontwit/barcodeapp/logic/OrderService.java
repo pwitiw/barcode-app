@@ -31,5 +31,5 @@ public interface OrderService {
      * @param id of order
      * @return order details
      */
-    OrderDetailDto getOrder(Long id);
+    OrderDetailDto getOrder(String id);
 }

@@ -8,13 +8,13 @@ import java.util.stream.Collectors;
 
 public class OrderDetailDto {
 
-    public Long orderId;
+    public String orderId;
     public String name;
     public Set<ComponentDto> components = new HashSet<>();
 
     public static OrderDetailDto valueOf(Order order) {
         OrderDetailDto dto = new OrderDetailDto();
-        dto.orderId = order.getId();
+        dto.orderId = order.getId().toHexString();
         dto.name = order.getName();
         dto.name = order.getName();
         dto.components = order.getComponents()

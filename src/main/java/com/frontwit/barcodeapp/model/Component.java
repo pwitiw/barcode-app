@@ -1,7 +1,6 @@
 package com.frontwit.barcodeapp.model;
 
 import com.frontwit.barcodeapp.datatype.Barcode;
-import com.frontwit.barcodeapp.datatype.Process;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

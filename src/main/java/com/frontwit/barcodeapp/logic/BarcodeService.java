@@ -19,8 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class BarCodeGenerator {
-    private static final Logger LOG = LoggerFactory.getLogger(BarCodeGenerator.class);
+public final class BarcodeService {
+    private static final Logger LOG = LoggerFactory.getLogger(BarcodeService.class);
     private static final BarcodeFormat BARCODE_FORMAT = BarcodeFormat.CODE_93;
 
     private static final int STAMP_HEIGHT = 60;
@@ -28,7 +28,7 @@ public final class BarCodeGenerator {
     private static final int BARCODE_HEIGHT = (int) (0.55 * STAMP_HEIGHT);
     private static final String IMAGE_FORMAT = "png";
 
-    private BarCodeGenerator() {
+    private BarcodeService() {
     }
 
     public static List<byte[]> getBarCodesAsByteArrays(Order order) {

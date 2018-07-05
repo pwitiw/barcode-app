@@ -1,7 +1,9 @@
 package com.frontwit.barcodeapp;
 
+import com.frontwit.barcodeapp.datatype.Barcode;
 import com.github.mongobee.Mongobee;
 import com.mongodb.MongoClient;
+import org.bson.BSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +18,8 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.core.mapping.event.LoggingEventListener;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
+import java.time.LocalDate;
 
 @Configuration
 public class MongoConfig {
@@ -34,8 +38,9 @@ public class MongoConfig {
     MongoTemplate mongoTemplate(MongoDbFactory mongoDbFactory) throws Exception {
         MappingMongoConverter defaultConverter =
                 new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory()), new MongoMappingContext());
-//        defaultConverter.setTypeMapper(new DefaultMongoTypeMapper(null));
         defaultConverter.afterPropertiesSet();
+        BSON.addDecodingHook(Barcode.class, arg -> null);
+        BSON.addDecodingHook(LocalDate.class, arg -> null);
         return new MongoTemplate(mongoDbFactory(), defaultConverter);
     }
 

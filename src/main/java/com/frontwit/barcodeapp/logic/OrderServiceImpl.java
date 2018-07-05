@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDetailDto getOrder(Long id) {
+    public OrderDetailDto getOrder(String id) {
         Order order = orderDao.findOne(id);
         LOG.debug("Order have been collected.");
         return OrderDetailDto.valueOf(order);
