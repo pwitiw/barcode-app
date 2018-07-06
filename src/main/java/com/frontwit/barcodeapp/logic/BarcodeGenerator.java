@@ -4,14 +4,14 @@ import com.frontwit.barcodeapp.dao.repository.CounterRepository;
 import com.frontwit.barcodeapp.datatype.Barcode;
 import com.frontwit.barcodeapp.model.Counter;
 
-public final class BarcodeGeneratorn {
+public final class BarcodeGenerator {
 
     public static final String BARCODE_ID = "barcode";
     public static final Long BARCODE_INIT_VALUE = 100000000L;
 
     private CounterRepository counterRepository;
 
-    public BarcodeGeneratorn(CounterRepository counterRepository) {
+    public BarcodeGenerator(CounterRepository counterRepository) {
         this.counterRepository = counterRepository;
     }
 

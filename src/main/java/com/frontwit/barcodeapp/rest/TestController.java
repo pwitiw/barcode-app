@@ -3,24 +3,17 @@ package com.frontwit.barcodeapp.rest;
 import com.frontwit.barcodeapp.dao.OrderDao;
 import com.frontwit.barcodeapp.datatype.Barcode;
 import com.frontwit.barcodeapp.datatype.Stage;
-import com.frontwit.barcodeapp.logic.BarcodeService;
-import com.frontwit.barcodeapp.logic.PdfGenerator;
 import com.frontwit.barcodeapp.model.Component;
 import com.frontwit.barcodeapp.model.Order;
 import com.frontwit.barcodeapp.model.Route;
 import com.google.common.collect.Lists;
-import com.itextpdf.text.DocumentException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -31,23 +24,6 @@ public class TestController {
     @Autowired
     public void setOrderRepository(OrderDao orderDao) {
         this.orderDao = orderDao;
-    }
-
-    @GetMapping(path = "order/{id}/barcode")
-    public ResponseEntity<byte[]> getBarcodeForOrder(@PathVariable("id") String id) throws DocumentException {
-
-        Order o = orderDao.findOne(id);
-        if (o != null) {
-            List<byte[]> barcodeAsBytes = BarcodeService.getBarCodesAsByteArrays(o);
-            byte[] pdfAsBytes = PdfGenerator.createPdfAsBytes(o.getName(), barcodeAsBytes);
-            return ResponseEntity
-                    .ok()
-                    .contentType(MediaType.APPLICATION_PDF)
-                    .body(pdfAsBytes);
-        }
-        return ResponseEntity
-                .badRequest()
-                .build();
     }
 
     @GetMapping("/test")
