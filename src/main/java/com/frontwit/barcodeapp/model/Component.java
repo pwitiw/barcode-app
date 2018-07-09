@@ -1,7 +1,6 @@
 package com.frontwit.barcodeapp.model;
 
 import com.frontwit.barcodeapp.datatype.Barcode;
-import com.frontwit.barcodeapp.datatype.Process;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -30,7 +29,7 @@ public class Component {
 
     private List<Process> processingHistory;
 
-    private Date lastModification;
+    private LocalDate lastModification;
 
     private boolean damaged;
 

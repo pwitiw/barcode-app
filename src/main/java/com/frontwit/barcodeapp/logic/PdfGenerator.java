@@ -6,39 +6,42 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 public final class PdfGenerator {
+    private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
-    private PdfGenerator() {
-    }
-
-    //TODO patryk clean these exceptions
-    public static byte[] createPdfAsBytes(String orderName, List<byte[]> barCodes) throws DocumentException {
+    public byte[] createPdfForBytes(String name, Collection<byte[]> barCodes) {
         Document pdfDoc = new Document();
         ByteArrayOutputStream fos = new ByteArrayOutputStream();
-        PdfWriter.getInstance(pdfDoc, fos);
-        pdfDoc.open();
-        pdfDoc.addTitle(orderName);
-        pdfDoc.add(createParagraph(orderName));
+        try {
+            PdfWriter.getInstance(pdfDoc, fos);
+            pdfDoc.open();
+            pdfDoc.addTitle(name);
+            pdfDoc.add(createParagraph(name));
 
-        barCodes.forEach(bytes -> {
-            Image image = null;
-            try {
-                image = Image.getInstance(bytes);
-                pdfDoc.add(image);
-            } catch (IOException | DocumentException e) {
-                e.printStackTrace();
-            }
-        });
+            barCodes.forEach(bytes -> {
+                Image image;
+                try {
+                    image = Image.getInstance(bytes);
+                    pdfDoc.add(image);
+                } catch (IOException | DocumentException e) {
+                    LOG.warn(e.getMessage());
+                }
+            });
 
-        pdfDoc.close();
+            pdfDoc.close();
+        } catch (DocumentException e) {
+            LOG.warn(e.getMessage());
+        }
         return fos.toByteArray();
     }
 
-    private static Paragraph createParagraph(String orderName) {
+    private Paragraph createParagraph(String orderName) {
         return new Paragraph(String.format("Zamówienie %s", orderName));
     }
 }

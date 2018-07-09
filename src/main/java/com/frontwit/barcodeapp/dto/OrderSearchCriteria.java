@@ -1,25 +1,19 @@
 package com.frontwit.barcodeapp.dto;
 
-import com.frontwit.barcodeapp.datatype.Stage;
-import lombok.Data;
-
 import java.time.LocalDate;
 
-@Data
 public class OrderSearchCriteria {
 
-    private String name;
+    public String name;
 
-    private Stage stage;
+    public LocalDate orderedFrom;
 
-    private LocalDate from;
+    public LocalDate orderedTo;
 
-    private LocalDate to;
-
-    public boolean isEmpty() {
-        return name == null || name.equals("")
-                && stage == null
-                && from == null
-                && to == null;
+    public static boolean isEmpty(OrderSearchCriteria searchCriteria) {
+        return searchCriteria == null
+                || (searchCriteria.name == null || searchCriteria.name.equals(""))
+                && searchCriteria.orderedFrom == null
+                && searchCriteria.orderedTo == null;
     }
 }

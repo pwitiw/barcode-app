@@ -1,7 +1,6 @@
 package com.frontwit.barcodeapp.logic;
 
-import com.frontwit.barcodeapp.model.Component;
-import com.frontwit.barcodeapp.model.Order;
+import com.frontwit.barcodeapp.dto.ComponentDto;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Writer;
 import com.google.zxing.WriterException;
@@ -16,36 +15,39 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-public final class BarCodeGenerator {
-    private static final Logger LOG = LoggerFactory.getLogger(BarCodeGenerator.class);
+public final class BarcodeService {
+    private static final Logger LOG = LoggerFactory.getLogger(BarcodeService.class);
     private static final BarcodeFormat BARCODE_FORMAT = BarcodeFormat.CODE_93;
-
     private static final int STAMP_HEIGHT = 60;
     private static final int STAMP_WIDTH = 120;
     private static final int BARCODE_HEIGHT = (int) (0.55 * STAMP_HEIGHT);
     private static final String IMAGE_FORMAT = "png";
 
-    private BarCodeGenerator() {
+    private PdfGenerator pdfGenerator;
+
+    public BarcodeService(PdfGenerator pdfGenerator) {
+        this.pdfGenerator = pdfGenerator;
     }
 
-    public static List<byte[]> getBarCodesAsByteArrays(Order order) {
+    public byte[] generatePdf(final String name, final Collection<ComponentDto> components) {
+        Collection<byte[]> barcodeBytes = getBarCodesAsByteArrays(name, components);
+        return pdfGenerator.createPdfForBytes(name, barcodeBytes);
+    }
+
+    private Collection<byte[]> getBarCodesAsByteArrays(final String name, final Collection<ComponentDto> components) {
         Writer writer = new Code93Writer();
-        List<byte[]> barcodeBytes = new ArrayList();
-        order.getComponents()
-                .forEach(component -> {
-                    byte[] byteImage = createBarCodeAsByteArray(writer, order.getName(), component);
-                    barcodeBytes.add(byteImage);
-                });
-        return barcodeBytes;
+        return components.stream()
+                .map(c -> createBarCodeAsByteArray(writer, name, c))
+                .collect(Collectors.toSet());
     }
 
-    private static byte[] createBarCodeAsByteArray(Writer writer, String orderName, Component component) {
+    private byte[] createBarCodeAsByteArray(Writer writer, String orderName, ComponentDto component) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            BitMatrix matrix = writer.encode(component.getBarcode().toString(), BARCODE_FORMAT, STAMP_WIDTH, BARCODE_HEIGHT);
+            BitMatrix matrix = writer.encode(String.valueOf(component.barcode), BARCODE_FORMAT, STAMP_WIDTH, BARCODE_HEIGHT);
             BufferedImage barCode = MatrixToImageWriter.toBufferedImage(matrix);
 
             BufferedImage stamp = createLabelInfo(orderName, component, barCode);
@@ -57,7 +59,7 @@ public final class BarCodeGenerator {
         return baos.toByteArray();
     }
 
-    private static BufferedImage createLabelInfo(String orderName, Component component, BufferedImage sourceImage) {
+    private BufferedImage createLabelInfo(String orderName, ComponentDto component, BufferedImage sourceImage) {
 
         BufferedImage image = new BufferedImage(STAMP_WIDTH, STAMP_HEIGHT, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
@@ -66,7 +68,7 @@ public final class BarCodeGenerator {
         g2d.drawImage(sourceImage, 0, 0, null);
 
         g2d.setColor(Color.BLACK);
-        StringDrawer.drawBarcode(g2d, component.getBarcode().toString());
+        StringDrawer.drawBarcode(g2d, String.valueOf(component.barcode));
         StringDrawer.drawOrderInfo(g2d, orderName, component.toString());
         g2d.dispose();
 
