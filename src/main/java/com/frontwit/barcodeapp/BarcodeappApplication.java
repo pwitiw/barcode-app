@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp;
 
-import com.frontwit.barcodeapp.repository.OrderRepository;
+import com.frontwit.barcodeapp.dao.repository.OrderRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

@@ -1,9 +1,9 @@
 package com.frontwit.barcodeapp.rest;
 
+import com.frontwit.barcodeapp.dao.repository.OrderRepository;
 import com.frontwit.barcodeapp.logic.BarCodeGenerator;
 import com.frontwit.barcodeapp.logic.PdfGenerator;
 import com.frontwit.barcodeapp.model.Order;
-import com.frontwit.barcodeapp.repository.OrderRepository;
 import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
