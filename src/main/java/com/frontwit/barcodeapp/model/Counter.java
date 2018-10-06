@@ -1,18 +1,14 @@
 package com.frontwit.barcodeapp.model;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotNull;
-
-@Document
+//@Document
 @Data
 public class Counter {
 
-    @Id
+//    @Id
     String id;
 
-    @NotNull
+//    @NotNull
     Long value;
 }

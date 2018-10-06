@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp;
+package com.frontwit.barcodeapp.config;
 
 import com.frontwit.barcodeapp.datatype.Barcode;
 import com.github.mongobee.Mongobee;

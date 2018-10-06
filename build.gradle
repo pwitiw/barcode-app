@@ -36,6 +36,10 @@ dependencies {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
 
+    //   Security
+    compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.2.RELEASE'
+    compile group: 'com.auth0', name: 'java-jwt', version: '3.4.0'
+
     //  Provides additional info about app (usefull while on prod)
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("de.codecentric:spring-boot-admin-starter-server")

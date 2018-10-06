@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-start',
@@ -13,6 +13,11 @@ export class StartComponent implements OnInit {
 
   days: String[] = ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'];
   months: String[] = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+
+  loginLabel: string = "Użytkownik";
+  loginPlaceholder: string = "login";
+  passwordLabel: string = "Hasło";
+  passwordPlaceholder: string = "hasło";
 
   constructor() { }
 

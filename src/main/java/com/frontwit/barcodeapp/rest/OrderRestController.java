@@ -35,7 +35,7 @@ public class OrderRestController {
         return orderService.getOrders(pageable);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     OrderDetailDto getOrder(@PathVariable String id) {
         return orderService.getOrder(id);
     }

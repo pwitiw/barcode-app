@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp;
+package com.frontwit.barcodeapp.config;
 
 import com.frontwit.barcodeapp.dao.OrderDao;
 import com.frontwit.barcodeapp.dao.repository.CounterRepository;
@@ -7,6 +7,7 @@ import com.frontwit.barcodeapp.logic.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RestController;
 
 @Configuration
@@ -36,5 +37,10 @@ public class BeanConfig {
     @Bean
     public PdfGenerator pdfGenerator() {
         return new PdfGenerator();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
