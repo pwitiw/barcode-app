@@ -1,6 +1,5 @@
 package com.frontwit.barcodeapp.model;
 
-import com.frontwit.barcodeapp.datatype.Barcode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +18,7 @@ public class Component {
 
     @NotEmpty
     @Indexed(unique = true)
-    private Barcode barcode;
+    private Long barcode;
 
     @NotEmpty
     private Integer height;

@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class Counter {
 
-//    @Id
+    //    @Id
     String id;
 
-//    @NotNull
+    //    @NotNull
     Long value;
 }

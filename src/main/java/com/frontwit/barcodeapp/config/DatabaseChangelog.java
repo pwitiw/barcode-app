@@ -1,6 +1,5 @@
 package com.frontwit.barcodeapp.config;
 
-import com.frontwit.barcodeapp.datatype.Barcode;
 import com.frontwit.barcodeapp.datatype.Stage;
 import com.github.mongobee.changeset.ChangeLog;
 import com.github.mongobee.changeset.ChangeSet;
@@ -10,8 +9,8 @@ import com.mongodb.*;
 import java.util.Date;
 import java.util.List;
 
-import static com.frontwit.barcodeapp.logic.BarcodeGenerator.BARCODE_ID;
-import static com.frontwit.barcodeapp.logic.BarcodeGenerator.BARCODE_INIT_VALUE;
+import static com.frontwit.barcodeapp.logic.BarcodeService.BARCODE_ID;
+import static com.frontwit.barcodeapp.logic.BarcodeService.BARCODE_INIT_VALUE;
 
 @ChangeLog
 public class DatabaseChangelog {
@@ -19,7 +18,7 @@ public class DatabaseChangelog {
     private static final String ID_FIELD = "_id";
     private static final String FOREIGN_KEY = "$id";
     private static final String REFERENCE = "$ref";
-    private static final String STAGE= "stage";
+    private static final String STAGE = "stage";
 
     @ChangeSet(order = "001", id = "Barcode init value", author = "Admin")
     public void createCounters(DB db) {
@@ -38,10 +37,10 @@ public class DatabaseChangelog {
         DBCollection routeCollection = db.getCollection("route");
 
         //WORKERS
-        DBObject worker1 = createWorkerAsDbObject("Frezarz", "Frezarz", Barcode.valueOf(1));
-        DBObject worker2 = createWorkerAsDbObject("Podklad", "Podklad", Barcode.valueOf(2));
-        DBObject worker3 = createWorkerAsDbObject("Pakowanie", "Pakowanie", Barcode.valueOf(3));
-        DBObject worker4 = createWorkerAsDbObject("Kurier", "Kurier", Barcode.valueOf(4));
+        DBObject worker1 = createWorkerAsDbObject("Frezarz", "Frezarz", 1L);
+        DBObject worker2 = createWorkerAsDbObject("Podklad", "Podklad", 2L);
+        DBObject worker3 = createWorkerAsDbObject("Pakowanie", "Pakowanie", 3L);
+        DBObject worker4 = createWorkerAsDbObject("Kurier", "Kurier", 4L);
         workerCollection.save(worker1);
         workerCollection.save(worker2);
         workerCollection.save(worker3);
@@ -60,13 +59,13 @@ public class DatabaseChangelog {
         DBObject process4 = createProcess(worker4, Stage.DELIVERD);
 
         //COMPONENTS
-        DBObject component1 = createComponentAsDBObject(Barcode.valueOf(123), 1, 2, true, Lists.newArrayList(process1, process2, process3));
-        DBObject component2 = createComponentAsDBObject(Barcode.valueOf(345), 3, 4, false, Lists.newArrayList(process1, process2));
-        DBObject component3 = createComponentAsDBObject(Barcode.valueOf(789), 5, 6, true, Lists.newArrayList(process1, process2));
-        DBObject component4 = createComponentAsDBObject(Barcode.valueOf(1213), 7, 8, false, Lists.newArrayList(process1));
-        DBObject component5 = createComponentAsDBObject(Barcode.valueOf(1415), 9, 10, false, Lists.newArrayList(process1, process2));
-        DBObject component6 = createComponentAsDBObject(Barcode.valueOf(1617), 11, 12, false, Lists.newArrayList(process1));
-        DBObject component7 = createComponentAsDBObject(Barcode.valueOf(1819), 13, 14, true, Lists.newArrayList(process1, process2, process3,process4));
+        DBObject component1 = createComponentAsDBObject(123L, 1, 2, true, Lists.newArrayList(process1, process2, process3));
+        DBObject component2 = createComponentAsDBObject(345L, 3, 4, false, Lists.newArrayList(process1, process2));
+        DBObject component3 = createComponentAsDBObject(789L, 5, 6, true, Lists.newArrayList(process1, process2));
+        DBObject component4 = createComponentAsDBObject(1213L, 7, 8, false, Lists.newArrayList(process1));
+        DBObject component5 = createComponentAsDBObject(1415L, 9, 10, false, Lists.newArrayList(process1, process2));
+        DBObject component6 = createComponentAsDBObject(1617L, 11, 12, false, Lists.newArrayList(process1));
+        DBObject component7 = createComponentAsDBObject(1819L, 13, 14, true, Lists.newArrayList(process1, process2, process3, process4));
 
         // ORDER 1
         DBObject order1 = createOrder("Zamówienie 1", Lists.newArrayList(component1, component2, component3), route1, 2);
@@ -98,11 +97,11 @@ public class DatabaseChangelog {
                 .append("name", name);
     }
 
-    private DBObject createComponentAsDBObject(Barcode barcode, int height, int width, boolean damaged, List<DBObject> processes) {
+    private DBObject createComponentAsDBObject(Long barcode, int height, int width, boolean damaged, List<DBObject> processes) {
         BasicDBList processingHistory = new BasicDBList();
         processingHistory.addAll(processes);
         return new BasicDBObject()
-                .append("barcode", createBarcode(barcode))
+                .append("barcode", barcode)
                 .append("height", height)
                 .append("width", width)
                 .append("lastModification", new Date())
@@ -117,16 +116,11 @@ public class DatabaseChangelog {
                 .append("date", new Date());
     }
 
-    private DBObject createWorkerAsDbObject(String name, String lastName, Barcode barcode) {
+    private DBObject createWorkerAsDbObject(String name, String lastName, Long id) {
         return new BasicDBObject()
                 .append("firstName", name)
                 .append("lastName", lastName)
-                .append("barcode", createBarcode(barcode));
-    }
-
-    private DBObject createBarcode(Barcode barcode) {
-        return new BasicDBObject()
-                .append("value", barcode.getValue().longValue());
+                .append("barcode", id);
     }
 
     private DBObject createReferenceObject(String collectionName, DBObject object) {

@@ -32,4 +32,12 @@ public interface OrderService {
      * @return order details
      */
     OrderDetailDto getOrder(String id);
+
+
+    /**
+     * Save new order.
+     *
+     * @param order
+     */
+    void save(OrderDetailDto order);
 }

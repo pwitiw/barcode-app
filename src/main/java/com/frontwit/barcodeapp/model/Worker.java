@@ -1,6 +1,5 @@
 package com.frontwit.barcodeapp.model;
 
-import com.frontwit.barcodeapp.datatype.Barcode;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -15,7 +14,7 @@ public class Worker {
     private ObjectId id;
 
     @Indexed(unique = true)
-    private Barcode barcode;
+    private Long barcode;
 
     private String firstName;
 

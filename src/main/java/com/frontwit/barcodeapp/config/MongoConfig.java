@@ -1,6 +1,5 @@
 package com.frontwit.barcodeapp.config;
 
-import com.frontwit.barcodeapp.datatype.Barcode;
 import com.github.mongobee.Mongobee;
 import com.mongodb.MongoClient;
 import org.bson.BSON;
@@ -39,7 +38,6 @@ public class MongoConfig {
         MappingMongoConverter defaultConverter =
                 new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory()), new MongoMappingContext());
         defaultConverter.afterPropertiesSet();
-        BSON.addDecodingHook(Barcode.class, arg -> null);
         BSON.addDecodingHook(LocalDate.class, arg -> null);
         return new MongoTemplate(mongoDbFactory(), defaultConverter);
     }

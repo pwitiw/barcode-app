@@ -19,8 +19,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final long EXPIRATION_TIME = 86_400_000; // 10 days
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String AUTH_HEADER_STRING = "Authorization";
-    public static final String LOG_IN_URL = "/user/login";
-    public static final String REGISTER_URL = "/user/register";
+
+    private static final String LOG_IN_URL = "/user/login";
+    private static final String REGISTER_URL = "/user/register";
 
     private UserDetailsService userDetailsService;
 
@@ -33,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(LOG_IN_URL, REGISTER_URL).permitAll()
+                .antMatchers(REGISTER_URL, "/api/orders").permitAll()
                 .antMatchers("/admin").hasRole(Role.ADMIN.toString())
                 .anyRequest().authenticated()
                 .and()

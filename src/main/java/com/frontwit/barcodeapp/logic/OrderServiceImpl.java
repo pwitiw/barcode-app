@@ -14,9 +14,11 @@ public class OrderServiceImpl implements OrderService {
     private static final Logger LOG = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     private OrderDao orderDao;
+    private BarcodeService barcodeService;
 
-    public OrderServiceImpl(OrderDao orderDao) {
+    public OrderServiceImpl(OrderDao orderDao, BarcodeService barcodeService) {
         this.orderDao = orderDao;
+        this.barcodeService = barcodeService;
     }
 
     @Override
@@ -39,4 +41,12 @@ public class OrderServiceImpl implements OrderService {
         LOG.debug("Order have been collected.");
         return OrderDetailDto.valueOf(order);
     }
+
+    @Override
+    public void save(OrderDetailDto orderDetail) {
+        Order order = new Order();
+        order.setBarcode(barcodeService.generate());
+        orderDao.save(order);
+    }
+
 }

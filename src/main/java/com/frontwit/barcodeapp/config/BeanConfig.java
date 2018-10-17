@@ -8,15 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.RestController;
 
 @Configuration
-@RestController
 public class BeanConfig {
 
     @Bean
-    public BarcodeGenerator counterService(CounterRepository counterRepository) {
-        return new BarcodeGenerator(counterRepository);
+    public BarcodeService counterService(CounterRepository counterRepository) {
+        return new BarcodeService(counterRepository);
     }
 
     @Bean
@@ -25,18 +23,24 @@ public class BeanConfig {
     }
 
     @Bean
-    public OrderService orderService(OrderDao orderDao) {
-        return new OrderServiceImpl(orderDao);
+    public OrderService orderService(OrderDao orderDao, BarcodeService barcodeService) {
+        return new OrderServiceImpl(orderDao, barcodeService);
     }
 
     @Bean
-    public BarcodeService barcodeService(PdfGenerator pdfGenerator) {
-        return new BarcodeService(pdfGenerator);
+    public BarcodeService barcodeService(CounterRepository counterRepository) {
+        return new BarcodeService(counterRepository);
     }
 
     @Bean
-    public PdfGenerator pdfGenerator() {
-        return new PdfGenerator();
+    public PdfService pdfService() {
+        return new PdfService();
+    }
+
+
+    @Bean
+    public CsvService csvService() {
+        return new CsvService();
     }
 
     @Bean

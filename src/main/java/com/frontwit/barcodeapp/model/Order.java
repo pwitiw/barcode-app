@@ -43,4 +43,6 @@ public class Order {
     private Integer damagedComponentsAmount;
 
     private Stage stage;
+
+    private Long barcode;
 }

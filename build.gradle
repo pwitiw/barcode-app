@@ -58,6 +58,10 @@ dependencies {
     // Pdf framework
     compile group: "com.itextpdf", name: "itextpdf", version: "5.5.13"
 
+    // CSV read-write
+    compile group: 'org.apache.commons', name: 'commons-csv', version: '1.6'
+
+
     // Logging framework
     compile "log4j:log4j:${log4jVersion}"
 

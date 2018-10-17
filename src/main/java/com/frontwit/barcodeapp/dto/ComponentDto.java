@@ -1,13 +1,12 @@
 package com.frontwit.barcodeapp.dto;
 
-import com.frontwit.barcodeapp.datatype.Barcode;
 import com.frontwit.barcodeapp.model.Component;
 
 import java.time.LocalDate;
 
 public class ComponentDto {
 
-    public Barcode barcode;
+    public Long barcode;
     public Integer height;
     public Integer width;
     public LocalDate lastModification;
