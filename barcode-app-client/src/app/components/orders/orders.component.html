@@ -1,0 +1,42 @@
+<app-print-modal></app-print-modal>
+
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Nazwa zamówienia</th>
+    <th scope="col">Data zamówienia</th>
+    <th scope="col">Składowe zamówienia</th>
+    <th scope="col">Kody kreskowe</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <ng-container class="container-hover" *ngFor="let order of orders">
+    <tr>
+      <th scope="row">{{order.id}}</th>
+      <td>{{order.name}}</td>
+      <td>{{order.orderDate}}</td>
+      <td>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" [attr.data-target]="'#' + order.id" >
+          Wyswietl detale
+        </button>
+      </td>
+      <td>
+        <button class="btn btn-success" type="button" (click)="setOrder(order); ngxSmartModalService.getModal('print').open()">
+          Drukuj koty
+        </button>
+      </td>
+    </tr>
+
+    <tr class="collapse collapse-styled" id={{order.id}}>
+      <td colspan="5">
+        <app-component-table [order]="order"></app-component-table>
+      </td>
+    </tr>
+
+  </ng-container>
+  </tbody>
+</table>
+
+
