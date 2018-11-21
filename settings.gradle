@@ -1,0 +1,2 @@
+rootProject.name = "barcode-app"
+include "barcode-app-client", "barcode-app-server"

@@ -26,5 +26,3 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-
-changed package structure, added complete build tasks
