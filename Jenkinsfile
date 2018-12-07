@@ -10,6 +10,11 @@ pipeline {
         booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Select to deploy')
     }
 
+	    agent {
+        label master
+    }
+
+	
     tools {
         maven mavenVersion
         jdk jdkVersion
@@ -38,5 +43,5 @@ pipeline {
         cleanup {
             deleteDir() /* Clean up the workspace */
         }
-    }
 }
+    }
