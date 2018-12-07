@@ -9,16 +9,8 @@ pipeline {
     parameters {
         booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Select to deploy')
     }
-
-	    agent {
-        label master
-    }
-
 	
-    tools {
-        maven mavenVersion
-        jdk jdkVersion
-    }
+	agent any
 
     options {
         buildDiscarder(logRotator(numToKeepStr: buildKeptAmount))
