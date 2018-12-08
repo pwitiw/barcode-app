@@ -24,9 +24,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                ansiColor('xterm') {
                     sh 'gradle build'
-                }
             }
         }
     }
