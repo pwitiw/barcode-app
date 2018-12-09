@@ -33,10 +33,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        cleanup {
-            deleteDir() /* Clean up the workspace */
-        }
 }
-    }
