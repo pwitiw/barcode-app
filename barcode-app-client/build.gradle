@@ -21,7 +21,7 @@ node {
 //------------------------------------------------------------------------------------------------------------------------
 jar.enabled = false
 
-task cleanBuildAndDeploy(type: GradleBuild) {
+task buildAndDeploy(type: GradleBuild) {
   group 'build client'
   setTasks(
     [

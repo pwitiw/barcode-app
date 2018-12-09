@@ -2,7 +2,7 @@ task build(type: GradleBuild) {
     group 'application'
     setTasks(
             [
-                    ':barcode-app-client:cleanBuildAndDeploy',
+                    ':barcode-app-client:buildClient',
                     ':barcode-app-server:jar'
             ])
 }
