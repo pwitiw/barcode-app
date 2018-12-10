@@ -2,7 +2,7 @@
 def pollingFrequency = 'H/2 * * * *'
 def buildKeptAmount = '10'
 
-def gradleVersion = 'Gradle 4.10.3'
+def gradleVersion = 'Gradle 4.8.1'
 def jdkVersion = 'Oracle JDK 1.8'
 
 pipeline {

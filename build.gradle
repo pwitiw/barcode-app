@@ -6,3 +6,12 @@ task build(type: GradleBuild) {
                     ':barcode-app-server:jar'
             ])
 }
+
+task clean(type: GradleBuild) {
+    group 'application'
+    setTasks(
+            [
+                    ':barcode-app-client:cleanClient',
+                    ':barcode-app-server:clean'
+            ])
+}
