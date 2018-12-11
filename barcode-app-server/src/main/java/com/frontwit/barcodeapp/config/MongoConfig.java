@@ -28,6 +28,9 @@ public class MongoConfig {
     @Value("${spring.data.mongodb.database}")
     private String dbName;
 
+    @Value("${spring.data.mongodb.uri}")
+    private String uri;
+
     public @Bean
     MongoDbFactory mongoDbFactory() {
         return new SimpleMongoDbFactory(new MongoClient(), dbName);
@@ -36,19 +39,14 @@ public class MongoConfig {
     public @Bean
     MongoTemplate mongoTemplate(MongoDbFactory mongoDbFactory) {
         MappingMongoConverter defaultConverter =
-                new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory()), new MongoMappingContext());
+                new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory), new MongoMappingContext());
         defaultConverter.afterPropertiesSet();
         BSON.addDecodingHook(LocalDate.class, arg -> null);
-        return new MongoTemplate(mongoDbFactory(), defaultConverter);
+        return new MongoTemplate(mongoDbFactory, defaultConverter);
     }
 
     @Bean
-    @Autowired
-    public Mongobee mongobee(Environment environment) {
-        String prefix = "mongodb://";
-        String host = environment.getProperty("spring.data.mongodb.host");
-        String port = environment.getProperty("spring.data.mongodb.port");
-        String uri = prefix + host + ":" + port;
+    public Mongobee mongobee() {
         Mongobee runner = new Mongobee(uri);
         runner.setDbName(dbName);
         runner.setChangeLogsScanPackage(CHANGELOG_PACKAGE);

@@ -48,12 +48,6 @@ public class BeanConfig {
         return new PdfService();
     }
 
-
-    @Bean
-    public CsvService csvService() {
-        return new CsvService();
-    }
-
     @Bean
     public SynchronizationService synchronizationService(EntityManager entityManager) {
         return new SynchronizationService(entityManager, new ObjectMapper());
