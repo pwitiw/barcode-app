@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ComponentTableComponent } from './component-table.component';
+import { ModalWindowComponent } from './modal-window.component';
 
-describe('ComponentTableComponent', () => {
-  let component: ComponentTableComponent;
-  let fixture: ComponentFixture<ComponentTableComponent>;
+describe('ModalWindowComponent', () => {
+  let component: ModalWindowComponent;
+  let fixture: ComponentFixture<ModalWindowComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ComponentTableComponent ]
+      declarations: [ ModalWindowComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ComponentTableComponent);
+    fixture = TestBed.createComponent(ModalWindowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,4 +1,4 @@
-<app-print-modal></app-print-modal>
+<modal-window></modal-window>
 
 <table class="table table-hover">
   <thead>
@@ -6,8 +6,7 @@
     <th scope="col">ID</th>
     <th scope="col">Nazwa zamówienia</th>
     <th scope="col">Data zamówienia</th>
-    <th scope="col">Składowe zamówienia</th>
-    <th scope="col">Kody kreskowe</th>
+    <th scope="col"></th>
   </tr>
   </thead>
   <tbody>
@@ -16,25 +15,19 @@
     <tr>
       <th scope="row">{{order.id}}</th>
       <td>{{order.name}}</td>
-      <td>{{order.orderDate}}</td>
+      <td>{{order.orderedAt}}</td>
       <td>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" [attr.data-target]="'#' + order.id" >
-          Wyswietl detale
-        </button>
-      </td>
-      <td>
-        <button class="btn btn-success" type="button" (click)="setOrder(order); ngxSmartModalService.getModal('print').open()">
-          Drukuj koty
-        </button>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Więcej
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" data-toggle="collapse" (click)="prepareDetailForModal(order.id); ngxSmartModalService.getModal('orderDetail').open()">Szczegóły zamówienia</a>
+            <a class="dropdown-item" (click)="setOrderForModal(order); ngxSmartModalService.getModal('orderModal').open()">Drukuj kody</a>
+          </div>
+        </div>
       </td>
     </tr>
-
-    <tr class="collapse collapse-styled" id={{order.id}}>
-      <td colspan="5">
-        <app-component-table [order]="order"></app-component-table>
-      </td>
-    </tr>
-
   </ng-container>
   </tbody>
 </table>

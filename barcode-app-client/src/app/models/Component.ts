@@ -1,8 +1,10 @@
+import { BarCode } from "./BarCode";
+
+
 export class Component{
-  id: number;
-  name: string;
+  damaged: boolean;
+  lastModification: string[];
   width: number;
   height: number;
-  barCode: string;
-
+  barCode: BarCode
 }

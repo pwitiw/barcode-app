@@ -1,39 +1,6 @@
-<div class="root-container" routerLink="/main">
-  <div class="container">
-    <div class="row outer">
-      <div class="col-sm">
-      </div>
-      <div class="col-sm">
-      </div>
-      <div class="col-sm">
-      </div>
-    </div>
 
-    <div class="row inner">
-      <div class="col-sm-3">
-      </div>
-      <div class="col-sm-6 center-box">
-        <h2 class="welcomeMessage">Witamy w aplikacji zarządzania zamówieniami firmy</h2><br>
-        <div class="logo"></div>
-        <br>
-        <!--<app-text-input [label]="loginLabel" [placeholder]="loginPlaceholder"></app-text-input>-->
-        <!--<app-text-input [label]="passwordLabel" [placeholder]="passwordPlaceholder"></app-text-input>-->
-        <!--<button>Zaloguj</button>-->
-        <br>
-        <h5>{{day}}, {{myDate | date: "dd"}} {{month}}</h5>
-        <h5>Godzina: {{myDate | date: "HH:mm:ss"}}</h5>
-      </div>
-      <div class="col-sm-3">
-      </div>
-    </div>
-
-    <div class="row outer">
-      <div class="col-sm">
-      </div>
-      <div class="col-sm">
-      </div>
-      <div class="col-sm">
-      </div>
-    </div>
+<div class="root">
+  <div class="login">
+      <app-login></app-login>
   </div>
 </div>

@@ -1,38 +1,39 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {AppComponent} from './app.component';
-import {StartComponent} from './components/start/start.component';
-import {OrdersComponent} from './components/orders/orders.component';
-import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
-import {AppRoutingModule} from "./app-routing.module";
-import {MainPageComponent} from './components/main-page/main-page.component';
-import {ComponentTableComponent} from './components/component-table/component-table.component';
-import {HeaderComponent} from './components/header/header.component';
-import {NgxSmartModalModule, NgxSmartModalService} from "ngx-smart-modal";
-import {PrintModalComponent} from './components/orders/print-modal/print-modal.component';
-import {TextInputComponent} from './components/text-input/text-input.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+import { StartComponent } from './components/start/start.component';
+import { HomeComponent } from './components/home/home.component';
+import { OrderModule } from './modules/order.module';
+import { SharedModule } from 'app/modules/shared.module';
+import { OrdersService } from './services/orders/orders.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
+import { AuthenticationService } from './services/authentiaction/authentication.service';
+import { UserService } from './services/user/user.service';
+import { AuthGuard } from './security/AuthGuard';
+import { JwtInterceptor } from './security/JwtInterceptor';
+// import { fakeBackendProvider } from 'app/security/FakeBackendInterceptor';
 
-//TODO mudim moim skromnym zdaniem powinnismy wydzielic takie moduly jak sa sa zakladki: czyli u nas na razie tylko home i order,
-// plus jakies common zeby trzymac tam komponenty ktore beda reuzywalne (np tabela, modal) no i moznaby trzymac modele w modulach,
-// w ktorych sie ich uzywa
 @NgModule({
   declarations: [
     AppComponent,
     StartComponent,
-    OrdersComponent,
-    PageNotFoundComponent,
-    MainPageComponent,
-    ComponentTableComponent,
-    HeaderComponent,
-    PrintModalComponent,
-    TextInputComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    NgxSmartModalModule.forRoot()
+    OrderModule,
+    SharedModule,
+    HttpClientModule
   ],
-  providers: [ NgxSmartModalService ],
+  providers: [ 
+    OrdersService, 
+    AuthenticationService, 
+    UserService, 
+    AuthGuard, 
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

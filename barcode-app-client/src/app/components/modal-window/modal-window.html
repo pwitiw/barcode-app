@@ -1,0 +1,6 @@
+<ngx-smart-modal #orderDetail [identifier]="'orderDetail'" (onAnyCloseEvent)="clearModalData()">
+  <div *ngIf="orderDetail.hasData()">
+    <pre>{{ orderDetail.getData() | json }}</pre>
+  </div>
+  <button (click)="orderDetail.close()">Close</button>
+</ngx-smart-modal>

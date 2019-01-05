@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {NgxSmartModalService} from "ngx-smart-modal";
 
 @Component({
-  selector: 'app-print-modal',
-  templateUrl: './print-modal.component.html',
-  styleUrls: ['./print-modal.component.scss']
+  selector: 'modal-window',
+  templateUrl: './modal-window.html',
+  styleUrls: ['./modal-window.scss']
 })
-export class PrintModalComponent implements OnInit {
+export class ModalWindowComponent implements OnInit {
 
   constructor(public ngxSmartModalService: NgxSmartModalService) { }
 
@@ -14,6 +14,6 @@ export class PrintModalComponent implements OnInit {
   }
 
   clearModalData() {
-    this.ngxSmartModalService.resetModalData('print')
+    this.ngxSmartModalService.resetModalData('orderDetail');
   }
 }

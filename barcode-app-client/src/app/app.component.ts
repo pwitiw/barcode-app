@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,13 +7,9 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  showNavbar: boolean = false;
 
-  onActivate(componentRef){
-    this.showNavbar = componentRef.isNavbar();
-  }
+  constructor(public router: Router){}
+  
+  ngOnInit() { }
 
-  ngOnInit() {
-    this.showNavbar = false;
-  }
 }
