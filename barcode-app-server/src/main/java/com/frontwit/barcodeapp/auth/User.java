@@ -1,6 +1,7 @@
 package com.frontwit.barcodeapp.auth;
 
 import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +13,7 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
-    private long id;
+    private ObjectId id;
 
     private String username;
 
