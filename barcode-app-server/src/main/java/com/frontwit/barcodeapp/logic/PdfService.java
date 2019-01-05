@@ -13,6 +13,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Service
 public final class PdfService {
     private static final Logger LOG = LoggerFactory.getLogger(PdfService.class);
     private static final BarcodeFormat BARCODE_FORMAT = BarcodeFormat.CODE_93;

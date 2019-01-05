@@ -1,45 +1,87 @@
 package com.frontwit.barcodeapp.logic;
 
+import com.frontwit.barcodeapp.dao.OrderDao;
+import com.frontwit.barcodeapp.dao.RouteDao;
+import com.frontwit.barcodeapp.dto.BarcodeDto;
 import com.frontwit.barcodeapp.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.dto.OrderDto;
 import com.frontwit.barcodeapp.dto.OrderSearchCriteria;
+import com.frontwit.barcodeapp.model.Component;
+import com.frontwit.barcodeapp.model.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public interface OrderService {
+import static java.lang.String.format;
 
-    /**
-     * Finds orders for specified page.
-     *
-     * @param pageable page details
-     * @return list of orders
-     */
-    Page<OrderDto> getOrders(Pageable pageable);
+public class OrderService {
+    private static final Logger LOG = LoggerFactory.getLogger(OrderService.class);
 
-    /**
-     * Finds orders for specified page and criteria.
-     *
-     * @param pageable       page details
-     * @param searchCriteria criteria for orders
-     * @return list of orders
-     */
-    Page<OrderDto> getOrders(Pageable pageable, OrderSearchCriteria searchCriteria);
+    private OrderDao orderDao;
+    private RouteDao routeDao;
+    private BarcodeGeneratorService barcodeGeneratorService;
 
-    /**
-     * Finds order for given id.
-     *
-     * @param id of order
-     * @return order details
-     */
-    OrderDetailDto getOrder(String id);
+    public OrderService(OrderDao orderDao, RouteDao routeDao, BarcodeGeneratorService barcodeGeneratorService) {
+        this.orderDao = orderDao;
+        this.routeDao = routeDao;
+        this.barcodeGeneratorService = barcodeGeneratorService;
+    }
 
+    public Page<OrderDto> getOrders(Pageable pageable) {
+        Page<Order> orderPage = orderDao.findAll(pageable);
+        LOG.debug("Orders have been collected.");
+        return orderPage.map(OrderDto::valueOf);
+    }
 
-    /**
-     * Save new order.
-     *
-     * @param order
-     */
-    void save(List<OrderDetailDto> order);
+    public Page<OrderDto> getOrders(Pageable pageable, OrderSearchCriteria searchCriteria) {
+        Page<Order> orderPage = orderDao.findForCriteria(pageable, searchCriteria);
+        LOG.debug(format("Orders collected for criteria: %s", searchCriteria));
+        return orderPage.map(OrderDto::valueOf);
+    }
+
+    public OrderDetailDto getOrder(String id) {
+        Order order = orderDao.findOne(id);
+        LOG.debug(format("Order collected for id %s.", id));
+        return OrderDetailDto.valueOf(order);
+    }
+
+    public void save(List<OrderDetailDto> dtos) {
+        List<Order> orders = dtos.stream()
+                .map(dto -> dto.toEntity(routeDao))
+                .peek(this::setBarcodes)
+                .collect(Collectors.toList());
+        orderDao.save(orders);
+        LOG.debug(format("%d orders saved successfully.", orders.size()));
+    }
+
+    // TODO zmienic nazwe oraz ogarnac algorytm ktory wezmie jeden barcode z zamowienia
+    // Czy juz taki istnieje
+    public void updateOrdersForBarcodes(final List<BarcodeDto> dtos) {
+        Map<Long, Set<BarcodeDto>> barcodes = new HashMap<>();
+        dtos.forEach(dto -> {
+            Long orderBarcode = dto.getBarcode() / BarcodeGeneratorService.MAX_ORDER_AMOUNT;
+            if (!barcodes.containsKey(orderBarcode)) {
+                barcodes.put(orderBarcode, new HashSet<>());
+            }
+            barcodes.get(orderBarcode).add(dto);
+        });
+        Collection<Order> orders = orderDao.findByBarcodes(barcodes.keySet());
+        orders.forEach(order -> {
+
+        });
+
+    }
+
+    private void setBarcodes(Order order) {
+        Long barcode = barcodeGeneratorService.generate();
+        order.setBarcode(barcode);
+        for (Component component : order.getComponents()) {
+            component.setBarcode(++barcode);
+        }
+    }
 }

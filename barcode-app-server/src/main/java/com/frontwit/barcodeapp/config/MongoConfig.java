@@ -2,6 +2,8 @@ package com.frontwit.barcodeapp.config;
 
 import com.github.mongobee.Mongobee;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.ServerAddress;
 import org.bson.BSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,19 +27,17 @@ public class MongoConfig {
 
     private static final String CHANGELOG_PACKAGE = "com.frontwit.barcodeapp";
 
-    @Value("${spring.data.mongodb.database}")
-    private String dbName;
-
     @Value("${spring.data.mongodb.uri}")
     private String uri;
 
-    public @Bean
-    MongoDbFactory mongoDbFactory() {
-        return new SimpleMongoDbFactory(new MongoClient(), dbName);
+    @Bean
+    public MongoDbFactory mongoDbFactory() {
+        MongoClientURI mongoClientURI = new MongoClientURI(uri);
+        return new SimpleMongoDbFactory(mongoClientURI);
     }
 
-    public @Bean
-    MongoTemplate mongoTemplate(MongoDbFactory mongoDbFactory) {
+    @Bean
+    public MongoTemplate mongoTemplate(MongoDbFactory mongoDbFactory) {
         MappingMongoConverter defaultConverter =
                 new MappingMongoConverter(new DefaultDbRefResolver(mongoDbFactory), new MongoMappingContext());
         defaultConverter.afterPropertiesSet();
@@ -48,7 +48,6 @@ public class MongoConfig {
     @Bean
     public Mongobee mongobee() {
         Mongobee runner = new Mongobee(uri);
-        runner.setDbName(dbName);
         runner.setChangeLogsScanPackage(CHANGELOG_PACKAGE);
         return runner;
     }

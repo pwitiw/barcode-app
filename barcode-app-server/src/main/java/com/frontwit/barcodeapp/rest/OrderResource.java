@@ -1,5 +1,6 @@
 package com.frontwit.barcodeapp.rest;
 
+import com.frontwit.barcodeapp.dto.BarcodeDto;
 import com.frontwit.barcodeapp.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.dto.OrderDto;
 import com.frontwit.barcodeapp.dto.OrderSearchCriteria;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
-public class OrderRestController {
+public class OrderResource {
 
     private OrderService orderService;
 
@@ -54,7 +55,7 @@ public class OrderRestController {
         return orderService.getOrders(pageable, searchCriteria);
     }
 
-    @GetMapping(path = "/{id}/barcode")
+    @GetMapping("/{id}/barcode")
     public ResponseEntity<byte[]> getBarcodesForOrder(@PathVariable String id) {
         OrderDetailDto dto = orderService.getOrder(id);
         byte[] pdfDoc = pdfService.generatePdf(dto.getName(), dto.getComponents());
@@ -62,5 +63,10 @@ public class OrderRestController {
                 .ok()
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdfDoc);
+    }
+
+    @PostMapping("/barcode")
+    public void saveBarcodes(@RequestBody List<BarcodeDto> barcodes) {
+        orderService.updateOrdersForBarcodes(barcodes);
     }
 }

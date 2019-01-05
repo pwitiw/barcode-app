@@ -2,16 +2,20 @@ package com.frontwit.barcodeapp.logic;
 
 import com.frontwit.barcodeapp.dao.repository.CounterRepository;
 import com.frontwit.barcodeapp.model.Counter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public final class BarcodeService {
+@Service
+public final class BarcodeGeneratorService {
 
     public static final String BARCODE_ID = "barcode";
     public static final Long BARCODE_INIT_VALUE = 100000000L;
-    static final Long MAX_ORDER_AMOUNT = 1000L;
+    public static final Long MAX_ORDER_AMOUNT = 1000L;
 
     private CounterRepository counterRepository;
 
-    public BarcodeService(CounterRepository counterRepository) {
+    @Autowired
+    public BarcodeGeneratorService(CounterRepository counterRepository) {
         this.counterRepository = counterRepository;
     }
 

@@ -12,15 +12,19 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
+
 
 public class OrderDao {
 
     private OrderRepository repository;
     private MongoOperations mongoOps;
+
 
     public OrderDao(OrderRepository repository, MongoOperations mongoOps) {
         this.repository = repository;
@@ -49,6 +53,10 @@ public class OrderDao {
             return findAll(pageable);
         }
         return findOrdersForCriteria(pageable, searchCriteria);
+    }
+
+    public Collection<Order> findByBarcodes(Set<Long> barcodes) {
+        return repository.findByBarcodeIn(barcodes);
     }
 
     private Page<Order> findOrdersForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria) {

@@ -9,8 +9,8 @@ import com.mongodb.*;
 import java.util.Date;
 import java.util.List;
 
-import static com.frontwit.barcodeapp.logic.BarcodeService.BARCODE_ID;
-import static com.frontwit.barcodeapp.logic.BarcodeService.BARCODE_INIT_VALUE;
+import static com.frontwit.barcodeapp.logic.BarcodeGeneratorService.BARCODE_ID;
+import static com.frontwit.barcodeapp.logic.BarcodeGeneratorService.BARCODE_INIT_VALUE;
 
 @ChangeLog
 public class DatabaseChangelog {

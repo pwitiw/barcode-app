@@ -2,7 +2,9 @@ package com.frontwit.barcodeapp.dao;
 
 import com.frontwit.barcodeapp.dao.repository.RouteRepository;
 import com.frontwit.barcodeapp.model.Route;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class RouteDao {
 
     RouteRepository repository;

@@ -3,6 +3,7 @@ package com.frontwit.barcodeapp.config;
 import com.frontwit.barcodeapp.auth.JWTAuthenticationFilter;
 import com.frontwit.barcodeapp.auth.JWTAuthorizationFilter;
 import com.frontwit.barcodeapp.auth.Role;
+import com.frontwit.barcodeapp.auth.UserDetailServiceImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,13 +25,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
 
-    public SecurityConfig(UserDetailsService userDetailsService) {
+    public SecurityConfig(UserDetailServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-            //FIXME enable csrf
+        //FIXME enable csrf
         http
                 .csrf().disable()
                 .authorizeRequests()
@@ -48,5 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
+
 
 }

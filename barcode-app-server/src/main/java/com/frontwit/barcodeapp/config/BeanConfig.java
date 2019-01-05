@@ -5,7 +5,6 @@ import com.frontwit.barcodeapp.dao.OrderDao;
 import com.frontwit.barcodeapp.dao.RouteDao;
 import com.frontwit.barcodeapp.dao.repository.CounterRepository;
 import com.frontwit.barcodeapp.dao.repository.OrderRepository;
-import com.frontwit.barcodeapp.dao.repository.RouteRepository;
 import com.frontwit.barcodeapp.logic.*;
 import com.frontwit.barcodeapp.synchronization.SynchronizationService;
 import org.springframework.context.annotation.Bean;
@@ -19,13 +18,8 @@ import javax.persistence.EntityManager;
 public class BeanConfig {
 
     @Bean
-    public BarcodeService counterService(CounterRepository counterRepository) {
-        return new BarcodeService(counterRepository);
-    }
-
-    @Bean
-    public RouteDao routeDao(RouteRepository routeRepository) {
-        return new RouteDao(routeRepository);
+    public BarcodeGeneratorService counterService(CounterRepository counterRepository) {
+        return new BarcodeGeneratorService(counterRepository);
     }
 
     @Bean
@@ -34,18 +28,8 @@ public class BeanConfig {
     }
 
     @Bean
-    public OrderService orderService(OrderDao orderDao, RouteDao routeDao, BarcodeService barcodeService) {
-        return new OrderServiceImpl(orderDao, routeDao, barcodeService);
-    }
-
-    @Bean
-    public BarcodeService barcodeService(CounterRepository counterRepository) {
-        return new BarcodeService(counterRepository);
-    }
-
-    @Bean
-    public PdfService pdfService() {
-        return new PdfService();
+    public OrderService orderService(OrderDao orderDao, RouteDao routeDao, BarcodeGeneratorService barcodeGeneratorService) {
+        return new OrderService(orderDao, routeDao, barcodeGeneratorService);
     }
 
     @Bean
