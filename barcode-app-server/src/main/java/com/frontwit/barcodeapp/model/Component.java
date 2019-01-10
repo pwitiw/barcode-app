@@ -1,13 +1,15 @@
 package com.frontwit.barcodeapp.model;
 
+import com.frontwit.barcodeapp.datatype.Stage;
+import com.frontwit.barcodeapp.logic.IllegalProcessingOrderException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.index.Indexed;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +37,23 @@ public class Component {
     private LocalDate lastModification;
 
     private boolean damaged;
+
+    public void applyProcess(Stage stage, LocalTime date) {
+        Process process = new Process(stage, date);
+        if (containsProcessAndNotFurtherProcesses(process)) {
+            throw new IllegalProcessingOrderException("Component already processed on this stage and no further " +
+                    "processes");
+        }
+        if (processingHistory.stream().anyMatch(p -> p.getStage() == Stage.DELIVERD)) {
+            throw new IllegalProcessingOrderException("Component already delivered. No further processes possible.");
+        }
+        processingHistory.add(process);
+    }
+
+    private boolean containsProcessAndNotFurtherProcesses(Process process) {
+        return processingHistory.contains(process)
+                && processingHistory.stream().noneMatch(p -> p.getStage().greatherThan(process.getStage()));
+    }
 
     @Override
     public boolean equals(Object o) {

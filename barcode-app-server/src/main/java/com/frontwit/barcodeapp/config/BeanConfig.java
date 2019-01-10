@@ -1,6 +1,7 @@
 package com.frontwit.barcodeapp.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.frontwit.barcodeapp.dao.MongoOrderDao;
 import com.frontwit.barcodeapp.dao.OrderDao;
 import com.frontwit.barcodeapp.dao.RouteDao;
 import com.frontwit.barcodeapp.dao.repository.CounterRepository;
@@ -24,7 +25,7 @@ public class BeanConfig {
 
     @Bean
     public OrderDao orderDao(OrderRepository orderRepository, MongoOperations mongoOperations) {
-        return new OrderDao(orderRepository, mongoOperations);
+        return new MongoOrderDao(orderRepository, mongoOperations);
     }
 
     @Bean

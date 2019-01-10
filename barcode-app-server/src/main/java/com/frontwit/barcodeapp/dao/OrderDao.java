@@ -1,88 +1,24 @@
 package com.frontwit.barcodeapp.dao;
 
-import com.frontwit.barcodeapp.dao.repository.OrderRepository;
 import com.frontwit.barcodeapp.dto.OrderSearchCriteria;
 import com.frontwit.barcodeapp.model.Order;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.repository.support.PageableExecutionUtils;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
+public interface OrderDao {
 
+    Order findOne(String id);
 
-public class OrderDao {
+    Order save(Order order);
 
-    private OrderRepository repository;
-    private MongoOperations mongoOps;
+    Collection<Order> findByBarcodes(Set<Long> barcodes);
 
+    Page<Order> findAll(Pageable pageable);
 
-    public OrderDao(OrderRepository repository, MongoOperations mongoOps) {
-        this.repository = repository;
-        this.mongoOps = mongoOps;
-    }
+    Iterable<Order> save(Collection<Order> orders);
 
-    public Order findOne(String id) {
-        return repository.findById(new ObjectId(id))
-                .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public Order save(Order order) {
-        return repository.save(order);
-    }
-
-    public Iterable<Order> save(List<Order> orders) {
-        return repository.saveAll(orders);
-    }
-
-    public Page<Order> findAll(Pageable pageable) {
-        return repository.findAll(pageable);
-    }
-
-    public Page<Order> findForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria) {
-        if (OrderSearchCriteria.isEmpty(searchCriteria)) {
-            return findAll(pageable);
-        }
-        return findOrdersForCriteria(pageable, searchCriteria);
-    }
-
-    public Collection<Order> findByBarcodes(Set<Long> barcodes) {
-        return repository.findByBarcodeIn(barcodes);
-    }
-
-    private Page<Order> findOrdersForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria) {
-
-        Criteria appliedCriterias = getAppliedCriteria(searchCriteria);
-        Query query = Query.query(appliedCriterias).with(pageable);
-        List<Order> orders = mongoOps.find(query, Order.class);
-
-        return PageableExecutionUtils.getPage(
-                orders,
-                pageable,
-                () -> repository.count());
-    }
-
-    private Criteria getAppliedCriteria(OrderSearchCriteria searchCriteria) {
-        List<Criteria> criterias = new ArrayList<>();
-        if (searchCriteria.name != null && !searchCriteria.name.equals("")) {
-            Pattern pattern = Pattern.compile(searchCriteria.name, Pattern.CASE_INSENSITIVE);
-            criterias.add(where("name").regex(pattern));
-        }
-        if (searchCriteria.orderedFrom != null) {
-            criterias.add(where("orderedAt").gte(searchCriteria.orderedFrom));
-        }
-        if (searchCriteria.orderedTo != null) {
-            criterias.add(where("orderedAt").lte(searchCriteria.orderedTo));
-        }
-        return new Criteria().andOperator(criterias.toArray(new Criteria[criterias.size()]));
-    }
+    Page<Order> findForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria);
 }

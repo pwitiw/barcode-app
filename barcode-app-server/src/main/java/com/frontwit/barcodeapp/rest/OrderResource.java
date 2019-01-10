@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.rest;
 
-import com.frontwit.barcodeapp.dto.BarcodeDto;
+import com.frontwit.barcodeapp.dto.ProcessDto;
 import com.frontwit.barcodeapp.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.dto.OrderDto;
 import com.frontwit.barcodeapp.dto.OrderSearchCriteria;
@@ -66,7 +66,7 @@ public class OrderResource {
     }
 
     @PostMapping("/barcode")
-    public void saveBarcodes(@RequestBody List<BarcodeDto> barcodes) {
-        orderService.updateOrdersForBarcodes(barcodes);
+    public void saveBarcodes(@RequestBody List<ProcessDto> barcodes) {
+        orderService.updateOrdersForProcesses(barcodes);
     }
 }

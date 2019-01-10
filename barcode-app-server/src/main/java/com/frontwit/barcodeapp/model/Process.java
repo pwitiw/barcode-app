@@ -1,23 +1,17 @@
 package com.frontwit.barcodeapp.model;
 
 import com.frontwit.barcodeapp.datatype.Stage;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import lombok.*;
 
 import java.time.LocalTime;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "stage")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Process {
 
     private Stage stage;
-
     private LocalTime date;
-
-    @DBRef
-    private Worker worker;
-
 }
