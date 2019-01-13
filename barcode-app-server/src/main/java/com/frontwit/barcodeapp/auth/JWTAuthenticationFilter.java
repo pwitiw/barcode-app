@@ -19,35 +19,35 @@ import static com.frontwit.barcodeapp.config.SecurityConfig.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private AuthenticationManager authenticationManager;
-
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
-
-    @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-
-        try {
-            User creds = new ObjectMapper()
-                    .readValue(request.getInputStream(), User.class);
-
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            creds.getUsername(),
-                            creds.getPassword(),
-                            new ArrayList<>())
-            );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) {
-        String token = JWT.create().withSubject(((User) auth.getPrincipal()).getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .sign(HMAC512(SECRET.getBytes()));
-        response.addHeader(AUTH_HEADER_STRING, TOKEN_PREFIX + token);
-    }
+//    private AuthenticationManager authenticationManager;
+//
+//    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+//        this.authenticationManager = authenticationManager;
+//    }
+//
+//    @Override
+//    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+//
+//        try {
+//            User creds = new ObjectMapper()
+//                    .readValue(request.getInputStream(), User.class);
+//
+//            return authenticationManager.getTokenForCredentials(
+//                    new UsernamePasswordAuthenticationToken(
+//                            creds.getUsername(),
+//                            creds.getPassword(),
+//                            new ArrayList<>())
+//            );
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+//
+//    @Override
+//    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException {
+//        String token = JWT.create().withSubject(((User) auth.getPrincipal()).getUsername())
+//                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+//                .sign(HMAC512(SECRET.getBytes()));
+//        response.addHeader(AUTH_HEADER_STRING, TOKEN_PREFIX + token);
+//    }
 }
