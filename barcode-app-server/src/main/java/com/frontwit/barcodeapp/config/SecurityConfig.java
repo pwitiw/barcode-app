@@ -1,7 +1,6 @@
 package com.frontwit.barcodeapp.config;
 
 import com.frontwit.barcodeapp.auth.JWTAuthFilter;
-import com.frontwit.barcodeapp.auth.Role;
 import com.frontwit.barcodeapp.auth.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,21 +17,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
-    private static final String REGISTER_URL = "/user/register";
-
     @Autowired
     UserDetailService userDetailService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //FIXME enable csrf
-
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                // TODO usunac /** oraz synchronize
-                .antMatchers(REGISTER_URL, "/api/orders/synchronize", "/**").permitAll()
-                .antMatchers("/admin").hasRole(Role.ADMIN.toString())
+                .antMatchers("/login", "/logout").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)

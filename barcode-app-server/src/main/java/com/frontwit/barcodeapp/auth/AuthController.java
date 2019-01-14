@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static java.lang.String.format;
-
 @RestController
 @RequestMapping("/")
 public class AuthController {
@@ -24,12 +22,11 @@ public class AuthController {
     @CrossOrigin
     @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity login(@RequestBody User user) {
-        String token = authService.getTokenForCredentials(user);
-        String authHeader = AuthService.TOKEN_PREFIX + token;
+        String token = authService.authenticateUsingCredentials(user);
         return ResponseEntity.ok()
                 .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION)
-                .header(HttpHeaders.AUTHORIZATION, authHeader)
-                .body(format("{\"token\": \"%s\"}", authHeader));
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .build();
     }
 
     @PostMapping("/logout")

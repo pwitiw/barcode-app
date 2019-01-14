@@ -2,6 +2,7 @@ package com.frontwit.barcodeapp.auth;
 
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -9,29 +10,30 @@ import java.util.Date;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 @Service
-public class JWTUtil {
+public class JwtUtils {
 
     private static final String SECRET = "YmFyY29kZUFwcA==";
     private static final long EXPIRATION_TIME = 86_400_000; // 10 days
+    static final String TOKEN_PREFIX = "Bearer ";
 
-
-    // TODO wygenerowac token, ustalic waznosc
-    public String generateToken(User user) {
+    String generateToken(User user) {
         String[] roles = user.getRoles().stream().map(Role::toString).toArray(String[]::new);
-        return JWT.create()
+        String token = JWT.create()
                 .withSubject(user.getUsername())
                 .withArrayClaim("role", roles)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
+        return TOKEN_PREFIX + token;
     }
 
-    // TODO spr czy token wazny
-    public boolean isValid(String token) {
-        return true;
+    String getSubject(String token) {
+        DecodedJWT decodedToken = validate(token);
+        return decodedToken.getSubject();
     }
 
-    // TODO odkodowac token i zwrocic usera
-    public String getUsername(String token) {
-        return "DUPA";
+    private DecodedJWT validate(String token) {
+        return JWT.require(HMAC512(SECRET.getBytes()))
+                .build()
+                .verify(token.replace(TOKEN_PREFIX, ""));
     }
 }

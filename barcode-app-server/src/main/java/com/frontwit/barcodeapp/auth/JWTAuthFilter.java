@@ -16,10 +16,9 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     AuthService authService;
 
     @Override
-    // TODO akcja login + stary token w headerze??
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (header != null && header.startsWith(AuthService.TOKEN_PREFIX)) {
+        if (header != null && header.startsWith(JwtUtils.TOKEN_PREFIX)) {
             authService.authenticateUsingToken(header);
         }
         filterChain.doFilter(request, response);
