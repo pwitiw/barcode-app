@@ -6,11 +6,14 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+
+import static com.frontwit.barcodeapp.common.Msg.USER_NOT_FOUND;
 
 
 @Component
@@ -38,6 +41,9 @@ public class AuthService {
     void authenticateUsingToken(final String token) {
         String username = jwtUtil.getSubject(token);
         User user = userDetailService.loadUserByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(USER_NOT_FOUND + ": " + username);
+        }
         setLoggedUser(user);
     }
 
