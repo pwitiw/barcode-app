@@ -1,39 +1,62 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AuthenticationService} from 'app/services/authentiaction/authentication.service';
-
+import { Component, OnInit } from '@angular/core';
+import { LoginModel } from 'src/app/models/LoginModel';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthGuardService } from 'src/app/services/auth-guard/auth-guard.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
-  moduleId: module.id,
-  templateUrl: 'login.component.html'
+  templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
-  model: any = {};
-  loading = false;
-  returnUrl: string;
+  private loginModel: LoginModel;
+  private resp: any;
 
-  constructor(
-    private route: ActivatedRoute,
+  public isWrong: boolean;
+
+  constructor(public route: ActivatedRoute,
+    private authService: AuthService,
     private router: Router,
-    private authenticationService: AuthenticationService) {
-  }
+    private guard: AuthGuardService) { }
 
   ngOnInit() {
-    this.authenticationService.logout();
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.loginModel = new LoginModel;
+    this.isWrong = false;
   }
 
-  login() {
-    this.loading = true;
-    this.authenticationService.login(this.model.username, this.model.password)
-      .subscribe(
-        data => {
-          this.router.navigate(['/home'])
-          this.loading = false;
-        },
-        error => {
-          this.loading = false;
-        });
+  public login() {
+    this.getAuthResponse()
+        .then(() => {
+        if(this.resp.status === 200) {
+          this.guard.setUser(this.loginModel.username, this.resp.headers.get('Authorization'));
+          this.router.navigate(['/admin/admin-view'])
+        } else {
+          this.guard.logout();
+          this.isWrong = true;
+        }
+      });
   }
+
+  private getAuthResponse() {
+    return this.authService.login(this.encodeCreds())
+    .toPromise()
+    .then(
+      (response) =>
+        this.resp = response
+      ).catch(err => console.log('Login attempt failed.'));
+  }
+
+  public resetFlag() {
+    this.isWrong = !this.isWrong;
+  }
+
+  private encodeCreds(): LoginModel {
+    let creds: LoginModel = {
+      username: this.loginModel.username,
+      password: this.loginModel.password
+    }
+    return creds;
+  }
+
 }

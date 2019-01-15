@@ -1,35 +1,21 @@
-<modal-window></modal-window>
+<div class="orders-view">
+  <div class="tile">
+    <h2 class=tile-header> Lista aktywnych zamówień</h2>
 
-<table class="table table-hover">
-  <thead>
-  <tr>
-    <th scope="col">ID</th>
-    <th scope="col">Nazwa zamówienia</th>
-    <th scope="col">Data zamówienia</th>
-    <th scope="col"></th>
-  </tr>
-  </thead>
-  <tbody>
+    <div class="container">
+      
+       <order-row [order]="order"
+       *ngFor="let order of (orderList | async)?.content"
+       ></order-row>
+                
+    </div>
 
-  <ng-container class="container-hover" *ngFor="let order of orders">
-    <tr>
-      <th scope="row">{{order.id}}</th>
-      <td>{{order.name}}</td>
-      <td>{{order.orderedAt}}</td>
-      <td>
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Więcej
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" data-toggle="collapse" (click)="prepareDetailForModal(order.id); ngxSmartModalService.getModal('orderDetail').open()">Szczegóły zamówienia</a>
-            <a class="dropdown-item" (click)="setOrderForModal(order); ngxSmartModalService.getModal('orderModal').open()">Drukuj kody</a>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </ng-container>
-  </tbody>
-</table>
+  </div>
+</div>
 
 
+
+
+    <!-- <li *ngFor="let order of (orderList | async)?.content">
+      
+    </li> -->

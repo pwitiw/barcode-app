@@ -1,19 +1,48 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { OrderModel } from 'src/app/models/OrderModel';
+import { ApiUrls } from 'src/app/utils/ApiUrls';
+import { catchError, tap, map } from 'rxjs/operators';
+import { OrderDetailModel } from 'src/app/models/OrderDetailModel';
+import { OrdersResponse } from 'src/app/models/OrdersResponse';
 
-@Injectable()
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+};
+
+@Injectable({
+  providedIn: 'root'
+})
 export class OrdersService {
 
-  ordersUrl: string = 'http://localhost:8888/api/orders';
-
   constructor(private http: HttpClient) { }
-  
-  getOrders() {
-    return this.http.get(this.ordersUrl);
-  }
 
-  getOrderDetail(id: number) {
-    return this.http.get(this.ordersUrl + '/' + id);
-  }
+public getOrdersList(): Observable<OrdersResponse> {
+ return this.http.get<OrdersResponse>(ApiUrls.ORDERS_ENDPOINT)
+ .pipe(
+  tap(_ => console.log('Getting orders list'),
+  catchError(this.handleError('getOrdersList', [])))
+);
+}
+
+public getOrderDetail(id: string): Observable<OrderDetailModel> {
+  return this.http.get<OrderDetailModel>(ApiUrls.ORDERS_ENDPOINT + '/' + id)
+  .pipe(
+    tap(_ => console.log('Getting order detal'),
+    catchError(this.handleError('getOrderDetail', [])))
+  );
+}
+
+private handleError<T> (operation = 'operation', result?: T) {
+  return (error: any): Observable<T> => {
+
+    console.error(error);
+
+    console.log(`${operation} failed: ${error.message}`);
+
+    return of(result as T);
+  };
+}
 
 }

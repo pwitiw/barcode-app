@@ -1,39 +1,37 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { StartComponent } from './components/start/start.component';
-import { HomeComponent } from './components/home/home.component';
-import { OrderModule } from './modules/order.module';
-import { SharedModule } from 'app/modules/shared.module';
+import { OrderComponent } from './components/orders/order/order.component';
+import { OrdersComponent } from './components/orders/orders.component';
+import { AppRoutingModule } from './utils/app-routing.module';
+import { MainComponent } from './components/main/main.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { OrdersService } from './services/orders/orders.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
-import { AuthenticationService } from './services/authentiaction/authentication.service';
-import { UserService } from './services/user/user.service';
-import { AuthGuard } from './security/AuthGuard';
-import { JwtInterceptor } from './security/JwtInterceptor';
-// import { fakeBackendProvider } from 'app/security/FakeBackendInterceptor';
+import { AuthGuardService } from './services/auth-guard/auth-guard.service';
+import { AuthService } from './services/auth/auth.service';
+import { FormsModule } from '@angular/forms';
+import { JwtInterceptor } from './utils/jwt.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StartComponent,
-    HomeComponent,
+    OrderComponent,
+    OrdersComponent,
+    MainComponent,
+    NavbarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    OrderModule,
-    SharedModule,
-    HttpClientModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [ 
-    OrdersService, 
-    AuthenticationService, 
-    UserService, 
-    AuthGuard, 
-    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
-  ],
-
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    OrdersService, AuthService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

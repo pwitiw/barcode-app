@@ -1,6 +1,11 @@
-@import '../node_modules/ngx-smart-modal/ngx-smart-modal.scss';
-$main-theme: white;
+@import 'variables';
+@import 'mixins';
+
+@import './app/components/navbar/navbar.component.scss';
+@import './app/components/orders/orders.component.scss';
+@import './app/components/login/login.component.scss';
+
 
 body {
-  background-color: $main-theme;
+    margin: 0px;
 }

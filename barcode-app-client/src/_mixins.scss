@@ -1,0 +1,28 @@
+@mixin page-background() {
+    background-color: $color-background;
+  
+    position: absolute;
+    top: $navbar-height;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  
+    height: auto;
+    padding-bottom: $navbar-height;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  @mixin tile-with-metrics($width, $height, $margin-top) {
+    width: $width;
+    min-height: $height;
+  
+    margin: auto;
+    margin-top: $margin-top;
+  
+    overflow-x: hidden;
+  
+    background-color: $color-white;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+  }
+  
