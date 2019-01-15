@@ -14,10 +14,10 @@ public enum Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return this.type;
+        return "ROLE_" + this.type;
     }
 
-    final class Type {
+    public final class Type {
         public static final String ADMIN = "ADMIN";
         public static final String USER = "USER";
 
