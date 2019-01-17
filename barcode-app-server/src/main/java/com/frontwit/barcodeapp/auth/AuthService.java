@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.frontwit.barcodeapp.common.Msg.USER_NOT_FOUND;
@@ -47,9 +48,7 @@ public class AuthService {
         setLoggedUser(user);
     }
 
-    // FIXME role nie dzialaja
-    //@RolesAllowed({Role.Type.ADMIN})
-    //@PreAuthorize("hasRole('ADMIN')")
+    @RolesAllowed(Role.Type.ADMIN)
     void register(final User user) {
         User userFromDb = userDetailService.loadUserByUsername(user.getUsername());
         if (userFromDb != null) {
