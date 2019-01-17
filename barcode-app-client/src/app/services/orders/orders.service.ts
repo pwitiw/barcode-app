@@ -26,7 +26,7 @@ public getOrdersList(): Observable<OrdersResponse> {
 );
 }
 
-public getOrderDetail(id: string): Observable<OrderDetailModel> {
+public getOrderDetail(id: number): Observable<OrderDetailModel> {
   return this.http.get<OrderDetailModel>(ApiUrls.ORDERS_ENDPOINT + '/' + id)
   .pipe(
     tap(_ => console.log('Getting order detal'),

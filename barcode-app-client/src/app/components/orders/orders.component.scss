@@ -1,20 +1,52 @@
-.orders-view {
-    $line-height: 38px;
-  
-    @include page-background();
-    padding-bottom: 0;
-  
-    .tile {
-      @include tile-with-metrics($width: 95%, $height: 85%, $margin-top: 3%);
-  
-      padding: 30px 10px;
-      margin-bottom: 3%;
-  
-      &-header {
-        text-align: center;
-        font-size: $font-x-large;
-        padding: 1rem;
-        color: $color-black;
-      }
-    }
-}  
+#orders-view {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(10, 10%);
+  grid-template-rows: 100px 20% 20% 20% 20%;
+}
+
+#orders-container {
+  overflow: hidden;
+  padding: 20px;
+  margin: 5px 5px 10px 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  grid-row: 3 / 7;
+  grid-column: 1 / 4;
+}
+
+#details-container {
+  margin: 5px 10px 10px 5px;
+  padding: 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  grid-row: 3 / 7;
+  grid-column: 4 / 11;
+}
+
+#search-container {
+  margin: 15px 5px 5px 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  grid-row: 2 / 3;
+  grid-column: 1 / 4;
+}
+
+#btns-container {
+  margin: 15px 10px 5px 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  grid-row: 2 / 3;
+  grid-column: 4 / 11;
+}
+
+.orders-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.bricklet {
+  height: 85%;
+  overflow-y:scroll;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  border-top: none;
+  border-bottom: 1px solid #DDD;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
+}

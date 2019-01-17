@@ -5,7 +5,7 @@
     padding-bottom: 0;
   
     .tile {
-      @include tile-with-metrics($width: 40%, $height: 60%, $margin-top: 8%);
+      @include tile-with-metrics($width: 40%, $height: 50%, $margin-top: 10%);
   
       padding: 30px 10px;
       margin-bottom: 8%;
@@ -17,4 +17,20 @@
         color: $color-black;
       }
     }
+
+    .container {
+      width: 75%;
+      text-align: center;
+
+      .form-control {
+        margin-bottom: 25px;
+      }
+
+      .btn-confirm {
+        @include button($line-height, 50%, #000000);
+      }
+
+    }
+
+
 }  

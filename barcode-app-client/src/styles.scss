@@ -3,9 +3,12 @@
 
 @import './app/components/navbar/navbar.component.scss';
 @import './app/components/orders/orders.component.scss';
+@import './app/components/orders/order/order.component.scss';
+@import './app/components/orders/order-detail/order-detail.component.scss';
 @import './app/components/login/login.component.scss';
 
 
-body {
+html, body {
     margin: 0px;
+    height: 100%;
 }

@@ -13,6 +13,7 @@ import { AuthGuardService } from './services/auth-guard/auth-guard.service';
 import { AuthService } from './services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 import { JwtInterceptor } from './utils/jwt.interceptor';
+import { OrderDetailComponent } from './components/orders/order-detail/order-detail.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { JwtInterceptor } from './utils/jwt.interceptor';
     OrdersComponent,
     MainComponent,
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
+    OrderDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,11 @@
-<div class="row">
-  <div class="name">{{order.name}}</div> 
-  <div class="orderedAt">{{order.orderedAt}}</div> 
-  <div class="quantity">{{order.quantity}}</div> 
-  <div class="damaged">{{order.damagedQuantity}}</div>  
+<div class="orders-row">
+  <div id="name" class="cell">Nazwa: <span class="cell-content">{{order.name}}</span></div>
+  <div id="date" class="cell">Data: <span class="cell-content">{{order.orderedAt}}</span></div>
+  <div id="quantity" class="cell">Elementów: <span class="cell-content">{{order.quantity}}</span></div>
+  <div id="damaged" class="cell">Uszkodzonych: <span class="cell-content">{{order.damagedQuantity}}</span></div>
+
+  <div id="button-cell">
+    <button (click)="showDetails()" class="btn-display">Szczegóły ></button>
+  </div>
+
 </div>

@@ -1,21 +1,49 @@
-<div class="orders-view">
+<!-- <div class="orders-view">
   <div class="tile">
     <h2 class=tile-header> Lista aktywnych zamówień</h2>
 
     <div class="container">
-      
-       <order-row [order]="order"
-       *ngFor="let order of (orderList | async)?.content"
-       ></order-row>
-                
+
+      <order-row [order]="order" *ngFor="let order of (orderList | async)?.content">
+      </order-row>
+
     </div>
 
   </div>
-</div>
+</div> -->
 
-
-
-
-    <!-- <li *ngFor="let order of (orderList | async)?.content">
+<!-- <li *ngFor="let order of (orderList | async)?.content">
       
     </li> -->
+
+    <div id="orders-view">
+
+      <!-- TOP-LEFT Bricklet -->
+      <div id="search-container">
+          
+      </div>
+
+      <!-- TOP-RIGHT Bricklet -->
+      <div id="btns-container">
+
+      </div>
+
+      <!-- BOTTOM-LEFT Bricklet -->
+      <div id="orders-container">
+          <h3 class="orders-header"> Lista aktywnych zamówień</h3>
+        <div class="bricklet">
+          
+          <order-row [order]="order" (orderDetails)="handleDetails($event)" *ngFor="let order of (orderList | async)?.content">
+          </order-row>
+          <order-row [order]="order" (orderDetails)="handleDetails($event)" *ngFor="let order of (orderList | async)?.content">
+            </order-row>
+            <order-row [order]="order" (orderDetails)="handleDetails($event)" *ngFor="let order of (orderList | async)?.content">
+            </order-row>
+        </div>
+      </div>
+
+      <!-- BOTTOM-RIGHT Bricklet -->
+      <div id="details-container">
+          <order-detail [orderDetail]="(orderDetail | async)"></order-detail>
+      </div>
+    </div>
