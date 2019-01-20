@@ -117,7 +117,7 @@
   "size" : "18MM",
   "cutter" : "F21",
   "comment" : "expres",
-  "customer" : "INA ZIELONA GÓRA",
+  "customer" : "Customer 1",
   "extId" : 99,
   "_class" : "com.frontwit.barcodeapp.model.Order"
 },
@@ -636,7 +636,7 @@
     "size" : "18MM",
     "cutter" : "F21",
     "comment" : "przy pakowaniu porownac z probka w biurze; 26",
-    "customer" : "MUSSI ZIELONA GÓRA",
+    "customer" : "Customer 2",
     "extId" : 31,
     "_class" : "com.frontwit.barcodeapp.model.Order"
   },
@@ -689,7 +689,7 @@
     "size" : "18MM",
     "cutter" : "F21",
     "comment" : "paprochy na uchwycie i przepolerowania; powierzona",
-    "customer" : "MBS SADY LESZNO",
+    "customer" : "Customer 3",
     "extId" : 21,
     "_class" : "com.frontwit.barcodeapp.model.Order"
   }
