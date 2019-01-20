@@ -3,7 +3,7 @@ package com.frontwit.barcodeapp.model;
 import com.frontwit.barcodeapp.datatype.Stage;
 import lombok.*;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -13,5 +13,5 @@ import java.time.LocalTime;
 public class Process {
 
     private Stage stage;
-    private LocalTime date;
+    private LocalDateTime date;
 }

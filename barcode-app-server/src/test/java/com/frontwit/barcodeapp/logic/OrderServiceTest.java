@@ -8,7 +8,7 @@ import com.frontwit.barcodeapp.model.Process;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class OrderServiceTest {
         orderDao.save(order1);
         orderDao.save(order2);
 
-        LocalTime currentTime = LocalTime.now();
+        LocalDateTime currentTime = LocalDateTime.now();
         Stage stage1 = Stage.MILLING;
         Stage stage2 = Stage.POLISHING;
         List<ProcessDto> dtos = new ArrayList<>();
@@ -55,11 +55,13 @@ public class OrderServiceTest {
         sut.updateOrdersForProcesses(dtos);
 
         //  then
-        List<Process> processes1 = orderDao.findOne(order1.getId().toHexString()).getComponents().iterator().next().getProcessingHistory();
+        List<Process> processes1 = orderDao.findOne(order1.getBarcode()).getComponents().iterator().next()
+                .getProcessingHistory();
         assertThat(processes1, hasSize(2));
         assertThat(processes1, containsInAnyOrder(new Process(stage1, currentTime), new Process(stage2, currentTime)));
 
-        List<Process> processes2 = orderDao.findOne(order2.getId().toHexString()).getComponents().iterator().next().getProcessingHistory();
+        List<Process> processes2 = orderDao.findOne(order2.getBarcode()).getComponents().iterator().next()
+                .getProcessingHistory();
         assertThat(processes2, hasSize(1));
         assertThat(processes2, containsInAnyOrder(new Process(stage1, currentTime)));
     }

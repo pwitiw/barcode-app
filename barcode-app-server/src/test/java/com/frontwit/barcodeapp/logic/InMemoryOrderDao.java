@@ -14,16 +14,16 @@ import java.util.stream.Collectors;
 
 public class InMemoryOrderDao implements OrderDao {
 
-    Map<String, Order> repository = new HashMap<>();
+    Map<Long, Order> repository = new HashMap<>();
 
     @Override
-    public Order findOne(String id) {
+    public Order findOne(Long id) {
         return repository.get(id);
     }
 
     @Override
     public Order save(Order order) {
-        return repository.put(order.getId().toHexString(), order);
+        return repository.put(order.getBarcode(), order);
     }
 
     @Override

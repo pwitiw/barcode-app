@@ -68,20 +68,22 @@ public class DatabaseChangelog {
         DBObject component7 = createComponentAsDBObject(1819L, 13, 14, true, Lists.newArrayList(process1, process2, process3, process4));
 
         // ORDER 1
-        DBObject order1 = createOrder("Zamówienie 1", Lists.newArrayList(component1, component2, component3), route1, 2);
-        DBObject order2 = createOrder("Zamówienie 2", Lists.newArrayList(component4, component5), route1, 0);
-        DBObject order3 = createOrder("Zamówienie 3", Lists.newArrayList(component6, component7), route2, 1);
+        DBObject order1 = createOrder("Zamówienie 1", 100L, Lists.newArrayList(component1, component2, component3), route1, 2);
+        DBObject order2 = createOrder("Zamówienie 2", 300L, Lists.newArrayList(component4, component5), route1, 0);
+        DBObject order3 = createOrder("Zamówienie 3", 700L, Lists.newArrayList(component6, component7), route2, 1);
         orderCollection.save(order1);
         orderCollection.save(order2);
         orderCollection.save(order3);
     }
 
 
-    private DBObject createOrder(String name, List<DBObject> componentList, DBObject route, int damagedComponentsAmount) {
+    private DBObject createOrder(String name, Long barcode, List<DBObject> componentList, DBObject route, int
+            damagedComponentsAmount) {
         BasicDBList components = new BasicDBList();
         components.addAll(componentList);
 
         return new BasicDBObject()
+                .append("_id", barcode)
                 .append("name", name)
                 .append("components", components)
                 .append("route", createReferenceObject("route", route))

@@ -2,7 +2,6 @@ package com.frontwit.barcodeapp.logic;
 
 import com.frontwit.barcodeapp.model.Component;
 import com.frontwit.barcodeapp.model.Order;
-import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,7 +19,6 @@ public class TestData {
 
     public static Order createOrder(Long barcode, Set<Component> components) {
         return Order.builder()
-                .id(new ObjectId())
                 .barcode(barcode)
                 .components(components)
                 .build();

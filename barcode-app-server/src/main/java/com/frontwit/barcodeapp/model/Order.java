@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -25,8 +25,6 @@ import java.util.Set;
 public class Order {
 
     @Id
-    private ObjectId id;
-    @NotNull
     private Long barcode;
     @NotNull
     private String name;
@@ -48,7 +46,6 @@ public class Order {
     private String comment;
 
     private String customer;
-
-    @Column(unique = true)
+    // ensure uniqueness
     private Long extId;
 }

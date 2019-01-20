@@ -1,9 +1,9 @@
 package com.frontwit.barcodeapp.rest;
 
-import com.frontwit.barcodeapp.dto.ProcessDto;
 import com.frontwit.barcodeapp.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.dto.OrderDto;
 import com.frontwit.barcodeapp.dto.OrderSearchCriteria;
+import com.frontwit.barcodeapp.dto.ProcessDto;
 import com.frontwit.barcodeapp.logic.OrderService;
 import com.frontwit.barcodeapp.logic.PdfService;
 import com.frontwit.barcodeapp.synchronization.SynchronizationService;
@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -45,9 +46,9 @@ public class OrderResource {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
-    OrderDetailDto getOrder(@PathVariable String id) {
-        return orderService.getOrder(id);
+    @GetMapping("/{barcode}")
+    OrderDetailDto getOrder(@PathVariable Long barcode) {
+        return orderService.getOrder(barcode);
     }
 
     @PostMapping("/search")
@@ -55,10 +56,10 @@ public class OrderResource {
         return orderService.getOrders(pageable, searchCriteria);
     }
 
-    @GetMapping("/{id}/barcode")
-    public ResponseEntity<byte[]> getBarcodesForOrder(@PathVariable String id) {
-        OrderDetailDto dto = orderService.getOrder(id);
-        byte[] pdfDoc = pdfService.generatePdf(dto.getName(), dto.getComponents());
+    @GetMapping("/{barcode}/barcode")
+    public ResponseEntity<byte[]> getBarcodesForOrder(@PathVariable Long barcode) {
+        OrderDetailDto dto = orderService.getOrder(barcode);
+        byte[] pdfDoc = pdfService.generatePdf(dto.getBarcode(), dto.getComponents());
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.APPLICATION_PDF)
@@ -68,5 +69,10 @@ public class OrderResource {
     @PostMapping("/barcode")
     public void saveBarcodes(@RequestBody List<ProcessDto> barcodes) {
         orderService.updateOrdersForProcesses(barcodes);
+    }
+
+    @PostMapping("/dupa")
+    public LocalDateTime saveBarcodessadas() {
+        return LocalDateTime.now();
     }
 }

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Getter
 public class OrderDto {
 
-    private String id;
+    private Long barcode;
     private String name;
     private LocalDate orderedAt;
     private Integer quantity;
@@ -17,8 +17,7 @@ public class OrderDto {
 
     public static OrderDto valueOf(Order order) {
         OrderDto dto = new OrderDto();
-        order.getId().getCounter();
-        dto.id = order.getId().toHexString();
+        dto.barcode = order.getBarcode();
         dto.name = order.getName();
         dto.orderedAt = order.getOrderedAt();
         dto.quantity = order.getComponents().size();

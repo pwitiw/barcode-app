@@ -3,10 +3,10 @@ package com.frontwit.barcodeapp.logic;
 import com.frontwit.barcodeapp.dao.OrderDao;
 import com.frontwit.barcodeapp.dao.RouteDao;
 import com.frontwit.barcodeapp.datatype.Stage;
-import com.frontwit.barcodeapp.dto.ProcessDto;
 import com.frontwit.barcodeapp.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.dto.OrderDto;
 import com.frontwit.barcodeapp.dto.OrderSearchCriteria;
+import com.frontwit.barcodeapp.dto.ProcessDto;
 import com.frontwit.barcodeapp.model.Component;
 import com.frontwit.barcodeapp.model.Order;
 import org.slf4j.Logger;
@@ -46,9 +46,9 @@ public class OrderService {
         return orderPage.map(OrderDto::valueOf);
     }
 
-    public OrderDetailDto getOrder(String id) {
-        Order order = orderDao.findOne(id);
-        LOG.debug(format("Order collected for id %s.", id));
+    public OrderDetailDto getOrder(Long barcode) {
+        Order order = orderDao.findOne(barcode);
+        LOG.debug(format("Order collected for barcode %s.", barcode));
         return OrderDetailDto.valueOf(order);
     }
 

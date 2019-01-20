@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+// FIXME wyciaganie po jednym kodzie kreskowym jest zlym pomyslem, przy synchronizacji lepiej pobrac poczatkowy,
+// zablokowac jakos i na koncu dodac
 public final class BarcodeGeneratorService {
 
     public static final String BARCODE_ID = "barcode";

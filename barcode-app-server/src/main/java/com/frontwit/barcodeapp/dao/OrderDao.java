@@ -10,7 +10,7 @@ import java.util.Set;
 
 public interface OrderDao {
 
-    Order findOne(String id);
+    Order findOne(Long id);
 
     Order save(Order order);
 

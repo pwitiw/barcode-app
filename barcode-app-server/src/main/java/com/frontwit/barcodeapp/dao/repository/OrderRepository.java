@@ -6,10 +6,13 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 
 public interface OrderRepository extends MongoRepository<Order, ObjectId> {
 
     Collection<Order> findByBarcodeIn(Set<Long> barcodes);
+
+    Optional<Order> findByBarcode(Long barcode);
 
 }

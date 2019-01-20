@@ -3,7 +3,6 @@ package com.frontwit.barcodeapp.dao;
 import com.frontwit.barcodeapp.dao.repository.OrderRepository;
 import com.frontwit.barcodeapp.dto.OrderSearchCriteria;
 import com.frontwit.barcodeapp.model.Order;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -32,8 +31,8 @@ public class MongoOrderDao implements OrderDao {
     }
 
     @Override
-    public Order findOne(String id) {
-        return repository.findById(new ObjectId(id))
+    public Order findOne(Long barcode) {
+        return repository.findByBarcode(barcode)
                 .orElseThrow(IllegalArgumentException::new);
     }
 

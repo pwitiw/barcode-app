@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -13,7 +13,7 @@ public class ProcessDto {
 
     private Integer readerId;
     private Long barcode;
-    private LocalTime date;
+    private LocalDateTime date;
 
 
 }

@@ -13,7 +13,7 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 public class JwtUtils {
 
     private static final String SECRET = "YmFyY29kZUFwcA==";
-    private static final long EXPIRATION_TIME = 86_400_000; // 10 days
+    private static final long EXPIRATION_TIME = 860_400_000; // 10 days
     static final String TOKEN_PREFIX = "Bearer ";
 
     String generateToken(User user) {

@@ -7,9 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +22,7 @@ import java.util.Objects;
 public class Component {
 
     @NotNull
-    // FIXME    @Indexed(unique = true)
+    @Column(unique = true)
     private Long barcode;
 
     @NotNull
@@ -38,7 +39,7 @@ public class Component {
 
     private boolean damaged;
 
-    public void applyProcess(Stage stage, LocalTime date) {
+    public void applyProcess(Stage stage, LocalDateTime date) {
         Process process = new Process(stage, date);
         if (containsProcessAndNotFurtherProcesses(process)) {
             throw new IllegalProcessingOrderException("Component already processed on this stage and no further " +

@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //FIXME enable csrf
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login", "/logout").permitAll()
+                .antMatchers("/login", "/logout","/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
