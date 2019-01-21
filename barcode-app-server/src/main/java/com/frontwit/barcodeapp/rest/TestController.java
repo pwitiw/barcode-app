@@ -4,9 +4,9 @@ import com.frontwit.barcodeapp.dao.OrderDao;
 import com.frontwit.barcodeapp.model.Order;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/test")
@@ -32,6 +32,12 @@ public class TestController {
 
 
         Iterable<Order> save = orderDao.save(Lists.newArrayList(order, order2));
+    }
+
+    // TODO usunac potem
+    @PostMapping("/save")
+    public void saveOrder(@RequestBody List<Order> orders) {
+        orderDao.save(orders);
     }
 
 }

@@ -1,5 +1,5 @@
 [{
-  "_id" : 100094000,
+  "barcode" : 100094000,
   "name" : "85",
   "components" : [
     {
@@ -122,7 +122,7 @@
   "_class" : "com.frontwit.barcodeapp.model.Order"
 },
   {
-    "_id" : 100026000,
+    "barcode" : 100026000,
     "name" : "22",
     "components" : [
       {
@@ -641,7 +641,7 @@
     "_class" : "com.frontwit.barcodeapp.model.Order"
   },
   {
-    "_id" : 100016000,
+    "barcode" : 100016000,
     "name" : "4",
     "components" : [
       {
