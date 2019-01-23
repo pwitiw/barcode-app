@@ -21,6 +21,9 @@ export class LoginComponent implements OnInit {
     private guard: AuthGuardService) { }
 
   ngOnInit() {
+    if(localStorage.currentUser) 
+      this.router.navigate(['/main']);
+    
     this.loginModel = new LoginModel;
     this.isWrong = false;
   }

@@ -7,8 +7,8 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { OrderDetailModel } from 'src/app/models/OrderDetailModel';
 import { OrdersResponse } from 'src/app/models/OrdersResponse';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+const headers = {
+  'Content-Type': 'application/pdf'
 };
 
 @Injectable({
@@ -26,11 +26,19 @@ public getOrdersList(): Observable<OrdersResponse> {
 );
 }
 
-public getOrderDetail(id: number): Observable<OrderDetailModel> {
-  return this.http.get<OrderDetailModel>(ApiUrls.ORDERS_ENDPOINT + '/' + id)
+public getOrderDetail(barcode: number): Observable<OrderDetailModel> {
+  return this.http.get<OrderDetailModel>(ApiUrls.ORDERS_ENDPOINT + '/' + barcode)
   .pipe(
     tap(_ => console.log('Getting order detal'),
     catchError(this.handleError('getOrderDetail', [])))
+  );
+}
+
+public getBarcodePdf(barcode: number): Observable<Blob> {
+  return this.http.get(ApiUrls.ORDERS_ENDPOINT + '/' + barcode + '/barcode', {responseType: 'blob'})
+  .pipe(
+    tap(_ => console.log('Getting pdf blob'),
+    catchError(this.handleError('getBarcodePdf', [])))
   );
 }
 

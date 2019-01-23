@@ -1,5 +1,5 @@
 export class OrderModel {
-    id: number;
+    barcode: number;
     name: string;
     orderedAt: string[];
     quantity: number;

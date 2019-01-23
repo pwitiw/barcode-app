@@ -1,0 +1,9 @@
+<div class="left-list-container">
+    <div 
+    class="list-element" 
+    *ngFor="let component of orderDetail?.components"
+    (click)="showComponentDetails(component)"
+    [ngClass]="{'active': selectedComponent === component.barcode}">
+      Wymiary: {{component.height}} x {{component.width}}
+    </div>
+</div>

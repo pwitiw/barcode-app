@@ -24,29 +24,6 @@ const routes: Routes = [
     redirectTo: '/main',
     pathMatch: 'full' },
 ];
-    // {
-    //   path: 'admin',
-    //   component: AdminLoginComponent,
-    //   children: [
-    //     {
-    //       path: 'admin-view',
-    //       component: AdminViewComponent,
-    //       canActivate: [AuthGuardService],
-    //       resolve: {
-    //         pollList: PollListResolver
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   path: 'pollView/:pollId',
-    //   component: PoolViewComponent,
-    //   resolve: {
-    //     poll: PollResolver
-    //   }
-    // },
-    
-  
   @NgModule({
     imports: [
       RouterModule.forRoot(routes)

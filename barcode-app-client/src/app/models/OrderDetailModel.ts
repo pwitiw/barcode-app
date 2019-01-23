@@ -1,7 +1,7 @@
 import { ComponentModel } from './ComponentModel';
 
 export class OrderDetailModel {
-    id: string
+    barcode: string
     extId: number;
     name: string;
     color: string;

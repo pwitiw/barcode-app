@@ -1,0 +1,24 @@
+.left-list-container {
+    height: 100%;
+    width: 50%;
+    overflow-y: auto;
+}
+
+.list-element {
+    padding-left: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+
+    &.active {
+        background-color: #8a8a8a;
+        &:hover {
+            background-color: #eeeeee;
+        }
+    }
+
+    &:hover {
+        background-color: #eeeeee;
+    }
+
+    
+}
