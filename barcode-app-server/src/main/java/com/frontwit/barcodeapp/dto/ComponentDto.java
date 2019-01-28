@@ -1,9 +1,12 @@
 package com.frontwit.barcodeapp.dto;
 
 import com.frontwit.barcodeapp.model.Component;
+import com.frontwit.barcodeapp.model.Process;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -15,6 +18,7 @@ public class ComponentDto {
     private String comment;
     private LocalDate lastModification;
     private boolean damaged;
+    private List<Process> processingHistory = new ArrayList();
 
     private ComponentDto() {
     }
@@ -34,6 +38,7 @@ public class ComponentDto {
         dto.height = component.getHeight();
         dto.width = component.getWidth();
         dto.lastModification = component.getLastModification();
+        dto.processingHistory.addAll(component.getProcessingHistory());
         return dto;
     }
 
@@ -44,6 +49,7 @@ public class ComponentDto {
         component.setDamaged(damaged);
         component.setLastModification(lastModification);
         component.setComment(comment);
+        component.setProcessingHistory(processingHistory);
         return component;
     }
 

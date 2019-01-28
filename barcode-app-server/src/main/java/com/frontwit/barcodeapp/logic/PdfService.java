@@ -22,9 +22,10 @@ import java.util.stream.Stream;
 @Service
 public final class PdfService {
     private static final Logger LOG = LoggerFactory.getLogger(PdfService.class);
-    private static final int STAMP_HEIGHT = 29;     //in mm
-    private static final int STAMP_WIDTH = 52;      //in mm
+    private static final int STAMP_HEIGHT = 31;     //in mm
+    private static final int STAMP_WIDTH = 70;      //in mm
     private static final int BARCODE_HEIGHT = (int) (0.55 * STAMP_HEIGHT);
+    private static final int MARGIN = 1;
     private static final String IMAGE_FORMAT = "jpeg";
 
     @Autowired
@@ -69,21 +70,23 @@ public final class PdfService {
         components.addAll(components);
 
         return Stream.of(components.iterator().next(), components.iterator().next())
-                .map(c -> createBarCodeAsByteArray(barcode, c))
+                .map(c -> createBarCodeAsByteArray(c))
                 .collect(Collectors.toSet());
     }
 
-    private byte[] createBarCodeAsByteArray(Long barcode, ComponentDto component) {
+    private byte[] createBarCodeAsByteArray(ComponentDto component) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            BufferedImage imageBarcode = barcodeEncoder.encode(component.getBarcode().toString(), STAMP_WIDTH, BARCODE_HEIGHT);
+            BufferedImage imageBarcode = barcodeEncoder.encode(component.getBarcode().toString(),
+                    STAMP_WIDTH - 2 * MARGIN,
+                    BARCODE_HEIGHT);
 
             BufferedImage image = new BufferedImage(STAMP_WIDTH, STAMP_HEIGHT, BufferedImage.TYPE_INT_RGB);
             Graphics2D graphics2D = image.createGraphics();
             graphics2D.setBackground(Color.WHITE);
 
             graphics2D.fillRect(0, 0, STAMP_WIDTH, STAMP_HEIGHT);
-            graphics2D.drawImage(imageBarcode, null, 2, 2);
+            graphics2D.drawImage(imageBarcode, null, MARGIN, MARGIN);
             graphics2D.drawRect(0, 0, STAMP_WIDTH, STAMP_HEIGHT);
 
 
@@ -133,12 +136,13 @@ public final class PdfService {
     private static class StringDrawer {
         private static final String FONT_TYPE = "Verdana";
         private static final int TEXT_SIZE = (int) (0.1 * STAMP_HEIGHT);
-        private static final Font BARCODE_FONT = new Font(FONT_TYPE, Font.PLAIN, (int) (TEXT_SIZE));
         private static final Font ORDER_INFO_FONT = new Font(FONT_TYPE, Font.PLAIN, TEXT_SIZE);
 
         static void drawBarcode(Graphics2D g2d, final String barcode) {
 
-            g2d.setFont(BARCODE_FONT);
+            Font font = new Font(FONT_TYPE, Font.PLAIN, TEXT_SIZE);
+
+            g2d.setFont(font);
             g2d.drawRect(0, 0, STAMP_WIDTH, STAMP_HEIGHT);
             FontMetrics barcodeFm = g2d.getFontMetrics();
             FontMetrics orderInfoFm = new Canvas().getFontMetrics(ORDER_INFO_FONT);
