@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin
@@ -70,10 +69,5 @@ public class OrderResource {
     @PostMapping("/barcode")
     public void saveBarcodes(@RequestBody List<ProcessDto> barcodes) {
         orderService.updateOrdersForProcesses(barcodes);
-    }
-
-    @PostMapping("/dupa")
-    public LocalDateTime saveBarcodessadas() {
-        return LocalDateTime.now();
     }
 }

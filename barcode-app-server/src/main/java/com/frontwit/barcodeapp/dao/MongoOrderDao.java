@@ -75,16 +75,25 @@ public class MongoOrderDao implements OrderDao {
 
     private Criteria getAppliedCriteria(OrderSearchCriteria searchCriteria) {
         List<Criteria> criterias = new ArrayList<>();
-        if (searchCriteria.name != null && !searchCriteria.name.equals("")) {
+        if (searchCriteria.barcode != null) {
+            criterias.add(where("_id").is(searchCriteria.barcode));
+        }
+        if (isNotEmpty(searchCriteria.name)) {
             Pattern pattern = Pattern.compile(searchCriteria.name, Pattern.CASE_INSENSITIVE);
             criterias.add(where("name").regex(pattern));
         }
-        if (searchCriteria.orderedFrom != null) {
-            criterias.add(where("orderedAt").gte(searchCriteria.orderedFrom));
+        if (isNotEmpty(searchCriteria.color)) {
+            Pattern pattern = Pattern.compile(searchCriteria.color, Pattern.CASE_INSENSITIVE);
+            criterias.add(where("color").regex(pattern));
         }
-        if (searchCriteria.orderedTo != null) {
-            criterias.add(where("orderedAt").lte(searchCriteria.orderedTo));
+        if (isNotEmpty(searchCriteria.cutter)) {
+            Pattern pattern = Pattern.compile(searchCriteria.cutter, Pattern.CASE_INSENSITIVE);
+            criterias.add(where("cutter").regex(pattern));
         }
         return new Criteria().andOperator(criterias.toArray(new Criteria[criterias.size()]));
+    }
+
+    private boolean isNotEmpty(String arg) {
+        return arg != null && !"".equals(arg);
     }
 }

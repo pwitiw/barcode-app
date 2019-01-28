@@ -11,6 +11,8 @@ public class OrderDto {
 
     private Long barcode;
     private String name;
+    private String color;
+    private String cutter;
     private LocalDate orderedAt;
     private Integer quantity;
     private long damagedQuantity;
@@ -21,6 +23,8 @@ public class OrderDto {
         dto.name = order.getName();
         dto.orderedAt = order.getOrderedAt();
         dto.quantity = order.getComponents().size();
+        dto.cutter = order.getCutter();
+        dto.color = order.getColor();
         dto.damagedQuantity = order.getComponents().stream().filter(Component::isDamaged).count();
         return dto;
     }

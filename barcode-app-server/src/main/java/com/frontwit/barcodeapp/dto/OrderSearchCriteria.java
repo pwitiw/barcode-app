@@ -1,28 +1,29 @@
 package com.frontwit.barcodeapp.dto;
 
-import java.time.LocalDate;
+import org.springframework.util.StringUtils;
 
 public class OrderSearchCriteria {
 
     public String name;
-
-    public LocalDate orderedFrom;
-
-    public LocalDate orderedTo;
+    public Long barcode;
+    public String color;
+    public String cutter;
 
     public static boolean isEmpty(OrderSearchCriteria searchCriteria) {
         return searchCriteria == null
-                || (searchCriteria.name == null || searchCriteria.name.equals(""))
-                && searchCriteria.orderedFrom == null
-                && searchCriteria.orderedTo == null;
+                || (StringUtils.isEmpty(searchCriteria.name)
+                && StringUtils.isEmpty(searchCriteria.barcode)
+                && StringUtils.isEmpty(searchCriteria.color)
+                && StringUtils.isEmpty(searchCriteria.cutter));
     }
 
     @Override
     public String toString() {
         return "OrderSearchCriteria{" +
                 "name='" + name + '\'' +
-                ", orderedFrom=" + orderedFrom +
-                ", orderedTo=" + orderedTo +
+                ", barcode='" + barcode + '\'' +
+                ", color='" + color + '\'' +
+                ", cutter='" + cutter + '\'' +
                 '}';
     }
 }

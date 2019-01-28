@@ -33,6 +33,13 @@ public class OrderDetailDto {
         OrderDetailDto dto = new OrderDetailDto();
         dto.barcode = order.getBarcode();
         dto.name = order.getName();
+        dto.cutter = order.getCutter();
+        dto.size = order.getSize();
+        dto.comment = order.getComment();
+        dto.route = order.getRoute() != null ? order.getName() : "";
+        dto.customer = order.getCustomer();
+        dto.orderedAt = order.getOrderedAt();
+        dto.stage = order.getStage();
         dto.components = order.getComponents()
                 .stream()
                 .map(ComponentDto::valueOf)

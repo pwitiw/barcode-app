@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+//TODO remove
 @RestController
 @RequestMapping("/test")
 public class TestController {
@@ -31,7 +33,7 @@ public class TestController {
         order2.setBarcode(20100L);
 
 
-        Iterable<Order> save = orderDao.save(Lists.newArrayList(order, order2));
+        orderDao.save(Lists.newArrayList(order, order2));
     }
 
     // TODO usunac potem
