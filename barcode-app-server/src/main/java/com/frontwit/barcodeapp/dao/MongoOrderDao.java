@@ -65,7 +65,6 @@ public class MongoOrderDao implements OrderDao {
     }
 
     private Page<Order> findOrdersForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria) {
-
         Criteria appliedCriterias = getAppliedCriteria(searchCriteria);
         Query query = Query.query(appliedCriterias).with(pageable);
         List<Order> orders = mongoOps.find(query, Order.class);

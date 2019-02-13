@@ -4,14 +4,15 @@ import com.frontwit.barcodeapp.dao.OrderDao;
 import com.frontwit.barcodeapp.model.Order;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
-//TODO remove
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/")
 public class TestController {
     private OrderDao orderDao;
 
@@ -20,7 +21,6 @@ public class TestController {
         this.orderDao = orderDao;
     }
 
-    @GetMapping
     public void test() {
         Order order = new Order();
         order.setExtId(1L);

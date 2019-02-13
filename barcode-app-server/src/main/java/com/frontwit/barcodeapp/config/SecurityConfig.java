@@ -17,6 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String API_URL = "/api/**";
+
     @Autowired
     UserDetailService userDetailService;
 
@@ -25,8 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //FIXME enable csrf
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login", "/logout").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers(API_URL).authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

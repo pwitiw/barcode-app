@@ -1,17 +1,11 @@
-task build(type: GradleBuild) {
+task buildAll(type: GradleBuild) {
     group 'application'
-    setTasks(
-            [
-                    ':barcode-app-client:buildClient',
-                    ':barcode-app-server:jar'
-            ])
+    setTasks([':barcode-app-client:npmUpdate', ':barcode-app-client:clean', ':barcode-app-client:buildClient',
+              ':barcode-app-server:bootJar'])
 }
 
-task clean(type: GradleBuild) {
+task bootFullApplication(type: GradleBuild) {
     group 'application'
-    setTasks(
-            [
-                    ':barcode-app-client:cleanClient',
-                    ':barcode-app-server:clean'
-            ])
+    setTasks([':barcode-app-client:npmUpdate', ':barcode-app-client:clean', ':barcode-app-client:buildClient',
+              ':barcode-app-server:bootRun'])
 }

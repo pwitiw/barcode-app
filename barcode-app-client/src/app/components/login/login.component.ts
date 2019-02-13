@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginModel } from 'src/app/models/LoginModel';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { AuthGuardService } from 'src/app/services/auth-guard/auth-guard.service';
-import { HttpResponse } from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {LoginModel} from 'src/app/models/LoginModel';
+import {AuthGuardService} from 'src/app/services/auth-guard/auth-guard.service';
+import {AuthService} from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
-  private loginModel: LoginModel;
+  public loginModel: LoginModel;
   private resp: any;
 
   public isWrong: boolean;
@@ -21,9 +20,9 @@ export class LoginComponent implements OnInit {
     private guard: AuthGuardService) { }
 
   ngOnInit() {
-    if(localStorage.currentUser) 
+    if(localStorage.currentUser)
       this.router.navigate(['/main']);
-    
+
     this.loginModel = new LoginModel;
     this.isWrong = false;
   }

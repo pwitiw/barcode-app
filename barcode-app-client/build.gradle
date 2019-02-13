@@ -1,0 +1,38 @@
+plugins {
+  id "com.moowork.node" version "1.2.0"
+}
+version '0.0.1'
+
+node {
+  version = '10.13.0'
+  npmVersion = '6.4.1'
+  download = true
+  workDir = file("${project.buildDir}/node")
+  nodeModulesDir = file("${project.projectDir}")
+}
+
+//------------------------------------------------------------------------------------------------------------------------
+//    Tasks
+//------------------------------------------------------------------------------------------------------------------------
+task clean(type: Delete) {
+  group 'build client'
+  delete "A/dist"
+  delete "../barcode-app-server/src/main/resources/static"
+}
+
+task cleanNpm(type: Delete) {
+  group 'build client'
+  delete "build/node"
+  delete "/node_modules"
+}
+
+task npmUpdate {
+  group 'build client'
+  dependsOn 'npm_update'
+}
+
+task buildClient(type: NpmTask, dependsOn: npmInstall) {
+  group 'build client'
+  description = 'Build statics'
+  args = ['run', 'build']
+}
