@@ -22,7 +22,10 @@ public class OrderDto {
         dto.barcode = order.getBarcode();
         dto.name = order.getName();
         dto.orderedAt = order.getOrderedAt();
-        dto.quantity = order.getComponents().size();
+        dto.quantity = order.getComponents()
+                .stream()
+                .mapToInt(Component::getQuantity)
+                .sum();
         dto.cutter = order.getCutter();
         dto.color = order.getColor();
         dto.damagedQuantity = order.getComponents().stream().filter(Component::isDamaged).count();

@@ -83,14 +83,21 @@ public class OrderService {
     }
 
     private void processOrder(Order order, Map<Long, Set<ProcessDto>> processes) {
-        processes.get(order.getBarcode()).forEach(process -> applyProcess(order, process));
+        processes.get(order.getBarcode())
+                .forEach(process -> applyProcess(order, process));
     }
 
     private void applyProcess(Order order, ProcessDto dto) {
         order.getComponents().stream()
                 .filter(component -> Objects.equals(dto.getBarcode(), component.getBarcode()))
                 .findFirst()
-                .ifPresent(component -> component.applyProcess(Stage.valueOf(dto.getReaderId()), dto.getDate()));
+                .ifPresent(component -> {
+                    try {
+                        component.applyProcess(Stage.valueOf(dto.getReaderId()), dto.getDate());
+                    } catch (IllegalProcessingOrderException ex) {
+                        LOG.warn(ex.getMessage());
+                    }
+                });
     }
 
     private void setBarcodes(Order order) {

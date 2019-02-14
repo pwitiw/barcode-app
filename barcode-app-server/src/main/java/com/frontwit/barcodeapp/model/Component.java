@@ -37,7 +37,9 @@ public class Component {
 
     private LocalDate lastModification;
 
-    private boolean damaged;
+    private boolean damaged = false;
+
+    private Integer quantity;
 
     public void applyProcess(Stage stage, LocalDateTime date) {
         Process process = new Process(stage, date);
@@ -52,7 +54,10 @@ public class Component {
     }
 
     private boolean containsProcessAndNotFurtherProcesses(Process process) {
-        return processingHistory.contains(process)
+        return processingHistory
+                .stream()
+                .filter(p -> Objects.equals(p, process))
+                .count() >= quantity
                 && processingHistory.stream().noneMatch(p -> p.getStage().greatherThan(process.getStage()));
     }
 

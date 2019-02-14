@@ -27,6 +27,7 @@ public class TestData {
     public static Component createComponent(Long barcode) {
         return Component.builder()
                 .barcode(barcode)
+                .quantity(1)
                 .processingHistory(new ArrayList<>())
                 .build();
     }
