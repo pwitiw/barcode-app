@@ -61,7 +61,6 @@ dependencies {
     implementation("org.hibernate:hibernate-validator:${hibernateValidatorVersion}")
     //	Mongo DB dependencies
     implementation("org.javassist:javassist:3.18.2-GA") // workaround for ${javassist.version} placeholder issue*
-    implementation("com.github.mongobee:mongobee:0.13")
 
     implementation("mysql:mysql-connector-java")
     //	BarCode Generator
