@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp.zzzdeprecated;
+package com.frontwit.barcodeapp;
 
 import com.frontwit.barcodeapp.domain.order.OrderSearchCriteria;
 import com.frontwit.barcodeapp.domain.order.processing.Order;
