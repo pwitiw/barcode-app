@@ -72,7 +72,8 @@ dependencies {
     // Logging framework
     implementation("log4j:log4j:${log4jVersion}")
     // Lombok - getter/setter generator
-    implementation("org.projectlombok:lombok:${lombokVersion}")
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
 
     //  TESTS
     testImplementation('org.springframework.boot:spring-boot-starter-test')

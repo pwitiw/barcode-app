@@ -1,34 +1,31 @@
-//package com.frontwit.barcodeapp.domain.order.dto;
-//
-//import com.frontwit.barcodeapp.dao.RouteDao;
-//import com.frontwit.barcodeapp.orderprocess.domain.Stage;
-//import com.frontwit.barcodeapp.model.Component;
-//import com.frontwit.barcodeapp.model.Order;
-//import lombok.Data;
-//
-//import java.time.LocalDate;
-//import java.util.LinkedList;
-//import java.util.List;
-//import java.util.Set;
-//import java.util.stream.Collectors;
-//
-//@Data
-//public class OrderDetailDto {
-//
-//    private Long barcode;
-//    private Long extId;
-//    private String name;
-//    private String color;
-//    private String size;
-//    private String cutter;
-//    private String comment;
-//    private String route;
-//    private String customer;
-//    private Stage stage;
-//    private LocalDate orderedAt;
-//    private List<ComponentDto> components = new LinkedList();
-//
-//
+package com.frontwit.barcodeapp.domain.order;
+
+import com.frontwit.barcodeapp.domain.order.processing.Order;
+import javafx.stage.Stage;
+import lombok.Data;
+
+import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Data
+public class OrderDetailDto {
+
+    private Long barcode;
+    private Long extId;
+    private String name;
+    private String color;
+    private String size;
+    private String cutter;
+    private String comment;
+    private String route;
+    private String customer;
+    private Stage stage;
+    private LocalDate orderedAt;
+    private List<ComponentDto> components = new LinkedList();
+
+
 //    public static OrderDetailDto valueOf(Order order) {
 //        OrderDetailDto dto = new OrderDetailDto();
 //        dto.barcode = order.getBarcode();
@@ -65,5 +62,5 @@
 //        order.setComponents(componentsToSave);
 //        return order;
 //    }
-//
-//}
+
+}

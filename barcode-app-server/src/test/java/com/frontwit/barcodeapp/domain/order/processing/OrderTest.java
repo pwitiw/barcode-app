@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
 
 public class OrderTest {
 
-    private static int MAX_COMPONENTS_AMOUNT = 100;
 
     @Test
     public void shouldUpdateStageAndMarkComplete() {
@@ -22,7 +21,7 @@ public class OrderTest {
         int stage = 1;
         Order order = createOrder(extId, 1);
         ProcessCommand process =
-                new ProcessCommand(extId + MAX_COMPONENTS_AMOUNT, stage, LocalDateTime.now());
+                new ProcessCommand(BarcodeGenerator.create(extId) + 1, stage, LocalDateTime.now());
         //  when
         order.update(process);
         //  then
@@ -37,7 +36,7 @@ public class OrderTest {
         int stage = 1;
         Order order = createOrder(extId, 2);
         ProcessCommand process =
-                new ProcessCommand(extId + MAX_COMPONENTS_AMOUNT, stage, LocalDateTime.now());
+                new ProcessCommand(BarcodeGenerator.create(extId), stage, LocalDateTime.now());
         //  when
         order.update(process);
         //  then
@@ -47,14 +46,15 @@ public class OrderTest {
 
 
     private Order createOrder(long id, int componentsNr) {
+        long barcode = BarcodeGenerator.create(id);
         Set<Component> components = IntStream.range(1, componentsNr + 1)
                 .mapToObj(i -> Component
                         .builder()
                         .processingHistory(new ArrayList<>())
-                        .barcode((long) (MAX_COMPONENTS_AMOUNT + i))
+                        .barcode(barcode + i)
                         .quantity(1)
                         .build())
                 .collect(Collectors.toSet());
-        return new Order(id, "", components);
+        return new Order(barcode, "", components);
     }
 }

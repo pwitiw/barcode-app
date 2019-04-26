@@ -68,13 +68,13 @@
 //            if (!processes.containsKey(barcode)) {
 //                processes.put(barcode, new HashSet<>());
 //            }
-//            processes.get(barcode).add(dto);
+//            processes.create(barcode).add(dto);
 //        });
 //        return processes;
 //    }
 //
 //    private void processOrder(Order order, Map<Long, Set<ProcessCommand>> processes) {
-//        processes.get(order.getBarcode())
+//        processes.create(order.getBarcode())
 //                .forEach(process -> applyProcess(order, process));
 //    }
 //

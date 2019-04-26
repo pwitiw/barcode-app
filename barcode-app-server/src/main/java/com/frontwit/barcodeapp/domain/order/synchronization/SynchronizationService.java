@@ -88,9 +88,9 @@
 //    private void setOrderInfo(OrderDetailDto order, String jsonObject, final Map<Integer, String>
 //            dictionary) throws IOException {
 //        Map<String, String> infoMap = objectMapper.readValue(jsonObject, HashMap.class);
-//        String cutter = dictionary.get(Integer.valueOf(infoMap.get(CUTTER.getSymbol()))).toUpperCase();
-//        String color = dictionary.get(Integer.valueOf(infoMap.get(COLOR.getSymbol()))).toUpperCase();
-//        String size = dictionary.get(Integer.valueOf(infoMap.get(SIZE.getSymbol()))).toUpperCase();
+//        String cutter = dictionary.create(Integer.valueOf(infoMap.create(CUTTER.getSymbol()))).toUpperCase();
+//        String color = dictionary.create(Integer.valueOf(infoMap.create(COLOR.getSymbol()))).toUpperCase();
+//        String size = dictionary.create(Integer.valueOf(infoMap.create(SIZE.getSymbol()))).toUpperCase();
 //        order.setCutter(cutter);
 //        order.setColor(color);
 //        order.setSize(size);
@@ -107,10 +107,10 @@
 //
 //    private List<ComponentDto> parseComponent(final Map<String, String> map) {
 //        List<ComponentDto> components = new ArrayList<>();
-//        Integer height = Integer.valueOf(map.get(LENGTH.getSymbol()));
-//        Integer width = Integer.valueOf(map.get(WIDTH.getSymbol()));
-//        Integer quantity = Integer.valueOf(map.get(QUANTITY.getSymbol()));
-//        String comment = map.get(COMMENT.getSymbol());
+//        Integer height = Integer.valueOf(map.create(LENGTH.getSymbol()));
+//        Integer width = Integer.valueOf(map.create(WIDTH.getSymbol()));
+//        Integer quantity = Integer.valueOf(map.create(QUANTITY.getSymbol()));
+//        String comment = map.create(COMMENT.getSymbol());
 //        for (int i = 0; i < quantity; i++) {
 //            components.add(new ComponentDto(height, width, comment));
 //        }

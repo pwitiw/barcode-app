@@ -13,13 +13,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class InMemoryOrderDao implements OrderRepository {
+public class InMemoryOrderRepository implements OrderRepository {
 
     Map<ObjectId, Order> repository = new HashMap<>();
 
     @Override
-    public Order findOne(Long id) {
-        return repository.get(id);
+    public Order findOne(Long barcode) {
+        return repository.get(barcode);
     }
 
     @Override
