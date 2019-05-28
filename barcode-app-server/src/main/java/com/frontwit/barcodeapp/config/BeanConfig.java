@@ -1,10 +1,6 @@
 package com.frontwit.barcodeapp.config;
 
-import com.frontwit.barcodeapp.dao.MongoOrderDao;
-import com.frontwit.barcodeapp.domain.order.processing.ports.OrderRepository;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.core.MongoOperations;
 
 @Configuration
 public class BeanConfig {

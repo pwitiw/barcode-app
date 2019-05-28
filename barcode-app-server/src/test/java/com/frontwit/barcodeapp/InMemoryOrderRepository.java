@@ -1,25 +1,22 @@
 package com.frontwit.barcodeapp;
 
-import com.frontwit.barcodeapp.domain.order.OrderSearchCriteria;
-import com.frontwit.barcodeapp.domain.order.processing.Order;
-import com.frontwit.barcodeapp.domain.order.processing.ports.OrderRepository;
-import org.bson.types.ObjectId;
+import com.frontwit.barcodeapp.domain.order.Order;
+import com.frontwit.barcodeapp.domain.order.dto.OrderSearchCriteria;
+import com.frontwit.barcodeapp.domain.order.ports.OrderRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class InMemoryOrderRepository implements OrderRepository {
 
-    Map<ObjectId, Order> repository = new HashMap<>();
+    Map<Long, Order> repository = new HashMap<>();
 
     @Override
-    public Order findOne(Long barcode) {
-        return repository.get(barcode);
+    public Optional<Order> findOne(Long id) {
+        return Optional.ofNullable(repository.get(id));
     }
 
     @Override
@@ -28,16 +25,27 @@ public class InMemoryOrderRepository implements OrderRepository {
     }
 
     @Override
-    // TODO zmienione, moze sie wysrac
-    public Collection<Order> findByBarcodes(Set<Long> barcodes) {
+    public Collection<Order> findByIds(Set<Long> ids) {
         return repository.values().stream()
-                .filter(order -> barcodes.contains(order.getId()))
+                .filter(order -> ids.contains(order.getId()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public Page<Order> findAll(Pageable pageable) {
-        return null;
+        int size = repository.size();
+        int pageNr = pageable.getPageNumber();
+        int pageSize = pageable.getPageSize();
+        if (pageNr * pageSize > size) {
+            return Page.empty(pageable);
+        }
+
+        List<Order> collect = repository.values()
+                .stream()
+                .skip(Math.max(pageNr - 1, 0) * pageSize)
+                .limit(pageSize)
+                .collect(Collectors.toList());
+        return new PageImpl(collect);
     }
 
     @Override

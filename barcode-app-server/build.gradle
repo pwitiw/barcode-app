@@ -77,5 +77,6 @@ dependencies {
 
     //  TESTS
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+//    testImplementation('com.h2database', name: 'h2', version: '1.3.148')
 }
 

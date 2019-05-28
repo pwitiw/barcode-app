@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: frontwit
+    ports:
+      - 27017:27017
+    volumes:
+      - /home/patryk/dev/other/barcode-app/mongo-scripts:/docker-entrypoint-initdb.d
+
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: frontwit
+      MYSQL_USER: patryk
+      MYSQL_PASSWORD: password
+    ports:
+      - 3306:3306
+    volumes:
+    - /home/patryk/dev/other/barcode-app/mysql-scripts:/docker-entrypoint-initdb.d

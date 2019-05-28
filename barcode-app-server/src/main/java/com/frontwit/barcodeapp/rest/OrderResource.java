@@ -1,40 +1,34 @@
 package com.frontwit.barcodeapp.rest;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.frontwit.barcodeapp.domain.order.OrderFacade;
+import com.frontwit.barcodeapp.domain.order.dto.OrderDetailDto;
+import com.frontwit.barcodeapp.domain.order.dto.OrderDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/orders")
 public class OrderResource {
 
-//    @Autowired
-//    OrderService orderService;
+    @Autowired
+    private OrderFacade orderFacade;
 
 
-//    @GetMapping
-//    Page<OrderDto> getOrders(Pageable pageable) {
-//        return orderService.getOrders(pageable);
-//    }
-
-    @PostMapping("/synchronize")
-    public ResponseEntity synchronize() {
-//        List<OrderDetailDto> ordersToSave = synchronizationService.getOrders();
-//        orderService.save(ordersToSave);
-        return ResponseEntity.ok().build();
+    @GetMapping
+    Page<OrderDto> getOrders(Pageable pageable) {
+        return orderFacade.findAll(pageable);
     }
 
-//    @GetMapping("/{barcode}")
-//    OrderDetailDto getOrder(@PathVariable Long barcode) {
-//        return orderService.getOrder(barcode);
-//    }
-
+    @GetMapping("/{id}")
+    OrderDetailDto getOrder(@PathVariable Long id) {
+        return orderFacade.findOne(id);
+    }
+//
 //    @PostMapping("/search")
 //    Page<OrderDto> getOrdersForSearchCriteria(Pageable pageable, @RequestBody OrderSearchCriteria searchCriteria) {
 //        return orderService.getOrders(pageable, searchCriteria);
 //    }
-
 }
