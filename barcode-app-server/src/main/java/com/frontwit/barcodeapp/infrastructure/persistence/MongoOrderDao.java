@@ -1,11 +1,12 @@
 package com.frontwit.barcodeapp.infrastructure.persistence;
 
-import com.frontwit.barcodeapp.domain.order.Order;
-import com.frontwit.barcodeapp.domain.order.dto.OrderSearchCriteria;
-import com.frontwit.barcodeapp.domain.order.ports.OrderRepository;
+import com.frontwit.barcodeapp.application.order.Order;
+import com.frontwit.barcodeapp.application.order.dto.OrderSearchCriteria;
+import com.frontwit.barcodeapp.application.ports.OrderDao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -13,26 +14,24 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public class MongoOrderDao implements OrderRepository {
+public class MongoOrderDao implements OrderDao {
 
     private MongoOperations mongoOps;
+    private OrderRepository repository;
 
-
-    public MongoOrderDao(MongoOperations mongoOps) {
+    public MongoOrderDao(MongoOperations mongoOps, OrderRepository repository) {
         this.mongoOps = mongoOps;
+        this.repository = repository;
     }
 
     @Override
-    public Optional<Order> findOne(Long barcode) {
-//        TODO return findByBarcode(barcode)
-//                .orElseThrow(IllegalArgumentException::new);
-        return null;
+    public Optional<Order> findOne(Long id) {
+        return repository.findById(id);
     }
 
     @Override
     public Order save(Order order) {
-//        return repository.save(order);
-        return null;
+        return repository.save(order);
     }
 
     @Override
@@ -105,4 +104,8 @@ public class MongoOrderDao implements OrderRepository {
 //    private boolean isNotEmpty(String arg) {
 //        return arg != null && !"".equals(arg);
 //    }
+}
+
+interface OrderRepository extends MongoRepository<Order, Long> {
+
 }

@@ -2,10 +2,11 @@ package com.frontwit.barcodeapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 
-// TODO uruchomic aplikacje
 @SpringBootApplication
+@EnableMongoRepositories
 public class BarcodeappApplication {
 
     public static void main(String[] args) {

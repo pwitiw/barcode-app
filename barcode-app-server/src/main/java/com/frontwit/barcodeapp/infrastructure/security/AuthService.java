@@ -1,7 +1,5 @@
 package com.frontwit.barcodeapp.infrastructure.security;
 
-import com.beust.jcommander.internal.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,21 +11,24 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.HashSet;
 
 
 @Component
 public class AuthService {
 
-    @Autowired
     private JwtUtils jwtUtil;
 
-    @Autowired
     private UserDetailService userDetailService;
 
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    public AuthService(JwtUtils jwtUtil, UserDetailService userDetailService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.jwtUtil = jwtUtil;
+        this.userDetailService = userDetailService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     String authenticateUsingCredentials(final User user) {
         User userFromDb = userDetailService.loadUserByUsername(user.getUsername());
@@ -54,7 +55,7 @@ public class AuthService {
             throw new IllegalArgumentException("User " + user.getUsername() + " already exists");
         }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(Lists.newArrayList(Role.USER)));
+        user.setRoles(new HashSet<>(Arrays.asList(Role.USER)));
         userDetailService.save(user);
     }
 

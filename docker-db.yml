@@ -10,7 +10,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - /home/patryk/dev/other/barcode-app/mongo-scripts:/docker-entrypoint-initdb.d
+      - "./barcode-app-server/src/test/resources:/docker-entrypoint-initdb.d"
 
   mysql:
     image: mysql
@@ -22,4 +22,4 @@ services:
     ports:
       - 3306:3306
     volumes:
-    - /home/patryk/dev/other/barcode-app/mysql-scripts:/docker-entrypoint-initdb.d
+      - "./barcode-app-server/src/test/resources:/docker-entrypoint-initdb.d"
