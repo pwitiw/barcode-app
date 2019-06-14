@@ -1,36 +1,37 @@
 .login-view {
-    $line-height: 38px;
-  
-    @include page-background();
-    padding-bottom: 0;
-  
-    .tile {
-      @include tile-with-metrics($width: 40%, $height: 50%, $margin-top: 10%);
-  
-      padding: 30px 10px;
-      margin-bottom: 8%;
-  
-      &-header {
-        text-align: center;
-        font-size: $font-x-large;
-        padding: 1rem;
-        color: $color-black;
-      }
-    }
+  $line-height: 38px;
 
-    .container {
-      width: 75%;
+  @include page-background();
+  padding-bottom: 0;
+
+  .tile {
+    @include tile-with-metrics($width: 40%, $height: 50%, $margin-top: 10%);
+
+    padding: 30px 10px;
+    margin-bottom: 8%;
+
+    &-header {
       text-align: center;
+      font-size: $font-x-large;
+      padding: 1rem;
+      color: $color-black;
+    }
+  }
 
-      .form-control {
-        margin-bottom: 25px;
-      }
+  .container {
+    width: 75%;
+    text-align: center;
 
-      .btn-confirm {
-        @include button($line-height, 50%, #000000);
-      }
-
+    .form-control {
+      margin-bottom: 25px;
     }
 
+    .btn-confirm {
+      @include button($line-height, 50%, #000000);
+    }
+  }
 
-}  
+  .auth-failed {
+    color: red;
+  }
+}

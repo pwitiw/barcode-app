@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { OrderModel } from 'src/app/models/OrderModel';
-import { ApiUrls } from 'src/app/utils/ApiUrls';
-import { catchError, tap, map } from 'rxjs/operators';
-import { OrderDetailModel } from 'src/app/models/OrderDetailModel';
-import { OrdersResponse } from 'src/app/models/OrdersResponse';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable, of} from 'rxjs';
+import {ApiUrls} from 'src/app/utils/ApiUrls';
+import {catchError, tap} from 'rxjs/operators';
+import {OrderDetailModel} from 'src/app/models/OrderDetailModel';
+import {OrdersResponse} from 'src/app/models/OrdersResponse';
 
 const headers = {
   'Content-Type': 'application/pdf'

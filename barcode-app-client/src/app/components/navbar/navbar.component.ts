@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthGuardService } from 'src/app/services/auth-guard/auth-guard.service';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-navbar',
@@ -7,13 +7,13 @@ import { AuthGuardService } from 'src/app/services/auth-guard/auth-guard.service
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private authGuard: AuthGuardService) { }
+  constructor(private authService: AuthService) {
+  }
 
   ngOnInit() {
   }
 
   logout() {
-    this.authGuard.logout();
+    this.authService.logout();
   }
-
 }

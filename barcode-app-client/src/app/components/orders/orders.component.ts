@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { OrderModel } from 'src/app/models/OrderModel';
-import { OrdersService } from 'src/app/services/orders/orders.service';
-import { OrdersResponse } from 'src/app/models/OrdersResponse';
-import { OrderDetailModel } from 'src/app/models/OrderDetailModel';
-import { ComponentModel } from 'src/app/models/ComponentModel';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import { DomSanitizer } from '@angular/platform-browser';
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {OrderModel} from 'src/app/models/OrderModel';
+import {OrdersService} from 'src/app/services/orders/orders.service';
+import {OrdersResponse} from 'src/app/models/OrdersResponse';
+import {OrderDetailModel} from 'src/app/models/OrderDetailModel';
+import {ComponentModel} from 'src/app/models/ComponentModel';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-orders',
@@ -14,7 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class OrdersComponent implements OnInit {
   orderList: Observable<OrdersResponse>;
-  orderDetail: Observable<OrderDetailModel>
+  orderDetail: Observable<OrderDetailModel>;
   componentDetail: ComponentModel;
   barcodeUrl: String;
 
@@ -54,7 +54,7 @@ export class OrdersComponent implements OnInit {
         return this.orderService.getBarcodePdf(+barcode).toPromise() as Promise<Blob>
     })
     .catch(err => {
-      console.log('Missing order detail data.')
+      console.log('Missing order detail data.');
       return null;
     });  
     
