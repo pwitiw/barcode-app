@@ -42,7 +42,7 @@ public class MongoOrderDao implements OrderDao {
 
     @Override
     public Page<Order> findAll(Pageable pageable) {
-        return null;
+        return repository.findAll(pageable);
     }
 
     @Override
@@ -55,10 +55,7 @@ public class MongoOrderDao implements OrderDao {
         return null;
     }
 
-//    @Override
-//    public Page<Order> findAll(Pageable pageable) {
-//        return repository.findAll(pageable);
-//    }
+
 //
 //    @Override
 //    public Iterable<Order> save(Collection<Order> orders) {

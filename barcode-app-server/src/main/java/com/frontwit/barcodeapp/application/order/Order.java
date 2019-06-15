@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
@@ -25,6 +26,7 @@ import static java.lang.String.format;
 public class Order {
 
     @Getter
+    @Id
     private Long id;
     @NotNull
     private String name;
@@ -40,7 +42,7 @@ public class Order {
     private String comment;
     private String customer;
     @Getter(value = AccessLevel.PACKAGE)
-    private boolean isComplete;
+    private Boolean isComplete;
 
     void update(ProcessCommand process) {
         stage = Stage.MILLING;

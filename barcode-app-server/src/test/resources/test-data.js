@@ -132,7 +132,7 @@ db.order.insertMany([
                 "damaged": false
             }
         ],
-        "orderedAt": "2017-05-07T22:00:00.000Z",
+        "orderedAt": "2017-05-07",
         "stage": "MILLING",
         "color": "BIAŁY POŁYSK",
         "size": "18MM",
@@ -143,7 +143,7 @@ db.order.insertMany([
         "_class": "com.frontwit.barcodeapp.model.Order"
     },
     {
-        "id": 100026000,
+        "_id": 100026000,
         "name": "22",
         "components": [
             {
@@ -687,7 +687,7 @@ db.order.insertMany([
                 "damaged": false
             }
         ],
-        "orderedAt": "2017-05-03T22:00:00.000Z",
+        "orderedAt": "2017-05-03",
         "stage": "MILLING",
         "color": "NCS S 1510 Y70R MAT",
         "size": "18MM",
@@ -698,7 +698,7 @@ db.order.insertMany([
         "_class": "com.frontwit.barcodeapp.model.Order"
     },
     {
-        "id": 100016000,
+        "_id": 100016000,
         "name": "4",
         "components": [
             {
@@ -741,7 +741,7 @@ db.order.insertMany([
                 "damaged": false
             }
         ],
-        "orderedAt": "2017-05-03T22:00:00.000Z",
+        "orderedAt": "2017-05-03",
         "stage": "MILLING",
         "color": "BIAŁY POŁYSK",
         "size": "18MM",

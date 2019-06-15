@@ -20,18 +20,18 @@ public class AuthService {
 
     private JwtUtils jwtUtil;
 
-    private UserDetailService userDetailService;
+    private UserService userService;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AuthService(JwtUtils jwtUtil, UserDetailService userDetailService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AuthService(JwtUtils jwtUtil, UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.jwtUtil = jwtUtil;
-        this.userDetailService = userDetailService;
+        this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     String authenticateUsingCredentials(final User user) {
-        User userFromDb = userDetailService.loadUserByUsername(user.getUsername());
+        User userFromDb = userService.loadUserByUsername(user.getUsername());
         if (!bCryptPasswordEncoder.matches(user.getPassword(), userFromDb.getPassword())) {
             throw new BadCredentialsException("Provided credentials are incorrect");
         }
@@ -41,7 +41,7 @@ public class AuthService {
 
     void authenticateUsingToken(final String token) {
         String username = jwtUtil.getSubject(token);
-        User user = userDetailService.loadUserByUsername(username);
+        User user = userService.loadUserByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found : " + username);
         }
@@ -50,13 +50,13 @@ public class AuthService {
 
     @RolesAllowed(Role.Type.ADMIN)
     void register(final User user) {
-        User userFromDb = userDetailService.loadUserByUsername(user.getUsername());
+        User userFromDb = userService.loadUserByUsername(user.getUsername());
         if (userFromDb != null) {
             throw new IllegalArgumentException("User " + user.getUsername() + " already exists");
         }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(new HashSet<>(Arrays.asList(Role.USER)));
-        userDetailService.save(user);
+        userService.save(user);
     }
 
     void logout(final HttpServletRequest request) {
