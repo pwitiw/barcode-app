@@ -3,10 +3,10 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {OrderComponent} from './components/orders/orders-list/order.component';
 import {OrdersComponent} from './components/orders/orders.component';
-import {AppRoutingModule} from './utils/app-routing.module';
+import {AppRoutingModule} from './app-routing.module';
 import {MainComponent} from './components/main/main.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
-import {OrdersService} from './services/orders/orders.service';
+import {OrderRestService} from './components/orders/order.rest.service';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {LoginComponent} from './components/login/login.component';
 import {AuthGuardService} from './auth/auth-guard.service';
@@ -14,8 +14,8 @@ import {AuthService} from './auth/auth.service';
 import {FormsModule} from '@angular/forms';
 import {JwtInterceptor} from './auth/jwt.interceptor';
 import {OrderDetailComponent} from './components/orders/order-detail/order-detail.component';
-import {ComponentListComponent} from './components/orders/component-list/component-list.component';
-import {ComponentDetailComponent} from './components/orders/component-detail/component-detail.component';
+import {FrontListComponent} from './components/orders/order-detail/front-list/front-list.component';
+import {FrontDetailComponent} from './components/orders/order-detail/front-detail/front-detail.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SearchCriteriaComponent} from './components/orders/search-criteria/search-criteria.component';
 import {RestService} from "./services/rest.service";
@@ -29,8 +29,8 @@ import {RestService} from "./services/rest.service";
     NavbarComponent,
     LoginComponent,
     OrderDetailComponent,
-    ComponentListComponent,
-    ComponentDetailComponent,
+    FrontListComponent,
+    FrontDetailComponent,
     SearchCriteriaComponent
   ],
   imports: [
@@ -42,7 +42,7 @@ import {RestService} from "./services/rest.service";
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    OrdersService, AuthService, AuthGuardService, RestService],
+    OrderRestService, AuthService, AuthGuardService, RestService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

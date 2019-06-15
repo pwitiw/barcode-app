@@ -3,7 +3,6 @@ package com.frontwit.barcodeapp.infrastructure.rest;
 import com.frontwit.barcodeapp.application.order.OrderFacade;
 import com.frontwit.barcodeapp.application.order.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.application.order.dto.OrderDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;

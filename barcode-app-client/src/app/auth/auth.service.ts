@@ -4,14 +4,7 @@ import {Observable} from 'rxjs';
 import {RestService} from "../services/rest.service";
 import {map} from "rxjs/operators";
 
-interface LoggedUser {
-  username: string;
-  token: string;
-}
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
   private static readonly LOGIN_ENDPOINT = "/login";
   private static readonly TOKEN_KEY = "token";
@@ -21,9 +14,8 @@ export class AuthService {
   }
 
   public getLoggedUser(): string {
-    return "admin";
+    return localStorage.getItem(AuthService.USER_KEY);
   }
-
 
   public isAuthenticated(): boolean {
     const token = localStorage.getItem(AuthService.TOKEN_KEY);

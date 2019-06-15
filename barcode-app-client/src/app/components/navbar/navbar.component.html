@@ -11,6 +11,6 @@
     </div>
   </nav>
   <nav *ngIf="authService.isAuthenticated()" class="nav-items nav-items-right">
-    <a routerLink="/login" (click)="logout()">WYLOGUJ</a>
+    <a routerLink="/login" (click)="logout()">WYLOGUJ [{{authService.getLoggedUser()}}]</a>
   </nav>
 </div>

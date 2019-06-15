@@ -1,6 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { OrderDetailModel } from 'src/app/models/OrderDetailModel';
-import { ComponentModel } from 'src/app/models/ComponentModel';
+import {OnInit, Input, Component} from '@angular/core';
+import {OrderDetails} from 'src/app/components/orders/order-detail/OrderDetails';
 
 @Component({
   selector: 'order-detail',
@@ -8,10 +7,11 @@ import { ComponentModel } from 'src/app/models/ComponentModel';
 })
 export class OrderDetailComponent implements OnInit {
 
-  @Input() orderDetail: OrderDetailModel;
-  selectedComponent: ComponentModel = new ComponentModel;
+  @Input() orderDetail: OrderDetails;
+  selectedComponent: Component;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

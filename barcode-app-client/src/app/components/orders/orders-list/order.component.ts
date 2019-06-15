@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { OrderModel } from 'src/app/models/OrderModel';
+import { SimpleOrder } from 'src/app/components/orders/SimpleOrder';
 
 @Component({
   selector: 'order-row',
@@ -7,8 +7,8 @@ import { OrderModel } from 'src/app/models/OrderModel';
 })
 export class OrderComponent implements OnInit {
 
-  @Input() order: OrderModel;
-  @Output() orderDetails = new EventEmitter<OrderModel>();
+  @Input() order: SimpleOrder;
+  @Output() orderDetails = new EventEmitter<SimpleOrder>();
 
   constructor() { }
 

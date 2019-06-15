@@ -24,7 +24,7 @@ class OrderReadService {
     Page<OrderDto> findAll(Pageable pageable) {
         return orderDao
                 .findAll(pageable)
-                .map(OrderDto::from);
+                .map(Order::dto);
     }
 
     public OrderDetailDto findOne(Long id) {

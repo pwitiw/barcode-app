@@ -1,55 +1,43 @@
 <div id="orders-view">
+  <div id="search-container">
+    <search-criteria></search-criteria>
+  </div>
+  <div id="orders-container">
+    <h3 class="orders-header">Lista aktywnych zamówień</h3>
+    <div class="bricklet">
+      <order-row [order]="order"
+                 (orderDetails)="handleOrderDetails($event)"
+                 *ngFor="let order of page.orders">
+      </order-row>
+    </div>
+  </div>
+  <div *ngIf="orderDetail" id="details-container">
+    <div id="order-detail">
+      <order-detail [orderDetail]="(orderDetail | async)"></order-detail>
+    </div>
+    <div *ngIf="orderDetail" id="component-list" class="bricklet">
+      <component-list [orderDetail]="(orderDetail | async)"
+                      (componentDetail)="handleComponentDetails($event)">
 
-      <!-- TOP-LEFT Bricklet -->
-      <div id="search-container">
-          <search-criteria></search-criteria>
-      </div>
-
-      <!-- TOP-RIGHT Bricklet
-      <div id="btns-container">
-          <button (click)="showBarcodeModal(content)" [disabled]="!orderDetail" class="btn-modal">Wyświetl Barcode</button>
-      </div> -->
-
-      <!-- BOTTOM-LEFT Bricklet -->
-      <div id="orders-container">
-        <h3 class="orders-header">Lista aktywnych zamówień</h3>
-        <div class="bricklet">
-          <order-row 
-          [order]="order" 
-          (orderDetails)="handleOrderDetails($event)" 
-          *ngFor="let order of (orderList | async)?.content">
-          </order-row>
-        </div>
-      </div>
-
-      <!-- BOTTOM-RIGHT Bricklet -->
-      <div id="details-container">
-        <div id="order-detail">
-            <order-detail *ngIf="orderDetail" [orderDetail]="(orderDetail | async)"></order-detail>
-        </div>
-        <div id="component-list" class="bricklet">
-          <component-list 
-          *ngIf="orderDetail" 
-          [orderDetail]="(orderDetail | async)" 
-          (componentDetail)="handleComponentDetails($event)" ></component-list>
-        </div>
-
-        <div id="component-detail" class="bricklet">
-          <component-detail *ngIf="componentDetail" [componentDetail]="componentDetail"></component-detail>  
-        </div>
-      </div>
+      </component-list>
     </div>
 
-    <ng-template #content let-modal>
-        <div class="modal-header">
-          <h4>Kody kreskowe dla zamówienia TW101</h4>
-          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-            <span >&times;</span>
-          </button>
-        </div>
-        <div class="modal-footer">
-            <iframe [src]='sanitizer.bypassSecurityTrustResourceUrl(barcodeUrl)' width="680" height="500" frameborder="0"
+    <div *ngIf="componentDetail" id="component-detail" class="bricklet">
+      <component-detail [componentDetail]="componentDetail"></component-detail>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4>Kody kreskowe dla zamówienia TW101</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-footer">
+    <iframe [src]='sanitizer.bypassSecurityTrustResourceUrl(barcodeUrl)' width="680" height="500" frameborder="0"
             webkitallowfullscreen mozallowfullscreen allowfullscreen>
-            </iframe>
-        </div>
-    </ng-template>
+    </iframe>
+  </div>
+</ng-template>

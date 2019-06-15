@@ -2,6 +2,7 @@ package com.frontwit.barcodeapp.application.order;
 
 import com.frontwit.barcodeapp.application.order.dto.ComponentDto;
 import com.frontwit.barcodeapp.application.order.dto.OrderDetailDto;
+import com.frontwit.barcodeapp.application.order.dto.OrderDto;
 import com.frontwit.barcodeapp.application.order.dto.ProcessCommand;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -17,8 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static java.lang.String.format;
 
 @Document(collection = "order")
 @Builder
@@ -69,6 +68,18 @@ public class Order {
                 .comment(comment)
                 .orderedAt(orderedAt)
                 .components(componentDtos)
+                .build();
+    }
+
+    OrderDto dto() {
+        return OrderDto.builder()
+                .id(id)
+                .cutter(cutter)
+                .color(color)
+                .damagedQuantity(0) // TODO adjust
+                .name(name)
+                .orderedAt(orderedAt)
+                .quantity(components.size())
                 .build();
     }
 
