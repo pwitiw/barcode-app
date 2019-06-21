@@ -2,20 +2,22 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {SimpleOrder} from 'src/app/components/orders/SimpleOrder';
 import {OrderRestService} from 'src/app/components/orders/order.rest.service';
-import {OrderPage} from 'src/app/models/OrderPage';
 import {OrderDetails} from 'src/app/components/orders/order-detail/OrderDetails';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Front} from "./order-detail/Front";
+import {map, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
-  page: OrderPage;
-  orderDetail: Observable<OrderDetails>;
-  componentDetail: Front;
+  pageSize: number;
+  pageNumber: number;
+  orders$: Observable<SimpleOrder[]>;
+  orderDetail$: Observable<OrderDetails>
+  selectedFront: Front;
   barcodeUrl: String;
 
   constructor(private orderService: OrderRestService, private modalService: NgbModal, private sanitizer: DomSanitizer) {
@@ -26,21 +28,21 @@ export class OrdersComponent implements OnInit {
   }
 
   private updateOrderList() {
-    this.orderService.getOrdersList().subscribe(result => {
-      this.page = {
-        orders: result.content,
-        page: result.pageable.pageNumber,
-        size: result.pageable.pageSize
-      };
-    });
+    this.orders$ = this.orderService.getOrdersList()
+      .pipe(
+        tap(result => {
+          this.pageNumber = result.pageable.pageNumber;
+          this.pageSize = result.pageable.pageSize;
+        }),
+        map(result => result.content.concat(result.content).concat(result.content).concat(result.content).concat(result.content))
+      );
   }
 
-  handleOrderDetails(order: SimpleOrder) {
-    this.componentDetail = null;
-    this.orderDetail = this.orderService.getOrderDetail(order.barcode);
+  handleShowDetails(order: SimpleOrder) {
+    this.orderDetail$ = this.orderService.getOrderDetail(order.id);
   }
 
   handleComponentDetails(front: Front) {
-    this.componentDetail = front;
+    this.selectedFront = front;
   }
 }

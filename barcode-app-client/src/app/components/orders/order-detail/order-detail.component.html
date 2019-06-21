@@ -1,33 +1,15 @@
-<!-- <div class="order-details">
-    <div class="order-data-item"><span class="item-header">Nazwa: </span>{{orderDetail?.name}}</div>
-    <div class="order-data-item"><span class="item-header">Kolor: </span>{{orderDetail?.color}}</div>
-    <div class="order-data-item"><span class="item-header">Ilość elementów: </span>{{orderDetail?.size}}</div>
+<div class="order-details">
+  <div class="order-data-item"><span class="item-header">Nazwa: </span>{{order.name}}</div>
+  <div class="order-data-item"><span class="item-header">Kolor: </span>{{order.color}}</div>
+  <div class="order-data-item"><span class="item-header">Ilość elementów: </span>{{order.size}}</div>
 </div>
 <div class="order-details">
-    <div class="order-data-item"><span class="item-header">Frez: </span>{{orderDetail?.cutter}}</div>
-    <div class="order-data-item"><span class="item-header">Komentarz: </span>{{orderDetail?.comment}}</div>
-    <div class="order-data-item"><span class="item-header">Trasa: </span>{{orderDetail?.route}}</div> 
-</div>    
-<div class="order-details">
-    <div class="order-data-item"><span class="item-header">Klient: </span>{{orderDetail?.customer}}</div>
-    <div class="order-data-item"><span class="item-header">Etap produkcji: </span>{{orderDetail?.stage}}</div>
-    <div class="order-data-item"><span class="item-header">Data zlecenia: </span>{{orderDetail?.orderedAt}}</div>
+  <div class="order-data-item"><span class="item-header">Frez: </span>{{order?.cutter}}</div>
+  <div class="order-data-item"><span class="item-header">Komentarz: </span>{{order?.comment}}</div>
+<!--  <div class="order-data-item"><span class="item-header">Trasa: </span>{{order?.route}}</div>-->
 </div>
- -->
- <div class="order-details">
-        <div class="order-data-item"><span class="item-header">Nazwa: </span>TW101</div>
-        <div class="order-data-item"><span class="item-header">Kolor: </span>Kurła rzurzowy</div>
-        <div class="order-data-item"><span class="item-header">Ilość elementów: </span>XXL</div>
-    </div>
-    <div class="order-details">
-        <div class="order-data-item"><span class="item-header">Frez: </span>Prosty bez ostrza czołowego</div>
-        <div class="order-data-item"><span class="item-header">Komentarz: </span>No fajnie wyszło</div>
-        <div class="order-data-item"><span class="item-header">Trasa: </span>Tw-Ole-Wro</div> 
-    </div>    
-    <div class="order-details">
-        <div class="order-data-item"><span class="item-header">Klient: </span>Jakiś bogol</div>
-        <div class="order-data-item"><span class="item-header">Etap produkcji: </span>POLERKO</div>
-        <div class="order-data-item"><span class="item-header">Data zlecenia: </span>ASAP</div>
-    </div>
-    
-    
+<div class="order-details">
+  <div class="order-data-item"><span class="item-header">Klient: </span>{{order?.customer}}</div>
+  <div class="order-data-item"><span class="item-header">Etap produkcji: </span>{{order?.stage}}</div>
+  <div class="order-data-item"><span class="item-header">Data zlecenia: </span>{{order?.orderedAt}}</div>
+</div>

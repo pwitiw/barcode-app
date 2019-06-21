@@ -1,0 +1,14 @@
+<div class="orders-row">
+  <div class="order-info">
+    <div id="name" class="label growing">Nazwa: <span class="input">{{order.name}}</span></div>
+    <div id="quantity" class="label">Sztuk: <span class="input">{{order.quantity}}</span></div>
+    <div id="date" class="label growing">Data: <span class="input">{{order.orderedAt}}</span></div>
+    <div id="damaged" class="label">Braki: <span class="input">{{order.damagedQuantity}}</span></div>
+  </div>
+  <div class="details-btn">
+    <button (click)="showDetails()" class="btn-display">
+      <fa-icon [icon]="faSearch"></fa-icon>
+    </button>
+  </div>
+
+</div>

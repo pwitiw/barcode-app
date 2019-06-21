@@ -1,5 +1,5 @@
 export interface SimpleOrder {
-  barcode: number;
+  id: number;
   name: string;
   orderedAt: string[];
   quantity: number;

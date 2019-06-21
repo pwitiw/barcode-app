@@ -7,7 +7,7 @@ import {Front} from "../Front";
 })
 export class FrontDetailComponent implements OnInit {
 
-  @Input() componentDetail: Front;
+  @Input() front: Front;
 
   constructor() {
   }

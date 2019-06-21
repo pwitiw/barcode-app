@@ -7,11 +7,7 @@ import {OrderDetails} from 'src/app/components/orders/order-detail/OrderDetails'
 })
 export class OrderDetailComponent implements OnInit {
 
-  @Input() orderDetail: OrderDetails;
-  selectedComponent: Component;
-
-  constructor() {
-  }
+  @Input() order: OrderDetails;
 
   ngOnInit() {
   }

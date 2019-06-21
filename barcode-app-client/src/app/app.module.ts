@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {OrderComponent} from './components/orders/orders-list/order.component';
+import {OrderRow} from './components/orders/order-row/order-row.component';
 import {OrdersComponent} from './components/orders/orders.component';
 import {AppRoutingModule} from './app-routing.module';
 import {MainComponent} from './components/main/main.component';
@@ -19,11 +19,12 @@ import {FrontDetailComponent} from './components/orders/order-detail/front-detai
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SearchCriteriaComponent} from './components/orders/search-criteria/search-criteria.component';
 import {RestService} from "./services/rest.service";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 @NgModule({
   declarations: [
     AppComponent,
-    OrderComponent,
+    OrderRow,
     OrdersComponent,
     MainComponent,
     NavbarComponent,
@@ -38,7 +39,8 @@ import {RestService} from "./services/rest.service";
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    FontAwesomeModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

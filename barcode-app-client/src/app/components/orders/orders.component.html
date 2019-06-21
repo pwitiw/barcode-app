@@ -1,32 +1,35 @@
-<div id="orders-view">
-  <div id="search-container">
-    <search-criteria></search-criteria>
-  </div>
-  <div id="orders-container">
-    <h3 class="orders-header">Lista aktywnych zamówień</h3>
-    <div class="bricklet">
-      <order-row [order]="order"
-                 (orderDetails)="handleOrderDetails($event)"
-                 *ngFor="let order of page.orders">
-      </order-row>
+<div class="orders-view">
+  <div class="search">
+    <search-criteria class="search-criteria"></search-criteria>
+    <div class="order-list">
+      <h3 class="title">Lista aktywnych zamówień</h3>
+      <div class="bricklet">
+        <order-row *ngFor="let order of orders$|async"
+                   [order]="order"
+                   (showDetailsClicked)="handleShowDetails(order)">
+        </order-row>
+      </div>
     </div>
   </div>
-  <div *ngIf="orderDetail" id="details-container">
-    <div id="order-detail">
-      <order-detail [orderDetail]="(orderDetail | async)"></order-detail>
-    </div>
-    <div *ngIf="orderDetail" id="component-list" class="bricklet">
-      <component-list [orderDetail]="(orderDetail | async)"
-                      (componentDetail)="handleComponentDetails($event)">
+  <div class="details">
+    <div *ngIf="orderDetail$" id="details-container">
+      <div id="order-detail">
+        <order-detail [order]="orderDetail$|async"></order-detail>
+      </div>
+      <div *ngIf="orderDetail$" id="component-list" class="bricklet">
+        <component-list [orderDetail]="orderDetail$"
+                        (componentDetail)="handleComponentDetails($event)">
 
-      </component-list>
-    </div>
+        </component-list>
+      </div>
 
-    <div *ngIf="componentDetail" id="component-detail" class="bricklet">
-      <component-detail [componentDetail]="componentDetail"></component-detail>
+      <div *ngIf="selectedFront" id="component-detail" class="bricklet">
+        <component-detail [front]="selectedFront"></component-detail>
+      </div>
     </div>
   </div>
 </div>
+
 
 <ng-template #content let-modal>
   <div class="modal-header">

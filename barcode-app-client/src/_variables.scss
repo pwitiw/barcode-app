@@ -5,11 +5,19 @@ $color-light-gray: #c2c0c1;
 $color-black: #000;
 $color-white: #fff;
 
-$font-x-large: 24px;
-$font-large: 18px;
-$font-small: 12px;
-$font-normal: 14px;
+$font-small: 0.75rem;
+$font-medium: 1rem;
+$font-large: 1.5rem;
+$font-x-large: 24rem;
 
 $font-family-global: Ubuntu;
 
 $navbar-height: 100px;
+
+$margin-sm: 0.25rem; /* 5px; */
+$margin-md: 0.5rem; /* 10px; */
+$margin-lg: 1rem; /* 20px; */
+
+$padding-sm:  0.25rem; /* 5px; */
+$padding-md:  0.5rem; /* 10px; */
+$padding-lg: 1rem; /* 20px; */
