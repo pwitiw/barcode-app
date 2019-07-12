@@ -30,7 +30,7 @@ public class Order {
     @NotNull
     private String name;
     @NotNull
-    private Set<Component> components = new HashSet<>();
+    private Set<Component> components ;
     @CreatedDate
     private LocalDate orderedAt;
     private String color;

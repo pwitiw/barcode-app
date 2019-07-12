@@ -19,7 +19,7 @@ class Component {
     private Integer height;
     private Integer width;
     private String comment;
-    private List<Process> processingHistory = new ArrayList<>();
+    private List<Process> processingHistory;
     private Integer quantity;
 
     boolean isApplicable(ProcessCommand command) {

@@ -7,6 +7,8 @@ import com.frontwit.barcodeapp.application.ports.OrderDao;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.junit.Assert.assertEquals;
 
 public class OrderReadServiceTest {
@@ -24,12 +26,14 @@ public class OrderReadServiceTest {
     @Test
     public void returnsOrderDetailsForId() {
         //  given
-        Order order = Order.builder()
+        var order = Order.builder()
                 .id(ID)
+                .stage(Stage.MILLING)
+                .components(Collections.emptySet())
                 .build();
         orderDao.save(order);
         //  when
-        OrderDetailDto result = sut.findOne(ID);
+        var result = sut.findOne(ID);
         //  then
         assertEquals(order.detailDto(), result);
     }
