@@ -22,7 +22,7 @@ db.order.insertMany([
                 "height": 945,
                 "width": 446,
                 "comment": "",
-
+                "quantity": 1,
                 "processingHistory": [
                     {
                         "stage": "MILLING",
