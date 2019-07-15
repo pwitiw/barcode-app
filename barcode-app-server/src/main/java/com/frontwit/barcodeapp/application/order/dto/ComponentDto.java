@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +20,8 @@ public class ComponentDto {
     private Integer height;
     private Integer width;
     private String comment;
-    private LocalDate lastModification;
+    private LocalDateTime lastModification;
+    private String stage;
     private int quantity;
     private boolean damaged;
     private int side;

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Builder
+// TODO zmien na front
 class Component {
 
     @Column(unique = true)
@@ -64,17 +65,25 @@ class Component {
         return latestStageNr == quantity;
     }
 
+
     public ComponentDto dto() {
+        Process p = processingHistory.get(processingHistory.size() - 1);
         return ComponentDto.builder()
                 .barcode(barcode)
                 .height(height)
                 .width(width)
+                .comment(comment)
+                .quantity(quantity)
+                .stage(p.getStage().toString())
+                .lastModification(p.getDate())
                 .build();
+
     }
 
     private class Process {
         @Getter
         private Stage stage;
+        @Getter
         private LocalDateTime date;
 
         Process(Stage stage, LocalDateTime date) {

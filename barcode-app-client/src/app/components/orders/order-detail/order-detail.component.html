@@ -1,15 +1,23 @@
-<div class="order-details">
-  <div class="order-data-item"><span class="item-header">Nazwa: </span>{{order.name}}</div>
-  <div class="order-data-item"><span class="item-header">Kolor: </span>{{order.color}}</div>
-  <div class="order-data-item"><span class="item-header">Ilość elementów: </span>{{order.size}}</div>
-</div>
-<div class="order-details">
-  <div class="order-data-item"><span class="item-header">Frez: </span>{{order?.cutter}}</div>
-  <div class="order-data-item"><span class="item-header">Komentarz: </span>{{order?.comment}}</div>
-<!--  <div class="order-data-item"><span class="item-header">Trasa: </span>{{order?.route}}</div>-->
-</div>
-<div class="order-details">
-  <div class="order-data-item"><span class="item-header">Klient: </span>{{order?.customer}}</div>
-  <div class="order-data-item"><span class="item-header">Etap produkcji: </span>{{order?.stage}}</div>
-  <div class="order-data-item"><span class="item-header">Data zlecenia: </span>{{order?.orderedAt}}</div>
+<div class="details-overview">
+  <div class="order-details">
+    <label-with-text label="Nazwa" text="{{order?.name}}"></label-with-text>
+    <label-with-text label="Kolor" text="{{order?.color}}"></label-with-text>
+    <label-with-text label="Klient" text="{{order?.customer}}"></label-with-text>
+    <label-with-text label="Etap Produkcji" [text]="getStage(order?.stage)"></label-with-text>
+    <label-with-text label="Data zlecenia" text="{{order?.orderedAt}}"></label-with-text>
+    <label-with-text label="Sztuk" text="{{order?.size}}"></label-with-text>
+    <label-with-text label="Frez" text="{{order?.cutter}}"></label-with-text>
+    <label-with-text label="Komentarz" text="{{order?.comment}}"></label-with-text>
+  </div>
+
+  <div class="front-list">
+    <div class="front-row" *ngFor="let front of order?.components;let i = index">
+      <span>{{i + 1}}</span>
+      <icon-with-text [icon]="iconHeight" [text]="front.height" title="Wysokość"></icon-with-text>
+      <icon-with-text [icon]="iconWidth" [text]="front.width" title="Szerokość"></icon-with-text>
+      <icon-with-text [icon]="iconBarcode" [text]="front.barcode" title="Kod kreskowy"></icon-with-text>
+      <icon-with-text [icon]="iconQuantity" [text]="front.quantity" title="Ilość"></icon-with-text>
+      <icon-with-text [icon]="iconStage" [text]="getStage(front.stage)" title="Etap produkcji"></icon-with-text>
+    </div>
+  </div>
 </div>

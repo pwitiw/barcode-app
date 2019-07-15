@@ -1,11 +1,12 @@
 @import 'variables';
 @import 'mixins';
 @import './app/app.component.scss';
+@import 'app/components/common/label-with-text/label-with-text.component.scss';
+@import 'app/components/common/icon-with-text/icon-with-text.component.scss';
 @import './app/components/navbar/navbar.component.scss';
 @import './app/components/orders/orders.component.scss';
-@import 'app/components/orders/order-row/order-row.component';
+@import 'app/components/orders/order-row/order-row.component.scss';
 @import './app/components/orders/order-detail/order-detail.component.scss';
-@import 'app/components/orders/order-detail/front-list/front-list.component';
 @import 'app/components/orders/order-detail/front-detail/front-detail.component';
 @import './app/components/orders/search-criteria/search-criteria.component.scss';
 @import './app/components/login/login.component.scss';

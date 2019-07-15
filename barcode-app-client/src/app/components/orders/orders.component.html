@@ -16,16 +16,6 @@
       <div id="order-detail">
         <order-detail [order]="orderDetail$|async"></order-detail>
       </div>
-      <div *ngIf="orderDetail$" id="component-list" class="bricklet">
-        <component-list [orderDetail]="orderDetail$"
-                        (componentDetail)="handleComponentDetails($event)">
-
-        </component-list>
-      </div>
-
-      <div *ngIf="selectedFront" id="component-detail" class="bricklet">
-        <component-detail [front]="selectedFront"></component-detail>
-      </div>
     </div>
   </div>
 </div>

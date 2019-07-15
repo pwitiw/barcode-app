@@ -14,12 +14,13 @@ import {AuthService} from './auth/auth.service';
 import {FormsModule} from '@angular/forms';
 import {JwtInterceptor} from './auth/jwt.interceptor';
 import {OrderDetailComponent} from './components/orders/order-detail/order-detail.component';
-import {FrontListComponent} from './components/orders/order-detail/front-list/front-list.component';
 import {FrontDetailComponent} from './components/orders/order-detail/front-detail/front-detail.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SearchCriteriaComponent} from './components/orders/search-criteria/search-criteria.component';
 import {RestService} from "./services/rest.service";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {LabelWithTextComponent} from "./components/common/label-with-text/label-with-text.component";
+import { IconWithTextComponent } from './components/common/icon-with-text/icon-with-text.component';
 
 @NgModule({
   declarations: [
@@ -30,9 +31,10 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     NavbarComponent,
     LoginComponent,
     OrderDetailComponent,
-    FrontListComponent,
     FrontDetailComponent,
-    SearchCriteriaComponent
+    SearchCriteriaComponent,
+    LabelWithTextComponent,
+    IconWithTextComponent
   ],
   imports: [
     BrowserModule,

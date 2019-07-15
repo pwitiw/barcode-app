@@ -17,7 +17,6 @@ export class OrdersComponent implements OnInit {
   pageNumber: number;
   orders$: Observable<SimpleOrder[]>;
   orderDetail$: Observable<OrderDetails>
-  selectedFront: Front;
   barcodeUrl: String;
 
   constructor(private orderService: OrderRestService, private modalService: NgbModal, private sanitizer: DomSanitizer) {
@@ -33,6 +32,8 @@ export class OrdersComponent implements OnInit {
         tap(result => {
           this.pageNumber = result.pageable.pageNumber;
           this.pageSize = result.pageable.pageSize;
+          // TODO pwitiw remove this
+          this.handleShowDetails(result.content[0]);
         }),
         map(result => result.content.concat(result.content).concat(result.content).concat(result.content).concat(result.content))
       );
@@ -40,9 +41,5 @@ export class OrdersComponent implements OnInit {
 
   handleShowDetails(order: SimpleOrder) {
     this.orderDetail$ = this.orderService.getOrderDetail(order.id);
-  }
-
-  handleComponentDetails(front: Front) {
-    this.selectedFront = front;
   }
 }
