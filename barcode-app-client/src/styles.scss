@@ -1,8 +1,9 @@
 @import 'variables';
 @import 'mixins';
 @import './app/app.component.scss';
-@import 'app/components/common/label-with-text/label-with-text.component.scss';
-@import 'app/components/common/icon-with-text/icon-with-text.component.scss';
+@import 'app/components/commons/label-with-text/label-with-text.component.scss';
+@import 'app/components/commons/label-with-input/label-with-input.component.scss';
+@import 'app/components/commons/icon-with-text/icon-with-text.component.scss';
 @import './app/components/navbar/navbar.component.scss';
 @import './app/components/orders/orders.component.scss';
 @import 'app/components/orders/order-row/order-row.component.scss';

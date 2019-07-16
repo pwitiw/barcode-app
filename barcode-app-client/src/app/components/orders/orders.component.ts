@@ -5,7 +5,6 @@ import {OrderRestService} from 'src/app/components/orders/order.rest.service';
 import {OrderDetails} from 'src/app/components/orders/order-detail/OrderDetails';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Front} from "./order-detail/Front";
 import {map, tap} from "rxjs/operators";
 
 @Component({
