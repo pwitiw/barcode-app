@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {OrderDetails} from 'src/app/components/orders/order-detail/OrderDetails';
 import {faBarcode, faArrowsAltV, faArrowsAltH, faIndustry} from '@fortawesome/free-solid-svg-icons';
 import {faStackOverflow} from '@fortawesome/free-brands-svg-icons';
+import {faComment} from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'order-detail',
@@ -15,6 +16,7 @@ export class OrderDetailComponent implements OnInit {
   iconWidth = faArrowsAltH;
   iconStage = faIndustry;
   iconQuantity = faStackOverflow;
+  iconComment = faComment;
 
   ngOnInit() {
   }

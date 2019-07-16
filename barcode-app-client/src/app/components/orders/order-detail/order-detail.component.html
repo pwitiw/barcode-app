@@ -12,12 +12,13 @@
 
   <div class="front-list">
     <div class="front-row" *ngFor="let front of order?.components;let i = index">
-      <span>{{i + 1}}</span>
+      <span>{{i + 1}}.</span>
       <icon-with-text [icon]="iconHeight" [text]="front.height" title="Wysokość"></icon-with-text>
       <icon-with-text [icon]="iconWidth" [text]="front.width" title="Szerokość"></icon-with-text>
       <icon-with-text [icon]="iconBarcode" [text]="front.barcode" title="Kod kreskowy"></icon-with-text>
       <icon-with-text [icon]="iconQuantity" [text]="front.quantity" title="Ilość"></icon-with-text>
       <icon-with-text [icon]="iconStage" [text]="getStage(front.stage)" title="Etap produkcji"></icon-with-text>
+      <icon-with-text [icon]="iconComment" [text]="front.comment" title="Etap produkcji"></icon-with-text>
     </div>
   </div>
 </div>
