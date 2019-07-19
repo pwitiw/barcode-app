@@ -1,15 +1,15 @@
 <div class="orders-view">
   <div class="search">
-    <search-criteria class="search-criteria"></search-criteria>
+    <search-criteria (searchClicked)="handleSearchClicked($event)"></search-criteria>
+    <h3 class="title">Lista aktywnych zamówień</h3>
     <div class="order-list">
-      <h3 class="title">Lista aktywnych zamówień</h3>
-      <div class="bricklet">
-        <order-row *ngFor="let order of orders$|async"
-                   [order]="order"
-                   (showDetailsClicked)="handleShowDetails(order)">
-        </order-row>
-      </div>
+      <order-row *ngFor="let order of orders$ | async | paginate:{totalItems: page.totalElements, itemsPerPage:page.size, currentPage: page.page}"
+                 [order]="order"
+                 (showDetailsClicked)="handleShowDetails(order)">
+      </order-row>
     </div>
+<!--     TODO loading banner dodac + zeby zmieniala sie paginacja-->
+    <pagination-controls class="pagination" (pageChange)="handlePageChanged($event)"></pagination-controls>
   </div>
   <div class="details">
     <div *ngIf="orderDetail$" id="details-container">
@@ -19,18 +19,3 @@
     </div>
   </div>
 </div>
-
-
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4>Kody kreskowe dla zamówienia TW101</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-      <span>&times;</span>
-    </button>
-  </div>
-  <div class="modal-footer">
-    <iframe [src]='sanitizer.bypassSecurityTrustResourceUrl(barcodeUrl)' width="680" height="500" frameborder="0"
-            webkitallowfullscreen mozallowfullscreen allowfullscreen>
-    </iframe>
-  </div>
-</ng-template>

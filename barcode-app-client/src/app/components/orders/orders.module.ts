@@ -7,6 +7,8 @@ import {FrontDetailComponent} from './order-detail/front-detail/front-detail.com
 import {SearchCriteriaComponent} from './search-criteria/search-criteria.component';
 import {CommonModule} from "@angular/common";
 import {CommonsModule} from "../commons/commons.module";
+import {NgxPaginationModule} from "ngx-pagination";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -17,8 +19,10 @@ import {CommonsModule} from "../commons/commons.module";
     SearchCriteriaComponent
   ],
   imports: [
-    CommonsModule,
     CommonModule,
+    CommonsModule,
+    NgxPaginationModule,
+    FormsModule
   ],
   providers: [
     OrderRestService

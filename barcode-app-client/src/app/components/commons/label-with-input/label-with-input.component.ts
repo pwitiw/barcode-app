@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'label-with-input',
@@ -7,12 +7,22 @@ import {Component, Input, OnInit, Output} from '@angular/core';
 export class LabelWithInputComponent implements OnInit {
 
   @Input() label: string;
-  @Output() order: string;
+  @Input() input;
+  @Input() type?: string;
+  @Output() inputChanged = new EventEmitter();
 
   constructor() {
   }
 
   ngOnInit() {
+    console.log(this.input);
   }
 
+  onChange(value) {
+    this.inputChanged.emit(value);
+  }
+
+  isCheckbox(){
+    return this.type  === "checkbox";
+  }
 }

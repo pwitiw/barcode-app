@@ -1,29 +1,22 @@
 package com.frontwit.barcodeapp.application.order.dto;
 
+import lombok.Getter;
 import org.springframework.util.StringUtils;
 
+
+@Getter
 public class OrderSearchCriteria {
 
-    public String name;
-    public Long barcode;
-    public String color;
-    public String cutter;
+    String name;
 
-    public static boolean isEmpty(OrderSearchCriteria searchCriteria) {
-        return searchCriteria == null
-                || (StringUtils.isEmpty(searchCriteria.name)
-                && StringUtils.isEmpty(searchCriteria.barcode)
-                && StringUtils.isEmpty(searchCriteria.color)
-                && StringUtils.isEmpty(searchCriteria.cutter));
+    public boolean empty() {
+        return StringUtils.isEmpty(this.name);
     }
 
     @Override
     public String toString() {
         return "OrderSearchCriteria{" +
                 "name='" + name + '\'' +
-                ", barcode='" + barcode + '\'' +
-                ", color='" + color + '\'' +
-                ", cutter='" + cutter + '\'' +
                 '}';
     }
 }

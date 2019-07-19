@@ -2,6 +2,7 @@ package com.frontwit.barcodeapp.application.order;
 
 import com.frontwit.barcodeapp.application.order.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.application.order.dto.OrderDto;
+import com.frontwit.barcodeapp.application.order.dto.OrderSearchCriteria;
 import com.frontwit.barcodeapp.application.order.dto.ProcessCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,8 +24,8 @@ public class OrderFacade {
         this.orderReadService = orderReadService;
     }
 
-    public Page<OrderDto> findAll(Pageable pageable) {
-        return orderReadService.findAll(pageable);
+    public Page<OrderDto> gerOrders(Pageable pageable, OrderSearchCriteria criteria) {
+        return orderReadService.getOrders(pageable, criteria);
     }
 
     public OrderDetailDto findOne(Long id) {

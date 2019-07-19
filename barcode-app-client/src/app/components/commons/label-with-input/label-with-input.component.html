@@ -1,3 +1,9 @@
 <div class="label-with-input">
-  <span class="label">{{label}}:</span><input placeholder="" [value]="order"/>
+  <span class="label">{{label}}:</span>
+  <input *ngIf="!isCheckbox();else checkbox" [type]="type" [(ngModel)]="input" (change)="onChange($event.currentTarget.value)">
 </div>
+
+<ng-template #checkbox>
+  <input [id]="label" [type]="type" [checked]="input" (click)="onChange($event.currentTarget.checked) " name="adsaw">
+
+</ng-template>

@@ -5,9 +5,7 @@ import com.frontwit.barcodeapp.application.order.dto.OrderSearchCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
 
 public interface OrderDao {
 
@@ -15,11 +13,5 @@ public interface OrderDao {
 
     Order save(Order order);
 
-    Collection<Order> findByIds(Set<Long> barcodes);
-
-    Page<Order> findAll(Pageable pageable);
-
-    Iterable<Order> save(Collection<Order> orders);
-
-    Page<Order> findForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria);
+    Page<Order> find(Pageable pageable, OrderSearchCriteria searchCriteria);
 }

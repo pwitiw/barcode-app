@@ -3,6 +3,7 @@ package com.frontwit.barcodeapp.infrastructure.rest;
 import com.frontwit.barcodeapp.application.order.OrderFacade;
 import com.frontwit.barcodeapp.application.order.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.application.order.dto.OrderDto;
+import com.frontwit.barcodeapp.application.order.dto.OrderSearchCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -18,18 +19,13 @@ public class OrderResource {
         this.orderFacade = orderFacade;
     }
 
-    @GetMapping
-    Page<OrderDto> getOrders(Pageable pageable) {
-        return orderFacade.findAll(pageable);
-    }
-
     @GetMapping("/{id}")
     OrderDetailDto getOrder(@PathVariable Long id) {
         return orderFacade.findOne(id);
     }
-//
-//    @PostMapping("/search")
-//    Page<OrderDto> getOrdersForSearchCriteria(Pageable pageable, @RequestBody OrderSearchCriteria searchCriteria) {
-//        return orderService.getOrders(pageable, searchCriteria);
-//    }
+
+    @PostMapping
+    Page<OrderDto> getOrdersForSearchCriteria(Pageable pageable, @RequestBody(required = false) OrderSearchCriteria searchCriteria) {
+        return orderFacade.gerOrders(pageable, searchCriteria);
+    }
 }

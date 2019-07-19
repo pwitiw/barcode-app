@@ -1,4 +1,17 @@
 <div class="search-criteria">
-  <label-with-input label="Nazwa zamówienia"></label-with-input>
-  <button value="dupa"></button>
+  <h3 class="title">Wyszukiwanie zaawansowane</h3>
+  <form class="search-form" (ngSubmit)="search()">
+    <label-with-input label="Nazwa zamówienia"
+                      [input]="orderName"
+                      (inputChanged)="onOrderNameChange($event)">
+
+    </label-with-input>
+    <label-with-input label="Zakończone"
+                      type="checkbox"
+                      [input]="completed"
+                      (inputChanged)="onCompletedChange($event)">
+
+    </label-with-input>
+    <btn type="submit" class="search-btn" text="Szukaj"></btn>
+  </form>
 </div>

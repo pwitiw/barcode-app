@@ -1,7 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {OrderDetails} from 'src/app/components/orders/order-detail/OrderDetails';
+import {OrderDetails} from 'src/app/components/orders/types/OrderDetails';
 import {RestService} from "../../services/rest.service";
+import {map} from "rxjs/operators";
+import {Page} from "./types/Page";
+import {SearchCriteria} from "./types/SearchCriteria";
+import {SimpleOrder} from "./types/SimpleOrder";
 
 @Injectable()
 export class OrderRestService {
@@ -10,13 +14,16 @@ export class OrderRestService {
   constructor(private restService: RestService) {
   }
 
-  public getOrdersList(): Observable<any> {
-    return this.restService.get<any>(OrderRestService.ORDERS_ENDPOINT);
+  public getOrderDetails(id: number): Observable<OrderDetails> {
+    return this.restService.get<OrderDetails>(OrderRestService.ORDERS_ENDPOINT + '/' + id)
 
   }
 
-  public getOrderDetail(barcode: number): Observable<OrderDetails> {
-    return this.restService.get<OrderDetails>(OrderRestService.ORDERS_ENDPOINT + '/' + barcode)
-
+  public getOrders(page: Page<SearchCriteria>): Observable<Page<SimpleOrder[]>> {
+    return this.restService.post<any>(OrderRestService.ORDERS_ENDPOINT + '?page=' + page.page + '&size=' + page.size, page.content)
+      .pipe(
+        map(response => response.body)
+      );
   }
+
 }

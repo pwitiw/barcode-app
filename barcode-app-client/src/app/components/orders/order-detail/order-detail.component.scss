@@ -1,6 +1,6 @@
 .details-overview {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 
   .order-details {
     flex: 1;
@@ -10,23 +10,23 @@
   }
 
   .front-list {
-    margin: $margin-lg;
+    margin: $margin-md;
     flex: 1;
 
     .front-row {
       display: flex;
     }
   }
-
-  .bricklet {
-    height: 85%;
-    overflow-y: auto;
-    border-radius: 3px;
-    border: 1px solid transparent;
-    border-top: none;
-    border-bottom: 1px solid #DDD;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
-  }
+  //
+  //.bricklet {
+  //  height: 85%;
+  //  overflow-y: auto;
+  //  border-radius: 3px;
+  //  border: 1px solid transparent;
+  //  border-top: none;
+  //  border-bottom: 1px solid #DDD;
+  //  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
+  //}
 
 }
 

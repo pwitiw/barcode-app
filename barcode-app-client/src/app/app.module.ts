@@ -13,7 +13,6 @@ import {JwtInterceptor} from './auth/jwt.interceptor';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {RestService} from "./services/rest.service";
 import {OrdersModule} from "./components/orders/orders.module";
-import {CommonsModule} from "./components/commons/commons.module";
 
 @NgModule({
   declarations: [

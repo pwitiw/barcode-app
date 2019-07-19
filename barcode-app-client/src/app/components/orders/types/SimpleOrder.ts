@@ -4,4 +4,4 @@ export interface SimpleOrder {
   orderedAt: string[];
   quantity: number;
   damagedQuantity: number;
-};
+}

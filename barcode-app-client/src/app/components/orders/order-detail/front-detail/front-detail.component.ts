@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {Front} from "../Front";
+import {Front} from "../../types/Front";
 
 @Component({
   selector: 'component-detail',

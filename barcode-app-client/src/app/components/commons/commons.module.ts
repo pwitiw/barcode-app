@@ -5,6 +5,8 @@ import {LabelWithTextComponent} from "./label-with-text/label-with-text.componen
 import {IconWithTextComponent} from "./icon-with-text/icon-with-text.component";
 import {ButtonComponent} from "./button/button.component";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {FormsModule} from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -15,7 +17,8 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
   ],
   imports: [
     CommonModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule
   ],
   exports:[
     LabelWithInputComponent,

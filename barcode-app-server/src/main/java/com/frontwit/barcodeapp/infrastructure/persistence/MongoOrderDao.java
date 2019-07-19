@@ -6,12 +6,19 @@ import com.frontwit.barcodeapp.application.ports.OrderDao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.CASE_INSENSITIVE;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Repository
 public class MongoOrderDao implements OrderDao {
@@ -35,72 +42,46 @@ public class MongoOrderDao implements OrderDao {
     }
 
     @Override
-    public Collection<Order> findByIds(Set<Long> barcodes) {
-//        return repository.findByBarcodeIn(barcodes);
-        return null;
-    }
-
-    @Override
-    public Page<Order> findAll(Pageable pageable) {
-        return repository.findAll(pageable);
-    }
-
-    @Override
-    public Iterable<Order> save(Collection<Order> orders) {
-        return null;
-    }
-
-    @Override
-    public Page<Order> findForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria) {
-        return null;
+    public Page<Order> find(Pageable pageable, OrderSearchCriteria searchCriteria) {
+        if (searchCriteria == null || searchCriteria.empty()) {
+            return repository.findAll(pageable);
+        }
+        return findOrdersForCriteria(pageable, searchCriteria);
     }
 
 
-//
-//    @Override
-//    public Iterable<Order> save(Collection<Order> orders) {
-//        return repository.saveAll(orders);
-//    }
-//
-//    @Override
-//    public Page<Order> findForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria) {
-//        if (OrderSearchCriteria.isEmpty(searchCriteria)) {
-//            return findAll(pageable);
+    private Page<Order> findOrdersForCriteria(Pageable pageable, OrderSearchCriteria criteria) {
+        Criteria appliedCriterias = getAppliedCriteria(criteria);
+        Query query = Query.query(appliedCriterias).with(pageable);
+        List<Order> orders = mongoOps.find(query, Order.class);
+
+        return PageableExecutionUtils.getPage(orders, pageable, () -> repository.count());
+    }
+
+    private Criteria getAppliedCriteria(OrderSearchCriteria criteria) {
+        List<Criteria> criterias = new ArrayList<>();
+        if (isNotEmpty(criteria.getName())) {
+            Pattern pattern = Pattern.compile(criteria.getName(), CASE_INSENSITIVE);
+            criterias.add(where("name").regex(pattern));
+        }
+
+//        if (criteria.getName() != null) {
+//            criterias.add(where("name").is(criteria.getName()));
 //        }
-//        return findOrdersForCriteria(pageable, searchCriteria);
-//    }
-//
-//    private Page<Order> findOrdersForCriteria(Pageable pageable, OrderSearchCriteria searchCriteria) {
-//        Criteria appliedCriterias = getAppliedCriteria(searchCriteria);
-//        Query query = Query.query(appliedCriterias).with(pageable);
-//        List<Order> orders = mongoOps.find(query, Order.class);
-//
-//        return PageableExecutionUtils.getPage(orders, pageable, () -> repository.count());
-//    }
-//
-//    private Criteria getAppliedCriteria(OrderSearchCriteria searchCriteria) {
-//        List<Criteria> criterias = new ArrayList<>();
-//        if (searchCriteria.barcode != null) {
-//            criterias.add(where("_id").is(searchCriteria.barcode));
-//        }
-//        if (isNotEmpty(searchCriteria.name)) {
-//            Pattern pattern = Pattern.compile(searchCriteria.name, Pattern.CASE_INSENSITIVE);
-//            criterias.add(where("name").regex(pattern));
-//        }
-//        if (isNotEmpty(searchCriteria.color)) {
-//            Pattern pattern = Pattern.compile(searchCriteria.color, Pattern.CASE_INSENSITIVE);
+//        if (isNotEmpty(criteria.getColor())) {
+//            Pattern pattern = Pattern.compile(criteria.getColor(), CASE_INSENSITIVE);
 //            criterias.add(where("color").regex(pattern));
 //        }
-//        if (isNotEmpty(searchCriteria.cutter)) {
-//            Pattern pattern = Pattern.compile(searchCriteria.cutter, Pattern.CASE_INSENSITIVE);
+//        if (isNotEmpty(criteria.getCutter())) {
+//            Pattern pattern = Pattern.compile(criteria.getCutter(), CASE_INSENSITIVE);
 //            criterias.add(where("cutter").regex(pattern));
 //        }
-//        return new Criteria().andOperator(criterias.toArray(new Criteria[criterias.size()]));
-//    }
-//
-//    private boolean isNotEmpty(String arg) {
-//        return arg != null && !"".equals(arg);
-//    }
+        return new Criteria().andOperator(criterias.toArray(new Criteria[criterias.size()]));
+    }
+
+    private boolean isNotEmpty(String arg) {
+        return arg != null && !"".equals(arg);
+    }
 }
 
 interface OrderRepository extends MongoRepository<Order, Long> {
