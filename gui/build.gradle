@@ -1,0 +1,35 @@
+plugins {
+  id "com.moowork.node" version "1.2.0"
+}
+
+apply plugin: 'com.moowork.node'
+
+node {
+  version = '10.13.0'
+  npmVersion = '6.4.1'
+  download = true
+  workDir = file("${project.buildDir}/node")
+  nodeModulesDir = file("${project.projectDir}")
+}
+
+//
+////------------------------------------------------------------------------------------------------------------------------
+////    Tasks
+////------------------------------------------------------------------------------------------------------------------------
+task npmBuild(type: NpmTask) {
+  args = ['run', 'build']
+}
+
+task cleanStatics(type: Delete) {
+  group 'build client'
+  delete "./dist"
+}
+clean.dependsOn cleanStatics
+
+
+task copyStatic(type: Copy) {
+  dependsOn npmBuild
+  from "dist/"
+  into "../server/src/main/resources/public"
+}
+assemble.dependsOn copyStatic

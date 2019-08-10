@@ -1,11 +1,31 @@
-task buildAll(type: GradleBuild) {
-    group 'application'
-    setTasks([':barcode-app-client:npmUpdate', ':barcode-app-client:clean', ':barcode-app-client:buildClient',
-              ':barcode-app-server:bootJar'])
+plugins {
+    id "io.spring.dependency-management" version "1.0.8.RELEASE"
 }
 
-task bootFullApplication(type: GradleBuild) {
-    group 'application'
-    setTasks([':barcode-app-client:npmUpdate', ':barcode-app-client:clean', ':barcode-app-client:buildClient',
-              ':barcode-app-server:bootRun'])
+allprojects {
+    group = 'com.frontwit.barcode'
+    version = '0.0.1-SNAPSHOT'
+
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java-library'
+
+    sourceCompatibility = 1.11
+    targetCompatibility = 1.11
+
+    repositories {
+        jcenter()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.6.RELEASE")
+        }
+        dependencies {
+            dependency 'log4j:log4j:1.2.17'
+
+            dependency 'org.projectlombok:lombok:1.18.8'
+        }
+    }
 }

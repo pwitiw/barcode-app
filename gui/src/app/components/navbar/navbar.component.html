@@ -1,0 +1,18 @@
+<div>
+  <div class="navbar">
+    <nav class="nav-items nav-items-left">
+      <div class="nav-link-brand">
+        <a routerLink="/main"><img src="/assets/frontwitlogo.jpg"></a>
+      </div>
+      <div *ngIf="isAuthenticated()" class="nav-link">
+        <a routerLink="/main">STRONA GŁÓWNA</a>
+      </div>
+      <div *ngIf="isAuthenticated()" class="nav-link">
+        <a routerLink="/orders">ZAMÓWIENIA</a>
+      </div>
+    </nav>
+    <nav *ngIf="isAuthenticated()" class="nav-items nav-items-right">
+      <a routerLink="/login" (click)="logout()">WYLOGUJ [{{loggedUser}}]</a>
+    </nav>
+  </div>
+</div>

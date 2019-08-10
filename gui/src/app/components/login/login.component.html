@@ -1,0 +1,23 @@
+<div class="login-view">
+  <div class="tile">
+    <h1 class=tile-header>Zaloguj się</h1>
+  </div>
+  <div class="login-form">
+    <form (ngSubmit)="login()">
+      <div class="col-input">
+<!--         todo tutaj trza ogarnac-->
+<!--        <label-with-input [(ngModel)]="password" placeholder="Nazwa użytkownika"></label-with-input>-->
+        <input type="text" class="form-control" autocomplete="off" placeholder="Nazwa użytkownika" name="username"
+               [(ngModel)]="username">
+        <input type="password" class="form-control" autocomplete="off" placeholder="Hasło" name="password"
+               [(ngModel)]="password">
+      </div>
+      <span *ngIf="this.authFailed" class="auth-failed">Nieprawidłowy login lub hasło</span>
+      <div class="confirm">
+        <button type="submit" class="btn-confirm">
+          Log in
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

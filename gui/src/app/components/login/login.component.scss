@@ -1,0 +1,37 @@
+.login-view {
+  text-align: center;
+
+  .tile {
+    padding: $padding-lg;
+  }
+
+  .login-form {
+    color: $font-color;
+    width: 75%;
+
+    .confirm {
+      padding: $padding-md;
+    }
+  }
+
+
+  //}
+  //
+  //.container {
+  //  width: 75%;
+  //  text-align: center;
+  //
+  //  .form-control {
+  //    margin-bottom: 25px;
+  //  }
+
+  //.btn-confirm {
+  //  @include button($line-height, 50%, #000000);
+  //}
+
+
+  .auth-failed {
+    color: red;
+  }
+
+}
