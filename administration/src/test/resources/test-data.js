@@ -27,14 +27,14 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     },
                     {
                         "stage": "POLISHING",
-                        "date": "2019-01-18T23:00:00.000Z"
+                        "date": ISODate("2019-01-18T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -46,14 +46,14 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     },
                     {
                         "stage": "POLISHING",
-                        "date": "2019-01-18T23:00:00.000Z"
+                        "date": ISODate("2019-01-18T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -65,14 +65,14 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "POLISHING",
-                        "date": "2019-01-18T23:00:00.000Z"
+                        "date": ISODate("2019-01-18T23:00:00.000+0000")
                     },
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -85,14 +85,14 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     },
                     {
                         "stage": "POLISHING",
-                        "date": "2019-01-18T23:00:00.000Z"
+                        "date": ISODate("2019-01-18T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -104,14 +104,14 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     },
                     {
                         "stage": "POLISHING",
-                        "date": "2019-01-18T23:00:00.000Z"
+                        "date": ISODate("2019-01-18T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -123,26 +123,25 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "POLISHING",
-                        "date": "2019-01-18T23:00:00.000Z"
+                        "date": ISODate("2019-01-18T23:00:00.000+0000")
                     },
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             }
         ],
-        "orderedAt": "2017-05-07",
+        "orderedAt": ISODate("2017-05-07"),
         "stage": "MILLING",
         "color": "BIAŁY POŁYSK",
         "size": "18MM",
         "cutter": "F21",
         "comment": "expres",
         "customer": "Customer 1",
-        "extId": 99,
-        "_class": "com.frontwit.barcodeapp.model.Order"
+        "extId": 99
     },
     {
         "_id": 100026000,
@@ -158,10 +157,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -173,10 +172,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -188,10 +187,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -203,10 +202,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -218,10 +217,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -233,10 +232,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -248,10 +247,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -263,10 +262,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -278,10 +277,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -293,10 +292,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -308,10 +307,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -323,10 +322,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -338,10 +337,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -353,10 +352,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -368,10 +367,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -383,10 +382,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -398,10 +397,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -413,10 +412,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -428,10 +427,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -443,10 +442,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -458,10 +457,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -473,10 +472,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -488,10 +487,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -503,10 +502,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -518,10 +517,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -533,10 +532,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -548,10 +547,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -563,10 +562,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -578,10 +577,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -593,10 +592,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -608,10 +607,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -623,10 +622,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -638,10 +637,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -653,10 +652,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -668,10 +667,10 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             },
             {
@@ -683,22 +682,21 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             }
         ],
-        "orderedAt": "2017-05-03",
+        "orderedAt": ISODate("2017-05-03"),
         "stage": "MILLING",
         "color": "NCS S 1510 Y70R MAT",
         "size": "18MM",
         "cutter": "F21",
         "comment": "przy pakowaniu porownac z probka w biurze; 26",
         "customer": "Customer 2",
-        "extId": 31,
-        "_class": "com.frontwit.barcodeapp.model.Order"
+        "extId": 31
     },
     {
         "_id": 100016000,
@@ -714,38 +712,38 @@ db.order.insertMany([
                 "processingHistory": [
                     {
                         "stage": "PAINTING",
-                        "date": "2019-01-18T23:00:00.000Z"
+                        "date": ISODate("2019-01-18T23:00:00.000+0000")
                     },
                     {
                         "stage": "PACKING",
-                        "date": "2019-01-19T23:00:00.000Z"
+                        "date": ISODate("2019-01-19T23:00:00.000+0000")
                     },
                     {
                         "stage": "BASE",
-                        "date": "2019-01-16T23:00:00.000Z"
+                        "date": ISODate("2019-01-16T23:00:00.000+0000")
                     },
                     {
                         "stage": "SENT",
-                        "date": "2019-01-20T23:00:00.000Z"
+                        "date": ISODate("2019-01-20T23:00:00.000+0000")
                     },
                     {
                         "stage": "POLISHING",
-                        "date": "2019-01-15T23:00:00.000Z"
+                        "date": ISODate("2019-01-15T23:00:00.000+0000")
                     },
                     {
                         "stage": "MILLING",
-                        "date": "2019-01-14T23:00:00.000Z"
+                        "date": ISODate("2019-01-14T23:00:00.000+0000")
                     },
                     {
                         "stage": "GRINDING",
-                        "date": "2019-01-17T23:00:00.000Z"
+                        "date": ISODate("2019-01-17T23:00:00.000+0000")
                     }
                 ],
-                "lastModification": "2019-01-17T23:00:00.000Z",
+                "lastModification": ISODate("2019-01-17T23:00:00.000+0000"),
                 "damaged": false
             }
         ],
-        "orderedAt": "2017-05-03",
+        "orderedAt": ISODate("2017-05-03"),
         "stage": "MILLING",
         "color": "BIAŁY POŁYSK",
         "size": "18MM",
@@ -753,6 +751,5 @@ db.order.insertMany([
         "comment": "paprochy na uchwycie i przepolerowania; powierzona",
         "customer": "Customer 3",
         "extId": 21,
-        "_class": "com.frontwit.barcodeapp.model.Order"
     }
 ]);

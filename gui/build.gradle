@@ -12,11 +12,7 @@ node {
   nodeModulesDir = file("${project.projectDir}")
 }
 
-//
-////------------------------------------------------------------------------------------------------------------------------
-////    Tasks
-////------------------------------------------------------------------------------------------------------------------------
-task npmBuild(type: NpmTask) {
+task npmBuild(type: NpmTask, dependsOn: npm_install) {
   args = ['run', 'build']
 }
 
@@ -24,12 +20,11 @@ task cleanStatics(type: Delete) {
   group 'build client'
   delete "./dist"
 }
-clean.dependsOn cleanStatics
 
-
-task copyStatic(type: Copy) {
-  dependsOn npmBuild
+task copyStatic(type: Copy, dependsOn: npmBuild) {
   from "dist/"
-  into "../server/src/main/resources/public"
+  into "../administration/src/main/resources/public"
 }
+
 assemble.dependsOn copyStatic
+clean.dependsOn cleanStatics

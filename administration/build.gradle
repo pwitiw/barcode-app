@@ -38,6 +38,7 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
     }
 }
+
 task cleanStatics(type: Delete) {
     delete "src/main/resources/public"
 }

@@ -17,6 +17,7 @@ allprojects {
     repositories {
         jcenter()
     }
+    
 
     dependencyManagement {
         imports {
@@ -29,3 +30,5 @@ allprojects {
         }
     }
 }
+
+build.dependsOn("administration:build").mustRunAfter("gui:build")
