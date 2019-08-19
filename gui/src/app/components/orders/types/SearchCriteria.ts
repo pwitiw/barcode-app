@@ -1,3 +1,4 @@
 export class SearchCriteria {
-  name?: string;
+    name?: string;
+    completed?: boolean;
 }

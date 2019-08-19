@@ -14,6 +14,6 @@ public class OrderSearchCriteria {
 
     public boolean empty() {
         return StringUtils.isEmpty(this.name)
-                || completed != null;
+                && completed == null;
     }
 }

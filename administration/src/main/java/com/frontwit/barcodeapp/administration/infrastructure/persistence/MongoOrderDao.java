@@ -16,11 +16,8 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Repository
 public class MongoOrderDao implements OrderDao {
@@ -72,43 +69,18 @@ public class MongoOrderDao implements OrderDao {
         return PageableExecutionUtils.getPage(orders, pageable, () -> repository.count());
     }
 
-    private void applyCriteria(Query query, OrderSearchCriteria criteria) {
-        if (isNotEmpty(criteria.getName())) {
-            var c = Criteria.where("name").regex(format("^%s", criteria.getName()), "i");
-            query.addCriteria(c);
+    private void applyCriteria(Query query, OrderSearchCriteria searchCriteria) {
+        var criteria = new Criteria();
+        if (isNotEmpty(searchCriteria.getName())) {
+            criteria.and("name").regex(format("^%s", searchCriteria.getName()), "i");
         }
-//        if (criteria.getName() != null) {
-//            criterias.add(where("name").is(criteria.getName()));
-//        }
-//        if (isNotEmpty(criteria.getColor())) {
-//            Pattern pattern = Pattern.compile(criteria.getColor(), CASE_INSENSITIVE);
-//            criterias.add(where("color").regex(pattern));
-//        }
-//        if (isNotEmpty(criteria.getCutter())) {
-//            Pattern pattern = Pattern.compile(criteria.getCutter(), CASE_INSENSITIVE);
-//            criterias.add(where("cutter").regex(pattern));
-//        }
+        if (searchCriteria.getCompleted() != null && searchCriteria.getCompleted()) {
+            criteria.and("isCompleted").is(true);
+        } else {
+            criteria.and("isCompleted").is(false);
+        }
+        query.addCriteria(criteria);
     }
-//    private Criteria applyCriteria(OrderSearchCriteria criteria) {
-//        List<Criteria> criterias = new ArrayList<>();
-//        if (isNotEmpty(criteria.getName())) {
-//            Pattern pattern = Pattern.compile(criteria.getName(), CASE_INSENSITIVE);
-//            criterias.add(where("name").regex(pattern));
-//        }
-//        query.addCriteria(Criteria.where("tagName").regex(tagName));
-////        if (criteria.getName() != null) {
-////            criterias.add(where("name").is(criteria.getName()));
-////        }
-////        if (isNotEmpty(criteria.getColor())) {
-////            Pattern pattern = Pattern.compile(criteria.getColor(), CASE_INSENSITIVE);
-////            criterias.add(where("color").regex(pattern));
-////        }
-////        if (isNotEmpty(criteria.getCutter())) {
-////            Pattern pattern = Pattern.compile(criteria.getCutter(), CASE_INSENSITIVE);
-////            criterias.add(where("cutter").regex(pattern));
-////        }
-//        return new Criteria().andOperator(criterias.toArray(new Criteria[criterias.size()]));
-//    }
 
     private boolean isNotEmpty(String arg) {
         return arg != null && !"".equals(arg);
