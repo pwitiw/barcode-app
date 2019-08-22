@@ -10,10 +10,10 @@ export class NavbarComponent implements OnInit {
   loggedUser: string;
 
   constructor(private authService: AuthService) {
-    this.loggedUser = authService.getLoggedUser();
   }
 
   ngOnInit() {
+    this.loggedUser = this.authService.getLoggedUser().toLocaleUpperCase();
   }
 
   logout() {

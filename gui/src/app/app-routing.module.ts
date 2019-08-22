@@ -3,7 +3,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {OrdersComponent} from './components/orders/orders.component';
 import {LoginComponent} from './components/login/login.component';
 import {AuthGuardService} from './auth/auth-guard.service';
-import {MainComponent} from "./components/main/main.component";
 
 const routes: Routes = [
   {
@@ -12,17 +11,12 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
-    path: 'main',
-    component: MainComponent,
-    canActivate: [AuthGuardService]
-  },
-  {
     path: 'login',
     component: LoginComponent
   },
   {
     path: '**',
-    redirectTo: '/main',
+    redirectTo: '/orders',
     pathMatch: 'full'
   },
 ];

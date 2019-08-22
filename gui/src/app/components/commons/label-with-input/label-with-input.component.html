@@ -1,6 +1,6 @@
 <div class="label-with-input">
   <span class="label">{{label}}:</span>
-  <input *ngIf="!isCheckbox();else checkbox" [type]="type" [(ngModel)]="input" (change)="onChange($event.currentTarget.value)">
+  <input *ngIf="!isCheckbox();else checkbox" [type]="type" (change)="onChange($event.currentTarget.value)">
 </div>
 
 <ng-template #checkbox>

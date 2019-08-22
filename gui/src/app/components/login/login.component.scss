@@ -6,31 +6,20 @@
   }
 
   .login-form {
-    color: $font-color;
-    width: 75%;
+    display: inline-block;
+
+    .inputs {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
 
     .confirm {
       padding: $padding-md;
     }
   }
 
-
-  //}
-  //
-  //.container {
-  //  width: 75%;
-  //  text-align: center;
-  //
-  //  .form-control {
-  //    margin-bottom: 25px;
-  //  }
-
-  //.btn-confirm {
-  //  @include button($line-height, 50%, #000000);
-  //}
-
-
-  .auth-failed {
+  .error {
     color: red;
   }
 

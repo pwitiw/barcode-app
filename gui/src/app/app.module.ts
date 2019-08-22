@@ -2,7 +2,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {MainComponent} from './components/main/main.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {LoginComponent} from './components/login/login.component';
@@ -19,7 +18,6 @@ import {CommonsModule} from "./components/commons/commons.module";
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
     NavbarComponent,
     LoginComponent,
   ],

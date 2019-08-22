@@ -1,8 +1,11 @@
 package com.frontwit.barcodeapp.administration.infrastructure.security;
 
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -19,6 +22,8 @@ public class UserService implements UserDetailsService {
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-       return userRepository.findByUsername(username);
+        var user = userRepository.findByUsername(username);
+        return Optional.ofNullable(user)
+                .orElseThrow(()-> new AuthenticationServiceException("User does not exist"));
     }
 }

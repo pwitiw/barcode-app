@@ -9,8 +9,6 @@ export class LabelWithInputComponent implements OnInit {
   @Input() label: string;
   @Input() input;
   @Input() type?: string;
-  @Input() placeholder?: string;
-
   @Output() inputChanged = new EventEmitter();
 
   constructor() {
