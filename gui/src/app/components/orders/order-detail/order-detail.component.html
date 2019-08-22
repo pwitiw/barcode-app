@@ -1,27 +1,38 @@
 <div class="details-overview">
-  <div class="order-details">
-    <!--TODO tutaj ikonki-->
-    <h3>Szczegóły zamówienia</h3>
-    <label-with-text label="Nazwa" text="{{order?.name}}"></label-with-text>
-    <label-with-text label="Kolor" text="{{order?.color}}"></label-with-text>
-    <label-with-text label="Klient" text="{{order?.customer}}"></label-with-text>
-    <label-with-text label="Etap Produkcji" [text]="getStage(order?.stage)"></label-with-text>
-    <label-with-text label="Data zlecenia" text="{{order?.orderedAt}}"></label-with-text>
-    <label-with-text label="Sztuk" text="{{order?.size}}"></label-with-text>
-    <label-with-text label="Frez" text="{{order?.cutter}}"></label-with-text>
-    <label-with-text label="Komentarz" text="{{order?.comment}}"></label-with-text>
-  </div>
-<!--TODO tutaj jak beda rozne dlugosci kodow, rozne wymiary to kiepsko wygladac bedzie, poprawic-->
-  <div class="front-list">
-    <h3>Lista elementów</h3>
-    <div class="front-row" *ngFor="let front of order?.components;let i = index">
-      <span>{{i + 1}}.</span>
-      <icon-with-text [icon]="iconHeight" [text]="front.height" title="Wysokość"></icon-with-text>
-      <icon-with-text [icon]="iconWidth" [text]="front.width" title="Szerokość"></icon-with-text>
-      <icon-with-text [icon]="iconBarcode" [text]="front.barcode" title="Kod kreskowy"></icon-with-text>
-      <icon-with-text [icon]="iconQuantity" [text]="front.quantity" title="Ilość"></icon-with-text>
-      <icon-with-text [icon]="iconStage" [text]="getStage(front.stage)" title="Etap produkcji"></icon-with-text>
-      <icon-with-text [icon]="iconComment" [text]="front.comment" title="Etap produkcji"></icon-with-text>
+    <div class="order-details">
+        <!--TODO tutaj ikonki-->
+        <h3>Szczegóły zamówienia</h3>
+        <icon-with-text [icon]="iconName" [text]="order?.name" title="Numer zamówienia"></icon-with-text>
+        <icon-with-text [icon]="iconPalette" [text]="order?.color" title="Kolor"></icon-with-text>
+        <icon-with-text [icon]="iconCustomer" [text]="order?.customer" title="Klient"></icon-with-text>
+        <icon-with-text [icon]="iconStage" [text]="getStage(order?.stage)"
+                        title="Etap produkcji"></icon-with-text>
+        <icon-with-text [icon]="iconCalendar" [text]="order?.orderedAt" title="Data zlecenia"></icon-with-text>
+        <icon-with-text [icon]="iconWidth" [text]="order?.size" title="Grubość płyty"></icon-with-text>
+        <icon-with-text [icon]="iconCutter" [text]="order?.cutter" title="Frez"></icon-with-text>
+        <icon-with-text [icon]="iconComment" [text]="order?.comment" title="Komentarz"></icon-with-text>
+
     </div>
-  </div>
+    <!--TODO tutaj jak beda rozne dlugosci kodow, rozne wymiary to kiepsko wygladac bedzie, poprawic-->
+    <div class="front-list">
+        <h3>Lista elementów</h3>
+        <div class="front-row" *ngFor="let front of order?.components;let i = index">
+            <span><b>{{i + 1}}.</b></span>
+            <div class="row-details">
+                <div class="group">
+                    <icon-with-text [icon]="iconHeight" [text]="front?.height" title="Wysokość"></icon-with-text>
+                    <icon-with-text [icon]="iconWidth" [text]="front?.width" title="Szerokość"></icon-with-text>
+                    <icon-with-text [icon]="iconQuantity" [text]="front?.quantity" title="Ilość"></icon-with-text>
+                </div>
+                <div class="group">
+                    <icon-with-text [icon]="iconBarcode" [text]="front?.barcode" title="Kod kreskowy"></icon-with-text>
+                    <icon-with-text [icon]="iconStage" [text]="getStage(front?.stage)"
+                                    title="Etap produkcji"></icon-with-text>
+                </div>
+                <div class="group" *ngIf="front.comment">
+                    <icon-with-text [icon]="iconComment" [text]="front?.comment" title="Komentarz"></icon-with-text>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
