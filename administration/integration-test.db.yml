@@ -1,25 +1,23 @@
 version: '3'
 
 services:
-  mongodb:
+  mongodb-it:
     image: mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: frontwit
     ports:
-      - 27017:27017
+      - 27018:27017
     volumes:
-      - "./administration/src/test/resources:/docker-entrypoint-initdb.d"
+      - "./src/test/resources:/docker-entrypoint-initdb.d"
 
-  mysql:
+  mysql-it:
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: frontwit
       MYSQL_USER: patryk
       MYSQL_PASSWORD: password
     ports:
-      - 3306:3306
-    volumes:
-      - "./administration/src/test/resources:/docker-entrypoint-initdb.d"
+      - 33060:3306

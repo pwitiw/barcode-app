@@ -26,7 +26,7 @@ class OrderProcessingService {
     public void update(List<ProcessCommand> commands) {
         commands
                 .forEach(command -> {
-                    long id = BarcodeConverter.toId(command.getBarcode());
+                    long id = BarcodeConverterImpl.toId(command.getBarcode());
                     Order order = orderDao
                             .findOne(id)
                             .orElse(synchronize(id));

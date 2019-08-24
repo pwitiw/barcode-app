@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class OrderTest {
 
@@ -20,7 +20,7 @@ public class OrderTest {
         int stage = 1;
         Order order = createOrder(extId, 1);
         ProcessCommand process =
-                new ProcessCommand(BarcodeConverter.toBarcode(extId) + 1, stage, LocalDateTime.now());
+                new ProcessCommand(new BarcodeConverterImpl().toBarcode(extId) + 1, stage, LocalDateTime.now());
         //  when
         order.update(process);
         //  then
@@ -45,7 +45,7 @@ public class OrderTest {
 
 
     private Order createOrder(long id, int componentsNr) {
-        long barcode = BarcodeConverter.toBarcode(id);
+        long barcode = new BarcodeConverterImpl().toBarcode(id);
         Set<Component> components = IntStream.range(1, componentsNr + 1)
                 .mapToObj(i -> Component
                         .builder()
