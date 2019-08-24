@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class Order {
     @NotNull
     private String name;
     @NotNull
-    private Set<Component> components ;
+    private Set<Component> components;
     @CreatedDate
     private LocalDate orderedAt;
     private String color;
@@ -64,7 +65,7 @@ public class Order {
                 .size(size)
                 .cutter(cutter)
                 .customer(customer)
-                .stage(stage.name())
+                .stage(Optional.ofNullable(stage).map(Enum::name).orElse(""))
                 .comment(comment)
                 .orderedAt(orderedAt)
                 .components(componentDtos)

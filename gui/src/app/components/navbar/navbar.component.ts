@@ -2,25 +2,26 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../auth/auth.service";
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html'
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
 
-  loggedUser: string;
+    loggedUser: string;
 
-  constructor(private authService: AuthService) {
-  }
+    constructor(private authService: AuthService) {
+    }
 
-  ngOnInit() {
-    this.loggedUser = this.authService.getLoggedUser().toLocaleUpperCase();
-  }
+    ngOnInit() {
+        const loggedUser = this.authService.getLoggedUser();
+        this.loggedUser = loggedUser ? loggedUser.toLocaleUpperCase() : "";
+    }
 
-  logout() {
-    this.authService.logout();
-  }
+    logout() {
+        this.authService.logout();
+    }
 
-  isAuthenticated() {
-    return this.authService.isAuthenticated();
-  }
+    isAuthenticated() {
+        return this.authService.isAuthenticated();
+    }
 }

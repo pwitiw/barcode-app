@@ -4,13 +4,10 @@ import com.frontwit.barcodeapp.administration.application.order.dto.OrderDetailD
 import com.frontwit.barcodeapp.administration.application.order.dto.OrderDto;
 import com.frontwit.barcodeapp.administration.application.order.dto.OrderSearchCriteria;
 import com.frontwit.barcodeapp.administration.application.order.dto.ProcessCommand;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Component
@@ -20,7 +17,6 @@ public class OrderFacade {
 
     private OrderReadService orderReadService;
 
-    @Autowired
     public OrderFacade(OrderProcessingService orderProcessingService, OrderReadService orderReadService) {
         this.orderProcessingService = orderProcessingService;
         this.orderReadService = orderReadService;

@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.infrastructure.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@AllArgsConstructor
 public class JWTAuthFilter extends OncePerRequestFilter {
 
-    @Autowired
     AuthService authService;
 
     @Override

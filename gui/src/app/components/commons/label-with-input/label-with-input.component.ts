@@ -15,7 +15,6 @@ export class LabelWithInputComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.input);
   }
 
   onChange(value) {

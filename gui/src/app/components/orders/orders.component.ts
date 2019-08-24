@@ -45,10 +45,8 @@ export class OrdersComponent implements OnInit {
     };
     this.orderService.getOrders(page).subscribe(result => {
       this.totalElements = result.totalElements;
-      // TODO pwitiw remove this
       this.handleShowDetails(result.content[0]);
       this.orders = result.content;
-      // this.orders= result.content.concat(result.content).concat(result.content).concat(result.content).concat(result.content))
     });
   }
 

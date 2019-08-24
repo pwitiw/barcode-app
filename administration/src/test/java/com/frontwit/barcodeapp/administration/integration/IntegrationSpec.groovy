@@ -1,7 +1,7 @@
-package com.frontwit.barcodeapp.administration.integration.base
+package com.frontwit.barcodeapp.administration.integration
 
-import com.frontwit.barcodeapp.server.ServerApplication
-import com.frontwit.barcodeapp.server.infrastructure.config.Profiles
+import com.frontwit.barcodeapp.administration.AdministrationApplication
+import com.frontwit.barcodeapp.administration.infrastructure.config.Profiles
 import org.junit.Before
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -14,7 +14,7 @@ import spock.lang.Specification
 
 import javax.transaction.Transactional
 
-@SpringBootTest(classes = [ServerApplication])
+@SpringBootTest(classes = [AdministrationApplication])
 @ActiveProfiles([Profiles.TEST])
 @Transactional
 @Rollback

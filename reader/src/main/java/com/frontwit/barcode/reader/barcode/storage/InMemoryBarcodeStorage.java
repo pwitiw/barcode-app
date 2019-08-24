@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-// todo komentarz
 public class InMemoryBarcodeStorage implements BarcodeStorage {
 
     private Set<BarcodeCommand> commands = new HashSet<>();

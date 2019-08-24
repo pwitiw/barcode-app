@@ -1,16 +1,15 @@
 package com.frontwit.barcodeapp.administration.integration
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.frontwit.barcodeapp.server.application.order.OrderFacade
-import com.frontwit.barcodeapp.server.application.order.Stage
-import com.frontwit.barcodeapp.server.application.order.dto.OrderDetailDto
-import com.frontwit.barcodeapp.server.integration.base.IntegrationSpec
+import com.frontwit.barcodeapp.administration.application.order.OrderFacade
+import com.frontwit.barcodeapp.administration.application.order.Stage
+import com.frontwit.barcodeapp.administration.application.order.dto.OrderDetailDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.test.web.servlet.ResultActions
 
-import static com.frontwit.barcodeapp.server.integration.Fixtures.aProcessCommandAsJson
+import static com.frontwit.barcodeapp.administration.integration.Fixtures.aProcessCommandJson
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -25,7 +24,7 @@ class OrderProcessingScenarios extends IntegrationSpec {
     def "process order should synchronize and process order"() {
         given:
         long orderId = 1L
-        String json = aProcessCommandAsJson(orderId, objectMapper)
+        String json = aProcessCommandJson(orderId, objectMapper)
 
         when: "process commands are sent"
         RequestBuilder request = post("/api/process")
