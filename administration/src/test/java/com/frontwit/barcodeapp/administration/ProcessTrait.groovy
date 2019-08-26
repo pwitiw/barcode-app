@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 trait ProcessTrait {
 
-    String aJsonProcessCommand(Long barcode, Stage stage, ObjectMapper mapper) throws JsonProcessingException {
+    String aJsonProcessCommands(Long barcode, Stage stage, ObjectMapper mapper) throws JsonProcessingException {
         ProcessCommand processCommand = new ProcessCommand(barcode, stage.getId(), LocalDateTime.now());
         return "[" + mapper.writeValueAsString(processCommand) + "]"
     }

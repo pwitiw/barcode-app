@@ -35,7 +35,7 @@ public class OrderProcessingServiceTest {
         MockitoAnnotations.initMocks(this);
         orderSynchronizer = Mockito.mock(SynchronizationFacade.class);
         orderDao = new InMemoryOrderDao();
-        sut = new OrderProcessingService(orderDao, orderSynchronizer);
+        sut = new OrderProcessingService(orderDao, orderSynchronizer, new BarcodeConverterImpl());
     }
 
     @Test

@@ -2,6 +2,8 @@ package com.frontwit.barcodeapp.administration.application.synchronization;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.frontwit.barcodeapp.administration.application.order.dto.OrderDetailDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,8 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 class Order {
     private static final Logger LOG = LoggerFactory.getLogger(Order.class);
 

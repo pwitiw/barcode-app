@@ -3,6 +3,7 @@ package com.frontwit.barcodeapp.administration.application.order;
 import com.frontwit.barcodeapp.administration.application.order.dto.ProcessCommand;
 import com.frontwit.barcodeapp.administration.application.ports.OrderDao;
 import com.frontwit.barcodeapp.administration.application.synchronization.SynchronizationFacade;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,21 +13,18 @@ import java.util.List;
 import static java.lang.String.format;
 
 @Service
+@AllArgsConstructor
 class OrderProcessingService {
     private static final Logger LOG = LoggerFactory.getLogger(OrderProcessingService.class);
 
     private OrderDao orderDao;
     private SynchronizationFacade orderSynchronizer;
-
-    public OrderProcessingService(OrderDao orderDao, SynchronizationFacade orderSynchronizer) {
-        this.orderDao = orderDao;
-        this.orderSynchronizer = orderSynchronizer;
-    }
+    private BarcodeConverter barcodeConverter;
 
     public void update(List<ProcessCommand> commands) {
         commands
                 .forEach(command -> {
-                    long id = BarcodeConverterImpl.toId(command.getBarcode());
+                    long id = barcodeConverter.toId(command.getBarcode());
                     Order order = orderDao
                             .findOne(id)
                             .orElse(synchronize(id));
