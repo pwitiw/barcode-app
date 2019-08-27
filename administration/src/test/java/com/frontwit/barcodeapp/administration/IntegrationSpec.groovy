@@ -1,6 +1,7 @@
 package com.frontwit.barcodeapp.administration
 
 import com.frontwit.barcodeapp.administration.application.order.Order
+import com.frontwit.barcodeapp.administration.processing.infrastructure.persistence.OrderRepository
 import groovy.transform.TypeChecked
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -20,6 +21,9 @@ abstract class IntegrationSpec extends Specification {
 
     @Autowired
     MongoTemplate mongoTemplate
+
+    @Autowired
+    OrderRepository orderRepository
 
     @Autowired
     WebApplicationContext webApplicationContext

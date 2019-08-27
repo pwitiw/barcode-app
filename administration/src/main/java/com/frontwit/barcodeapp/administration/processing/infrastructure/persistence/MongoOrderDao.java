@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp.administration.infrastructure.persistence;
+package com.frontwit.barcodeapp.administration.processing.infrastructure.persistence;
 
 import com.frontwit.barcodeapp.administration.application.order.Order;
 import com.frontwit.barcodeapp.administration.application.order.dto.OrderSearchCriteria;

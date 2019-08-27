@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class OrderFacade {
+public class ProcessOrderService {
 
     private OrderProcessingService orderProcessingService;
 
     private OrderReadService orderReadService;
 
-    public OrderFacade(OrderProcessingService orderProcessingService, OrderReadService orderReadService) {
+    public ProcessOrderService(OrderProcessingService orderProcessingService, OrderReadService orderReadService) {
         this.orderProcessingService = orderProcessingService;
         this.orderReadService = orderReadService;
     }

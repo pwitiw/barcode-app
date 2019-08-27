@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.infrastructure.rest;
 
-import com.frontwit.barcodeapp.administration.application.order.OrderFacade;
+import com.frontwit.barcodeapp.administration.application.order.ProcessOrderService;
 import com.frontwit.barcodeapp.administration.application.order.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.administration.application.order.dto.OrderDto;
 import com.frontwit.barcodeapp.administration.application.order.dto.OrderSearchCriteria;
@@ -8,16 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-
 @CrossOrigin
 @RestController
 @RequestMapping("/api/orders")
 public class OrderResource {
 
-    private OrderFacade orderFacade;
+    private ProcessOrderService orderFacade;
 
-    public OrderResource(OrderFacade orderFacade) {
+    public OrderResource(ProcessOrderService orderFacade) {
         this.orderFacade = orderFacade;
     }
 

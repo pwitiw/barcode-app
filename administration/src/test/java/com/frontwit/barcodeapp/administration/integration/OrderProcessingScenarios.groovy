@@ -21,13 +21,13 @@
 //    @Autowired
 //    ObjectMapper objectMapper
 //
-//    def "process order should synchronize and process order"() {
+//    def "apply order should synchronize and apply order"() {
 //        given:
 //        long orderId = 1L
 //        String json = aProcessCommandJson(orderId, objectMapper)
 //
-//        when: "process commands are sent"
-//        RequestBuilder request = post("/api/process")
+//        when: "apply commands are sent"
+//        RequestBuilder request = post("/api/apply")
 //                .contentType(MediaType.APPLICATION_JSON)
 //                .content("[${json}]")
 //        ResultActions processOrder = mockMvc.perform(request)
