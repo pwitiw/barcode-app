@@ -1,8 +1,8 @@
 package com.frontwit.barcode.reader;
 
-import com.frontwit.barcode.reader.barcode.BarcodeCommand;
+import com.frontwit.barcode.reader.application.ProcessBarcodeCommand;
 import com.frontwit.barcode.reader.barcode.CommandGateway;
-import com.frontwit.barcode.reader.barcode.KeyboardListener;
+import com.frontwit.barcode.reader.infrastructure.listener.BarcodeListener;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,20 +14,18 @@ import static org.jnativehook.keyboard.NativeKeyEvent.VC_1;
 import static org.jnativehook.keyboard.NativeKeyEvent.VC_ENTER;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class KeyboardListenerTest {
 
-    private KeyboardListener sut;
+    private BarcodeListener sut;
     private CommandGateway mockedCommandGateway;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         mockedCommandGateway = mock(CommandGateway.class);
-        sut = new KeyboardListener(mockedCommandGateway);
+        sut = new BarcodeListener(mockedCommandGateway);
     }
 
     @Test
@@ -41,9 +39,9 @@ public class KeyboardListenerTest {
         sut.nativeKeyPressed(event2);
         sut.nativeKeyPressed(event3);
         //  then
-        ArgumentCaptor<BarcodeCommand> argument = ArgumentCaptor.forClass(BarcodeCommand.class);
+        ArgumentCaptor<ProcessBarcodeCommand> argument = ArgumentCaptor.forClass(ProcessBarcodeCommand.class);
         verify(mockedCommandGateway, times(1)).fire(argument.capture());
-        BarcodeCommand command = argument.getValue();
+        ProcessBarcodeCommand command = argument.getValue();
         assertThat(command.getReaderId().toString(), is(NativeKeyEvent.getKeyText(VC_1)));
         assertThat(command.getBarcode().toString(), is(NativeKeyEvent.getKeyText(VC_1)));
     }

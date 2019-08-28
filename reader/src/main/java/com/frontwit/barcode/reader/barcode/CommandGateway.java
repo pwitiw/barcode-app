@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class CommandGateway {
 
-    private final Map<Class<? extends Command>, CommandHandler> handlers = new HashMap<>();
+    private final Map<Class<? extends Event>, CommandHandler> handlers = new HashMap<>();
 
     public CommandHandler register(CommandHandler commandHandler) {
         if (handlers.containsKey(commandHandler.getType())) {
@@ -14,12 +14,12 @@ public class CommandGateway {
         return handlers.put(commandHandler.getType(), commandHandler);
     }
 
-    public void fire(Command command) {
-        CommandHandler handler = handlers.get(command.getClass());
+    public void fire(Event event) {
+        CommandHandler handler = handlers.get(event.getClass());
         if (handler == null) {
-            throw new CommandHandlerNotFoundException(command.getClass());
+            throw new CommandHandlerNotFoundException(event.getClass());
         }
-        handler.handle(command);
+        handler.handle(event);
     }
 
 }

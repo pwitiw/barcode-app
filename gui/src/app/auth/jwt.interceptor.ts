@@ -7,7 +7,7 @@ import {AuthService} from "./auth.service";
 export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {
   }
-// TODO pwitiw ogarnac tutaj tego local storage
+// TODO pwitiw ogarnac tutaj tego local store
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (localStorage.currentUser && localStorage.currentUserToken) {
       request = request.clone({
