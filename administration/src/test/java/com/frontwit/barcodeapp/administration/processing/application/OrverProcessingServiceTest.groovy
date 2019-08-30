@@ -22,8 +22,8 @@
 //        1 * eventDispatcher.emit(frontProcessed())
 //    }
 //
-//    FrontProcessed frontProcessed(barcode, status) {
-//        return new FrontProcessed(barcode, status)
+//    FrontProcessed frontProcessed(barcode, currentStage) {
+//        return new FrontProcessed(barcode, currentStage)
 //
 //    }
 //}

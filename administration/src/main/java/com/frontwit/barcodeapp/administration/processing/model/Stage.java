@@ -1,8 +1,8 @@
-package com.frontwit.barcodeapp.administration.processing.domain;
+package com.frontwit.barcodeapp.administration.processing.model;
 
 import java.util.stream.Stream;
 
-public enum Status {
+public enum Stage {
 
     INIT(0),        /* przed obrobka*/
     MILLING(1),     /* Frezowanie */
@@ -16,20 +16,20 @@ public enum Status {
 
     private int id;
 
-    public int getId() {
+   public int getId() {
         return id;
     }
 
-    Status(Integer id) {
+    Stage(Integer id) {
         this.id = id;
     }
 
-    public int difference(Status status) {
-        return this.id - status.getId();
+    int difference(Stage stage){
+        return this.getId() - stage.getId();
     }
 
-    public static Status valueOf(int readerId) {
-        return Stream.of(Status.values())
+    public static Stage valueOf(int readerId) {
+        return Stream.of(Stage.values())
                 .filter(value -> value.id == readerId)
                 .findFirst()
                 .orElseThrow(IllegalStateException::new);

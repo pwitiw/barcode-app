@@ -28,4 +28,5 @@ dist/
 nbdist/
 .nb-gradle/
 
-changed package structure, added complete build tasks
+barcode-app.db
+

@@ -3,9 +3,9 @@ package com.frontwit.barcodeapp.administration.processing.application;
 import com.frontwit.barcodeapp.administration.processing.application.dto.ProcessFrontDto;
 import com.frontwit.barcodeapp.administration.processing.application.readmodel.OrderDetailsView;
 import com.frontwit.barcodeapp.administration.processing.application.readmodel.ProcessingQueryFacade;
-import com.frontwit.barcodeapp.administration.processing.domain.Barcode;
-import com.frontwit.barcodeapp.administration.processing.domain.ProcessFront;
-import com.frontwit.barcodeapp.administration.processing.domain.Status;
+import com.frontwit.barcodeapp.administration.processing.model.Barcode;
+import com.frontwit.barcodeapp.administration.processing.model.ProcessFront;
+import com.frontwit.barcodeapp.administration.processing.model.Stage;
 import lombok.AllArgsConstructor;
 
 import java.util.Collections;
@@ -19,11 +19,11 @@ public class ProcessingFacade {
 
     public void processFront(ProcessFrontDto command) {
         Barcode barcode = new Barcode(command.getBarcode());
-        Status status = Status.valueOf(command.getStatus());
-        frontProcessingService.process(new ProcessFront(barcode, status, command.getDateTime()));
+        Stage stage = Stage.valueOf(command.getStatus());
+        frontProcessingService.process(new ProcessFront(barcode, stage, command.getDateTime()));
     }
 
     public OrderDetailsView detailsFor(Long orderId) {
-        return new OrderDetailsView(Status.MILLING, Collections.emptyList());
+        return new OrderDetailsView(Stage.MILLING, Collections.emptyList());
     }
 }

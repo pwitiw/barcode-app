@@ -1,6 +1,5 @@
 package com.frontwit.barcodeapp.administration.processing.infrastructure.web;
 
-import com.frontwit.barcodeapp.administration.application.synchronization.SynchronizationFacade;
 import com.frontwit.barcodeapp.administration.processing.application.ProcessingFacade;
 import com.frontwit.barcodeapp.administration.processing.application.dto.ProcessFrontDto;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProcessingResource {
 
     ProcessingFacade processingFacade;
-    SynchronizationFacade synchronizationFacade;
 
     @PostMapping("/apply")
     void process(@RequestBody ProcessFrontDto command) {

@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp.administration.processing.domain;
+package com.frontwit.barcodeapp.administration.processing.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ProcessFront {
     private Barcode barcode;
-    private Status status;
+    private Stage stage;
     private LocalDateTime dateTime;
 }

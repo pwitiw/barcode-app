@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.application.readmodel;
 
-import com.frontwit.barcodeapp.administration.processing.domain.Status;
+import com.frontwit.barcodeapp.administration.processing.model.Stage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,6 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class OrderDetailsView {
-    private Status status;
+    private Stage stage;
     private List<ComponentView> missings;
 }

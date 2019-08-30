@@ -11,7 +11,7 @@
 //
 //import static com.frontwit.barcodeapp.administration.integration.Fixtures.aProcessCommandJson
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.currentStage
 //
 //class OrderProcessingScenarios extends IntegrationSpec {
 //
@@ -32,14 +32,14 @@
 //                .content("[${json}]")
 //        ResultActions processOrder = mockMvc.perform(request)
 //
-//        then: "return status is OK = 200"
-//        processOrder.andExpect(status().isOk())
+//        then: "return currentStage is OK = 200"
+//        processOrder.andExpect(currentStage().isOk())
 //        // TODO spr wszystkie propertiesy
 //        and: "orders are synchronized and processed"
 //        OrderDetailDto result = orderFacade.findOne(orderId)
 //        result != null
 //        result.id == orderId
-//        Stage.valueOf(result.stage) == Stage.MILLING
+//        Stage.valueOf(result.currentStage) == Stage.MILLING
 //    }
 //
 //}
