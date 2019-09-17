@@ -1,19 +1,20 @@
 package com.frontwit.barcodeapp.administration
 
-
-import com.frontwit.barcodeapp.administration.processing.application.ProcessingFacade
-import com.frontwit.barcodeapp.administration.processing.application.dto.ProcessFrontDto
-import com.frontwit.barcodeapp.administration.processing.model.Stage
+import com.frontwit.barcodeapp.administration.order.processing.front.application.ProcessingFront
+import com.frontwit.barcodeapp.administration.order.processing.front.application.dto.ProcessFrontCommand
+import com.frontwit.barcodeapp.administration.order.processing.shared.Stage
 import org.springframework.beans.factory.annotation.Autowired
 
 import java.time.LocalDateTime
+
+import static com.frontwit.barcodeapp.administration.order.processing.shared.Stage.*
 
 class AcceptanceTest extends IntegrationSpec {
 
     def ORDER_ID = 1L
 
     @Autowired
-    ProcessingFacade processingFacade
+    ProcessingFront processingFacade
 
     def "order processing is completed"() {
         given: "test order exists in external"
@@ -29,17 +30,17 @@ class AcceptanceTest extends IntegrationSpec {
         details.getMissings().size() == 0
 
         where:
-        status            | missings
-        Stage.MILLING     | 0
-        Stage.POLISHING   | 0
-        Stage.BASE        | 0
-        Stage.GRINDING    | 0
-        Stage.PAINTING    | 0
-        Stage.PACKING     | 0
-        Stage.IN_DELIVERY | 0
+        status      | missings
+        MILLING     | 0
+        POLISHING   | 0
+        BASE        | 0
+        GRINDING    | 0
+        PAINTING    | 0
+        PACKING     | 0
+        IN_DELIVERY | 0
     }
 
     def frontIsBeingProcessed(long barcode, Stage status) {
-        processingFacade.processFront(new ProcessFrontDto(barcode, status.getId(), LocalDateTime.now()))
+        processingFacade.processFront(new ProcessFrontCommand(barcode, status.getId(), LocalDateTime.now()))
     }
 }

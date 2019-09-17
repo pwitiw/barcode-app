@@ -16,7 +16,7 @@ db.createUser(
 //         "_id": 100094000,
 //         "name": "85",
 //         "isCompleted": false,
-//         "components": [
+//         "fronts": [
 //             {
 //                 "barcode": 100094001,
 //                 "height": 945,
@@ -146,7 +146,7 @@ db.createUser(
 //         "_id": 100026000,
 //         "name": "22",
 //         "isCompleted": false,
-//         "components": [
+//         "fronts": [
 //             {
 //                 "barcode": 100026001,
 //                 "height": 713,
@@ -701,7 +701,7 @@ db.createUser(
 //         "_id": 100016000,
 //         "name": "4",
 //         "isCompleted": true,
-//         "components": [
+//         "fronts": [
 //             {
 //                 "barcode": 100016001,
 //                 "height": 659,

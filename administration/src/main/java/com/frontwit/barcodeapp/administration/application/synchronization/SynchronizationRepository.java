@@ -32,8 +32,7 @@ class SynchronizationRepository {
     }
 
     Dictionary findDictionary() {
-        List<Object[]> entries = entityManager.createNativeQuery(findDictionaryQuery())
-                .getResultList();
+        List entries = entityManager.createNativeQuery(findDictionaryQuery()).getResultList();
         return Dictionary.valueOf(entries);
     }
 
@@ -41,7 +40,7 @@ class SynchronizationRepository {
         return "SELECT " +
                 "z.id as id, " +
                 "z.numer as nr, " +
-                "z.pozycje as components, " +
+                "z.pozycje as fronts, " +
                 "data_z as orderedAt, " +
                 "z.nr_zam_kl as additionalInfo, " +
                 "z.opis as description, " +
