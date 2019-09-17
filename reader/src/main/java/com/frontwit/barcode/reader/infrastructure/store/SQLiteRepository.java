@@ -1,6 +1,6 @@
-package com.frontwit.barcode.reader.barcode.storage;
+package com.frontwit.barcode.reader.infrastructure.store;
 
-import com.frontwit.barcode.reader.barcode.BarcodeCommand;
+import com.frontwit.barcode.reader.application.ProcessBarcodeCommand;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -8,17 +8,18 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import static java.lang.String.format;
 
 @Component
-public class SQLiteManager {
+class SQLiteRepository {
 
-    private static final Logger LOGGER = Logger.getLogger(SQLiteManager.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SQLiteRepository.class.getName());
     private static final String TABLE_NAME = "barcode";
     private static final String ID = "id";
     private static final String BARCODE = "barcode";
@@ -37,12 +38,12 @@ public class SQLiteManager {
         createTableIfNotExists();
     }
 
-    boolean persist(Integer readerId, Long barcode) {
-        String sql = format("INSERT INTO %s (%s, %s, %s) VALUES(?,?,?)", TABLE_NAME, READER_ID, BARCODE, DATE);
+    boolean persist(Integer readerId, Long barcode, LocalDateTime dateTime) {
+        String sql = "INSERT INTO barcode (barcode, reader_id, date) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, readerId);
             statement.setLong(2, barcode);
-            statement.setString(3, LocalDateTime.now().toString());
+            statement.setString(3, dateTime.toString());
             return statement.execute();
         } catch (SQLException e) {
             LOGGER.warning(e.getMessage());
@@ -50,17 +51,14 @@ public class SQLiteManager {
         return false;
     }
 
-    List<BarcodeCommand> findAll() {
-        String sql = format("SELECT * FROM %s", TABLE_NAME);
-        List<BarcodeCommand> results = new ArrayList<>();
+    Map<UUID, ProcessBarcodeCommand> findAll() {
+        String sql = "SELECT * FROM barcode";
+        var results = new HashMap<UUID, ProcessBarcodeCommand>();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            ResultSet resultSet = statement.executeQuery();
+            var resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                int readerId = resultSet.getInt(READER_ID);
-                long barcode = resultSet.getLong(BARCODE);
-                long id = resultSet.getLong(ID);
-                LocalDateTime date = LocalDateTime.parse(resultSet.getString(DATE));
-                results.add(new BarcodeCommand(id, readerId, barcode, date));
+                var uuid = UUID.fromString(resultSet.getString(ID));
+                results.put(uuid, mapBarcode(resultSet));
             }
         } catch (SQLException e) {
             LOGGER.warning(e.getMessage());
@@ -69,13 +67,12 @@ public class SQLiteManager {
         return results;
     }
 
-    void delete(Collection<Long> ids) {
-        String values = ids
-                .stream()
+    void delete(Collection<UUID> ids) {
+        String values = ids.stream()
                 .map(String::valueOf)
-                .reduce((arg1, arg2) -> arg1 + ", " + arg2)
+                .reduce((id1, id2) -> id1.toString() + ", " + id2.toString())
                 .orElse("");
-        String sql = format("DELETE FROM %s WHERE id IN (%s)", TABLE_NAME, values);
+        String sql = format("DELETE FROM barcode WHERE id IN (%s)", values);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.execute();
             LOGGER.info(format("Deleted entries with ids: [%s]", values));
@@ -85,14 +82,21 @@ public class SQLiteManager {
     }
 
     private void createTableIfNotExists() throws SQLException {
-        final String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(\n"
-                + ID + "integer PRIMARY KEY,\n"
+        final var sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(\n"
+                + ID + "text PRIMARY KEY,\n"
                 + READER_ID + "	integer NOT NULL,\n"
                 + BARCODE + "	integer NOT NULL,\n"
                 + DATE + "  	text\n"
                 + ");";
-        boolean result = connection.prepareStatement(sql).execute();
+        var result = connection.prepareStatement(sql).execute();
         LOGGER.info(format("Creation script ended with result: %s", result));
+    }
+
+    ProcessBarcodeCommand mapBarcode(ResultSet resultSet) throws SQLException {
+        var readerId = resultSet.getInt(READER_ID);
+        var barcode = resultSet.getLong(BARCODE);
+        var dateTime = LocalDateTime.parse(resultSet.getString(DATE));
+        return new ProcessBarcodeCommand(readerId, barcode, dateTime);
     }
 
     @PreDestroy

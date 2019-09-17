@@ -1,6 +1,8 @@
-package com.frontwit.barcode.reader.config;
+package com.frontwit.barcode.reader.infrastructure;
 
-import com.frontwit.barcode.reader.barcode.*;
+import com.frontwit.barcode.reader.application.BarcodeProcessedHandler;
+import com.frontwit.barcode.reader.application.CommandPublisher;
+import com.frontwit.barcode.reader.barcode.CommandGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.TaskScheduler;
@@ -10,9 +12,14 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 public class BarCodeBeanConfiguration {
 
     @Bean
-    public CommandGateway commandGateway(BarcodeHandler barcodeHandler) {
+    public BarcodeProcessedHandler barcodeProcessedHandler(CommandPublisher commandPublisher){
+        return new BarcodeProcessedHandler(commandPublisher);
+    }
+
+    @Bean
+    public CommandGateway commandGateway(BarcodeProcessedHandler barcodeProcessedHandler) {
         CommandGateway commandGateway = new CommandGateway();
-        commandGateway.register(barcodeHandler);
+        commandGateway.register(barcodeProcessedHandler);
         return commandGateway;
     }
 

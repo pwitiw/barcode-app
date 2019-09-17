@@ -4,12 +4,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BarCodeClientApplication {
+public class ReaderApplication {
 //    TODO
 //    handler na connection error
 //
 
     public static void main(String[] args) {
-        SpringApplication.run(BarCodeClientApplication.class, args);
+        SpringApplication.run(ReaderApplication.class, args);
     }
 }

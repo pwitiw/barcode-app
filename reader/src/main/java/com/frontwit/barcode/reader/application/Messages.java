@@ -1,4 +1,4 @@
-package com.frontwit.barcode.reader.common;
+package com.frontwit.barcode.reader.application;
 
 public class Messages {
 
