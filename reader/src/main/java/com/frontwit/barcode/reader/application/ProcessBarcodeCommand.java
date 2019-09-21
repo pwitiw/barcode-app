@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Value
 public class ProcessBarcodeCommand implements Event {
 
-    private  Integer readerId;
+    private  Integer stage;
     private  Long barcode;
     private  LocalDateTime dateTime;
 }

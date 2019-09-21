@@ -1,10 +1,7 @@
 package com.frontwit.barcodeapp.administration.order.processing.front.application
 
 import com.frontwit.barcodeapp.administration.order.processing.front.application.dto.ProcessFrontCommand
-import com.frontwit.barcodeapp.administration.order.processing.front.model.Front
-import com.frontwit.barcodeapp.administration.order.processing.front.model.FrontEvent
-import com.frontwit.barcodeapp.administration.order.processing.front.model.FrontRepository
-import com.frontwit.barcodeapp.administration.order.processing.front.model.SampleFront
+import com.frontwit.barcodeapp.administration.order.processing.front.model.*
 import com.frontwit.barcodeapp.administration.order.processing.shared.Barcode
 import com.frontwit.barcodeapp.administration.order.processing.shared.Stage
 import com.frontwit.barcodeapp.administration.order.processing.shared.events.DomainEvents
@@ -28,7 +25,7 @@ class ProcessingFrontTest extends Specification implements SampleFront {
         1 * domainEvents.publish({
             it.barcode == new Barcode(command.getBarcode())
             it.stage == Stage.valueOf(command.getStage())
-        })
+        } as StageChanged)
     }
 
     def "should publish stage changed event when stage downgraded"() {
@@ -40,12 +37,10 @@ class ProcessingFrontTest extends Specification implements SampleFront {
         frontProcessing.process(command)
         then:
         1 * frontRepository.save(_)
-        1 * domainEvents.publish(
-                new FrontEvent.StageChanged(
-                        new Barcode(command.getBarcode()),
-                        Stage.valueOf(command.getStage())
-                )
-        )
+        1 * domainEvents.publish({
+            it.barcode == new Barcode(command.getBarcode())
+            it.stage == Stage.valueOf(command.getStage())
+        } as StageChanged)
     }
 
     def "should not fire any event when stage not changed"() {
@@ -57,10 +52,10 @@ class ProcessingFrontTest extends Specification implements SampleFront {
         frontProcessing.process(command)
         then:
         1 * frontRepository.save(_)
-        0 * domainEvents.publish(_)
+        0 * domainEvents.publish()
     }
 
-    def "should throw exception when front not found"() {
+    def "should fire event when front not found"() {
         given:
         frontNotPersisted()
         and:
@@ -68,7 +63,10 @@ class ProcessingFrontTest extends Specification implements SampleFront {
         when:
         frontProcessing.process(command)
         then:
-        thrown(IllegalStateException)
+        1 * domainEvents.publish({
+            it.orderId == new Barcode(command.getBarcode()).getOrderId()
+            it.delayedProcessFrontCommand == command
+        } as FrontNotFound)
     }
 
     def frontIsPersisted() {

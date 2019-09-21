@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,8 +19,11 @@ public class SourceDatabaseOrderRepository implements SourceOrderRepository {
 
     @Override
     public Optional<SourceOrder> findBy(OrderId orderId) {
-        var order = jdbcTemplate.queryForObject(findOrderQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), orderId.getOrderId());
-        return Optional.ofNullable(order);
+        List<SourceOrder> query = jdbcTemplate.query(findOrderQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), orderId.getOrderId());
+        if(query.isEmpty()){
+            return Optional.empty();
+        }
+        return Optional.of(query.get(0));
     }
 
     @Override

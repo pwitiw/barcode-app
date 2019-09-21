@@ -31,8 +31,11 @@ public class BarcodeListener implements NativeKeyListener {
         int code = event.getKeyCode();
         if (isNumber(code)) {
             input.append(NativeKeyEvent.getKeyText(event.getKeyCode()));
-        } else if (isEnter(code) && !input.toString().isEmpty()) {
-            emitCommand();
+        } else if (isEnter(code)) {
+            if (hasMinimumLength()) {
+                emitCommand();
+            }
+            input.setLength(0);
         } else if (isExit(code)) {
             unregister();
         }
@@ -59,13 +62,16 @@ public class BarcodeListener implements NativeKeyListener {
         return code == NativeKeyEvent.VC_ESCAPE;
     }
 
+    private boolean hasMinimumLength() {
+        return input.toString().length() > 3;
+    }
+
     private void emitCommand() {
         String inputString = input.toString();
         Integer readerId = Integer.valueOf(inputString.substring(0, 1));
         Long barcode = Long.valueOf(inputString.substring(1));
         commandGateway.fire(new ProcessBarcodeCommand(readerId, barcode, LocalDateTime.now()));
         LOGGER.info(input.toString());
-        input.setLength(0);
     }
 
     private void unregister() {

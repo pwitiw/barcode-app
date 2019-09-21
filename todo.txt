@@ -1,0 +1,8 @@
+- do (side) - zarowno we froncie i orderze - czy wazne?
+- comment jest z nullem - poprawic
+- przetestowac dobrze reader
+- dane testowe
+
+
+BUGS:
+- 1001 Id must be positive value?

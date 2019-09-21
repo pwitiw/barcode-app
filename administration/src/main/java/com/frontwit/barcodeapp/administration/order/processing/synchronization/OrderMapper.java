@@ -38,13 +38,12 @@ public class OrderMapper {
             var color = dictionary.getValue(features.getColor());
             var cutter = dictionary.getValue(features.getCutter());
             var size = dictionary.getValue(features.getSize());
-            var name = source.getNr();
-            return new TargetOrder.Info(color, cutter, size, name);
+            return new TargetOrder.Info(color, cutter, size, source.getNr(), source.getCustomer(), source.getOrderedAt());
         } catch (IOException e) {
             LOG.warn("Exception while parsing order info. Default order info set for order id=" + source.getId());
             LOG.warn(e.getMessage());
         }
-        return new TargetOrder.Info("", "", "", source.getNr());
+        return new TargetOrder.Info("", "", "", source.getNr(), source.getCustomer(), source.getOrderedAt());
     }
 
     private List<TargetFront> createFronts(SourceOrder source) {
@@ -63,7 +62,7 @@ public class OrderMapper {
         var barcode = Barcode.valueOf(orderId, element.getNumber());
         var dimensions = new TargetFront.Dimensions(element.getLength(), element.getWidth());
         var quantity = new Quantity(element.getQuantity());
-        return new TargetFront(barcode, quantity, dimensions, element.getComment());
+        return new TargetFront(barcode, orderId, quantity, dimensions, element.getComment());
     }
 
     @Data

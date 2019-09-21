@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public class BarcodeProcessedHandler implements CommandHandler<ProcessBarcodeCommand> {
     private static final Logger LOGGER = Logger.getLogger(BarcodeProcessedHandler.class.getName());
 
-    private CommandPublisher protocol;
+    private CommandPublisher publisher;
 
     @Override
     public Class<ProcessBarcodeCommand> getType() {
@@ -18,12 +18,12 @@ public class BarcodeProcessedHandler implements CommandHandler<ProcessBarcodeCom
 
     @Override
     public void handle(ProcessBarcodeCommand event) {
-        protocol.publish(event);
+        publisher.publish(event);
     }
 //FIXME remove
 //    private void executeTask() {
 //        Map<UUID, ProcessBarcodeCommand> barcodeProcesseds = eventStore.findAll();
-//        if (protocol.publish(barcodeProcesseds)) {
+//        if (publisher.publish(barcodeProcesseds)) {
 //            LOGGER.info(String.format(TASK_EXECUTED_SUCCESSFULLY, barcodeProcesseds.size()));
 //            eventStore.delete(barcodeProcesseds);
 //        } else {

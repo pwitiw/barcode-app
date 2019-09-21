@@ -2,6 +2,7 @@ package com.frontwit.barcodeapp.administration.order.processing.synchronization;
 
 
 import com.frontwit.barcodeapp.administration.order.processing.shared.Barcode;
+import com.frontwit.barcodeapp.administration.order.processing.shared.OrderId;
 import com.frontwit.barcodeapp.administration.order.processing.shared.Quantity;
 import lombok.Value;
 
@@ -9,6 +10,7 @@ import lombok.Value;
 public class TargetFront {
 
     private Barcode barcode;
+    private OrderId orderId;
     private Quantity quantity;
     private TargetFront.Dimensions dimensions;
     private String comment;

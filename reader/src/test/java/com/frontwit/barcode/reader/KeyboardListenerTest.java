@@ -42,7 +42,7 @@ public class KeyboardListenerTest {
         ArgumentCaptor<ProcessBarcodeCommand> argument = ArgumentCaptor.forClass(ProcessBarcodeCommand.class);
         verify(mockedCommandGateway, times(1)).fire(argument.capture());
         ProcessBarcodeCommand command = argument.getValue();
-        assertThat(command.getReaderId().toString(), is(NativeKeyEvent.getKeyText(VC_1)));
+        assertThat(command.getStage().toString(), is(NativeKeyEvent.getKeyText(VC_1)));
         assertThat(command.getBarcode().toString(), is(NativeKeyEvent.getKeyText(VC_1)));
     }
 

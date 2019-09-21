@@ -1,14 +1,16 @@
 package com.frontwit.barcodeapp.administration.order.processing.front.application;
 
 import com.frontwit.barcodeapp.administration.order.processing.front.application.dto.ProcessFrontCommand;
+import com.frontwit.barcodeapp.administration.order.processing.front.model.Front;
+import com.frontwit.barcodeapp.administration.order.processing.front.model.FrontNotFound;
 import com.frontwit.barcodeapp.administration.order.processing.front.model.FrontRepository;
 import com.frontwit.barcodeapp.administration.order.processing.front.model.ProcessingDetails;
 import com.frontwit.barcodeapp.administration.order.processing.shared.Barcode;
 import com.frontwit.barcodeapp.administration.order.processing.shared.Stage;
 import com.frontwit.barcodeapp.administration.order.processing.shared.events.DomainEvents;
+import com.frontwit.barcodeapp.administration.order.processing.synchronization.FrontSynchronized;
 import lombok.AllArgsConstructor;
-
-import static java.lang.String.format;
+import org.springframework.context.event.EventListener;
 
 @AllArgsConstructor
 public class ProcessingFront {
@@ -18,10 +20,23 @@ public class ProcessingFront {
 
     public void process(ProcessFrontCommand command) {
         var barcode = new Barcode(command.getBarcode());
+        frontRepository.findBy(barcode)
+                .ifPresentOrElse(front -> process(front, command), () -> publishFrontNotFound(command));
+
+    }
+
+    @EventListener
+    public void process(FrontSynchronized event) {
+        process(event.getProcessFrontCommand());
+    }
+
+    private void process(Front front, ProcessFrontCommand command) {
         var processingDetails = new ProcessingDetails(Stage.valueOf(command.getStage()), command.getDateTime());
-        var front = frontRepository.findBy(barcode)
-                .orElseThrow(() -> new IllegalStateException(format("No front for barcode %s", command.getBarcode())));
         front.apply(processingDetails).ifPresent(domainEvents::publish);
         frontRepository.save(front);
+    }
+
+    private void publishFrontNotFound(ProcessFrontCommand command) {
+        domainEvents.publish(new FrontNotFound(new Barcode(command.getBarcode()).getOrderId(), command));
     }
 }

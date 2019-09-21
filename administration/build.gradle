@@ -8,7 +8,7 @@ dependencies {
 
     //   Security
     implementation 'com.auth0:java-jwt:3.4.0'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.6'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.9'
 
     implementation 'org.hibernate:hibernate-validator:6.0.17.Final'
     //	Mongo DB dependencies
@@ -17,6 +17,7 @@ dependencies {
     implementation 'mysql:mysql-connector-java'
 
     implementation 'log4j:log4j'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.1'
 
 
     annotationProcessor 'org.projectlombok:lombok'

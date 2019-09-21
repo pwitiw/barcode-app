@@ -1,12 +1,12 @@
 package com.frontwit.barcodeapp.administration.order.processing.front.application.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class ProcessFrontCommand {
     @NonNull

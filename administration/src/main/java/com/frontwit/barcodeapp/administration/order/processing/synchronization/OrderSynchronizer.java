@@ -1,7 +1,9 @@
 package com.frontwit.barcodeapp.administration.order.processing.synchronization;
 
-import com.frontwit.barcodeapp.administration.order.processing.shared.OrderId;
+import com.frontwit.barcodeapp.administration.order.processing.front.model.FrontNotFound;
+import com.frontwit.barcodeapp.administration.order.processing.shared.events.DomainEvents;
 import lombok.AllArgsConstructor;
+import org.springframework.context.event.EventListener;
 
 import static java.lang.String.format;
 
@@ -12,13 +14,18 @@ public class OrderSynchronizer {
     private SaveSynchronizedFronts saveSynchronizedFronts;
     private SaveSynchronizedOrder saveSynchronizedOrder;
     private OrderMapper orderMapper;
+    private DomainEvents domainEvents;
 
-    public void synchronize(OrderId id) {
-        var sourceOrder = sourceOrderRepository.findBy(id)
-                .orElseThrow(() -> new IllegalStateException(format("No order for id %s", id.getOrderId())));
+
+    @EventListener
+    public void synchronize(FrontNotFound event) {
+        var sourceOrder = sourceOrderRepository.findBy(event.getOrderId())
+                .orElseThrow(() -> new IllegalStateException(format("No order for id %s", event.getOrderId().getOrderId())));
         var dictionary = sourceOrderRepository.getDictionary();
         var targetOrder = orderMapper.map(sourceOrder, dictionary);
         saveSynchronizedOrder.save(targetOrder);
         saveSynchronizedFronts.save(targetOrder.getFronts());
+        domainEvents.publish(new FrontSynchronized(event.getDelayedProcessFrontCommand()));
     }
+
 }

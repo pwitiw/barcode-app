@@ -17,7 +17,7 @@
 //
 //    @Override
 //    public void save(ProcessBarcodeCommand processBarcodeCommand) {
-//        var readerId = processBarcodeCommand.getReaderId();
+//        var readerId = processBarcodeCommand.getStage();
 //        var barcode = processBarcodeCommand.getBarcode();
 //        var dateTime = processBarcodeCommand.getDateTime();
 //        sqLiteRepository.persist(readerId, barcode, dateTime);

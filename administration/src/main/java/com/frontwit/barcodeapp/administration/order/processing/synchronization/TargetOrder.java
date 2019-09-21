@@ -3,6 +3,7 @@ package com.frontwit.barcodeapp.administration.order.processing.synchronization;
 import com.frontwit.barcodeapp.administration.order.processing.shared.OrderId;
 import lombok.Value;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public class TargetOrder {
         private String description;
         private String additionalInfo;
 
-        String getComment() {
+        public String compose() {
             String separator = additionalInfo != null && description != null ? "; " : "";
             String comment = Optional.ofNullable(description).orElse("");
             return comment + separator + additionalInfo;
@@ -34,6 +35,8 @@ public class TargetOrder {
         private String cutter;
         private String size;
         private String name;
+        private String customer;
+        private LocalDate orderedAt;
     }
 
 }

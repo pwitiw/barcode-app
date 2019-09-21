@@ -27,6 +27,7 @@ class ListenerRegistry {
         }
         GlobalScreen.addNativeKeyListener(barcodeListener);
         Logger.getLogger(GlobalScreen.class.getPackage().getName()).setLevel(Level.WARNING);
-        LOGGER.warning("Barcode listener registered");
+        LOGGER.info("Barcode listener registered");
     }
 }
+

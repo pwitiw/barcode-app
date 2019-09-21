@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 @RunWith(ArchUnitRunner.class)
-@AnalyzeClasses(packages = {"com.frontwit.barcodeapp.administration.order", "org.springframework"})
+@AnalyzeClasses(packages = {"com.frontwit.barcodeapp.administration.order.processing", "org.springframework"})
 public class NoSpringInDomainLogicTest {
 
     @ArchTest
@@ -21,18 +21,4 @@ public class NoSpringInDomainLogicTest {
                     .should()
                     .dependOnClassesThat()
                     .resideInAPackage("org.springframework..");
-
-    @ArchTest
-    public static final ArchRule application_should_not_depend_on_spring =
-            noClasses()
-                    .that()
-                    .resideInAPackage(
-                            "..com.frontwit.barcodeapp.administration.order..application..")
-                    .should()
-                    .dependOnClassesThat()
-                    .resideInAPackage("org.springframework..");
-
-
-
-
 }

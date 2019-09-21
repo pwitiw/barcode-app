@@ -2,6 +2,7 @@ package com.frontwit.barcodeapp.administration
 
 import com.frontwit.barcodeapp.administration.order.processing.front.application.ProcessingFront
 import com.frontwit.barcodeapp.administration.order.processing.front.application.dto.ProcessFrontCommand
+import com.frontwit.barcodeapp.administration.order.processing.order.infrastructure.OrderQuery
 import com.frontwit.barcodeapp.administration.order.processing.shared.Stage
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -11,36 +12,44 @@ import static com.frontwit.barcodeapp.administration.order.processing.shared.Sta
 
 class AcceptanceTest extends IntegrationSpec {
 
-    def ORDER_ID = 1L
+    @Autowired
+    ProcessingFront processingFront
 
     @Autowired
-    ProcessingFront processingFacade
+    OrderQuery orderQuery
 
     def "order processing is completed"() {
-        given: "test order exists in external"
-        def barcode = 1001L
+        given: "test data is already prepared"
         when:
-        frontIsBeingProcessed(barcode, status)
-
+        frontIsBeingProcessed(MILLING)
         then:
-        def details = processingFacade.detailsFor(ORDER_ID)
-
-        details != null
-        details.getStage() == status
-        details.getMissings().size() == 0
-
-        where:
-        status      | missings
-        MILLING     | 0
-        POLISHING   | 0
-        BASE        | 0
-        GRINDING    | 0
-        PAINTING    | 0
-        PACKING     | 0
-        IN_DELIVERY | 0
+        orderIsUpdated(MILLING)
+        when:
+        frontIsBeingProcessed(POLISHING)
+        then:
+        orderIsUpdated(POLISHING)
+        when:
+        frontIsBeingProcessed(BASE)
+        then:
+        orderIsUpdated(BASE)
+        when:
+        frontIsBeingProcessed(GRINDING)
+        then:
+        orderIsUpdated(GRINDING)
+        when:
+        frontIsBeingProcessed(PAINTING)
+        then:
+        orderIsUpdated(PAINTING)
     }
 
-    def frontIsBeingProcessed(long barcode, Stage status) {
-        processingFacade.processFront(new ProcessFrontCommand(barcode, status.getId(), LocalDateTime.now()))
+    void orderIsUpdated(Stage stage) {
+        def details = orderQuery.find(ORDER_ID)
+        assert details.getStage() == stage
+        assert details.getFronts().get(0).getAmendments().size() == 0
+        assert details.getFronts().get(0).getProcessings().size() == stage.getId()
+    }
+
+    void frontIsBeingProcessed(Stage status) {
+        processingFront.process(new ProcessFrontCommand(BARCODE.getBarcode(), status.getId(), LocalDateTime.now()))
     }
 }

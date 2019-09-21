@@ -6,7 +6,7 @@ import java.util.List;
 import static com.frontwit.barcodeapp.administration.order.processing.shared.Stage.IN_DELIVERY;
 import static java.lang.String.format;
 
-interface FrontProcessingPolicy {
+public interface FrontProcessingPolicy {
 
     static FrontProcessingPolicy allPolicies() {
         return new CompositeFrontProcessingPolicy(new ProcessingIsNotCompleted(), new TimeGapeBetweenProcessesIsPreserved(), new ProcessingOrderIsPreserved());

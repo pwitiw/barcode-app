@@ -31,7 +31,7 @@ public class Front {
         this.policy = policy;
     }
 
-    public Optional<FrontEvent.StageChanged> apply(ProcessingDetails details) {
+    public Optional<StageChanged> apply(ProcessingDetails details) {
         policy.verify(this, details);
         if (processingCompletedAt(details.getStage())) {
             return amend(details);
@@ -39,7 +39,7 @@ public class Front {
         return process(details);
     }
 
-    private Optional<FrontEvent.StageChanged> process(ProcessingDetails details) {
+    private Optional<StageChanged> process(ProcessingDetails details) {
         processings.add(details);
         if (processingCompletedAt(details.getStage())) {
             return Optional.of(statusUpdated(details));
@@ -47,7 +47,7 @@ public class Front {
         return Optional.empty();
     }
 
-    private Optional<FrontEvent.StageChanged> amend(ProcessingDetails details) {
+    private Optional<StageChanged> amend(ProcessingDetails details) {
         amendments.add(details);
         if (details.getStage() != currentStage) {
             return Optional.of(statusUpdated(details));
@@ -67,8 +67,8 @@ public class Front {
                 .anyMatch(detail -> detail.equalsWithTimeAccuracy(details, 3));
     }
 
-    private FrontEvent.StageChanged statusUpdated(ProcessingDetails details) {
+    private StageChanged statusUpdated(ProcessingDetails details) {
         currentStage = details.getStage();
-        return new FrontEvent.StageChanged(barcode, details.getStage());
+        return new StageChanged(barcode, details.getStage());
     }
 }

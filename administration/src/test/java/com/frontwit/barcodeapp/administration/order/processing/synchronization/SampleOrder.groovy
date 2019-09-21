@@ -1,8 +1,5 @@
 package com.frontwit.barcodeapp.administration.order.processing.synchronization
 
-import com.frontwit.barcodeapp.administration.order.processing.synchronization.Dictionary
-import com.frontwit.barcodeapp.administration.order.processing.synchronization.SourceOrder
-
 import java.time.LocalDate
 
 trait SampleOrder {

@@ -9,42 +9,34 @@ import org.junit.runner.RunWith;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 @RunWith(ArchUnitRunner.class)
-@AnalyzeClasses(packages = "com.frontwit.barcodeapp.administration")
+@AnalyzeClasses(packages = "com.frontwit.barcodeapp.administration.order.processing")
 public class ModularArchitectureTest {
 
     @ArchTest
-    public static final ArchRule commons_should_not_depend_on_synchronization =
+    public static final ArchRule shared_should_not_depend_on_others =
             noClasses()
                     .that()
-                    .resideInAPackage("..shared..")
+                    .resideInAPackage(".shared..")
                     .should()
                     .dependOnClassesThat()
-                    .resideInAPackage("..front.model..");
+                    .resideInAnyPackage(".front..", ".order..", ".synchronization..");
 
     @ArchTest
-    public static final ArchRule commons_should_not_depend_on_processing =
+    public static final ArchRule front_model_should_not_depend_on_others =
             noClasses()
                     .that()
-                    .resideInAPackage("..shared..")
+                    .resideInAPackage(".front.model..")
                     .should()
                     .dependOnClassesThat()
-                    .resideInAPackage("..order.model..");
+                    .resideInAnyPackage(".order..", ".synchronization..");
 
     @ArchTest
-    public static final ArchRule processing_should_not_depend_on_synchronization =
+    public static final ArchRule order_model_should_not_depend_on_others =
             noClasses()
                     .that()
-                    .resideInAPackage("..front.model..")
+                    .resideInAPackage(".order.model..")
                     .should()
                     .dependOnClassesThat()
-                    .resideInAPackage("..order.model..");
+                    .resideInAnyPackage(".front..", ".synchronization..");
 
-    @ArchTest
-    public static final ArchRule synchronization_should_not_depend_on_processing =
-            noClasses()
-                    .that()
-                    .resideInAPackage("..order.model..")
-                    .should()
-                    .dependOnClassesThat()
-                    .resideInAPackage("..front.model..");
 }
