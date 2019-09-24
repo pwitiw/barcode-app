@@ -6,11 +6,14 @@ import com.frontwit.barcodeapp.administration.order.processing.front.model.Front
 import com.frontwit.barcodeapp.administration.order.processing.front.model.FrontRepository;
 import com.frontwit.barcodeapp.administration.order.processing.front.model.ProcessingDetails;
 import com.frontwit.barcodeapp.administration.order.processing.shared.Barcode;
+import com.frontwit.barcodeapp.administration.order.processing.shared.ProcessingException;
 import com.frontwit.barcodeapp.administration.order.processing.shared.Stage;
 import com.frontwit.barcodeapp.administration.order.processing.shared.events.DomainEvents;
 import com.frontwit.barcodeapp.administration.order.processing.synchronization.FrontSynchronized;
 import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
+
+import static java.lang.String.format;
 
 @AllArgsConstructor
 public class ProcessingFront {
@@ -27,7 +30,10 @@ public class ProcessingFront {
 
     @EventListener
     public void process(FrontSynchronized event) {
-        process(event.getProcessFrontCommand());
+        var barcode = new Barcode(event.getProcessFrontCommand().getBarcode());
+        var front = frontRepository.findBy(barcode)
+                .orElseThrow(() -> new ProcessingException(format("No front for barcode %s.", barcode)));
+        process(front, event.getProcessFrontCommand());
     }
 
     private void process(Front front, ProcessFrontCommand command) {

@@ -38,6 +38,7 @@ public class MosquittoCommandPublisher implements CommandPublisher {
         options.setCleanSession(false);
         options.setConnectionTimeout(10);
         mqttClient.connect(options);
+
     }
 
     @PreDestroy

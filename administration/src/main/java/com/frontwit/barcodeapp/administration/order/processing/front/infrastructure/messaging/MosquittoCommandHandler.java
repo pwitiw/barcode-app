@@ -3,6 +3,7 @@ package com.frontwit.barcodeapp.administration.order.processing.front.infrastruc
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.frontwit.barcodeapp.administration.order.processing.front.application.ProcessingFront;
 import com.frontwit.barcodeapp.administration.order.processing.front.application.dto.ProcessFrontCommand;
+import com.frontwit.barcodeapp.administration.order.processing.shared.ProcessingException;
 import org.eclipse.paho.client.mqttv3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,10 +61,18 @@ public class MosquittoCommandHandler implements MqttCallback {
     public void messageArrived(String topic, MqttMessage message) {
         try {
             var command = objectMapper.readValue(message.getPayload(), ProcessFrontCommand.class);
-            new Thread(() -> processingFront.process(command)).start();
+            new Thread((() -> process(command))).start();
             LOGGER.info(format("Front with barcode %d is being processed.", command.getBarcode()));
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
+        }
+    }
+
+    private void process(ProcessFrontCommand command) {
+        try {
+            processingFront.process(command);
+        } catch (ProcessingException ex) {
+            LOGGER.warn(ex.getMessage());
         }
     }
 

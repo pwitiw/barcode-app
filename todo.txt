@@ -2,7 +2,10 @@
 - comment jest z nullem - poprawic
 - przetestowac dobrze reader
 - dane testowe
+- kod kreskowy jest rozpoznawany z klawiatury(a nie powinien byc)
+
 
 
 BUGS:
-- 1001 Id must be positive value?
+- reader blad przy duzych lcizbach np 11111111111111111111111
+- procesowanie 1121 tworzy jakiegos infinit loopa

@@ -24,7 +24,7 @@ class ProcessingFrontScenarios extends Specification implements SampleFront {
 
         where:
         processedStages                                         | nextStage
-        [INIT]                                                  | MILLING
+        []                                                      | MILLING
         [MILLING]                                               | POLISHING
         [MILLING, POLISHING]                                    | BASE
         [MILLING, POLISHING, BASE]                              | GRINDING
@@ -97,7 +97,7 @@ class ProcessingFrontScenarios extends Specification implements SampleFront {
         front.apply(new ProcessingDetails(MILLING, getIncrementedDateTime(3)))
 
         then:
-        thrown(FrontProcessingException)
+        thrown(ProcessingPolicyViolationException)
     }
 
     @Unroll
@@ -108,7 +108,7 @@ class ProcessingFrontScenarios extends Specification implements SampleFront {
         front.apply(new ProcessingDetails(stage, now()))
 
         then:
-        thrown(FrontProcessingException)
+        thrown(ProcessingPolicyViolationException)
 
         where:
         stage       | _
@@ -121,12 +121,13 @@ class ProcessingFrontScenarios extends Specification implements SampleFront {
         IN_DELIVERY | _
     }
 
+    @Unroll
     def "can not process front in wrong order"() {
         when:
         aFrontWithAppliedProcesses(1, stages as Stage[])
 
         then:
-        thrown(FrontProcessingException)
+        thrown(ProcessingPolicyViolationException)
 
         true
         where:
@@ -140,7 +141,6 @@ class ProcessingFrontScenarios extends Specification implements SampleFront {
         [MILLING, BASE]                               | _
         [MILLING, POLISHING, GRINDING]                | _
         [MILLING, POLISHING, BASE, PAINTING]          | _
-        [MILLING, POLISHING, BASE, GRINDING, PACKING] | _
         [MILLING, POLISHING, BASE, GRINDING, PACKING] | _
     }
 }

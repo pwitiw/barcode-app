@@ -33,10 +33,10 @@ public class Front {
 
     public Optional<StageChanged> apply(ProcessingDetails details) {
         policy.verify(this, details);
-        if (processingCompletedAt(details.getStage())) {
-            return amend(details);
+        if (isProcess(details)) {
+            return process(details);
         }
-        return process(details);
+        return amend(details);
     }
 
     private Optional<StageChanged> process(ProcessingDetails details) {
@@ -53,6 +53,17 @@ public class Front {
             return Optional.of(statusUpdated(details));
         }
         return Optional.empty();
+    }
+
+    private boolean isProcess(ProcessingDetails details) {
+        var processedQuantity = processings.stream()
+                .filter(p -> p.getStage() == details.getStage())
+                .count();
+        var processedAtPreviousStageQuantity = processings.stream()
+                .filter(p -> p.getStage() == Stage.valueOf(details.getStage().getId() - 1))
+                .count();
+        var processable = processedQuantity == 0 || processedAtPreviousStageQuantity - processedQuantity > 0;
+        return !processingCompletedAt(details.getStage()) && processable;
     }
 
     private boolean processingCompletedAt(Stage stage) {

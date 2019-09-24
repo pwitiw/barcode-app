@@ -38,6 +38,8 @@ public class BarcodeListener implements NativeKeyListener {
             input.setLength(0);
         } else if (isExit(code)) {
             unregister();
+        } else {
+            input.setLength(0);
         }
     }
 

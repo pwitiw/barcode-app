@@ -1,5 +1,8 @@
 package com.frontwit.barcodeapp.administration.order.processing.front.model;
 
+import com.frontwit.barcodeapp.administration.order.processing.shared.ProcessingException;
+import com.frontwit.barcodeapp.administration.order.processing.shared.Stage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +23,7 @@ class TimeGapeBetweenProcessesIsPreserved implements FrontProcessingPolicy {
     @Override
     public void verify(Front front, ProcessingDetails details) {
         if (front.containsDuplicates(details)) {
-            throw new FrontProcessingException(format("Duplicated process: barcode %s stage %s timestamp %s", front.getBarcode().getBarcode(), details.getStage(), details.getDateTime()));
+            throw new ProcessingPolicyViolationException(format("Duplicated process: barcode %s stage %s timestamp %s", front.getBarcode().getBarcode(), details.getStage(), details.getDateTime()));
         }
     }
 }
@@ -29,7 +32,7 @@ class ProcessingIsNotCompleted implements FrontProcessingPolicy {
     @Override
     public void verify(Front front, ProcessingDetails details) {
         if (front.getCurrentStage() == IN_DELIVERY) {
-            throw new FrontProcessingException(format("Front with barcode %s is already in delivery", front.getBarcode()));
+            throw new ProcessingPolicyViolationException(format("Front with barcode %s is already in delivery", front.getBarcode()));
         }
     }
 }
@@ -37,8 +40,13 @@ class ProcessingIsNotCompleted implements FrontProcessingPolicy {
 class ProcessingOrderIsPreserved implements FrontProcessingPolicy {
     @Override
     public void verify(Front front, ProcessingDetails details) {
-        if (details.getStage().difference(front.getCurrentStage()) > 1)
-            throw new FrontProcessingException(format("Bad model order: stage -> %s, applied stage -> %s", front.getCurrentStage(), details.getStage()));
+        var predecessorStageProcesses = front.getProcessings().stream()
+                .map(ProcessingDetails::getStage)
+                .filter(stage -> stage == Stage.valueOf(details.getStage().getId() - 1))
+                .count();
+        if (details.getStage() != Stage.MILLING && predecessorStageProcesses == 0) {
+            throw new ProcessingPolicyViolationException(format("Bad model order: stage -> %s, applied stage -> %s", front.getCurrentStage(), details.getStage()));
+        }
     }
 }
 
@@ -56,8 +64,8 @@ class CompositeFrontProcessingPolicy implements FrontProcessingPolicy {
     }
 }
 
-class FrontProcessingException extends IllegalStateException {
-    FrontProcessingException(String msg) {
+class ProcessingPolicyViolationException extends ProcessingException {
+    ProcessingPolicyViolationException(String msg) {
         super(msg);
     }
 }

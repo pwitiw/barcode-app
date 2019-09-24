@@ -3,6 +3,7 @@ package com.frontwit.barcodeapp.administration.order.processing.order.applicatio
 import com.frontwit.barcodeapp.administration.order.processing.front.model.StageChanged;
 import com.frontwit.barcodeapp.administration.order.processing.order.model.OrderRepository;
 import com.frontwit.barcodeapp.administration.order.processing.order.model.UpdateStageDetails;
+import com.frontwit.barcodeapp.administration.order.processing.shared.ProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
 
@@ -17,7 +18,7 @@ public class FrontEventsHandler {
     public void handle(StageChanged event) {
         var orderId = event.getBarcode().getOrderId();
         var order = orderRepository.findBy(orderId)
-                .orElseThrow(() -> new IllegalStateException(format("Order with id %s does not exist.", orderId.getOrderId())));
+                .orElseThrow(() -> new ProcessingException(format("Order with id %s does not exist.", orderId.getOrderId())));
         order.updateFrontStage(new UpdateStageDetails(event.getBarcode(), event.getStage()));
         orderRepository.save(order);
     }
