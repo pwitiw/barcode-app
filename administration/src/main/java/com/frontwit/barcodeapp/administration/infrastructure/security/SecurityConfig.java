@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp.administration.security;
+package com.frontwit.barcodeapp.administration.infrastructure.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

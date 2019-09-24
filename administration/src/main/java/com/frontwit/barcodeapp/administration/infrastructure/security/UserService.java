@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp.administration.security;
+package com.frontwit.barcodeapp.administration.infrastructure.security;
 
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetailsService;

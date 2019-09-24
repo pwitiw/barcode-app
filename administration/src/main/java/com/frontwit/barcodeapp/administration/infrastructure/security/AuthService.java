@@ -1,6 +1,6 @@
-package com.frontwit.barcodeapp.administration.security;
+package com.frontwit.barcodeapp.administration.infrastructure.security;
 
-import com.frontwit.barcodeapp.administration.security.Role.Type;
+import com.frontwit.barcodeapp.administration.infrastructure.security.Role.Type;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
