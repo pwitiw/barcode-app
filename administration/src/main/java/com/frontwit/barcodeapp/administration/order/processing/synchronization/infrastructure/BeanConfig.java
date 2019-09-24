@@ -24,11 +24,13 @@ public class BeanConfig {
     OrderSynchronizer synchronizer(SourceOrderRepository sourceOrderRepository,
                                    SaveSynchronizedFronts saveSynchronizedFronts,
                                    SaveSynchronizedOrder saveSynchronizedOrder,
+                                   CheckSynchronizedOrder checkSynchronizedOrder,
                                    OrderMapper orderMapper,
                                    DomainEvents domainEvents) {
         return new OrderSynchronizer(sourceOrderRepository,
                 saveSynchronizedFronts,
                 saveSynchronizedOrder,
+                checkSynchronizedOrder,
                 orderMapper,
                 domainEvents);
     }

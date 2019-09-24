@@ -14,19 +14,22 @@ public class OrderSynchronizer {
     private SourceOrderRepository sourceOrderRepository;
     private SaveSynchronizedFronts saveSynchronizedFronts;
     private SaveSynchronizedOrder saveSynchronizedOrder;
+    private CheckSynchronizedOrder checkSynchronizedOrder;
     private OrderMapper orderMapper;
     private DomainEvents domainEvents;
 
 
     @EventListener
     public void synchronize(FrontNotFound event) {
-        var sourceOrder = sourceOrderRepository.findBy(event.getOrderId())
-                .orElseThrow(() -> new ProcessingException(format("No order for id %s", event.getOrderId().getOrderId())));
-        var dictionary = sourceOrderRepository.getDictionary();
-        var targetOrder = orderMapper.map(sourceOrder, dictionary);
-        saveSynchronizedOrder.save(targetOrder);
-        saveSynchronizedFronts.save(targetOrder.getFronts());
-        domainEvents.publish(new FrontSynchronized(event.getDelayedProcessFrontCommand()));
+        if (!checkSynchronizedOrder.isSynchronized(event.getOrderId())) {
+            var sourceOrder = sourceOrderRepository.findBy(event.getOrderId())
+                    .orElseThrow(() -> new ProcessingException(format("No order for id %s", event.getOrderId().getOrderId())));
+            var dictionary = sourceOrderRepository.getDictionary();
+            var targetOrder = orderMapper.map(sourceOrder, dictionary);
+            saveSynchronizedOrder.save(targetOrder);
+            saveSynchronizedFronts.save(targetOrder.getFronts());
+            domainEvents.publish(new FrontSynchronized(event.getDelayedProcessFrontCommand()));
+        }
     }
 
 }
