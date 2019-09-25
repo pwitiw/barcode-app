@@ -23,8 +23,9 @@ public class TargetOrder {
 
         public String compose() {
             String separator = additionalInfo != null && description != null ? "; " : "";
-            String comment = Optional.ofNullable(description).orElse("");
-            return comment + separator + additionalInfo;
+            String desc = Optional.ofNullable(description).orElse("");
+            String info = Optional.ofNullable(additionalInfo).orElse("");
+            return desc + separator + info;
         }
 
     }

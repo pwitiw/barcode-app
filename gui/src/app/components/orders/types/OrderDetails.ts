@@ -12,7 +12,7 @@ export interface OrderDetails {
   customer: string;
   stage: string;
   orderedAt: string;
-  components: Front[];
+  fronts: Front[];
 }
 
 

@@ -17,6 +17,9 @@ public class Order {
     private Map<Barcode, Stage> fronts;
     @Getter
     private Stage stage = Stage.INIT;
+    @Getter
+    private boolean isCompleted;
+
     private UpdateStagePolicy policy;
 
     public Order(OrderId orderId, Map<Barcode, Stage> fronts, UpdateStagePolicy policy) {
@@ -25,10 +28,11 @@ public class Order {
         this.policy = policy;
     }
 
-    public void updateFrontStage(UpdateStageDetails details) {
+    public void update(UpdateStageDetails details) {
         policy.verify(this, details.getBarcode());
         fronts.put(details.getBarcode(), details.getStage());
         updateStage();
+        isCompleted = Stage.isLast(stage);
     }
 
     boolean contains(Barcode barcode) {

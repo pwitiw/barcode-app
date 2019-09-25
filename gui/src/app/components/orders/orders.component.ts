@@ -7,54 +7,53 @@ import {SearchCriteria} from "./types/SearchCriteria";
 import {Page} from "./types/Page";
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html'
+    selector: 'app-orders',
+    templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
-  static readonly MAX_ORDERS = 10;
-  criteria: SearchCriteria;
-  totalElements: number;
-  page: number;
-  size;
+    static readonly MAX_ORDERS = 10;
+    criteria: SearchCriteria;
+    totalElements: number;
+    page: number;
+    size;
 
-  orders: SimpleOrder[];
-  orderDetail$: Observable<OrderDetails>;
+    orders: SimpleOrder[];
+    orderDetail$: Observable<OrderDetails>;
 
-  constructor(private orderService: OrderRestService) {
+    constructor(private orderService: OrderRestService) {
 
-    this.size = OrdersComponent.MAX_ORDERS;
-    this.page = 1;
-    this.totalElements = 0;
-  }
+        this.size = OrdersComponent.MAX_ORDERS;
+        this.page = 1;
+        this.totalElements = 0;
+    }
 
-  handlePageChanged($event) {
-    this.page = $event;
-    this.handleSearchClicked();
-  }
+    handlePageChanged($event) {
+        this.page = $event;
+        this.handleSearchClicked();
+    }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+    }
 
-  handleSearchClicked(criteria?: SearchCriteria): void {
-    this.criteria = criteria ? criteria : this.criteria;
-    const page: Page<SearchCriteria> = {
-      content: this.criteria,
-      page: this.page - 1,
-      size: this.size,
-      totalElements: this.totalElements
-    };
-    this.orderService.getOrders(page).subscribe(result => {
-      this.totalElements = result.totalElements;
-      this.handleShowDetails(result.content[0]);
-      this.orders = result.content;
-    });
-  }
+    handleSearchClicked(criteria?: SearchCriteria): void {
+        this.criteria = criteria ? criteria : this.criteria;
+        const page: Page<SearchCriteria> = {
+            content: this.criteria,
+            page: this.page - 1,
+            size: this.size,
+            totalElements: this.totalElements
+        };
+        this.orderService.getOrders(page).subscribe(result => {
+            this.totalElements = result.totalElements;
+            this.orders = result.content;
+        });
+    }
 
-  handleShowDetails(order: SimpleOrder): void {
-    this.orderDetail$ = this.orderService.getOrderDetails(order.id);
-  }
+    handleShowDetails(order: SimpleOrder): void {
+        this.orderDetail$ = this.orderService.getOrderDetails(order.id);
+    }
 
-  showPagination() {
-    return this.totalElements > this.size;
-  }
+    showPagination() {
+        return this.totalElements > this.size;
+    }
 }

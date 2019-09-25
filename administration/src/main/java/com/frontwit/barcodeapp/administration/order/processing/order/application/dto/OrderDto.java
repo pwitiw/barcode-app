@@ -2,16 +2,17 @@ package com.frontwit.barcodeapp.administration.order.processing.order.applicatio
 
 import com.frontwit.barcodeapp.administration.order.processing.shared.Stage;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.time.LocalDate;
 
 @AllArgsConstructor
+@Data
 public class OrderDto {
 
     private Long id;
     private String name;
-    private String color;
-    private String cutter;
     private LocalDate orderedAt;
     private Stage stage;
+    private int quantity;
 }

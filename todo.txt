@@ -1,11 +1,17 @@
-- do (side) - zarowno we froncie i orderze - czy wazne?
-- comment jest z nullem - poprawic
+
 - przetestowac dobrze reader
-- dane testowe
 - kod kreskowy jest rozpoznawany z klawiatury(a nie powinien byc)
 
 
 
 BUGS:
 - reader blad przy duzych lcizbach np 11111111111111111111111
-- procesowanie 1121 tworzy jakiegos infinit loopa
+- exception w adminie : stacktrace leci przez filtery
+
+- przetestowac wyszukiwane
+21201
+31201
+41201
+51201
+61201
+71201

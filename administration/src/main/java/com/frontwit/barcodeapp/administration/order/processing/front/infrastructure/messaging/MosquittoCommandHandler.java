@@ -61,8 +61,8 @@ public class MosquittoCommandHandler implements MqttCallback {
     public void messageArrived(String topic, MqttMessage message) {
         try {
             var command = objectMapper.readValue(message.getPayload(), ProcessFrontCommand.class);
+            LOGGER.info(format("Front (barcode: %d) is being processed.", command.getBarcode()));
             new Thread((() -> process(command))).start();
-            LOGGER.info(format("Front with barcode %d is being processed.", command.getBarcode()));
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }

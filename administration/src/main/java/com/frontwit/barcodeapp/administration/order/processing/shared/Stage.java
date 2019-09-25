@@ -28,6 +28,10 @@ public enum Stage {
         return this.getId() - stage.getId();
     }
 
+    public static boolean isLast(Stage stage) {
+        return stage == IN_DELIVERY;
+    }
+
     public static Stage valueOf(int readerId) {
         return Stream.of(Stage.values())
                 .filter(value -> value.id == readerId)

@@ -1,12 +1,28 @@
 <div class="orders-row">
-  <div class="order-info">
-    <div id="name" class="label growing">Nazwa: <span class="input">{{order.name}}</span></div>
-    <div id="quantity" class="label">Sztuk: <span class="input">{{order.quantity}}</span></div>
-    <div id="date" class="label growing">Data: <span class="input">{{order.orderedAt}}</span></div>
-    <div id="damaged" class="label">Braki: <span class="input">{{order.damagedQuantity}}</span></div>
-  </div>
-  <div class="details-btn">
-    <btn (click)="showDetails()" [icon]="faSearch" class="btn-display"></btn>
-  </div>
+    <div class="order-info">
+        <icon-with-text class="label growing"
+                        [icon]="iconName"
+                        [text]="order.name"
+                        title="Numer zamówienia">
+        </icon-with-text>
+        <icon-with-text class="label "
+                        [icon]="iconStage"
+                        [text]="stageMapper(order.stage)"
+                        title="Etap produkcji">
+        </icon-with-text>
+        <icon-with-text class="label growing"
+                        [icon]="iconCalendar"
+                        [text]="order.orderedAt| date:'dd/MM/yyyy'"
+                        title="Data zlecenia">
+        </icon-with-text>
+        <icon-with-text class="label"
+                        [icon]="iconQuantity"
+                        [text]="order.quantity"
+                        title="Ilość">
+        </icon-with-text>
+    </div>
+    <div class="details-btn">
+        <btn (click)="showDetails()" [icon]="faSearch" class="btn-display"></btn>
+    </div>
 
 </div>

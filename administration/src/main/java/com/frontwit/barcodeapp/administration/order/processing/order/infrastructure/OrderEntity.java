@@ -66,13 +66,14 @@ class OrderEntity {
 
     void update(Order order) {
         this.stage = order.getStage();
+        this.isCompleted = order.isCompleted();
         order.getFronts().forEach((barcode, stage) -> fronts.put(barcode.getBarcode(), stage));
     }
 
     Order toDomainModel(UpdateStagePolicy policy) {
         var domainFronts = new HashMap<Barcode, Stage>();
         fronts.forEach((key, value) -> domainFronts.put(new Barcode(key), value));
-        return new Order(new OrderId(id), domainFronts, stage, policy);
+        return new Order(new OrderId(id), domainFronts, stage, isCompleted, policy);
     }
 
     OrderDetailDto detailsDto(List<FrontDto> fronts) {
@@ -80,6 +81,6 @@ class OrderEntity {
     }
 
     OrderDto dto() {
-        return new OrderDto(id, name, color, cutter, orderedAt, stage);
+        return new OrderDto(id, name, orderedAt, stage, quantity);
     }
 }

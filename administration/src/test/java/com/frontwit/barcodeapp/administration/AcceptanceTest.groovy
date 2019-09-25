@@ -40,6 +40,14 @@ class AcceptanceTest extends IntegrationSpec {
         frontIsBeingProcessed(PAINTING)
         then:
         orderIsUpdated(PAINTING)
+        when:
+        frontIsBeingProcessed(PACKING)
+        then:
+        orderIsUpdated(PACKING)
+        when:
+        frontIsBeingProcessed(IN_DELIVERY)
+        then:
+        orderIsUpdated(IN_DELIVERY)
     }
 
     void orderIsUpdated(Stage stage) {

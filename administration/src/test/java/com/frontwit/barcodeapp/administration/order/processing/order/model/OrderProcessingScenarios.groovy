@@ -5,6 +5,8 @@ import com.frontwit.barcodeapp.administration.order.processing.shared.OrderId
 import com.frontwit.barcodeapp.administration.order.processing.shared.Stage
 import spock.lang.Specification
 
+import static com.frontwit.barcodeapp.administration.order.processing.shared.Stage.*
+
 class OrderProcessingScenarios extends Specification {
 
     OrderId orderId = new OrderId(1L)
@@ -14,36 +16,53 @@ class OrderProcessingScenarios extends Specification {
         given:
         def order = aOrderWithOneFront()
         when:
-        order.updateFrontStage(aMillingUpdateStageDetails())
+        order.update(aUpdateStageDetails(MILLING))
         then:
-        order.getStage() == Stage.MILLING
+        order.getStage() == MILLING
+        !order.isCompleted()
     }
 
     def "should not change stage when not all fronts processed"() {
         given:
         def order = aOrderWithTwoFronts()
         when:
-        order.updateFrontStage(aMillingUpdateStageDetails())
+        order.update(aUpdateStageDetails(MILLING))
         then:
-        order.getStage() == Stage.INIT
+        order.getStage() == INIT
+        !order.isCompleted()
+    }
+
+    def "should be completed when reach last stage"() {
+        given:
+        def order = aOrderWithoutLastProcess()
+        when:
+        order.update(aUpdateStageDetails(IN_DELIVERY))
+        then:
+        order.getStage() == IN_DELIVERY
+        order.isCompleted()
     }
 
     def "should throw exception when order does not contain front"() {
         given:
         def order = aOrderWithOneFront()
         when:
-        order.updateFrontStage(aUnknownBarcodeUpdateStageDetails())
+        order.update(aUnknownBarcodeUpdateStageDetails())
         then:
         thrown(UpdateStageException)
     }
 
     Order aOrderWithTwoFronts() {
-        def fronts = frontsAtInitStage(barcode, Barcode.valueOf(orderId, 2))
+        def fronts = frontsAtStage(INIT, barcode, Barcode.valueOf(orderId, 2))
         createOrder(orderId, fronts)
     }
 
     Order aOrderWithOneFront() {
-        def fronts = frontsAtInitStage(barcode)
+        def fronts = frontsAtStage(INIT, barcode)
+        createOrder(orderId, fronts)
+    }
+
+    Order aOrderWithoutLastProcess() {
+        def fronts = frontsAtStage(PACKING, barcode)
         createOrder(orderId, fronts)
     }
 
@@ -51,17 +70,17 @@ class OrderProcessingScenarios extends Specification {
         new Order(orderId, fronts, UpdateStagePolicy.allPolicies())
     }
 
-    UpdateStageDetails aMillingUpdateStageDetails() {
-        new UpdateStageDetails(barcode, Stage.MILLING)
+    UpdateStageDetails aUpdateStageDetails(Stage stage) {
+        new UpdateStageDetails(barcode, stage)
     }
 
     UpdateStageDetails aUnknownBarcodeUpdateStageDetails() {
-        new UpdateStageDetails(new Barcode(201L), Stage.MILLING)
+        new UpdateStageDetails(new Barcode(201L), MILLING)
     }
 
-    Map<Barcode, Stage> frontsAtInitStage(Barcode... barcodes) {
-        def fronts = barcodes.collectEntries {
-            [(it): Stage.INIT]
+    Map<Barcode, Stage> frontsAtStage(Stage stage, Barcode... barcodes) {
+        Map<Barcode,Stage> fronts = barcodes.collectEntries {
+            [(it): stage]
         }
         fronts
     }

@@ -17,12 +17,12 @@ public class OrderResource {
 
     OrderQuery orderQuery;
 
-    @GetMapping("/{id}")
+    @GetMapping("/orders/{id}")
     OrderDetailDto getOrder(@PathVariable Long id) {
         return orderQuery.find(id);
     }
 
-    @PostMapping(value = "")
+    @PostMapping(value = "/orders")
     Page<OrderDto> getOrdersForSearchCriteria(Pageable pageable, @RequestBody(required = false) OrderSearchCriteria searchCriteria) {
         return orderQuery.find(pageable, searchCriteria);
     }

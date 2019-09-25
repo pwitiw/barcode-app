@@ -1,25 +1,34 @@
-import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SimpleOrder} from 'src/app/components/orders/types/SimpleOrder';
-import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import {faCalendarAlt, faIndustry, faInfoCircle, faSearch} from '@fortawesome/free-solid-svg-icons';
+import {faStackOverflow} from "@fortawesome/free-brands-svg-icons";
+import {stageMapper} from "../types/Stage"
+
 
 @Component({
-  selector: 'order-row',
-  templateUrl: './order-row.component.html'
+    selector: 'order-row',
+    templateUrl: './order-row.component.html'
 })
 export class OrderRow implements OnInit {
 
-  @Input() order: SimpleOrder;
-  @Output() showDetailsClicked = new EventEmitter<SimpleOrder>();
-  faSearch = faSearch;
+    @Input() order: SimpleOrder;
+    @Output() showDetailsClicked = new EventEmitter<SimpleOrder>();
+    stageMapper = stageMapper;
+    faSearch = faSearch;
+    iconStage = faIndustry;
+    iconCalendar = faCalendarAlt;
+    iconName = faInfoCircle;
+    iconQuantity = faStackOverflow;
 
 
-  constructor() {
-  }
 
-  ngOnInit() {
-  }
+    constructor() {
+    }
 
-  showDetails() {
-    this.showDetailsClicked.emit(this.order);
-  }
+    ngOnInit() {
+    }
+
+    showDetails() {
+        this.showDetailsClicked.emit(this.order);
+    }
 }

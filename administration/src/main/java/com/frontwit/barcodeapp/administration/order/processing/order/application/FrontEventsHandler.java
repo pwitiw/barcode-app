@@ -19,7 +19,7 @@ public class FrontEventsHandler {
         var orderId = event.getBarcode().getOrderId();
         var order = orderRepository.findBy(orderId)
                 .orElseThrow(() -> new ProcessingException(format("Order with id %s does not exist.", orderId.getOrderId())));
-        order.updateFrontStage(new UpdateStageDetails(event.getBarcode(), event.getStage()));
+        order.update(new UpdateStageDetails(event.getBarcode(), event.getStage()));
         orderRepository.save(order);
     }
 

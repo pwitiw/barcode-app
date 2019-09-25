@@ -1,30 +1,67 @@
 <div class="details-overview" *ngIf="order">
     <div class="order-details">
         <h3>Szczegóły zamówienia</h3>
-        <icon-with-text [icon]="iconName" [text]="order.name" title="Numer zamówienia"></icon-with-text>
-        <icon-with-text [icon]="iconPalette" [text]="order.color" title="Kolor"></icon-with-text>
-        <icon-with-text [icon]="iconCustomer" [text]="order.customer" title="Klient"></icon-with-text>
-        <icon-with-text [icon]="iconStage" [text]="getStage(order.stage)"
-                        title="Etap produkcji"></icon-with-text>
-        <icon-with-text [icon]="iconCalendar" [text]="order.orderedAt" title="Data zlecenia"></icon-with-text>
-        <icon-with-text [icon]="iconWidth" [text]="order.size" title="Grubość płyty"></icon-with-text>
-        <icon-with-text [icon]="iconCutter" [text]="order.cutter" title="Frez"></icon-with-text>
-        <icon-with-text [icon]="iconComment" [text]="order.comment" title="Komentarz"></icon-with-text>
+        <icon-with-text [icon]="iconName"
+                        [text]="order.name"
+                        title="Numer zamówienia">
+        </icon-with-text>
+        <icon-with-text [icon]="iconStage"
+                        [text]="stageMapper(order.stage)"
+                        title="Etap produkcji">
+        </icon-with-text>
+        <icon-with-text [icon]="iconCustomer"
+                        [text]="order.customer"
+                        title="Klient">
+        </icon-with-text>
+        <icon-with-text [icon]="iconCalendar"
+                        [text]="order.orderedAt| date:'dd/MM/yyyy'"
+                        title="Data zlecenia">
+        </icon-with-text>
+        <icon-with-text [icon]="iconPalette"
+                        [text]="order.color"
+                        title="Kolor">
+        </icon-with-text>
+        <icon-with-text [icon]="iconWidth"
+                        [text]="order.size"
+                        title="Grubość płyty">
+        </icon-with-text>
+        <icon-with-text [icon]="iconCutter"
+                        [text]="order.cutter"
+                        title="Frez">
+        </icon-with-text>
+        <icon-with-text [icon]="iconComment"
+                        [text]="order.comment"
+                        title="Komentarz">
+        </icon-with-text>
     </div>
     <div class="front-list">
         <h3>Lista elementów</h3>
-        <div class="front-row" *ngFor="let front of order.components;let i = index">
+        <div class="front-row" *ngFor="let front of order.fronts;let i = index">
             <span><b>{{i + 1}}.</b></span>
             <div class="row-details">
                 <div class="group">
-                    <icon-with-text [icon]="iconHeight" [text]="front.height" title="Wysokość"></icon-with-text>
-                    <icon-with-text [icon]="iconWidth" [text]="front.width" title="Szerokość"></icon-with-text>
-                    <icon-with-text [icon]="iconQuantity" [text]="front.quantity" title="Ilość"></icon-with-text>
+                    <icon-with-text [icon]="iconHeight"
+                                    [text]="front.height"
+                                    title="Wysokość">
+                    </icon-with-text>
+                    <icon-with-text [icon]="iconWidth"
+                                    [text]="front.width"
+                                    title="Szerokość">
+                    </icon-with-text>
+                    <icon-with-text [icon]="iconQuantity"
+                                    [text]="front.quantity"
+                                    title="Ilość">
+                    </icon-with-text>
                 </div>
                 <div class="group">
-                    <icon-with-text [icon]="iconBarcode" [text]="front.barcode" title="Kod kreskowy"></icon-with-text>
-                    <icon-with-text [icon]="iconStage" [text]="getStage(front.stage)"
-                                    title="Etap produkcji"></icon-with-text>
+                    <icon-with-text [icon]="iconBarcode"
+                                    [text]="front.barcode"
+                                    title="Kod kreskowy">
+                    </icon-with-text>
+                    <icon-with-text [icon]="iconStage"
+                                    [text]="stageMapper(front.stage)"
+                                    title="Etap produkcji">
+                    </icon-with-text>
                 </div>
                 <div class="group" *ngIf="front.comment">
                     <icon-with-text [icon]="iconComment" [text]="front.comment" title="Komentarz"></icon-with-text>
