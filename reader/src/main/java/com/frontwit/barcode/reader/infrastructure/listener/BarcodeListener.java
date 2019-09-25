@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
+import static java.lang.String.format;
 import static org.jnativehook.keyboard.NativeKeyEvent.VC_0;
 import static org.jnativehook.keyboard.NativeKeyEvent.VC_1;
 
@@ -73,7 +74,7 @@ public class BarcodeListener implements NativeKeyListener {
         Integer readerId = Integer.valueOf(inputString.substring(0, 1));
         Long barcode = Long.valueOf(inputString.substring(1));
         commandGateway.fire(new ProcessBarcodeCommand(readerId, barcode, LocalDateTime.now()));
-        LOGGER.info(input.toString());
+        LOGGER.info(format("Front %s processed on stage %s", barcode, readerId));
     }
 
     private void unregister() {
