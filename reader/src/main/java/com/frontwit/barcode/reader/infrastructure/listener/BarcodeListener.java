@@ -77,6 +77,7 @@ public class BarcodeListener implements NativeKeyListener {
         LOGGER.info(format("Front %s processed on stage %s", barcode, readerId));
     }
 
+
     private void unregister() {
         try {
             GlobalScreen.unregisterNativeHook();
