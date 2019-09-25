@@ -33,7 +33,7 @@ public class Order {
         fronts.put(details.getBarcode(), details.getStage());
         updateStage();
         isCompleted = Stage.isLast(stage);
-    }
+        }
 
     boolean contains(Barcode barcode) {
         return fronts.containsKey(barcode);

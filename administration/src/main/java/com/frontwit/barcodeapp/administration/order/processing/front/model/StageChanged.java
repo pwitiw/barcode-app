@@ -10,4 +10,9 @@ import lombok.Value;
 public class StageChanged implements DomainEvent {
     @NonNull Barcode barcode;
     @NonNull Stage stage;
+
+    @Override
+    public Long getId() {
+        return barcode.getBarcode();
+    }
 }

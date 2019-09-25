@@ -45,7 +45,7 @@ class ProcessingOrderIsPreserved implements FrontProcessingPolicy {
                 .filter(stage -> stage == Stage.valueOf(details.getStage().getId() - 1))
                 .count();
         if (details.getStage() != Stage.MILLING && predecessorStageProcesses == 0) {
-            throw new ProcessingPolicyViolationException(format("Bad model order: stage -> %s, applied stage -> %s", front.getCurrentStage(), details.getStage()));
+            throw new ProcessingPolicyViolationException(format("Bad processing order: stage -> %s, applied stage -> %s", front.getCurrentStage(), details.getStage()));
         }
     }
 }

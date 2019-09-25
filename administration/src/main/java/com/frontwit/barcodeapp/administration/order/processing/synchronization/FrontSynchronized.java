@@ -8,4 +8,9 @@ import lombok.Value;
 public class FrontSynchronized implements DomainEvent {
 
     ProcessFrontCommand processFrontCommand;
+
+    @Override
+    public Long getId() {
+        return processFrontCommand.getBarcode();
+    }
 }

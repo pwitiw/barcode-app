@@ -5,13 +5,9 @@
 
 
 BUGS:
+2019-09-25 22:27:04.341  WARN 29875 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m22s375ms36µs110ns).
 - reader blad przy duzych lcizbach np 11111111111111111111111
 - exception w adminie : stacktrace leci przez filtery
 
-- przetestowac wyszukiwane
-21201
-31201
-41201
-51201
-61201
-71201
+PYTANIA:
+- jak ma wygladac ta regula ProcessingOrderIsPreserved

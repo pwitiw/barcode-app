@@ -41,7 +41,7 @@ public class OrderQuery {
     }
 
     public Page<OrderDto> find(Pageable pageable, OrderSearchCriteria searchCriteria) {
-        var criteria = searchCriteria.empty() ? new Criteria() : createCriteria(searchCriteria);
+        var criteria = createCriteria(searchCriteria);
         var query = new Query(criteria).with(pageable);
         var orders = mongoTemplate.find(query, OrderEntity.class);
         return PageableExecutionUtils

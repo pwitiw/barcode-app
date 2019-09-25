@@ -40,9 +40,8 @@ public class MongoConfig {
         return new LocalValidatorFactoryBean();
     }
 
-    @Bean
+//    @Bean
     public LoggingEventListener mappingEventsListener() {
         return new LoggingEventListener();
     }
-
 }

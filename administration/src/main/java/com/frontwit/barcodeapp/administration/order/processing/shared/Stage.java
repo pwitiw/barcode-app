@@ -32,9 +32,9 @@ public enum Stage {
         return stage == IN_DELIVERY;
     }
 
-    public static Stage valueOf(int readerId) {
+    public static Stage valueOf(int id) {
         return Stream.of(Stage.values())
-                .filter(value -> value.id == readerId)
+                .filter(value -> value.id == id)
                 .findFirst()
                 .orElseThrow(IllegalStateException::new);
     }
