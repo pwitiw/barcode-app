@@ -30,3 +30,5 @@ nbdist/
 
 barcode-app.db
 
+### mqtt ###
+*.lck
