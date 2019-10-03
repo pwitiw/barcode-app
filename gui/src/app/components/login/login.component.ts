@@ -22,10 +22,10 @@ export class LoginComponent implements OnInit {
     }
 
     public login(): void {
-        this.isValid() && this.authService.login(this.username, this.password).subscribe(result => {
+        this.isValid() && this.authService.loginUsingCredentials(this.username, this.password).subscribe(result => {
             if (result) {
                 this.router.navigate(['/admin/admin-view']);
-                this.authFailed = true;
+                this.authFailed = false;
             } else {
                 this.authFailed = true;
             }

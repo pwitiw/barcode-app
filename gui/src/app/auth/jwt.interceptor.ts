@@ -5,18 +5,17 @@ import {AuthService} from "./auth.service";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {
-  }
-// TODO pwitiw ogarnac tutaj tego local store
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (localStorage.currentUser && localStorage.currentUserToken) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `${localStorage.token}`
-        }
-      });
-    }
 
-    return next.handle(request);
-  }
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const token = localStorage.getItem(AuthService.TOKEN_KEY);
+        if (token) {
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `${token}`
+                }
+            });
+        }
+
+        return next.handle(request);
+    }
 }

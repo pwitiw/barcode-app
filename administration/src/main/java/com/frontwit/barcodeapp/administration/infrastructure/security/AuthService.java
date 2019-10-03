@@ -1,11 +1,12 @@
 package com.frontwit.barcodeapp.administration.infrastructure.security;
 
-import com.frontwit.barcodeapp.administration.infrastructure.security.Role.Type;
+import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
@@ -14,50 +15,48 @@ import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 
 
 @Component
+@AllArgsConstructor
 public class AuthService {
 
-    private JwtUtils jwtUtil;
-
-    private UserService userService;
-
+    private JwtTokenUtil jwtTokenUtil;
+    private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AuthService(JwtUtils jwtUtil, UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.jwtUtil = jwtUtil;
-        this.userService = userService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
-
-    String authenticateUsingCredentials(final User user) {
-        User userFromDb = userService.loadUserByUsername(user.getUsername());
-        if (!bCryptPasswordEncoder.matches(user.getPassword(), userFromDb.getPassword())) {
+    String createToken(final UserDetails user) {
+        var details = getUserDetails(user.getUsername());
+        if (!bCryptPasswordEncoder.matches(user.getPassword(), details.getPassword())) {
             throw new BadCredentialsException("Provided credentials are incorrect");
         }
-        setLoggedUser(userFromDb);
-        return jwtUtil.generateToken(userFromDb);
+        return jwtTokenUtil.createToken(details);
     }
 
-    void authenticateUsingToken(final String token) {
-        String username = jwtUtil.getSubject(token);
-        User user = userService.loadUserByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found : " + username);
-        }
-        setLoggedUser(user);
+    void authorize(final String token) {
+        jwtTokenUtil.validate(token);
+        var username = jwtTokenUtil.getSubject(token);
+        var user = userRepository.findByUsername(username);
+        var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
-    @RolesAllowed(Type.ADMIN)
-    void register(final User user) {
-        User userFromDb = userService.loadUserByUsername(user.getUsername());
-        if (userFromDb != null) {
-            throw new IllegalArgumentException("User " + user.getUsername() + " already exists");
+    @RolesAllowed("ADMIN")
+    void register(final UserDetails request) {
+        var result = userRepository.findByUsername(request.getUsername());
+        if (result != null) {
+            throw new IllegalArgumentException("User " + request.getUsername() + " already exists");
         }
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(Collections.singletonList(Role.USER)));
-        userService.save(user);
+
+        var password = bCryptPasswordEncoder.encode(request.getPassword());
+        var roles = new HashSet<>(Collections.singletonList(Role.USER));
+//        var newUser = new User(request.getUsername(), password, roles);
+        var newUser = new User();
+        newUser.setUsername(request.getUsername());
+        newUser.setPassword(password);
+        newUser.setRoles(roles);
+        userRepository.save(newUser);
     }
 
     void logout(final HttpServletRequest request) {
@@ -67,8 +66,8 @@ public class AuthService {
         }
     }
 
-    private void setLoggedUser(User user) {
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
+    private UserDetails getUserDetails(String username) {
+        return Optional.ofNullable(userRepository.findByUsername(username))
+                .orElseThrow(() -> new AuthenticationServiceException("User does not exist"));
     }
 }

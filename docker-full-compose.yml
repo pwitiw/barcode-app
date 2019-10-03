@@ -1,65 +1,22 @@
-version: '3'process
+version: '2.4'
 
 services:
-  app:
-    build:
-      context: .
-      args:
-        JAR_FILE: ${JAR_FILE}
-    image: barcode-app
-    container_name: barcode-app
-    environment:
-      - PROFILE=prod
-      - PORT=${PORT}
-      - MONGO_URL=mongo
-      - MYSQL_URL=mysql
-    ports:
-      - ${PORT}:${PORT}
-    external_links:
-      - mysql:mysql
-      - mongo:mongo
-    volumes:
-      - ${VOLUME}/barcode-app:/
-
-  mongo:
-    image: mongo
-    container_name: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ADMIN}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ADMIN_PASS}
-      MONGODB_APPLICATION_USER: ${MONGO_USER}
-    ports:
-      - 27017:27017
-    networks:
-      wiciu:
-        - ipv4_address: 172.28.1.2
-    volumes:
-    - ${DB_VOLUME}/mongo:/data/db
-
-
-
   mysql:
-    image: mysql
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - 3306:3306
-    volumes:
-    - ${DB_VOLUME}/mysql:/var/lib/mysql
+    extends:
+      file: docker-essentials.yml
+      service: mysql
 
+  mongodb:
+    extends:
+      file: docker-essentials.yml
+      service: mongodb
 
-      depends_on:
-      - db
-      networks:
-        - default
+  mqtt:
+    extends:
+      file: docker-essentials.yml
+      service: mqtt
 
-networks:
-  wiciu:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.28.0.0/16
+  reader:
+    image: frontwit/reader
+    build:
+      context: ./reader

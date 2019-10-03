@@ -11,15 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @AllArgsConstructor
-public class JWTAuthFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-    AuthService authService;
+    private AuthService authService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (header != null && header.startsWith(JwtUtils.TOKEN_PREFIX)) {
-            authService.authenticateUsingToken(header);
+        if (!request.getRequestURI().contains("/login")) {
+            var token = request.getHeader(HttpHeaders.AUTHORIZATION);
+            if (token != null && !token.isEmpty()) {
+                authService.authorize(token);
+            }
         }
         filterChain.doFilter(request, response);
     }

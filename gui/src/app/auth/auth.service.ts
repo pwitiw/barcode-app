@@ -1,44 +1,41 @@
 import {Injectable} from '@angular/core';
-import {Credentials} from 'src/app/auth/Credentials';
 import {Observable} from 'rxjs';
 import {RestService} from "../services/rest.service";
-import {map, tap} from "rxjs/operators";
-import {LoadingService} from "../services/loading.service";
+import {map} from "rxjs/operators";
 
 @Injectable()
 export class AuthService {
     private static readonly LOGIN_ENDPOINT = "/login";
-    private static readonly TOKEN_KEY = "token";
-    private static readonly USER_KEY = "username";
+    static readonly TOKEN_KEY = "token";
+    static readonly USERNAME_KEY = "username";
 
-    constructor(private rest: RestService,
-                private loadingService: LoadingService) {
+    private loggedUser: string;
+
+    constructor(private rest: RestService) {
+        this.loggedUser = sessionStorage.getItem(AuthService.USERNAME_KEY);
     }
 
     public getLoggedUser(): string {
-        return localStorage.getItem(AuthService.USER_KEY);
+        return this.loggedUser;
     }
 
     public isAuthenticated(): boolean {
-        const token = localStorage.getItem(AuthService.TOKEN_KEY);
-        const user = localStorage.getItem(AuthService.USER_KEY);
-        return !!token && !!user;
+        return this.loggedUser != null;
     }
 
-    public login(username: string, password: string): Observable<boolean> {
-        this.loadingService.show();
-        const credentials: Credentials = {
+    public loginUsingCredentials(username: string, password: string): Observable<boolean> {
+        let credentials = {
             username: username,
             password: password
         };
         return this.rest.post(AuthService.LOGIN_ENDPOINT, credentials)
             .pipe(
-                tap(() => this.loadingService.hide()),
                 map(response => {
                     if (response && response.status === 200) {
                         const token = response.headers.get("Authorization");
                         localStorage.setItem(AuthService.TOKEN_KEY, token);
-                        localStorage.setItem(AuthService.USER_KEY, credentials.username);
+                        localStorage.setItem(AuthService.TOKEN_KEY, token);
+                        this.loggedUser = username;
                         return true;
                     }
                     return false;
@@ -46,8 +43,9 @@ export class AuthService {
             );
     }
 
-    public logout() {
+    public logout(): void {
         localStorage.removeItem(AuthService.TOKEN_KEY);
-        localStorage.removeItem(AuthService.USER_KEY);
+        localStorage.removeItem(AuthService.USERNAME_KEY);
+        this.loggedUser = null;
     }
 }

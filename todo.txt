@@ -6,11 +6,19 @@
 BUGS:
 2019-09-25 22:27:04.341  WARN 29875 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m22s375ms36µs110ns).
 - exception w adminie : stacktrace leci przez filtery
+- brak favicon
 
 1) test readera
-2) DEPLOYMENT
-3) dopieszczenie
-4) zebranie wymagan / sugestii
+2) security / logowanie test
+3) DEPLOYMENT
+4) route finder deployment
+5) zebranie wymagan / sugestii
 
 PYTANIA:
 - jak ma wygladac ta regula ProcessingOrderIsPreserved
+- dodaje sie literka jakas na koncu, dlaczego???
+
+PROBLEMY:
+- zasięg skanera ( w biurze jak jest, to nie czyta)
+    * raspberry w strategicznym miejscu (pakowanie)
+    * offline mode dla magazyniera

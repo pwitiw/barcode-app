@@ -10,6 +10,16 @@ db.createUser(
         ]
     }
 );
+
+db.user.insert({
+    "_id": ObjectId("5d8c654890f5443c5e721ff1"),
+    "username": "patryk",
+    "password": "$2a$10$purbCrPMhLECPuLg4o5G6eaQgIYI7GfGsbFzYI8oryhlf6FSlFifC",
+    "roles": [
+        "USER"
+    ],
+    "_class": "com.frontwit.barcodeapp.administration.infrastructure.security.User"
+});
 //
 // db.order.insertMany([
 //     {
