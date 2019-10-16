@@ -1,24 +1,20 @@
-- przetestowac dobrze reader
-- kod kreskowy jest rozpoznawany z klawiatury(a nie powinien byc)
-
+1) przetestowac dobrze reader
+2) local storage przetestowac
+3) dostep zdalny
 
 
 BUGS:
-2019-09-25 22:27:04.341  WARN 29875 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m22s375ms36µs110ns).
-- exception w adminie : stacktrace leci przez filtery
 - brak favicon
 
-1) test readera
-2) security / logowanie test
-3) DEPLOYMENT
-4) route finder deployment
-5) zebranie wymagan / sugestii
-
-PYTANIA:
-- jak ma wygladac ta regula ProcessingOrderIsPreserved
-- dodaje sie literka jakas na koncu, dlaczego???
-
 PROBLEMY:
-- zasięg skanera ( w biurze jak jest, to nie czyta)
-    * raspberry w strategicznym miejscu (pakowanie)
-    * offline mode dla magazyniera
+    * dodaje sie literka jakas na koncu, dlaczego???
+    * jak beda sie komunikowac skanery z roznych zakladowów
+    * rpi sie grzeje
+
+TODO:
+- przetestowac czy na windowsie dziala ten reader
+- offline mode dla magazyniera
+
+
+new features:
+- jak ma byc generowany raport (co ma zawierac)

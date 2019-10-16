@@ -1,7 +1,6 @@
 package com.frontwit.barcodeapp.administration.order.processing.front.model;
 
 import com.frontwit.barcodeapp.administration.order.processing.shared.ProcessingException;
-import com.frontwit.barcodeapp.administration.order.processing.shared.Stage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,13 +39,14 @@ class ProcessingIsNotCompleted implements FrontProcessingPolicy {
 class ProcessingOrderIsPreserved implements FrontProcessingPolicy {
     @Override
     public void verify(Front front, ProcessingDetails details) {
-        var predecessorStageProcesses = front.getProcessings().stream()
-                .map(ProcessingDetails::getStage)
-                .filter(stage -> stage == Stage.valueOf(details.getStage().getId() - 1))
-                .count();
-        if (details.getStage() != Stage.MILLING && predecessorStageProcesses == 0) {
-            throw new ProcessingPolicyViolationException(format("Bad processing order: stage -> %s, applied stage -> %s", front.getCurrentStage(), details.getStage()));
-        }
+//        FIXME na poczatku tylko pakowanie i tak
+//        var predecessorStageProcesses = front.getProcessings().stream()
+//                .map(ProcessingDetails::getStage)
+//                .filter(stage -> stage == Stage.valueOf(details.getStage().getId() - 1))
+//                .count();
+//        if (details.getStage() != Stage.MILLING && predecessorStageProcesses == 0) {
+//            throw new ProcessingPolicyViolationException(format("Bad processing order: stage -> %s, applied stage -> %s", front.getCurrentStage(), details.getStage()));
+//        }
     }
 }
 

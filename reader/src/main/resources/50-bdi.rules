@@ -1,0 +1,3 @@
+#add this to directory /etc/udev/rules.d
+SUBSYSTEM=="usb", GROUP="barcode-scanner", ATTRS{idVendor}=="0581", ATTRS{idProduct}=="0103"
+

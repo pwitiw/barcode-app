@@ -1,4 +1,4 @@
-package com.frontwit.barcode.reader.infrastructure.store;
+package com.frontwit.barcode.reader.store;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

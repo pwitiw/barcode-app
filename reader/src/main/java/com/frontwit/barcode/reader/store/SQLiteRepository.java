@@ -1,8 +1,7 @@
-package com.frontwit.barcode.reader.infrastructure.store;
+package com.frontwit.barcode.reader.store;
 
 import com.frontwit.barcode.reader.application.ProcessBarcodeCommand;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -16,8 +15,7 @@ import java.util.logging.Logger;
 
 import static java.lang.String.format;
 
-@Component
-class SQLiteRepository {
+public class SQLiteRepository {
 
     private static final Logger LOGGER = Logger.getLogger(SQLiteRepository.class.getName());
     private static final String TABLE_NAME = "barcode";
@@ -70,7 +68,7 @@ class SQLiteRepository {
     void delete(Collection<UUID> ids) {
         String values = ids.stream()
                 .map(String::valueOf)
-                .reduce((id1, id2) -> id1.toString() + ", " + id2.toString())
+                .reduce((id1, id2) -> id1 + ", " + id2)
                 .orElse("");
         String sql = format("DELETE FROM barcode WHERE id IN (%s)", values);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {

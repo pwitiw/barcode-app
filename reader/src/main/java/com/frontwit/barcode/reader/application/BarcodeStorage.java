@@ -4,11 +4,12 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
-public interface EventStore {
+public interface BarcodeStorage {
 
-    void save(ProcessBarcodeCommand processBarcodeCommand);
+    void store(ProcessBarcodeCommand command);
 
     Map<UUID, ProcessBarcodeCommand> findAll();
 
     void delete(Collection<UUID> ids);
+
 }

@@ -1,12 +1,11 @@
 package com.frontwit.barcode.reader.application;
 
-import com.frontwit.barcode.reader.barcode.Event;
 import lombok.Value;
 
 import java.time.LocalDateTime;
 
 @Value
-public class ProcessBarcodeCommand implements Event {
+public class ProcessBarcodeCommand {
 
     private  Integer stage;
     private  Long barcode;

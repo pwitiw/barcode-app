@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @EnableWebSecurity
-@Profile("dev")
+@Profile("local")
 public class DevSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
