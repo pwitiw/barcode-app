@@ -51,11 +51,7 @@ public class AuthService {
 
         var password = bCryptPasswordEncoder.encode(request.getPassword());
         var roles = new HashSet<>(Collections.singletonList(Role.USER));
-//        var newUser = new User(request.getUsername(), password, roles);
-        var newUser = new User();
-        newUser.setUsername(request.getUsername());
-        newUser.setPassword(password);
-        newUser.setRoles(roles);
+        var newUser = new User(request.getUsername(), password, roles);
         userRepository.save(newUser);
     }
 

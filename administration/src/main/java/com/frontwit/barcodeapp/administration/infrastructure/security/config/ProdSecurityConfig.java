@@ -9,8 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
-import javax.annotation.PostConstruct;
-
 @EnableWebSecurity
 @AllArgsConstructor
 @Profile("prod")
@@ -19,11 +17,6 @@ public class ProdSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String API_URL = "/api/**";
 
     private AuthService authService;
-
-    @PostConstruct
-    public void sada() {
-        System.out.println();
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
