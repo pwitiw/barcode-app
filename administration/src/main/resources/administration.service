@@ -1,7 +1,7 @@
 # copy this file to /etc/systemd/system/
 # run sudo systemctl daemon-reload
-# run sudo systemctl enable barcode-reader.service
-# run sudo systemctl start barcode-reader.service
+# run sudo systemctl enable administration.service
+# run sudo systemctl start administration.service
 [Unit]
 Description=Barcode Administration Spring App
 [Service]

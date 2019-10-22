@@ -3,7 +3,7 @@
 /out/
 /gradle/
 /logs/
-/src/main/resources/static/
+/src/main/resources/public/
 !gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###

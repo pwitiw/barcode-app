@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Scheduled;
 
-import javax.ws.rs.ProcessingException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
+
+import static java.lang.String.format;
 
 @AllArgsConstructor
 public class BarcodeProcessor {
@@ -19,23 +21,24 @@ public class BarcodeProcessor {
 
     private BarcodeStorage storage;
 
-
     @EventListener
-    void acceptScannedBarcode(BarcodeScanned event) {
+   public void acceptScannedBarcode(BarcodeScanned event) {
         createProcessBarcodeCommand(event).ifPresent(this::publishOrStore);
     }
 
-    @EventListener
-    void publishAllStoredEvents(ConnectedToMqtt event) {
+    @Scheduled(fixedRate = 30000)
+    public void publishAllStoredEvents() {
         var published = new HashSet<UUID>();
-        storage.findAll().forEach((id, command) -> {
-            try {
+        try {
+            storage.findAll().forEach((id, command) -> {
                 publishBarcode.publish(command);
                 published.add(id);
-            } catch (ProcessingException ignore) {
-            }
-        });
-        storage.delete(published);
+            });
+        } catch (PublishingException ignore) {
+        }
+        if (!published.isEmpty()) {
+            storage.delete(published);
+        }
     }
 
     private Optional<ProcessBarcodeCommand> createProcessBarcodeCommand(BarcodeScanned event) {
@@ -45,7 +48,7 @@ public class BarcodeProcessor {
             var command = new ProcessBarcodeCommand(stageId, barcode, LocalDateTime.now());
             return Optional.of(command);
         } catch (NumberFormatException ex) {
-            LOG.warn("Number parsing error for: " + event.getValue());
+            LOG.warn(format("Number parsing error for %s", event.getValue()));
         }
         return Optional.empty();
     }
@@ -53,8 +56,7 @@ public class BarcodeProcessor {
     private void publishOrStore(ProcessBarcodeCommand command) {
         try {
             publishBarcode.publish(command);
-        } catch (ProcessingException ex) {
-            LOG.warn("Error while publishing.");
+        } catch (PublishingException ex) {
             storage.store(command);
         }
     }

@@ -32,16 +32,17 @@ public class SQLiteRepository {
     @PostConstruct
     private void initDb() throws SQLException {
         connection = DriverManager.getConnection(url);
-        LOGGER.info("Connection to SQLite has been established.");
+        LOGGER.info("[SQLite] Connection to SQLite has been established.");
         createTableIfNotExists();
     }
 
     boolean persist(Integer readerId, Long barcode, LocalDateTime dateTime) {
-        String sql = "INSERT INTO barcode (barcode, reader_id, date) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO barcode (id, barcode, reader_id, date) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, readerId);
+            statement.setString(1, UUID.randomUUID().toString());
             statement.setLong(2, barcode);
-            statement.setString(3, dateTime.toString());
+            statement.setInt(3, readerId);
+            statement.setString(4, dateTime.toString());
             return statement.execute();
         } catch (SQLException e) {
             LOGGER.warning(e.getMessage());
@@ -67,27 +68,28 @@ public class SQLiteRepository {
 
     void delete(Collection<UUID> ids) {
         String values = ids.stream()
-                .map(String::valueOf)
-                .reduce((id1, id2) -> id1 + ", " + id2)
+                .map(id -> "'" + id + "'")
+                .reduce((id1, id2) -> id1 + "," + id2)
                 .orElse("");
         String sql = format("DELETE FROM barcode WHERE id IN (%s)", values);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.execute();
-            LOGGER.info(format("Deleted entries with ids: [%s]", values));
+            LOGGER.info(format("[SQLite] Deleted entries with ids: [%s]", values));
         } catch (SQLException e) {
             LOGGER.warning(e.getMessage());
         }
+
     }
 
     private void createTableIfNotExists() throws SQLException {
         final var sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(\n"
-                + ID + "text PRIMARY KEY,\n"
+                + ID + " text PRIMARY KEY,\n"
                 + READER_ID + "	integer NOT NULL,\n"
                 + BARCODE + "	integer NOT NULL,\n"
                 + DATE + "  	text\n"
                 + ");";
         var result = connection.prepareStatement(sql).execute();
-        LOGGER.info(format("Creation script ended with result: %s", result));
+        LOGGER.info(format("[SQLite] Creation script ended with result: %s", result));
     }
 
     ProcessBarcodeCommand mapBarcode(ResultSet resultSet) throws SQLException {

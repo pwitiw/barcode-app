@@ -1,15 +1,12 @@
 1) przetestowac dobrze reader
-2) local storage przetestowac
-3) dostep zdalny
+2) local storage przetestowac3) dostep zdalny
 
 
 BUGS:
 - brak favicon
 
 PROBLEMY:
-    * dodaje sie literka jakas na koncu, dlaczego???
     * jak beda sie komunikowac skanery z roznych zakladowów
-    * rpi sie grzeje
 
 TODO:
 - przetestowac czy na windowsie dziala ten reader

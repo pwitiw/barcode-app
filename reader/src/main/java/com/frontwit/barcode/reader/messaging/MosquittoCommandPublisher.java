@@ -2,7 +2,6 @@ package com.frontwit.barcode.reader.messaging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.frontwit.barcode.reader.application.ConnectedToMqtt;
 import com.frontwit.barcode.reader.application.ProcessBarcodeCommand;
 import com.frontwit.barcode.reader.application.PublishBarcode;
 import com.frontwit.barcode.reader.application.PublishingException;
@@ -10,7 +9,6 @@ import org.eclipse.paho.client.mqttv3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEventPublisher;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -33,18 +31,16 @@ public class MosquittoCommandPublisher implements PublishBarcode {
     private IMqttClient mqttClient;
     private MqttConnectOptions options;
     private ObjectMapper objectMapper;
-    private ApplicationEventPublisher eventPublisher;
 
-    public MosquittoCommandPublisher(ObjectMapper objectMapper, ApplicationEventPublisher eventPublisher) {
+    public MosquittoCommandPublisher(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        this.eventPublisher = eventPublisher;
     }
 
     @PostConstruct
     void init() throws MqttException {
         mqttClient = new MqttClient(uri, "reader");
         options = new MqttConnectOptions();
-        options.setAutomaticReconnect(true);
+//        options.setAutomaticReconnect(true);
         options.setCleanSession(false);
         options.setConnectionTimeout(10);
 
@@ -74,7 +70,6 @@ public class MosquittoCommandPublisher implements PublishBarcode {
         try {
             mqttClient.connect(options);
             LOG.info("[MQTT] Connection succeed");
-            eventPublisher.publishEvent(new ConnectedToMqtt());
             return true;
         } catch (MqttException e) {
             LOG.warn(e.getMessage());
@@ -86,6 +81,7 @@ public class MosquittoCommandPublisher implements PublishBarcode {
     private synchronized void publish(String topic, MqttMessage mqttMessage) throws PublishingException {
         try {
             mqttClient.publish(topic, mqttMessage);
+            LOG.info(format("[MQTT] Published on topic %s message %s", topic, mqttMessage.toString()));
         } catch (MqttException e) {
             LOG.warn(format("[MQTT] Error while publishing. Reason: %s", e.getMessage()));
         }

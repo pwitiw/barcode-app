@@ -12,18 +12,20 @@ import com.frontwit.barcode.reader.usb.HidRegister;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 
 import java.util.concurrent.Executors;
 
 @Configuration
+@EnableScheduling
 public class BeanConfig {
 
     @Bean
-    PublishBarcode publishBarcode(ApplicationEventPublisher eventPublisher) {
+    PublishBarcode publishBarcode() {
         var objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        return new MosquittoCommandPublisher(objectMapper, eventPublisher);
+        return new MosquittoCommandPublisher(objectMapper);
     }
 
     @Bean
