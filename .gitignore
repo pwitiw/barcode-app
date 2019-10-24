@@ -28,7 +28,8 @@ dist/
 nbdist/
 .nb-gradle/
 
-barcode-app.db
+barcode-reader.db
+hs*.log
 
 ### mqtt ###
 *.lck
