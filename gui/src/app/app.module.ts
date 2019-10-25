@@ -14,12 +14,23 @@ import {RestService} from "./services/rest.service";
 import {OrdersModule} from "./components/orders/orders.module";
 import {NgxLoadingModule} from "ngx-loading";
 import {CommonsModule} from "./components/commons/commons.module";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ReportsComponent} from './components/reports/reports.component';
+import {
+  MAT_DATE_LOCALE,
+  MatDatepickerModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatNativeDateModule,
+  MatSelectModule
+} from "@angular/material";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     LoginComponent,
+    ReportsComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,10 +40,18 @@ import {CommonsModule} from "./components/commons/commons.module";
     NgbModule,
     OrdersModule,
     NgxLoadingModule,
-    CommonsModule
+    CommonsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
+
     AuthService, AuthGuardService, RestService],
   bootstrap: [AppComponent]
 })

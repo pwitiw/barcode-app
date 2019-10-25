@@ -1,5 +1,5 @@
-1) przetestowac dobrze reader
-2) local storage przetestowac3) dostep zdalny
+2) zeby mqtt zapamietywal jak nie zostanie obsluzony event (Jak administrator jest wylaczony) - chyba trzeba komunikat zwrotny
+3) dodac admina do serwisu
 
 
 BUGS:
@@ -11,7 +11,7 @@ PROBLEMY:
 TODO:
 - przetestowac czy na windowsie dziala ten reader
 - offline mode dla magazyniera
-
+- dostep zdalny
 
 new features:
 - jak ma byc generowany raport (co ma zawierac)
