@@ -31,3 +31,5 @@ nbdist/
 ### statics ###
 /**/*.js
 /**/*.css
+
+src/main/resources/public/*
