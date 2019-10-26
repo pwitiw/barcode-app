@@ -2,8 +2,6 @@
 /build/
 /out/
 /gradle/
-/logs/
-/src/main/resources/public/
 !gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###
@@ -32,4 +30,5 @@ nbdist/
 /**/*.js
 /**/*.css
 
-src/main/resources/public/*
+logs/
+src/main/resources/public/
