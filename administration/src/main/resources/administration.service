@@ -3,14 +3,16 @@
 # run sudo systemctl enable administration.service
 # run sudo systemctl start administration.service
 [Unit]
-Description=Barcode Administration Spring App
+ Description = Administration App Service
+ After network.target = administration.service
 [Service]
-User=pi
-WorkingDirectory=/home/patryk/dev
-ExecStart=/home/patryk/dev/run-administration
-SuccessExitStatus=143
-TimeoutStopSec=10
-Restart=on-failure
-RestartSec=5
+ Type = forking
+ Restart=always
+ RestartSec=5
+ SuccessExitStatus=143
+ ExecStart = /home/patryk/dev/run-administration start
+ ExecStop = /home/patryk/dev/run-administration stop
+ ExecReload = /home/patryk/dev/run-administration  reload
 [Install]
-WantedBy=multi-user.target
+ WantedBy=multi-user.target
+
