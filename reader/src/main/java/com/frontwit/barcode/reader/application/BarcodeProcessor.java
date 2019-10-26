@@ -22,7 +22,7 @@ public class BarcodeProcessor {
     private BarcodeStorage storage;
 
     @EventListener
-   public void acceptScannedBarcode(BarcodeScanned event) {
+    public void acceptScannedBarcode(BarcodeScanned event) {
         createProcessBarcodeCommand(event).ifPresent(this::publishOrStore);
     }
 
@@ -48,9 +48,13 @@ public class BarcodeProcessor {
             var command = new ProcessBarcodeCommand(stageId, barcode, LocalDateTime.now());
             return Optional.of(command);
         } catch (NumberFormatException ex) {
-            LOG.warn(format("Number parsing error for %s", event.getValue()));
+            LOG.warn(format("Barcode contains letters %s -> deleted letters", event.getValue()));
+            var stageId = Integer.valueOf(event.getValue().substring(0, 1));
+            var barcode = event.getValue().substring(1);
+            barcode = barcode.replaceAll("[A-Za-z]", "");
+            var command = new ProcessBarcodeCommand(stageId, Long.valueOf(barcode), LocalDateTime.now());
+            return Optional.of(command);
         }
-        return Optional.empty();
     }
 
     private void publishOrStore(ProcessBarcodeCommand command) {
