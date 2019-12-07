@@ -22,7 +22,6 @@ public class JwtAuthenticationController {
         authService.register(user);
     }
 
-    @CrossOrigin
     @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity login(@RequestBody User user) {
         String token = authService.createToken(user);
