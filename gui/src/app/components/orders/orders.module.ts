@@ -18,6 +18,7 @@ import {
     MatSelectModule
 } from "@angular/material";
 import {StageService} from "./stage.service";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -37,7 +38,8 @@ import {StageService} from "./stage.service";
         MatCheckboxModule,
         MatDividerModule,
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        FormsModule
     ],
     providers: [
         OrderRestService,

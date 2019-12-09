@@ -59,6 +59,9 @@ public class OrderQuery {
         } else {
             criteria.and("isCompleted").is(false);
         }
+        if (searchCriteria.getStage() != null) {
+            criteria.and("stage").is(searchCriteria.getStage());
+        }
         return criteria;
     }
 

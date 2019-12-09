@@ -2,7 +2,6 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SearchCriteria} from "../types/SearchCriteria";
 import {Stage} from "../types/Stage";
 import {StageService} from "../stage.service";
-import {MatOptionSelectionChange} from "@angular/material";
 
 @Component({
     selector: 'search-criteria',
@@ -22,19 +21,6 @@ export class SearchCriteriaComponent implements OnInit {
 
     ngOnInit() {
     }
-
-    onCompletedChange(event) {
-        this.completed = event.checked;
-    }
-
-    onStageChange(event: MatOptionSelectionChange): void {
-        this.stage = event.source.value;
-    }
-
-    onOrderNameChange(event) {
-        this.orderName = event.currentTarget.value;
-    }
-
 
     search() {
         const searchParams: SearchCriteria = {
