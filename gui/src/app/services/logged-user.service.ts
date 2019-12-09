@@ -23,6 +23,5 @@ export class LoggedUserService {
         this.localStorageService.storeUser(username, token);
         this.loggedUser = username;
     }
-
 }
 

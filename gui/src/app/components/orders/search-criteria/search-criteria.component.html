@@ -1,17 +1,23 @@
 <div class="search-criteria">
-  <h3 class="title">Wyszukiwanie zaawansowane</h3>
-  <form class="search-form" (ngSubmit)="search()">
-    <label-with-input label="Nazwa zamówienia"
-                      [input]="orderName"
-                      (inputChanged)="onOrderNameChange($event)">
+    <h3 class="title">Kryteria wyszukiwania</h3>
+    <div class="search-form">
+        <mat-form-field>
+            <input matInput placeholder="Nazwa zamówienia" (change)="onOrderNameChange($event)">
+        </mat-form-field>
+        <mat-icon aria-hidden="false" aria-label="Example home icon">industry</mat-icon>
 
-    </label-with-input>
-    <label-with-input label="Zakończone"
-                      type="checkbox"
-                      [input]="completed"
-                      (inputChanged)="onCompletedChange($event)">
-
-    </label-with-input>
-    <btn type="submit" class="search-btn" text="Szukaj"></btn>
-  </form>
+        <mat-form-field>
+            <mat-label>Etap produkcji</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let stage of stages" [value]="stage.value"
+                            (onSelectionChange)="onStageChange($event)">
+                    {{stage.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-checkbox color="primary" labelPosition="after" (change)="onCompletedChange($event)">Zakończone
+        </mat-checkbox>
+        <mat-divider></mat-divider>
+        <button mat-button color="primary" (click)="search()">Szukaj</button>
+    </div>
 </div>

@@ -7,24 +7,42 @@ import {SearchCriteriaComponent} from './search-criteria/search-criteria.compone
 import {CommonModule} from "@angular/common";
 import {CommonsModule} from "../commons/commons.module";
 import {NgxPaginationModule} from "ngx-pagination";
-import {FormsModule} from "@angular/forms";
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule
+} from "@angular/material";
+import {StageService} from "./stage.service";
 
 @NgModule({
-  declarations: [
-    OrderRow,
-    OrdersComponent,
-    OrderDetailComponent,
-    SearchCriteriaComponent
-  ],
-  imports: [
-    CommonModule,
-    CommonsModule,
-    NgxPaginationModule,
-    FormsModule
-  ],
-  providers: [
-    OrderRestService
-  ]
+    declarations: [
+        OrderRow,
+        OrdersComponent,
+        OrderDetailComponent,
+        SearchCriteriaComponent
+    ],
+    imports: [
+        CommonModule,
+        CommonsModule,
+        NgxPaginationModule,
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatDividerModule,
+        MatButtonModule,
+        MatIconModule
+    ],
+    providers: [
+        OrderRestService,
+        StageService
+    ]
 })
 export class OrdersModule {
 }

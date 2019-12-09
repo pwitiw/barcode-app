@@ -6,7 +6,7 @@
                         title="Numer zamówienia">
         </icon-with-text>
         <icon-with-text [icon]="iconStage"
-                        [text]="stageMapper(order.stage)"
+                        [text]="stageService.convertToView(order.stage)"
                         title="Etap produkcji">
         </icon-with-text>
         <icon-with-text [icon]="iconCustomer"

@@ -13,7 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {faStackOverflow} from '@fortawesome/free-brands-svg-icons';
 import {faCommentDots} from '@fortawesome/free-regular-svg-icons';
-import {stageMapper} from "../types/Stage"
+import {StageService} from "../stage.service";
 
 @Component({
     selector: 'order-detail',
@@ -32,7 +32,10 @@ export class OrderDetailComponent implements OnInit {
     iconCustomer = faUserTie;
     iconCutter = faHighlighter;
     iconName = faInfoCircle;
-    stageMapper = stageMapper;
+
+
+    constructor(protected stageService:StageService) {
+    }
 
     ngOnInit() {
     }

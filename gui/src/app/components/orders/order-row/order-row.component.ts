@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SimpleOrder} from 'src/app/components/orders/types/SimpleOrder';
 import {faCalendarAlt, faIndustry, faInfoCircle, faSearch} from '@fortawesome/free-solid-svg-icons';
 import {faStackOverflow} from "@fortawesome/free-brands-svg-icons";
-import {stageMapper} from "../types/Stage"
+import {StageService} from "../stage.service";
 
 
 @Component({
@@ -13,7 +13,6 @@ export class OrderRow implements OnInit {
 
     @Input() order: SimpleOrder;
     @Output() showDetailsClicked = new EventEmitter<SimpleOrder>();
-    stageMapper = stageMapper;
     faSearch = faSearch;
     iconStage = faIndustry;
     iconCalendar = faCalendarAlt;
@@ -21,8 +20,7 @@ export class OrderRow implements OnInit {
     iconQuantity = faStackOverflow;
 
 
-
-    constructor() {
+    constructor(protected  stageService: StageService) {
     }
 
     ngOnInit() {
