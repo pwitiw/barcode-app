@@ -49,9 +49,6 @@ public class Front {
 
     private Optional<StageChanged> amend(ProcessingDetails details) {
         amendments.add(details);
-        if (details.getStage() != currentStage) {
-            return Optional.of(statusUpdated(details));
-        }
         return Optional.empty();
     }
 

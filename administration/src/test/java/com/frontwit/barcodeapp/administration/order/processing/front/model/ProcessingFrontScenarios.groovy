@@ -46,7 +46,7 @@ class ProcessingFrontScenarios extends Specification implements SampleFront {
         MILLING == event.get().stage
     }
 
-    def "stage is downgraded when amendment applied"() {
+    def "stage is not downgraded when amendment applied"() {
         given:
         def front = aFrontWithAppliedProcesses(1, MILLING, POLISHING)
 
@@ -54,8 +54,7 @@ class ProcessingFrontScenarios extends Specification implements SampleFront {
         def event = front.apply(new ProcessingDetails(MILLING, getIncrementedDateTime()))
 
         then:
-        event.isPresent()
-        MILLING == event.get().stage
+        event.isEmpty()
     }
 
     def "amending on the same stage as current does not update stage"() {
@@ -67,27 +66,6 @@ class ProcessingFrontScenarios extends Specification implements SampleFront {
 
         then:
         event.isEmpty()
-    }
-
-    @Unroll
-    def "amendment at stage #stage downgrade stage to #stage"() {
-        given:
-        def front = aFrontWithAppliedProcesses(1, MILLING, POLISHING, BASE, GRINDING, PAINTING, PACKING)
-
-        when:
-        def event = front.apply(new ProcessingDetails(stage, getIncrementedDateTime()))
-
-        then:
-        event.isPresent()
-        stage == event.get().stage
-
-        where:
-        stage     | _
-        PAINTING  | _
-        GRINDING  | _
-        BASE      | _
-        POLISHING | _
-        MILLING   | _
     }
 
     def "can not process same front with frequency greater than once per 3 seconds"() {
