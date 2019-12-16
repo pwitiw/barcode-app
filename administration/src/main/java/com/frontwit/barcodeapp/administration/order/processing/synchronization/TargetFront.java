@@ -17,8 +17,8 @@ public class TargetFront {
 
     @Value
     public static class Dimensions {
-        private int width;
         private int height;
+        private int width;
     }
 
 }
