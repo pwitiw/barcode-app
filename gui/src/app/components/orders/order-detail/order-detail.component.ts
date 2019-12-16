@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {OrderDetails} from 'src/app/components/orders/types/OrderDetails';
 import {
     faArrowsAltH,
@@ -13,13 +13,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {faStackOverflow} from '@fortawesome/free-brands-svg-icons';
 import {faCommentDots} from '@fortawesome/free-regular-svg-icons';
-import {StageService} from "../stage.service";
+import {StageService} from '../stage.service';
+import {Front} from "../types/Front";
 
 @Component({
     selector: 'order-detail',
     templateUrl: './order-detail.component.html'
 })
-export class OrderDetailComponent implements OnInit {
+export class OrderDetailComponent implements OnInit, OnChanges {
     @Input() order: OrderDetails;
     iconBarcode = faBarcode;
     iconHeight = faArrowsAltV;
@@ -34,9 +35,38 @@ export class OrderDetailComponent implements OnInit {
     iconName = faInfoCircle;
 
 
-    constructor(protected stageService:StageService) {
+    constructor(protected stageService: StageService) {
     }
 
     ngOnInit() {
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        this.order.fronts = this.order.fronts.concat(this.order.fronts).concat(this.order.fronts);
+        this.order.fronts[1].quantity = 1;
+        this.order.fronts[2].processings = [];
+    }
+
+    getBorderColor(front: Front): string {
+        const processedQuantity = this.quantityProcessedAtCurrentstage(front);
+        if (processedQuantity == front.quantity) {
+            return "complete";
+        } else if (processedQuantity == 0) {
+            return "not-started";
+        } else {
+            return "incomplete";
+        }
+    }
+
+    getQuantity(front: Front) {
+        if (front.stage == StageService.INIT.value) {
+            return "";
+        }
+        const processedQuantity = this.quantityProcessedAtCurrentstage(front);
+        return processedQuantity + "/" + front.quantity;
+    }
+
+    private quantityProcessedAtCurrentstage(front: Front): number {
+        return front.processings.filter(p => front.stage === p.stage).length;
     }
 }

@@ -41,7 +41,7 @@ public class Front {
 
     private Optional<StageChanged> process(ProcessingDetails details) {
         processings.add(details);
-        if (processingCompletedAt(details.getStage())) {
+        if (!details.getStage().equals(this.currentStage)) {
             return Optional.of(statusUpdated(details));
         }
         return Optional.empty();

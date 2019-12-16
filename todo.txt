@@ -15,3 +15,5 @@ TODO:
 
 new features:
 - jak ma byc generowany raport (co ma zawierac)
+
+pytania:

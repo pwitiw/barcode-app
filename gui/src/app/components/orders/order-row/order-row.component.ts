@@ -20,7 +20,7 @@ export class OrderRow implements OnInit {
     iconQuantity = faStackOverflow;
 
 
-    constructor(protected  stageService: StageService) {
+    constructor(public  stageService: StageService) {
     }
 
     ngOnInit() {

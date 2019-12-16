@@ -52,16 +52,20 @@
                                     [text]="front.quantity"
                                     title="Ilość">
                     </icon-with-text>
-                </div>
-                <div class="group">
                     <icon-with-text [icon]="iconBarcode"
                                     [text]="front.barcode"
                                     title="Kod kreskowy">
                     </icon-with-text>
-                    <icon-with-text [icon]="iconStage"
-                                    [text]="stageMapper(front.stage)"
-                                    title="Etap produkcji">
-                    </icon-with-text>
+                    <div class="stage-with-quantity">
+                        <icon-with-text [icon]="iconStage"
+                                        [text]="stageService.convertToView(front.stage)"
+                                        title="Etap produkcji">
+                        </icon-with-text>
+                        <span [ngClass]="getBorderColor(front)">{{getQuantity(front)}}</span>
+                    </div>
+                </div>
+                <div class="group">
+
                 </div>
                 <div class="group" *ngIf="front.comment">
                     <icon-with-text [icon]="iconComment" [text]="front.comment" title="Komentarz"></icon-with-text>

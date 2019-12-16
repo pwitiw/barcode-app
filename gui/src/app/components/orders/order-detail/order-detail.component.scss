@@ -19,6 +19,23 @@
       .row-details {
         display: flex;
         flex-direction: column;
+        margin-bottom: $margin-md;
+
+        .stage-with-quantity {
+          display: flex;
+
+          .incomplete {
+            color: red;
+          }
+
+          .complete {
+            color: limegreen;
+          }
+
+          .not-started {
+            color: inherit;
+          }
+        }
 
         .group {
           margin-bottom: $margin-sm;

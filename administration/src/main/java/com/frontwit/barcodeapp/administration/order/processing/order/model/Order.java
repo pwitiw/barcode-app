@@ -41,7 +41,7 @@ public class Order {
 
     private void updateStage() {
         stage = fronts.values().stream()
-                .min(Stage::difference)
+                .max(Stage::difference)
                 .orElse(Stage.INIT);
     }
 }

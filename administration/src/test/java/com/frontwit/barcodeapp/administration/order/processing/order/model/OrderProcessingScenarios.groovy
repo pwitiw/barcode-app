@@ -22,13 +22,13 @@ class OrderProcessingScenarios extends Specification {
         !order.isCompleted()
     }
 
-    def "should not change stage when not all fronts processed"() {
+    def "should change stage when at least one front processed"() {
         given:
         def order = aOrderWithTwoFronts()
         when:
         order.update(aUpdateStageDetails(MILLING))
         then:
-        order.getStage() == INIT
+        order.getStage() == MILLING
         !order.isCompleted()
     }
 

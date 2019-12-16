@@ -22,7 +22,10 @@
         </icon-with-text>
     </div>
     <div class="details-btn">
-        <btn (click)="showDetails()" [icon]="faSearch" class="btn-display"></btn>
+        <button mat-icon-button color="primary" (click)="showDetails()">
+            <mat-icon>search</mat-icon>
+        </button>
+        <!--        <btn (click)="showDetails()" [icon]="faSearch" class="btn-display"></btn>-->
     </div>
 
 </div>
