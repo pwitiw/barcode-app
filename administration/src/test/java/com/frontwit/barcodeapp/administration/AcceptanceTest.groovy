@@ -1,14 +1,14 @@
 package com.frontwit.barcodeapp.administration
 
-import com.frontwit.barcodeapp.administration.order.processing.front.application.ProcessingFront
-import com.frontwit.barcodeapp.administration.order.processing.front.application.dto.ProcessFrontCommand
-import com.frontwit.barcodeapp.administration.order.processing.order.infrastructure.OrderQuery
-import com.frontwit.barcodeapp.administration.order.processing.shared.Stage
+import com.frontwit.barcodeapp.administration.catalogue.OrderQuery
+import com.frontwit.barcodeapp.administration.processing.front.application.ProcessingFront
+import com.frontwit.barcodeapp.administration.processing.front.application.dto.ProcessFrontCommand
+import com.frontwit.barcodeapp.administration.processing.shared.Stage
 import org.springframework.beans.factory.annotation.Autowired
 
 import java.time.LocalDateTime
 
-import static com.frontwit.barcodeapp.administration.order.processing.shared.Stage.*
+import static com.frontwit.barcodeapp.administration.processing.shared.Stage.*
 
 class AcceptanceTest extends IntegrationSpec {
 

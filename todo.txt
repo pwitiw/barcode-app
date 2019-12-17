@@ -1,6 +1,10 @@
 2) zeby mqtt zapamietywal jak nie zostanie obsluzony event (Jak administrator jest wylaczony) - chyba trzeba komunikat zwrotny
 3) dodac admina do serwisu
 
+---
+1. zrobic wersje do release'a
+2. nowy branch na ktorym robie front do raportow
+3. ogarnac security (zeby cookie lecial)
 
 BUGS:
 - brak favicon
@@ -17,3 +21,4 @@ new features:
 - jak ma byc generowany raport (co ma zawierac)
 
 pytania:
+

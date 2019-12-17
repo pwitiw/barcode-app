@@ -1,9 +1,9 @@
 package com.frontwit.barcodeapp.administration
 
-import com.frontwit.barcodeapp.administration.order.processing.front.infrastructure.persistence.FrontEntity
-import com.frontwit.barcodeapp.administration.order.processing.order.infrastructure.OrderEntity
-import com.frontwit.barcodeapp.administration.order.processing.shared.Barcode
-import com.frontwit.barcodeapp.administration.order.processing.shared.OrderId
+import OrderEntity
+import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity
+import com.frontwit.barcodeapp.administration.processing.shared.Barcode
+import com.frontwit.barcodeapp.administration.processing.shared.OrderId
 import groovy.transform.TypeChecked
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
