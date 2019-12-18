@@ -27,12 +27,13 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    public login(): void {
+    public login(event: Event): void {
+        event.preventDefault();
         this.isValid() && this.loginUsingCredentials(this.username, this.password).subscribe(result => {
             if (result) {
                 this.router.navigate(['/admin/admin-view']);
             }
-            this.authFailed = !!result;
+            this.authFailed = !result;
         });
     }
 

@@ -13,7 +13,7 @@ import {OrdersModule} from "./components/orders/orders.module";
 import {NgxLoadingModule} from "ngx-loading";
 import {CommonsModule} from "./components/commons/commons.module";
 import {ReportsComponent} from './components/reports/reports.component';
-import {MAT_DATE_LOCALE} from "@angular/material";
+import {MAT_DATE_LOCALE, MatButtonModule} from "@angular/material";
 import {LocalStorageService} from "./services/local-storage.service";
 import {LoggedUserService} from "./services/logged-user.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -33,7 +33,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
         OrdersModule,
         NgxLoadingModule,
         CommonsModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatButtonModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

@@ -1,22 +1,23 @@
 <div class="search-criteria">
     <h3 class="title">Kryteria wyszukiwania</h3>
-    <div class="search-form">
+    <form class="search-form" (ngSubmit)="search()" name="searchCriteria">
         <mat-form-field>
-            <input matInput placeholder="Nazwa zamówienia" [(ngModel)]="orderName">
+            <input matInput placeholder="Nazwa zamówienia" [(ngModel)]="orderName" name="orderName">
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Nazwa klienta" [(ngModel)]="customer">
+            <input matInput placeholder="Nazwa klienta" [(ngModel)]="customer" name="customer">
         </mat-form-field>
         <mat-form-field>
             <mat-label>Etap produkcji</mat-label>
             <mat-select [(value)]="stage">
+                <mat-option></mat-option>
                 <mat-option *ngFor="let stage of stages" [value]="stage.value">
                     {{stage.viewValue}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-checkbox color="primary" labelPosition="after" [(ngModel)]="completed">Zakończone</mat-checkbox>
+        <mat-checkbox color="primary" labelPosition="after" [(ngModel)]="completed" name="completed">Zakończone</mat-checkbox>
         <mat-divider></mat-divider>
-        <button mat-button color="primary" (click)="search()">Szukaj</button>
-    </div>
+        <button mat-button color="primary">Szukaj</button>
+    </form>
 </div>

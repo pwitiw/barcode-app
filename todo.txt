@@ -13,7 +13,6 @@ PROBLEMY:
     * jak beda sie komunikowac skanery z roznych zakladowów
 
 TODO:
-- jak wyszukamy po stage to nie mozna potem zresetowac
 - mozna oznaczyc zamowienie jako zakonczone
 - synchronizacja trasy
 - wyszukiwanie po trasie

@@ -15,6 +15,7 @@ export class SearchCriteriaComponent implements OnInit {
     stage: string;
     customer: string;
     stages: Stage[];
+    searchCriteria: SearchCriteria = {};
 
     constructor(private stageProviderService: StageService) {
         this.stages = stageProviderService.getStages();
