@@ -5,6 +5,9 @@
             <input matInput placeholder="Nazwa zamówienia" [(ngModel)]="orderName">
         </mat-form-field>
         <mat-form-field>
+            <input matInput placeholder="Nazwa klienta" [(ngModel)]="customer">
+        </mat-form-field>
+        <mat-form-field>
             <mat-label>Etap produkcji</mat-label>
             <mat-select [(value)]="stage">
                 <mat-option *ngFor="let stage of stages" [value]="stage.value">

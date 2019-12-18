@@ -80,6 +80,6 @@ public class OrderEntity {
     }
 
     public OrderDto dto() {
-        return new OrderDto(id, name, orderedAt, stage, quantity);
+        return new OrderDto(id, name, orderedAt, stage, quantity, customer);
     }
 }

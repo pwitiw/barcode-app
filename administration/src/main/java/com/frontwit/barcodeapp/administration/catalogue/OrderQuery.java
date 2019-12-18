@@ -55,7 +55,7 @@ public class OrderQuery {
     private Criteria createCriteria(OrderSearchCriteria searchCriteria) {
         var criteria = new Criteria();
         if (isNotEmpty(searchCriteria.getName())) {
-            criteria.and("name").regex(format("^%s", searchCriteria.getName()), "i");
+            criteria.and("name").regex(format("%s", searchCriteria.getName()), "i");
         }
         if (searchCriteria.getCompleted() != null && searchCriteria.getCompleted()) {
             criteria.and("isCompleted").is(true);
@@ -65,6 +65,10 @@ public class OrderQuery {
         if (searchCriteria.getStage() != null) {
             criteria.and("stage").is(searchCriteria.getStage());
         }
+        if (isNotEmpty(searchCriteria.getCustomer())) {
+            criteria.and("customer").regex(format("%s", searchCriteria.getCustomer()), "i");
+        }
+
         return criteria;
     }
 

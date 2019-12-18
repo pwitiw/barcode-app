@@ -13,9 +13,12 @@ public class OrderSearchCriteria {
     String name;
     Boolean completed;
     Stage stage;
+    String customer;
 
     public boolean empty() {
         return StringUtils.isEmpty(this.name)
-                && completed == null;
+                && completed == null
+                && stage == null
+                && customer == null;
     }
 }

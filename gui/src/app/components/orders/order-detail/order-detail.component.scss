@@ -25,11 +25,13 @@
           display: flex;
 
           .incomplete {
-            color: red;
+            color: white;
+            background-color: red;
           }
 
           .complete {
-            color: limegreen;
+            color: white;
+            background-color: limegreen;
           }
 
           .not-started {

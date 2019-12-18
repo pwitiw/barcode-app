@@ -1,5 +1,6 @@
 export class SearchCriteria {
     name?: string;
     completed?: boolean;
-    stage?: string
+    stage?: string;
+    customer?: string
 }

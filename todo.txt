@@ -13,12 +13,21 @@ PROBLEMY:
     * jak beda sie komunikowac skanery z roznych zakladowów
 
 TODO:
+- jak wyszukamy po stage to nie mozna potem zresetowac
+- mozna oznaczyc zamowienie jako zakonczone
+- synchronizacja trasy
+- wyszukiwanie po trasie
 - przetestowac czy na windowsie dziala ten reader
 - offline mode dla magazyniera
 - dostep zdalny
+
+TODO route finder
+- ( na pinezkach kolejnosc)
+- sortowanie od punktu docelowego
 
 new features:
 - jak ma byc generowany raport (co ma zawierac)
 
 pytania:
+
 

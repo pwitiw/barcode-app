@@ -4,4 +4,5 @@ export interface SimpleOrder {
     orderedAt: Date;
     quantity: number;
     stage: string;
+    customer: string;
 }

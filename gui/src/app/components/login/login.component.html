@@ -2,7 +2,7 @@
     <div class="tile">
         <h1 class=header>Zaloguj się</h1>
     </div>
-    <form class="login-form" (ngSubmit)="login()">
+    <div class="login-form">
         <div>
             <div class="inputs">
                 <label-with-input label="Nazwa użytkownika"
@@ -19,6 +19,6 @@
             </div>
         </div>
         <div *ngIf="this.authFailed" class="error">Nieprawidłowy login lub hasło</div>
-        <btn class="confirm" text="Zaloguj"></btn>
-    </form>
+        <btn class="confirm" text="Zaloguj" (click)="login()"></btn>
+    </div>
 </div>

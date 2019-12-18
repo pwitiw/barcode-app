@@ -33,7 +33,6 @@ export class OrdersComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.orderDetail$ = this.orderService.getOrderDetails(26318);
     }
 
     handleSearchClicked(criteria?: SearchCriteria): void {

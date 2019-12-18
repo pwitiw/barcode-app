@@ -15,4 +15,5 @@ public class OrderDto {
     private LocalDate orderedAt;
     private Stage stage;
     private int quantity;
+    private String customer;
 }

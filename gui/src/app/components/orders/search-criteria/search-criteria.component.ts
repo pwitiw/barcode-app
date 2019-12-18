@@ -13,6 +13,7 @@ export class SearchCriteriaComponent implements OnInit {
     completed: boolean;
     orderName: string;
     stage: string;
+    customer: string;
     stages: Stage[];
 
     constructor(private stageProviderService: StageService) {
@@ -26,7 +27,8 @@ export class SearchCriteriaComponent implements OnInit {
         const searchParams: SearchCriteria = {
             name: this.orderName,
             completed: this.completed,
-            stage: this.stage
+            stage: this.stage,
+            customer: this.customer
         };
         this.searchClicked.emit(searchParams);
     }

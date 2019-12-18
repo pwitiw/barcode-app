@@ -42,9 +42,6 @@ export class OrderDetailComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.order.fronts = this.order.fronts.concat(this.order.fronts).concat(this.order.fronts);
-        this.order.fronts[1].quantity = 1;
-        this.order.fronts[2].processings = [];
     }
 
     getBorderColor(front: Front): string {
