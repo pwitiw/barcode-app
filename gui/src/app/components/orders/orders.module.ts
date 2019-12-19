@@ -10,10 +10,12 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatDividerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatNativeDateModule,
     MatOptionModule,
     MatSelectModule
 } from "@angular/material";
@@ -39,7 +41,9 @@ import {FormsModule} from "@angular/forms";
         MatDividerModule,
         MatButtonModule,
         MatIconModule,
-        FormsModule
+        FormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     providers: [
         OrderRestService,

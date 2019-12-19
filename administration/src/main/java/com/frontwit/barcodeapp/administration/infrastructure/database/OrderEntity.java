@@ -20,9 +20,6 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Document(collection = "order")
 @Data
@@ -41,8 +38,8 @@ public class OrderEntity {
     private String comment;
     private String customer;
     private boolean completed;
-    private Map<Long, Stage> fronts;
     private int quantity;
+    private LocalDate lastProcessedOn;
 
     public OrderEntity(TargetOrder targetOrder) {
         this.id = targetOrder.getOrderId().getOrderId();
@@ -58,21 +55,16 @@ public class OrderEntity {
                 .map(TargetFront::getQuantity)
                 .map(Quantity::getValue)
                 .mapToInt(Integer::intValue).sum();
-        this.fronts = targetOrder.getFronts().stream()
-                .map(front -> front.getBarcode().getBarcode())
-                .collect(Collectors.toMap(Function.identity(), t -> Stage.INIT));
     }
 
     public void update(Order order) {
         this.stage = order.getStage();
         this.completed = order.isCompleted();
-        order.getFronts().forEach((barcode, stage) -> fronts.put(barcode.getBarcode(), stage));
     }
 
     public Order toDomainModel(UpdateStagePolicy policy) {
         var domainFronts = new HashMap<Barcode, Stage>();
-        fronts.forEach((key, value) -> domainFronts.put(new Barcode(key), value));
-        return new Order(new OrderId(id), domainFronts, stage, completed, policy);
+        return new Order(new OrderId(id), domainFronts, stage, completed, lastProcessedOn, policy);
     }
 
     public OrderDetailDto detailsDto(List<FrontDto> fronts) {

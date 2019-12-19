@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
+
 
 @Getter
 @ToString
@@ -14,11 +16,13 @@ public class OrderSearchCriteria {
     Boolean completed;
     Stage stage;
     String customer;
+    LocalDate processingDate;
 
     public boolean empty() {
         return StringUtils.isEmpty(this.name)
                 && completed == null
                 && stage == null
-                && customer == null;
+                && customer == null
+                && processingDate == null;
     }
 }

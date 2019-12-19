@@ -24,8 +24,8 @@ public enum Stage {
         return id;
     }
 
-    public int difference(Stage stage) {
-        return this.getId() - stage.getId();
+    public boolean isFurtherStage(Stage stage) {
+        return this.getId() - stage.getId() > 0;
     }
 
     public static boolean isLast(Stage stage) {

@@ -5,6 +5,8 @@ import com.frontwit.barcodeapp.administration.processing.shared.OrderId
 import com.frontwit.barcodeapp.administration.processing.shared.Stage
 import spock.lang.Specification
 
+import java.time.LocalDate
+
 import static com.frontwit.barcodeapp.administration.processing.shared.Stage.*
 
 class OrderProcessingScenarios extends Specification {
@@ -19,6 +21,7 @@ class OrderProcessingScenarios extends Specification {
         order.update(aUpdateStageDetails(MILLING))
         then:
         order.getStage() == MILLING
+        order.getLastProcessedOn() == LocalDate.now()
         !order.isCompleted()
     }
 
@@ -32,13 +35,14 @@ class OrderProcessingScenarios extends Specification {
         !order.isCompleted()
     }
 
-    def "should be completed when reach last stage"() {
+    def "is completed when reaches last stage"() {
         given:
         def order = aOrderWithoutLastProcess()
         when:
         order.update(aUpdateStageDetails(IN_DELIVERY))
         then:
         order.getStage() == IN_DELIVERY
+
         order.isCompleted()
     }
 
@@ -67,7 +71,7 @@ class OrderProcessingScenarios extends Specification {
     }
 
     Order createOrder(OrderId orderId, Map<Barcode, Stage> fronts) {
-        new Order(orderId, fronts, UpdateStagePolicy.allPolicies())
+        new Order(orderId, UpdateStagePolicy.allPolicies())
     }
 
     UpdateStageDetails aUpdateStageDetails(Stage stage) {
@@ -79,7 +83,7 @@ class OrderProcessingScenarios extends Specification {
     }
 
     Map<Barcode, Stage> frontsAtStage(Stage stage, Barcode... barcodes) {
-        Map<Barcode,Stage> fronts = barcodes.collectEntries {
+        Map<Barcode, Stage> fronts = barcodes.collectEntries {
             [(it): stage]
         }
         fronts

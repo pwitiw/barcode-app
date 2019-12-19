@@ -68,6 +68,9 @@ public class OrderQuery {
         if (isNotEmpty(searchCriteria.getCustomer())) {
             criteria.and("customer").regex(format("%s", searchCriteria.getCustomer()), "i");
         }
+        if (searchCriteria.getProcessingDate() != null) {
+            criteria.and("lastProcessedOn").equals(searchCriteria.getProcessingDate());
+        }
 
         return criteria;
     }

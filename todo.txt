@@ -2,20 +2,23 @@
 3) dodac admina do serwisu
 
 ---
-1. zrobic wersje do release'a
-2. nowy branch na ktorym robie front do raportow
-3. ogarnac security (zeby cookie lecial)
+ ogarnac security (zeby cookie lecial)
 
 BUGS:
 - brak favicon
 
+-szukanie po dacie po kliknieciu nie znajduje zamowienia
+-szukanie po dacie po stringu znajduje, ale podswietla na czerwono
+
 PROBLEMY:
     * jak beda sie komunikowac skanery z roznych zakladowów - kolejka z amazona
-
+    * jak ktos da ze zakonczony a ktos inny bedzie chcial procesowac zamowienie to co sie ma stac?
 TODO:
+- szukanie po dacie
+- synchronizacja wszystkich zamowien
+- procesy w orderze sa zbedne juz
 - synchronizacja trasy
 - wyszukiwanie po trasie
-- synchronizacja wszystkich zamowien
 - toast jak cos poszlo nie tak
 - przetestowac czy na windowsie dziala ten reader
 - offline mode dla magazyniera

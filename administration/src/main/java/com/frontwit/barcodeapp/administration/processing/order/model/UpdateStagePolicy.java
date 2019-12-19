@@ -20,8 +20,8 @@ class FrontBelongsToOrder implements UpdateStagePolicy {
 
     @Override
     public void verify(Order order, Barcode barcode) {
-        if (!order.contains(barcode)) {
-            throw new UpdateStageException(format("Order  with id %s does not contain front with barcode %s", order.getOrderId().getOrderId(), barcode.getBarcode()));
+        if (!order.getOrderId().equals(barcode.getOrderId())) {
+            throw new UpdateStageException(format("Barcode %s does not belong to order %s", barcode.getBarcode(), order.getOrderId().getOrderId()));
         }
     }
 }
