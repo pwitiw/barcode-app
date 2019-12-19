@@ -13,10 +13,11 @@ import {OrdersModule} from "./components/orders/orders.module";
 import {NgxLoadingModule} from "ngx-loading";
 import {CommonsModule} from "./components/commons/commons.module";
 import {ReportsComponent} from './components/reports/reports.component';
-import {MAT_DATE_LOCALE, MatButtonModule} from "@angular/material";
+import {MAT_DATE_LOCALE, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatButtonModule, MatSnackBarModule} from "@angular/material";
 import {LocalStorageService} from "./services/local-storage.service";
 import {LoggedUserService} from "./services/logged-user.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {SnackBarService} from "./services/snack-bar.service";
 
 @NgModule({
     declarations: [
@@ -34,13 +35,21 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
         NgxLoadingModule,
         CommonsModule,
         BrowserAnimationsModule,
-        MatButtonModule
+        MatButtonModule,
+        MatSnackBarModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
-
-        AuthGuardService, RestService, LocalStorageService, LoggedUserService],
+        {
+            provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+            useValue: {
+                duration: 2000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'end',
+            }
+        },
+        AuthGuardService, RestService, LocalStorageService, LoggedUserService, SnackBarService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

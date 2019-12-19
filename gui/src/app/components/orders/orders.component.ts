@@ -44,8 +44,10 @@ export class OrdersComponent implements OnInit {
             totalElements: this.totalElements
         };
         this.orderService.getOrders(page).subscribe(result => {
-            this.totalElements = result.totalElements;
-            this.orders = result.content;
+            if (result) {
+                this.totalElements = result.totalElements;
+                this.orders = result.content;
+            }
         });
     }
 

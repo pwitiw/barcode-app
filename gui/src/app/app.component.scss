@@ -1,3 +1,15 @@
 .app {
   margin-top: 100px;
 }
+
+.mat-snack-bar-container, .mat-simple-snackbar-action {
+  color: white;
+
+  &.error {
+    background-color: red;
+  }
+
+  &.success {
+    background: green;
+  }
+}

@@ -3,14 +3,14 @@ import {catchError, tap} from "rxjs/operators";
 import {Observable, of} from "rxjs";
 import {Injectable} from "@angular/core";
 import {LoadingService} from "./loading.service";
-import {LocalStorageService} from "./local-storage.service";
+import {SnackBarService} from "./snack-bar.service";
 
 @Injectable()
 export class RestService {
 
     constructor(private http: HttpClient,
                 private loadingService: LoadingService,
-                private localStorageService: LocalStorageService) {
+                private snackBarService:SnackBarService) {
     }
 
     public post<T>(url: string, body: any): Observable<HttpResponse<T>> {
@@ -18,7 +18,9 @@ export class RestService {
         return this.http
             .post(url, body, {observe: "response"})
             .pipe(
-                tap(() => this.loadingService.hide()),
+                tap(() => {
+                    this.loadingService.hide();
+                }),
                 catchError(error => this.handleError(error))
             ) as Observable<HttpResponse<T>>;
     }
@@ -34,8 +36,8 @@ export class RestService {
 
     private handleError<T>(error: any): Observable<T> {
         this.loadingService.hide();
-
-        console.error("Rest call error: " + error.message);
+        this.snackBarService.failure("Błąd", "Wystąpił błąd serwera");
+        console.info(error);
         return of(error);
     };
 }

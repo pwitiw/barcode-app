@@ -39,6 +39,14 @@
         <button *ngIf="!order.completed" mat-raised-button color="primary" (click)="statusChanged()">Zakończ</button>
         <button *ngIf="order.completed" mat-raised-button color="warn" (click)="statusChanged()">Wznów</button>
 
+<!--        <mat-divider class="mat-divider"></mat-divider>-->
+
+<!--        <mat-form-field>-->
+<!--            <input matInput placeholder="Wycena" [(ngModel)]="order.price" name="price">-->
+<!--        </mat-form-field>-->
+<!--        <mat-form-field>-->
+<!--            <input matInput placeholder="Plik do wycinki" [(ngModel)]="order.price" name="price">-->
+<!--        </mat-form-field>-->
 
     </div>
     <div class="front-list">

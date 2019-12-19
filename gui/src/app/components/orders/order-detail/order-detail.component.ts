@@ -16,6 +16,7 @@ import {faCommentDots} from '@fortawesome/free-regular-svg-icons';
 import {StageService} from '../stage.service';
 import {Front} from "../types/Front";
 import {OrderRestService} from "../order.rest.service";
+import {SnackBarService} from "../../../services/snack-bar.service";
 
 @Component({
     selector: 'order-detail',
@@ -36,7 +37,9 @@ export class OrderDetailComponent implements OnInit, OnChanges {
     iconName = faInfoCircle;
 
 
-    constructor(protected stageService: StageService, protected orderRestService: OrderRestService) {
+    constructor(protected stageService: StageService,
+                private orderRestService: OrderRestService,
+                private snackBarService: SnackBarService) {
     }
 
     ngOnInit() {
@@ -73,6 +76,9 @@ export class OrderDetailComponent implements OnInit, OnChanges {
             .subscribe(result => {
                 if (result) {
                     this.order.completed = !this.order.completed;
+                    this.snackBarService.success("Status zmieniono pomyślnie")
+                } else {
+                    this.snackBarService.failure("Zmiana statusu nie powiodła się")
                 }
             });
     }
