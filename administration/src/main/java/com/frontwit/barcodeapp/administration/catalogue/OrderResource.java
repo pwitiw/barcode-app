@@ -14,16 +14,21 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class OrderResource {
 
-    OrderQuery query;
+    OrderQuery orderQuery;
     OrderCommand orderCommand;
 
     @GetMapping("/orders/{id}")
     OrderDetailDto getOrder(@PathVariable Long id) {
-        return query.find(id);
+        return orderQuery.find(id);
     }
 
     @PostMapping(value = "/orders")
     Page<OrderDto> getOrdersForSearchCriteria(Pageable pageable, @RequestBody(required = false) OrderSearchCriteria searchCriteria) {
-        return query.find(pageable, searchCriteria);
+        return orderQuery.find(pageable, searchCriteria);
+    }
+
+    @PostMapping(value = "/orders/{id}/status")
+    void getOrdersForSearchCriteria(@PathVariable Long id) {
+        orderCommand.changeStatus(id);
     }
 }

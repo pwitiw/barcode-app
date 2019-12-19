@@ -15,6 +15,7 @@ import {faStackOverflow} from '@fortawesome/free-brands-svg-icons';
 import {faCommentDots} from '@fortawesome/free-regular-svg-icons';
 import {StageService} from '../stage.service';
 import {Front} from "../types/Front";
+import {OrderRestService} from "../order.rest.service";
 
 @Component({
     selector: 'order-detail',
@@ -35,7 +36,7 @@ export class OrderDetailComponent implements OnInit, OnChanges {
     iconName = faInfoCircle;
 
 
-    constructor(protected stageService: StageService) {
+    constructor(protected stageService: StageService, protected orderRestService: OrderRestService) {
     }
 
     ngOnInit() {
@@ -65,5 +66,14 @@ export class OrderDetailComponent implements OnInit, OnChanges {
 
     private quantityProcessedAtCurrentstage(front: Front): number {
         return front.processings.filter(p => front.stage === p.stage).length;
+    }
+
+    statusChanged(): void {
+        this.orderRestService.changeStatus(this.order.id)
+            .subscribe(result => {
+                if (result) {
+                    this.order.completed = !this.order.completed;
+                }
+            });
     }
 }

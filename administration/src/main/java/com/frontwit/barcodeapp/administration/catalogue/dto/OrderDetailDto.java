@@ -21,4 +21,6 @@ public class OrderDetailDto {
     private Stage stage;
     private LocalDate orderedAt;
     private List<FrontDto> fronts;
+    private boolean completed;
+
 }

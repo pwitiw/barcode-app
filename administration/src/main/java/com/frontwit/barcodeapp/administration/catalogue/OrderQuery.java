@@ -28,7 +28,7 @@ public class OrderQuery {
 
     private MongoTemplate mongoTemplate;
 
-    public OrderDetailDto find(long id) {
+    OrderDetailDto find(long id) {
         var frontDtos = findFrontsForOrderId(id);
         return Optional.ofNullable(mongoTemplate.findById(id, OrderEntity.class))
                 .map(entity -> entity.detailsDto(frontDtos))
@@ -43,7 +43,7 @@ public class OrderQuery {
                 .collect(Collectors.toList());
     }
 
-    public Page<OrderDto> find(Pageable pageable, OrderSearchCriteria searchCriteria) {
+    Page<OrderDto> find(Pageable pageable, OrderSearchCriteria searchCriteria) {
         var criteria = createCriteria(searchCriteria);
         var query = new Query(criteria).with(pageable);
         var orders = mongoTemplate.find(query, OrderEntity.class);
@@ -58,9 +58,9 @@ public class OrderQuery {
             criteria.and("name").regex(format("%s", searchCriteria.getName()), "i");
         }
         if (searchCriteria.getCompleted() != null && searchCriteria.getCompleted()) {
-            criteria.and("isCompleted").is(true);
+            criteria.and("completed").is(true);
         } else {
-            criteria.and("isCompleted").is(false);
+            criteria.and("completed").is(false);
         }
         if (searchCriteria.getStage() != null) {
             criteria.and("stage").is(searchCriteria.getStage());

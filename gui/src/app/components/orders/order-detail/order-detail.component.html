@@ -33,6 +33,13 @@
                         [text]="order.comment"
                         title="Komentarz">
         </icon-with-text>
+
+        <mat-divider class="mat-divider"></mat-divider>
+
+        <button *ngIf="!order.completed" mat-raised-button color="primary" (click)="statusChanged()">Zakończ</button>
+        <button *ngIf="order.completed" mat-raised-button color="warn" (click)="statusChanged()">Wznów</button>
+
+
     </div>
     <div class="front-list">
         <h3>Lista elementów</h3>

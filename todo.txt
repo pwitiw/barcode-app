@@ -10,12 +10,13 @@ BUGS:
 - brak favicon
 
 PROBLEMY:
-    * jak beda sie komunikowac skanery z roznych zakladowów
+    * jak beda sie komunikowac skanery z roznych zakladowów - kolejka z amazona
 
 TODO:
-- mozna oznaczyc zamowienie jako zakonczone
 - synchronizacja trasy
 - wyszukiwanie po trasie
+- synchronizacja wszystkich zamowien
+- toast jak cos poszlo nie tak
 - przetestowac czy na windowsie dziala ten reader
 - offline mode dla magazyniera
 - dostep zdalny

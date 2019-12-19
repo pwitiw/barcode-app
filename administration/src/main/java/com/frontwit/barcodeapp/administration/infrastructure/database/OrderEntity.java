@@ -40,7 +40,7 @@ public class OrderEntity {
     private String cutter;
     private String comment;
     private String customer;
-    private boolean isCompleted;
+    private boolean completed;
     private Map<Long, Stage> fronts;
     private int quantity;
 
@@ -65,18 +65,18 @@ public class OrderEntity {
 
     public void update(Order order) {
         this.stage = order.getStage();
-        this.isCompleted = order.isCompleted();
+        this.completed = order.isCompleted();
         order.getFronts().forEach((barcode, stage) -> fronts.put(barcode.getBarcode(), stage));
     }
 
     public Order toDomainModel(UpdateStagePolicy policy) {
         var domainFronts = new HashMap<Barcode, Stage>();
         fronts.forEach((key, value) -> domainFronts.put(new Barcode(key), value));
-        return new Order(new OrderId(id), domainFronts, stage, isCompleted, policy);
+        return new Order(new OrderId(id), domainFronts, stage, completed, policy);
     }
 
     public OrderDetailDto detailsDto(List<FrontDto> fronts) {
-        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, stage, orderedAt, fronts);
+        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, stage, orderedAt, fronts, completed);
     }
 
     public OrderDto dto() {
