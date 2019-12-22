@@ -10,13 +10,13 @@ import {StageService} from "../stage.service";
 export class SearchCriteriaComponent implements OnInit {
 
     @Output() searchClicked = new EventEmitter<SearchCriteria>();
+    @Output() fetchClicked = new EventEmitter();
     completed: boolean;
     orderName: string;
     stage: string;
     customer: string;
     stages: Stage[];
     processingDate: string;
-    searchCriteria: SearchCriteria = {};
     today: Date = new Date();
 
     constructor(private stageProviderService: StageService) {
@@ -35,5 +35,9 @@ export class SearchCriteriaComponent implements OnInit {
             processingDate: this.processingDate
         };
         this.searchClicked.emit(searchParams);
+    }
+
+    fetch() {
+        this.fetchClicked.emit();
     }
 }

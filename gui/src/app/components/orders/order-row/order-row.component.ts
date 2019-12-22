@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SimpleOrder} from 'src/app/components/orders/types/SimpleOrder';
-import {faCalendarAlt, faIndustry, faInfoCircle, faSearch, faUserTie} from '@fortawesome/free-solid-svg-icons';
+import {faCalendarAlt, faIndustry, faInfoCircle, faUserTie} from '@fortawesome/free-solid-svg-icons';
 import {faStackOverflow} from "@fortawesome/free-brands-svg-icons";
 import {StageService} from "../stage.service";
 
@@ -13,7 +13,6 @@ export class OrderRow implements OnInit {
 
     @Input() order: SimpleOrder;
     @Output() showDetailsClicked = new EventEmitter<SimpleOrder>();
-    faSearch = faSearch;
     iconStage = faIndustry;
     iconCalendar = faCalendarAlt;
     iconName = faInfoCircle;

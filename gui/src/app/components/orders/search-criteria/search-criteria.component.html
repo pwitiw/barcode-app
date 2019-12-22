@@ -9,7 +9,8 @@
                 <input matInput placeholder="Nazwa klienta" [(ngModel)]="customer" name="customer">
             </mat-form-field>
             <mat-form-field>
-                <input matInput [matDatepicker]="picker" [max]="today" placeholder="Data przetwarzania" [(ngModel)]="processingDate" name="processingDate">
+                <input matInput [matDatepicker]="picker" [max]="today" placeholder="Data przetwarzania"
+                       [(ngModel)]="processingDate" name="processingDate">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
@@ -26,6 +27,7 @@
             </mat-checkbox>
         </div>
         <mat-divider></mat-divider>
-        <button mat-button color="primary">Szukaj</button>
+        <button mat-button color="primary"><mat-icon>search</mat-icon>Szukaj</button>
+        <button type="button" mat-button color="primary" (click)="fetch()"><mat-icon>sync</mat-icon>Pobierz zamówienia</button>
     </form>
 </div>

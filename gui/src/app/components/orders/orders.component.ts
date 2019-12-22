@@ -5,6 +5,7 @@ import {OrderRestService} from 'src/app/components/orders/order.rest.service';
 import {OrderDetails} from 'src/app/components/orders/types/OrderDetails';
 import {SearchCriteria} from "./types/SearchCriteria";
 import {Page} from "./types/Page";
+import {SnackBarService} from "../../services/snack-bar.service";
 
 @Component({
     selector: 'app-orders',
@@ -20,7 +21,8 @@ export class OrdersComponent implements OnInit {
     orders: SimpleOrder[];
     orderDetail$: Observable<OrderDetails>;
 
-    constructor(private orderService: OrderRestService) {
+    constructor(private orderService: OrderRestService,
+                private snackBarService: SnackBarService) {
 
         this.size = OrdersComponent.MAX_ORDERS;
         this.page = 1;
@@ -47,6 +49,17 @@ export class OrdersComponent implements OnInit {
             if (result) {
                 this.totalElements = result.totalElements;
                 this.orders = result.content;
+                this.snackBarService.success("Znaleziono " + this.orders.length + " wyników");
+            }
+        });
+    }
+
+    handleFetchClicked(): void {
+        this.orderService.synchronize().subscribe(result => {
+            if (result != null) {
+                this.snackBarService.success("Pobrano " + result + " zamowień");
+            } else {
+                this.snackBarService.failure("Pobieranie nie powiodło się");
             }
         });
     }

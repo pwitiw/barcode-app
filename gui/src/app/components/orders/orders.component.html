@@ -1,6 +1,6 @@
 <div class="orders-view">
     <div class="search">
-        <search-criteria (searchClicked)="handleSearchClicked($event)"></search-criteria>
+        <search-criteria (searchClicked)="handleSearchClicked($event)" (fetchClicked)="handleFetchClicked()"></search-criteria>
         <h3 class="title">Lista aktywnych zamówień</h3>
         <div class="order-list">
             <order-row

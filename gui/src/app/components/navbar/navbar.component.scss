@@ -4,16 +4,17 @@
   width: 100%;
   top: 0;
   display: flex;
-  padding: 0px 56px 0px 38px;
+  padding: 0 56px 0 38px;
+  z-index: 1;
   color: $font-color;
   background-color: $color-white;
-  //z-index: 1;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 }
 
 .nav-items {
   display: flex;
   align-items: center;
+  margin: 0 $margin-md;
 }
 
 .nav-link {
@@ -32,7 +33,7 @@
 }
 
 .nav-link-brand {
-  height: 95px;
+  height: $navbar-height;
 }
 
 a {

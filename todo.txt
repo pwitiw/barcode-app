@@ -16,6 +16,7 @@ PROBLEMY:
 TODO:
 - szukanie po dacie
 - synchronizacja wszystkich zamowien
+- gradle build nie dziala -npm / node wersje sie ne zgadzaja
 - procesy w orderze sa zbedne juz
 - synchronizacja trasy
 - wyszukiwanie po trasie

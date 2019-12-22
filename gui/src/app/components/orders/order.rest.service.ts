@@ -30,4 +30,9 @@ export class OrderRestService {
         return this.restService.post(OrderRestService.ORDERS_ENDPOINT + '/' + id + '/status', {})
             .pipe(map(response => response.ok));
     }
+
+    synchronize(): Observable<any> {
+        return this.restService.post(OrderRestService.ORDERS_ENDPOINT + '/synchronize', {})
+            .pipe(map(response => response.body));
+    }
 }

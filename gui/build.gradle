@@ -5,8 +5,8 @@ plugins {
 apply plugin: 'com.moowork.node'
 
 node {
-  version = '10.13.0'
-  npmVersion = '6.4.1'
+  version = '13.5.0'
+  npmVersion = '6.13.4'
   download = true
   workDir = file("${project.buildDir}/node")
   nodeModulesDir = file("${project.projectDir}")
