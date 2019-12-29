@@ -15,6 +15,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +50,7 @@ public class OrderQuery {
         var query = new Query(criteria).with(pageable);
         var orders = mongoTemplate.find(query, OrderEntity.class);
         return PageableExecutionUtils
-                .getPage(orders, pageable, () -> mongoTemplate.count(query, OrderEntity.class))
+                .getPage(orders, pageable, () -> mongoTemplate.count(new Query(criteria), OrderEntity.class))
                 .map(OrderEntity::dto);
     }
 
@@ -69,7 +71,7 @@ public class OrderQuery {
             criteria.and("customer").regex(format("%s", searchCriteria.getCustomer()), "i");
         }
         if (searchCriteria.getProcessingDate() != null) {
-            criteria.and("lastProcessedOn").equals(searchCriteria.getProcessingDate());
+            criteria.and("lastProcessedOn").is(searchCriteria.getProcessingDate());
         }
 
         return criteria;

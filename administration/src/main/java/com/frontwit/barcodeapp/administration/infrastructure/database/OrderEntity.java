@@ -60,6 +60,7 @@ public class OrderEntity {
     public void update(Order order) {
         this.stage = order.getStage();
         this.completed = order.isCompleted();
+        this.lastProcessedOn = order.getLastProcessedOn();
     }
 
     public Order toDomainModel(UpdateStagePolicy policy) {

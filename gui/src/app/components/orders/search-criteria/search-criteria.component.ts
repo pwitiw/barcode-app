@@ -17,10 +17,12 @@ export class SearchCriteriaComponent implements OnInit {
     customer: string;
     stages: Stage[];
     processingDate: string;
-    today: Date = new Date();
+    today: Date;
 
     constructor(private stageProviderService: StageService) {
         this.stages = stageProviderService.getStages();
+        this.today = new Date();
+        this.today.setHours(this.today.getHours() + 1)
     }
 
     ngOnInit() {

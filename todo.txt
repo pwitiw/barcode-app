@@ -7,20 +7,20 @@
 BUGS:
 - brak favicon
 
--szukanie po dacie po kliknieciu nie znajduje zamowienia
--szukanie po dacie po stringu znajduje, ale podswietla na czerwono
-
 PROBLEMY:
     * jak beda sie komunikowac skanery z roznych zakladowów - kolejka z amazona
     * jak ktos da ze zakonczony a ktos inny bedzie chcial procesowac zamowienie to co sie ma stac?
+
 TODO:
-- szukanie po dacie
 - synchronizacja wszystkich zamowien
 - gradle build nie dziala -npm / node wersje sie ne zgadzaja
+- logi ogarnac zeby na prodzie mozna bylo sie polapac
+- wiele readerow ten sam receiver
+- wiele readerow counter dolaczania, odlaczania
+- zautomatyzowac deploy
 - procesy w orderze sa zbedne juz
 - synchronizacja trasy
 - wyszukiwanie po trasie
-- toast jak cos poszlo nie tak
 - przetestowac czy na windowsie dziala ten reader
 - offline mode dla magazyniera
 - dostep zdalny

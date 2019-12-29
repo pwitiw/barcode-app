@@ -49,7 +49,7 @@ export class OrdersComponent implements OnInit {
             if (result) {
                 this.totalElements = result.totalElements;
                 this.orders = result.content;
-                this.snackBarService.success("Znaleziono " + this.orders.length + " wyników");
+                criteria && this.snackBarService.success("Znaleziono " + this.totalElements + " wyników");
             }
         });
     }
@@ -66,6 +66,7 @@ export class OrdersComponent implements OnInit {
 
     handleShowDetails(order: SimpleOrder): void {
         this.orderDetail$ = this.orderService.getOrderDetails(order.id);
+        window.scroll(0,0);
     }
 
     showPagination() {

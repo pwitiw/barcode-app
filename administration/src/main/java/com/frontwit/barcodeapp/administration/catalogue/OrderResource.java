@@ -3,10 +3,14 @@ package com.frontwit.barcodeapp.administration.catalogue;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderSearchCriteria;
+import com.frontwit.barcodeapp.administration.processing.front.application.ProcessingFront;
+import com.frontwit.barcodeapp.administration.processing.front.application.dto.ProcessFrontCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 
 @RestController
@@ -16,6 +20,7 @@ public class OrderResource {
 
     OrderQuery orderQuery;
     OrderCommand orderCommand;
+    ProcessingFront processingFront;
 
     @GetMapping("/orders/{id}")
     OrderDetailDto getOrder(@PathVariable Long id) {

@@ -15,12 +15,13 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatNativeDateModule,
     MatOptionModule,
     MatSelectModule
 } from "@angular/material";
 import {StageService} from "./stage.service";
 import {FormsModule} from "@angular/forms";
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from "@angular/material-moment-adapter";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
     declarations: [
@@ -43,11 +44,12 @@ import {FormsModule} from "@angular/forms";
         MatIconModule,
         FormsModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatMomentDateModule
     ],
     providers: [
         OrderRestService,
-        StageService
+        StageService,
+        {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}
     ]
 })
 export class OrdersModule {

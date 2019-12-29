@@ -25,7 +25,6 @@ public class ProcessingFront {
         var barcode = new Barcode(command.getBarcode());
         frontRepository.findBy(barcode)
                 .ifPresentOrElse(front -> process(front, command), () -> publishFrontNotFound(command));
-
     }
 
     @EventListener
