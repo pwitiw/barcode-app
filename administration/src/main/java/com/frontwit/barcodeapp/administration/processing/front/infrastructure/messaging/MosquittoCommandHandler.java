@@ -43,6 +43,7 @@ public class MosquittoCommandHandler implements MqttCallback {
         mqttClient.setCallback(this);
         mqttClient.connect(options);
         mqttClient.subscribe(topic);
+        LOGGER.info("[MQTT] Connected");
     }
 
     @PreDestroy
@@ -50,29 +51,22 @@ public class MosquittoCommandHandler implements MqttCallback {
         if (mqttClient.isConnected()) {
             mqttClient.disconnect();
         }
+        LOGGER.info("[MQTT] Disconnected");
     }
 
     @Override
     public void connectionLost(Throwable cause) {
-
+        LOGGER.warn("[MQTT] Connection lost");
     }
 
     @Override
     public void messageArrived(String topic, MqttMessage message) {
+        LOGGER.debug(format("Message on topic %s arrived", topic));
         try {
             var command = objectMapper.readValue(message.getPayload(), ProcessFrontCommand.class);
-            LOGGER.info(format("Front (barcode: %d) is being processed.", command.getBarcode()));
-            new Thread((() -> process(command))).start();
+            new Thread((() -> processingFront.process(command))).start();
         } catch (IOException e) {
-            LOGGER.error(e.getMessage());
-        }
-    }
-
-    private void process(ProcessFrontCommand command) {
-        try {
-            processingFront.process(command);
-        } catch (ProcessingException ex) {
-            LOGGER.warn(ex.getMessage());
+            LOGGER.warn(e.getMessage());
         }
     }
 

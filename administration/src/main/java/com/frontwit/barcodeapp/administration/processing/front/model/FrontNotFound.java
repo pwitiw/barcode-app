@@ -15,4 +15,11 @@ public class FrontNotFound implements DomainEvent {
     public Long getId() {
         return delayedProcessFrontCommand.getBarcode();
     }
+
+    @Override
+    public String toString() {
+        return "FrontNotFound{" +
+                "barcode=" + delayedProcessFrontCommand.getBarcode() +
+                '}';
+    }
 }

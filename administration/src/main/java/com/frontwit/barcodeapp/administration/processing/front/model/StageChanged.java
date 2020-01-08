@@ -15,4 +15,12 @@ public class StageChanged implements DomainEvent {
     public Long getId() {
         return barcode.getBarcode();
     }
+
+    @Override
+    public String toString() {
+        return "StageChanged{" +
+                "barcode=" + barcode +
+                ", stage=" + stage +
+                '}';
+    }
 }

@@ -10,11 +10,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin: $margin-lg;
+    margin: $margin-lg $margin-sm;
   }
 
   .front-list {
-    margin: $margin-lg;
+    margin-top: $margin-lg;
+    margin-right: $margin-sm;
     flex: 1;
 
     .front-row {
