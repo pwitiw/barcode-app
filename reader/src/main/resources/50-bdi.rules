@@ -1,3 +1,5 @@
-#add this to directory /etc/udev/rules.d
+#create group barcode-scanner (sudo addgroup barcode-scanner)
+#add group to user (sudo usermod -g barcode-scanner username)
+#copy this file to directory /etc/udev/rules.d
 SUBSYSTEM=="usb", GROUP="barcode-scanner", ATTRS{idVendor}=="0581", ATTRS{idProduct}=="0103"
 

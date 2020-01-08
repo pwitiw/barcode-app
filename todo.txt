@@ -12,12 +12,11 @@ PROBLEMY:
     * jak ktos da ze zakonczony a ktos inny bedzie chcial procesowac zamowienie to co sie ma stac?
 
 TODO:
-- synchronizacja wszystkich zamowien
-- gradle build nie dziala -npm / node wersje sie ne zgadzaja
+- skanowanie na windowsie przetestowac
 - logi ogarnac zeby na prodzie mozna bylo sie polapac
-- wiele readerow ten sam receiver
-- wiele readerow counter dolaczania, odlaczania
 - zautomatyzowac deploy
+- synchronizacja wszystkich zamowien
+- sqs
 - procesy w orderze sa zbedne juz
 - synchronizacja trasy
 - wyszukiwanie po trasie

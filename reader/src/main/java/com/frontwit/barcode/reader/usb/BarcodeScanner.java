@@ -55,4 +55,12 @@ class BarcodeScanner {
             }
         }
     }
+
+    boolean matches(HidDevice device) {
+        return this.device.getPath() == device.getPath();
+    }
+
+    static boolean isBarcodeScanner(HidDevice device) {
+        return device.getVendorId() == VENDOR_ID && device.getProductId() == PRODUCT_ID;
+    }
 }

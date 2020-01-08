@@ -12,7 +12,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.frontwit.barcode.reader.usb.BarcodeScanner.PRODUCT_ID;
 import static com.frontwit.barcode.reader.usb.BarcodeScanner.VENDOR_ID;
@@ -35,11 +34,11 @@ public class HidRegister implements HidServicesListener {
     void register() {
         var hidServices = HidManager.getHidServices(hidServicesSpecification);
         hidServices.addHidServicesListener(this);
-
-        // todo co w przypadku wielu urzadzen
         var device = hidServices.getHidDevice(VENDOR_ID, BarcodeScanner.PRODUCT_ID, null);
 
-        Optional.ofNullable(device).ifPresentOrElse(this::addScanner, () -> LOG.warn("No device plugged or no permissions."));
+        hidServices.getAttachedHidDevices().stream()
+                .filter(BarcodeScanner::isBarcodeScanner)
+                .forEach(this::addScanner);
     }
 
     @PreDestroy
@@ -70,6 +69,10 @@ public class HidRegister implements HidServicesListener {
         if (device.isOpen()) {
             device.close();
         }
+        registeredScanners.stream()
+                .filter(scanner -> scanner.matches(device))
+                .findFirst()
+                .ifPresent(registeredScanners::remove);
         LOG.info("Detached: " + event.getHidDevice());
     }
 
@@ -79,9 +82,14 @@ public class HidRegister implements HidServicesListener {
     }
 
     private void addScanner(HidDevice device) {
-        var scanner = new BarcodeScanner(device, eventPublisher::publishEvent);
-        registeredScanners.add(scanner);
-        concurrentTaskExecutor.execute(scanner::listen);
+        if (device.open()) {
+            var scanner = new BarcodeScanner(device, eventPublisher::publishEvent);
+            registeredScanners.add(scanner);
+            concurrentTaskExecutor.execute(scanner::listen);
+            LOG.info("Device opened successfully");
+        } else {
+            LOG.info("Can not open device");
+        }
     }
 }
 
