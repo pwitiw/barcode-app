@@ -26,13 +26,15 @@ public class BeanConfig {
                                    SaveSynchronizedOrder saveSynchronizedOrder,
                                    CheckSynchronizedOrder checkSynchronizedOrder,
                                    OrderMapper orderMapper,
-                                   DomainEvents domainEvents) {
+                                   DomainEvents domainEvents,
+                                   SynchronizationRepository synchronizationRepository) {
         return new OrderSynchronizer(sourceOrderRepository,
                 saveSynchronizedFronts,
                 saveSynchronizedOrder,
                 checkSynchronizedOrder,
                 orderMapper,
-                domainEvents);
+                domainEvents,
+                synchronizationRepository);
     }
 
 }

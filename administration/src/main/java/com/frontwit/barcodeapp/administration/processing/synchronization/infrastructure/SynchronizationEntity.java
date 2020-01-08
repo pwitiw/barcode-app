@@ -1,9 +1,13 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization.infrastructure;
 
-import java.time.Instant;
+import lombok.Getter;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Getter
 public class SynchronizationEntity {
 
-    private Long id;
-    private Instant date;
+    private UUID id;
+    private LocalDateTime date;
 }
