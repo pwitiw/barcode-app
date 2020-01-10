@@ -6,7 +6,7 @@
 
   .order-info {
     font-size: $font-medium;
-    grid-column: 1 / 6;
+    grid-column: 1 / 8;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -27,7 +27,7 @@
   }
 
   .details-btn {
-    grid-column: 6;
+    grid-column: 8;
     margin: auto;
   }
 

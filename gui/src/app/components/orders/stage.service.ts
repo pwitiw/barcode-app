@@ -4,7 +4,7 @@ import {Stage} from "./types/Stage";
 @Injectable()
 export class StageService {
 
-    static INIT = new Stage("INIT", "-- Nie rozpoczęto --");
+    static INIT = new Stage("INIT", "-Nie rozpoczęto-");
     static MILLING = new Stage("MILLING", "Frezowanie");
     static POLISHING = new Stage("POLISHING", "Czyszczenie");
     static BASE = new Stage("BASE", "Podkładowanie");
