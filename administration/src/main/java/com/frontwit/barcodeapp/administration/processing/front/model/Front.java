@@ -5,14 +5,19 @@ import com.frontwit.barcodeapp.administration.processing.shared.Quantity;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
+
 @AllArgsConstructor
 public class Front {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Front.class);
 
     @Getter
     private Barcode barcode;
@@ -44,11 +49,13 @@ public class Front {
         if (!details.getStage().equals(this.currentStage)) {
             return Optional.of(statusUpdated(details));
         }
+        LOGGER.debug(format("PROCESSING: front %s on stage %s", barcode, details.getStage()));
         return Optional.empty();
     }
 
     private Optional<StageChanged> amend(ProcessingDetails details) {
         amendments.add(details);
+        LOGGER.debug(format("AMENDMENT: front %s on stage %s", barcode, details.getStage()));
         return Optional.empty();
     }
 
@@ -59,8 +66,10 @@ public class Front {
         var processedAtPreviousStageQuantity = processings.stream()
                 .filter(p -> p.getStage() == Stage.valueOf(details.getStage().getId() - 1))
                 .count();
-        var processable = processedQuantity == 0 || processedAtPreviousStageQuantity - processedQuantity > 0;
-        return !processingCompletedAt(details.getStage()) && processable;
+        // fixme right now there is only one stage in production environment
+//        var processable = processedQuantity == 0 || processedAtPreviousStageQuantity - processedQuantity > 0;
+//        return !processingCompletedAt(details.getStage()) && processable;
+        return processingCompletedAt(details.getStage());
     }
 
     private boolean processingCompletedAt(Stage stage) {
