@@ -1,7 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.front.application;
 
 import com.frontwit.barcodeapp.administration.processing.front.application.dto.ProcessFrontCommand;
-import com.frontwit.barcodeapp.administration.processing.front.infrastructure.messaging.MosquittoCommandHandler;
 import com.frontwit.barcodeapp.administration.processing.front.model.Front;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontNotFound;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
