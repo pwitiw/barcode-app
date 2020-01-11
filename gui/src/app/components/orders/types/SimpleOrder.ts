@@ -5,4 +5,5 @@ export interface SimpleOrder {
     quantity: number;
     stage: string;
     customer: string;
+    route: string;
 }

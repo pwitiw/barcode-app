@@ -14,7 +14,7 @@ public class DomainEventPublisher implements DomainEvents {
 
     @Override
     public void publish(DomainEvent event) {
-        LOGGER.info(format("Event %s for id: %s published.", event.getClass().getSimpleName(), event.getId()));
+        LOGGER.info(event.toString());
         applicationEventPublisher.publishEvent(event);
     }
 }

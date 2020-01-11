@@ -15,6 +15,7 @@ export class SearchCriteriaComponent implements OnInit {
     orderName: string;
     stage: string;
     customer: string;
+    route: string;
     stages: Stage[];
     processingDate: string;
     today: Date;
@@ -34,6 +35,7 @@ export class SearchCriteriaComponent implements OnInit {
             completed: this.completed,
             stage: this.stage,
             customer: this.customer,
+            route: this.route,
             processingDate: this.processingDate
         };
         this.searchClicked.emit(searchParams);

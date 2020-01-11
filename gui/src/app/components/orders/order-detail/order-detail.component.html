@@ -1,6 +1,6 @@
 <div class="details-overview" *ngIf="order">
     <div class="order-details">
-        <h3>Szczegóły zamówienia</h3>
+        <h3>Szczegóły</h3>
         <icon-with-text [icon]="iconName"
                         [text]="order.name"
                         title="Numer zamówienia">
@@ -12,6 +12,10 @@
         <icon-with-text [icon]="iconCustomer"
                         [text]="order.customer"
                         title="Klient">
+        </icon-with-text>
+        <icon-with-text [icon]="iconRoute"
+                        [text]="order.route"
+                        title="Trasa">
         </icon-with-text>
         <icon-with-text [icon]="iconCalendar"
                         [text]="order.orderedAt| date:'dd/MM/yyyy'"

@@ -37,6 +37,7 @@ public class TargetOrder {
         private String size;
         private String name;
         private String customer;
+        private String trasa;
         private LocalDate orderedAt;
     }
 

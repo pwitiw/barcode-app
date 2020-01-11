@@ -2,35 +2,40 @@
 3) dodac admina do serwisu
 
 ---
- ogarnac security (zeby cookie lecial)
 
 BUGS:
 - brak favicon
+- jak blad serwera prz detalach to wyswietla detale mimo wszystko
 
-PROBLEMY:
-    * jak beda sie komunikowac skanery z roznych zakladowów - kolejka z amazona
+Pytania:
     * jak ktos da ze zakonczony a ktos inny bedzie chcial procesowac zamowienie to co sie ma stac?
 
-TODO:
-- skanowanie na windowsie przetestowac
-- logi ogarnac zeby na prodzie mozna bylo sie polapac
-- zautomatyzowac deploy
-- synchronizacja wszystkich zamowien
-- sqs
+====> T O D O <====
+!!!BARDZO WAŻNE:
+- synchronizacja wszystkich,
+- lokalizacja logów
+- skrypt na start up systemu naprawić (chyba wywala, bo jeszcze baza nie wstała) (3)
+- poprawić proces deploymentu (4) (wrzucanie do dockerhuba -> budowanie image etc)
+- dostep zdalny (5)
+- security improvement
+
+sprzątanie:
 - procesy w orderze sa zbedne juz
-- synchronizacja trasy
-- wyszukiwanie po trasie
-- przetestowac czy na windowsie dziala ten reader
+- pliki mqtt sie generuja - usunac (po wprowadzeniu sqs nie bedzie problemu)
+- pliki typu hs_err_pid.log sie generuja - usunac (po wprowadzeniu sqs nie bedzie problemu)
+
+Skanery w roznych lokalizacjach:
+- skanowanie na windowsie przetestowac
+- sqs
+
+technical improvement:
+- logowanie przy uzyciu cookies
+- logowanie kontekstu uzytkownika
+
+new features:
+- synchronizacja wszystkich zamowien
 - offline mode dla magazyniera
-- dostep zdalny
 
 TODO route finder
 - ( na pinezkach kolejnosc)
 - sortowanie od punktu docelowego
-
-new features:
-- jak ma byc generowany raport (co ma zawierac)
-
-pytania:
-
-

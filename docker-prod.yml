@@ -1,4 +1,4 @@
-version: '3'
+version: '2.4'
 
 services:
   mongodb:
@@ -10,10 +10,26 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - "./:/docker-entrypoint-initdb.d"
+      - "./administration/src/test/resources:/docker-entrypoint-initdb.d"
+
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: frontwit
+      MYSQL_USER: patryk
+      MYSQL_PASSWORD: password
+    ports:
+      - 3306:3306
+    volumes:
+      - "./administration/src/test/resources:/docker-entrypoint-initdb.d"
 
   mqtt:
     image: eclipse-mosquitto
     ports:
       - "1883:1883"
 
+  app:
+    build: ./administration
+    ports:
+      - "8888:8888"

@@ -15,7 +15,7 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 @Service
 public class JwtTokenUtil {
 
-    private static final long JWT_TOKEN_VALIDITY = 860_400_000L; // 10 days
+    private static final long JWT_TOKEN_VALIDITY = 860_400_000_000L; // 10 days
     private static final String TOKEN_PREFIX = "Bearer ";
 
     @Value("${jwt.secret}")
@@ -43,13 +43,9 @@ public class JwtTokenUtil {
     }
 
     void validate(String token) {
-        var expireDate = JWT.require(getAlgorithm())
+        JWT.require(getAlgorithm())
                 .build()
-                .verify(token.replace(TOKEN_PREFIX, ""))
-                .getExpiresAt();
-        if (new Date().compareTo(expireDate) > 0) {
-            throw new IllegalStateException("Invalid token");
-        }
+                .verify(token.replace(TOKEN_PREFIX, ""));
     }
 
     private Algorithm getAlgorithm() {

@@ -5,15 +5,15 @@
                         [text]="order.name"
                         title="Numer zamówienia">
         </icon-with-text>
-        <icon-with-text class="label "
-                        [icon]="iconStage"
-                        [text]="stageService.convertToView(order.stage)"
-                        title="Etap produkcji">
-        </icon-with-text>
-        <icon-with-text class="label growing"
+        <icon-with-text class="label"
                         [icon]="iconCalendar"
                         [text]="order.orderedAt| date:'dd/MM/yyyy'"
                         title="Data zlecenia">
+        </icon-with-text>
+        <icon-with-text class="label growing"
+                        [icon]="iconStage"
+                        [text]="stageService.convertToView(order.stage)"
+                        title="Etap produkcji">
         </icon-with-text>
         <icon-with-text class="label"
                         [icon]="iconQuantity"
@@ -24,6 +24,11 @@
                         [icon]="iconCustomer"
                         [text]="order.customer"
                         title="Klient">
+        </icon-with-text>
+        <icon-with-text class="label"
+                        [icon]="iconRoute"
+                        [text]="order.route"
+                        title="Trasa">
         </icon-with-text>
     </div>
     <div class="details-btn">

@@ -6,15 +6,6 @@
                 <input matInput placeholder="Nazwa zamówienia" [(ngModel)]="orderName" name="orderName">
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Nazwa klienta" [(ngModel)]="customer" name="customer">
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput [matDatepicker]="picker" [max]="today" placeholder="Data przetwarzania"
-                       [(ngModel)]="processingDate" name="processingDate">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field>
                 <mat-label>Etap produkcji</mat-label>
                 <mat-select [(value)]="stage">
                     <mat-option></mat-option>
@@ -23,11 +14,23 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Nazwa klienta" [(ngModel)]="customer" name="customer">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Trasa" [(ngModel)]="route" name="route">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker" [max]="today" placeholder="Data przetwarzania"
+                       [(ngModel)]="processingDate" name="processingDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
             <mat-checkbox color="primary" labelPosition="after" [(ngModel)]="completed" name="completed">Zakończone
             </mat-checkbox>
         </div>
         <mat-divider></mat-divider>
         <button mat-button color="primary"><mat-icon>search</mat-icon>Szukaj</button>
-        <button type="button" mat-button color="primary" (click)="fetch()"><mat-icon>sync</mat-icon>Pobierz zamówienia</button>
+        <button type="button" mat-button color="primary" disabled (click)="fetch()"><mat-icon>sync</mat-icon>Pobierz zamówienia</button>
     </form>
 </div>

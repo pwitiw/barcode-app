@@ -14,4 +14,13 @@ public class ProcessFrontCommand {
     @NonNull
     private Integer stage;
     private LocalDateTime dateTime;
+
+    @Override
+    public String toString() {
+        return "ProcessFrontCommand{" +
+                "barcode=" + barcode +
+                ", stage=" + stage +
+                ", dateTime=" + dateTime +
+                '}';
+    }
 }

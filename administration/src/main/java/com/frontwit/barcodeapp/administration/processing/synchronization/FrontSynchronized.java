@@ -13,4 +13,11 @@ public class FrontSynchronized implements DomainEvent {
     public Long getId() {
         return processFrontCommand.getBarcode();
     }
+
+    @Override
+    public String toString() {
+        return "FrontSynchronized {" +
+                "barcode=" + processFrontCommand.getBarcode() +
+                '}';
+    }
 }

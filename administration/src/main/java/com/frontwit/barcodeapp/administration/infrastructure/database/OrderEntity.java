@@ -37,6 +37,7 @@ public class OrderEntity {
     private String cutter;
     private String comment;
     private String customer;
+    private String route;
     private boolean completed;
     private int quantity;
     private LocalDate lastProcessedOn;
@@ -69,10 +70,10 @@ public class OrderEntity {
     }
 
     public OrderDetailDto detailsDto(List<FrontDto> fronts) {
-        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, stage, orderedAt, fronts, completed);
+        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, route, stage, orderedAt, fronts, completed);
     }
 
     public OrderDto dto() {
-        return new OrderDto(id, name, orderedAt, stage, quantity, customer);
+        return new OrderDto(id, name, orderedAt, stage, quantity, customer, route);
     }
 }

@@ -16,6 +16,7 @@ public class OrderSearchCriteria {
     Boolean completed;
     Stage stage;
     String customer;
+    String route;
     LocalDate processingDate;
 
     public boolean empty() {
@@ -23,6 +24,7 @@ public class OrderSearchCriteria {
                 && completed == null
                 && stage == null
                 && customer == null
+                && route == null
                 && processingDate == null;
     }
 }

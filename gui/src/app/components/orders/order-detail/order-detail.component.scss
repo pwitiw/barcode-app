@@ -7,15 +7,16 @@
   }
 
   .order-details {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    margin: $margin-lg;
+    margin: $margin-lg $margin-sm;
   }
 
   .front-list {
-    margin: $margin-lg;
-    flex: 1;
+    margin-top: $margin-lg;
+    margin-right: $margin-sm;
+    flex: 2 1 auto;
 
     .front-row {
       display: flex;
