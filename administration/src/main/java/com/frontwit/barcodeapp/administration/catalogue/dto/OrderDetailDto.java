@@ -18,6 +18,7 @@ public class OrderDetailDto {
     private String cutter;
     private String comment;
     private String customer;
+    private String route;
     private Stage stage;
     private LocalDate orderedAt;
     private List<FrontDto> fronts;

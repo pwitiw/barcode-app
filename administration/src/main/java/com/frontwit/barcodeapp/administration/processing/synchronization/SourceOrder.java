@@ -14,4 +14,5 @@ public class SourceOrder {
     private String description;
     private String features;
     private String customer;
+    private String route;
 }

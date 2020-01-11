@@ -16,4 +16,5 @@ public class OrderDto {
     private Stage stage;
     private int quantity;
     private String customer;
+    private String route;
 }

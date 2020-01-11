@@ -13,6 +13,10 @@
                         [text]="order.customer"
                         title="Klient">
         </icon-with-text>
+        <icon-with-text [icon]="iconRoute"
+                        [text]="order.route"
+                        title="Trasa">
+        </icon-with-text>
         <icon-with-text [icon]="iconCalendar"
                         [text]="order.orderedAt| date:'dd/MM/yyyy'"
                         title="Data zlecenia">

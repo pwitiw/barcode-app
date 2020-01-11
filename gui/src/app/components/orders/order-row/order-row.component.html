@@ -25,6 +25,11 @@
                         [text]="order.customer"
                         title="Klient">
         </icon-with-text>
+        <icon-with-text class="label"
+                        [icon]="iconRoute"
+                        [text]="order.route"
+                        title="Trasa">
+        </icon-with-text>
     </div>
     <div class="details-btn">
         <button mat-icon-button color="primary" (click)="showDetails()">

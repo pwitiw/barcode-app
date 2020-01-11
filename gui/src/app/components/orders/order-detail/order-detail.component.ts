@@ -9,7 +9,8 @@ import {
     faIndustry,
     faInfoCircle,
     faPalette,
-    faUserTie
+    faUserTie,
+    faMapMarkedAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {faStackOverflow} from '@fortawesome/free-brands-svg-icons';
 import {faCommentDots} from '@fortawesome/free-regular-svg-icons';
@@ -35,6 +36,7 @@ export class OrderDetailComponent implements OnInit, OnChanges {
     iconCustomer = faUserTie;
     iconCutter = faHighlighter;
     iconName = faInfoCircle;
+    iconRoute = faMapMarkedAlt;
 
 
     constructor(protected stageService: StageService,

@@ -5,14 +5,15 @@
 
 BUGS:
 - brak favicon
+- jak blad serwera prz detalach to wyswietla detale mimo wszystko
 
 Pytania:
     * jak ktos da ze zakonczony a ktos inny bedzie chcial procesowac zamowienie to co sie ma stac?
 
 ====> T O D O <====
 !!!BARDZO WAŻNE:
-- spr dlaczego 1/2 wszedzie, nigdzie 2/2 nie ma (1)
-- pologowac kluczowe momenty (2)
+- synchronizacja wszystkich,
+- lokalizacja logów
 - skrypt na start up systemu naprawić (chyba wywala, bo jeszcze baza nie wstała) (3)
 - poprawić proces deploymentu (4) (wrzucanie do dockerhuba -> budowanie image etc)
 - dostep zdalny (5)
@@ -20,8 +21,8 @@ Pytania:
 
 sprzątanie:
 - procesy w orderze sa zbedne juz
-- pliki mqtt sie generuja - usunac
-- pliki typu hs_err_pid.log sie generuja - usunac
+- pliki mqtt sie generuja - usunac (po wprowadzeniu sqs nie bedzie problemu)
+- pliki typu hs_err_pid.log sie generuja - usunac (po wprowadzeniu sqs nie bedzie problemu)
 
 Skanery w roznych lokalizacjach:
 - skanowanie na windowsie przetestowac
@@ -32,8 +33,6 @@ technical improvement:
 - logowanie kontekstu uzytkownika
 
 new features:
-- synchronizacja trasy
-- wyszukiwanie po trasie
 - synchronizacja wszystkich zamowien
 - offline mode dla magazyniera
 

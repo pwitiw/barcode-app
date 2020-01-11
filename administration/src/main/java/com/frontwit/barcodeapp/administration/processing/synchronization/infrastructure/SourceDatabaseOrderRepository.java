@@ -66,6 +66,7 @@ public class SourceDatabaseOrderRepository implements SourceOrderRepository {
                 "z.opis as description, " +
                 "z.cechy as features, " +
                 "k.nazwa as customer " +
+                "k.trasa as route " +
                 "FROM tzamowienia z JOIN tklienci k " +
                 "ON z.tklienci_id = k.id ";
     }
