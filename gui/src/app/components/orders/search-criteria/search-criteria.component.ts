@@ -12,6 +12,7 @@ export class SearchCriteriaComponent implements OnInit {
     @Output() searchClicked = new EventEmitter<SearchCriteria>();
     @Output() fetchClicked = new EventEmitter();
     completed: boolean;
+    packed: boolean;
     orderName: string;
     stage: string;
     customer: string;
@@ -36,7 +37,8 @@ export class SearchCriteriaComponent implements OnInit {
             stage: this.stage,
             customer: this.customer,
             route: this.route,
-            processingDate: this.processingDate
+            processingDate: this.processingDate,
+            packed: this.packed
         };
         this.searchClicked.emit(searchParams);
     }

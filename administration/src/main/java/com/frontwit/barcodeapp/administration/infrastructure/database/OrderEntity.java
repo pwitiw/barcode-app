@@ -52,6 +52,7 @@ public class OrderEntity {
         this.orderedAt = targetOrder.getInfo().getOrderedAt();
         this.customer = targetOrder.getInfo().getCustomer();
         this.comment = targetOrder.getComment().compose();
+        this.route = targetOrder.getInfo().getRoute();
         this.quantity = targetOrder.getFronts().stream()
                 .map(TargetFront::getQuantity)
                 .map(Quantity::getValue)

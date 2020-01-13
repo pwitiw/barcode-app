@@ -6,6 +6,7 @@ import {OrderDetails} from 'src/app/components/orders/types/OrderDetails';
 import {SearchCriteria} from "./types/SearchCriteria";
 import {Page} from "./types/Page";
 import {SnackBarService} from "../../services/snack-bar.service";
+import {tap} from "rxjs/operators";
 
 @Component({
     selector: 'app-orders',
@@ -16,8 +17,8 @@ export class OrdersComponent implements OnInit {
     criteria: SearchCriteria;
     totalElements: number;
     page: number;
-    size;
-
+    selectedId: number;
+    size: number;
     orders: SimpleOrder[];
     orderDetail$: Observable<OrderDetails>;
 
@@ -65,8 +66,8 @@ export class OrdersComponent implements OnInit {
     }
 
     handleShowDetails(order: SimpleOrder): void {
-        this.orderDetail$ = this.orderService.getOrderDetails(order.id);
-        window.scroll(0,0);
+        this.orderDetail$ = this.orderService.getOrderDetails(order.id).pipe(tap(order => this.selectedId = order.id));
+        window.scroll(0, 0);
     }
 
     showPagination() {

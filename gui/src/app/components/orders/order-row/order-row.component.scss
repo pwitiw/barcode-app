@@ -4,6 +4,10 @@
   margin: $margin-md;
   box-shadow: 0 -2px 0px rgba(0, 0, 0, 0.25);
 
+  &.selected {
+    background: $selected-color;
+  }
+
   .order-info {
     font-size: $font-medium;
     grid-column: 1 / 8;

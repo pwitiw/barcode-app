@@ -35,25 +35,8 @@ public class SourceDatabaseOrderRepository implements SourceOrderRepository {
     }
 
     @Override
-    public List<SourceOrder> findByDateBetween(LocalDate from, LocalDate to) {
-        return jdbcTemplate.query(findOrdersBetweenDatesQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), from, to);
-    }
-
-    private String findOrderByIdQuery() {
-        return findOrdersQuery() +
-                "WHERE z.id=?";
-    }
-
-    private String getDictionaryQuery() {
-        return "SELECT " +
-                "id, " +
-                "name as value " +
-                "FROM tdictionary";
-    }
-
-    private String findOrdersBetweenDatesQuery() {
-        return findOrdersQuery() +
-                "WHERE data_z BETWEEN ? AND ?";
+    public List<SourceOrder> findByDateBetween(LocalDate from) {
+        return jdbcTemplate.query(findOrdersByDateGteQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), from);
     }
 
     private String findOrdersQuery() {
@@ -65,10 +48,27 @@ public class SourceDatabaseOrderRepository implements SourceOrderRepository {
                 "z.nr_zam_kl as additionalInfo, " +
                 "z.opis as description, " +
                 "z.cechy as features, " +
-                "k.nazwa as customer " +
+                "k.nazwa as customer, " +
                 "k.trasa as route " +
                 "FROM tzamowienia z JOIN tklienci k " +
                 "ON z.tklienci_id = k.id ";
+    }
+
+    private String findOrderByIdQuery() {
+        return findOrdersQuery() +
+                "WHERE z.id=?";
+    }
+
+    private String findOrdersByDateGteQuery() {
+        return findOrdersQuery() +
+                "WHERE data_z >= ?";
+    }
+
+    private String getDictionaryQuery() {
+        return "SELECT " +
+                "id, " +
+                "name as value " +
+                "FROM tdictionary";
     }
 
 }

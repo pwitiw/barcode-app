@@ -14,6 +14,7 @@ public class OrderSearchCriteria {
 
     String name;
     Boolean completed;
+    Boolean packed;
     Stage stage;
     String customer;
     String route;
@@ -25,6 +26,7 @@ public class OrderSearchCriteria {
                 && stage == null
                 && customer == null
                 && route == null
-                && processingDate == null;
+                && processingDate == null
+                && packed == null;
     }
 }

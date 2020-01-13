@@ -13,5 +13,5 @@ public interface SourceOrderRepository {
 
     Dictionary getDictionary();
 
-    List<SourceOrder> findByDateBetween(LocalDateTime from, LocalDateTime to);
+    List<SourceOrder> findByDateBetween(LocalDate from);
 }

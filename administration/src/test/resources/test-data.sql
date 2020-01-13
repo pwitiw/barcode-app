@@ -24,13 +24,14 @@ CREATE TABLE IF NOT EXISTS `tklienci`
     `id`    int(10) unsigned NOT NULL,
     `nazwa` varchar(45)      NOT NULL,
     `adres` varchar(45) DEFAULT NULL,
-    `email` varchar(45) DEFAULT NULL
+    `email` varchar(45) DEFAULT NULL,
+    `trasa` varchar(45) DEFAULT NULL
 ) ENGINE = MyISAM
   AUTO_INCREMENT = 1326
   DEFAULT CHARSET = utf8;
 
-INSERT INTO `tklienci` (`id`, `nazwa`, `adres`, `email`)
-VALUES (1, 'Jan Kowalski', 'Wroclaw', 'www@gmail.com');
+INSERT INTO `tklienci` (`id`, `nazwa`, `adres`,`trasa`, `email`)
+VALUES (1, 'Jan Kowalski', 'Wroclaw', 'wroclaw', 'www@gmail.com');
 
 CREATE TABLE IF NOT EXISTS `tzamowienia`
 (
@@ -85,13 +86,13 @@ VALUES (1, 1, '2019-06-07', 'TW 100', 'express', '{"cu":"2","si":"1","co":"3","d
        (12, 1, '2019-06-16', 'TW 111', 'nic', '{"cu":"2","si":"1","co":"4","do":"1"}', '[
 {"nr":"1","l":"100","w":"200","q":"1","a":"0.484","el":"","cu":"2","si":"1","do":1,"co":"4","com":"nic"}
 ]', NULL),
-       (13, 1, '2019-06-17', 'TW 112', 'express', '{"cu":"2","si":"1","co":"4","do":"1"}', '[
+       (13, 1, '2020-01-13', 'TW 112', 'express', '{"cu":"2","si":"1","co":"4","do":"1"}', '[
 {"nr":"1","l":"100","w":"200","q":"1","a":"0.484","el":"","cu":"2","si":"1","do":1,"co":"4","com":"niee"}
 ]', 'dodatkowe info'),
-       (14, 1, '2019-06-17', 'TW 113', 'express', '{"cu":"2","si":"1","co":"4","do":"1"}', '[
+       (14, 1, '2020-01-13', 'TW 113', 'express', '{"cu":"2","si":"1","co":"4","do":"1"}', '[
 {"nr":"1","l":"100","w":"200","q":"1","a":"0.484","el":"","cu":"2","si":"1","do":1,"co":"4","com":"wcale"}
 ]', NULL),
-       (15, 1, '2019-06-18', 'TW 114', 'express', '{"cu":"2","si":"1","co":"4","do":"1"}', '[
+       (15, 1, '2020-01-14', 'TW 114', 'express', '{"cu":"2","si":"1","co":"4","do":"1"}', '[
 {"nr":"1","l":"100","w":"200","q":"1","a":"0.484","el":"","cu":"2","si":"1","do":1,"co":"4","com":"grubo"}
 ]', 'jakis klient'),
        (25486, 1, '2019-06-18', 'TW 115', 'express', '{"cu":"2","si":"1","co":"4","do":"1"}', '[

@@ -26,11 +26,21 @@
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            <mat-checkbox color="primary" labelPosition="after" [(ngModel)]="completed" name="completed">Zakończone
-            </mat-checkbox>
+            <div>
+                <mat-checkbox color="primary" labelPosition="after" [(ngModel)]="packed" disabled name="packed">Spakowane
+                </mat-checkbox>
+                <mat-checkbox color="primary" labelPosition="after" [(ngModel)]="completed" name="completed">Zakończone
+                </mat-checkbox>
+            </div>
         </div>
         <mat-divider></mat-divider>
-        <button mat-button color="primary"><mat-icon>search</mat-icon>Szukaj</button>
-        <button type="button" mat-button color="primary" disabled (click)="fetch()"><mat-icon>sync</mat-icon>Pobierz zamówienia</button>
+        <button mat-button color="primary">
+            <mat-icon>search</mat-icon>
+            Szukaj
+        </button>
+        <button type="button" mat-button color="primary" (click)="fetch()">
+            <mat-icon>sync</mat-icon>
+            Pobierz zamówienia
+        </button>
     </form>
 </div>
