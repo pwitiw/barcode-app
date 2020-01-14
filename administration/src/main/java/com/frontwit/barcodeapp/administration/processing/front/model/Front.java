@@ -69,7 +69,7 @@ public class Front {
         // fixme right now there is only one stage in production environment
 //        var processable = processedQuantity == 0 || processedAtPreviousStageQuantity - processedQuantity > 0;
 //        return !processingCompletedAt(details.getStage()) && processable;
-        return processingCompletedAt(details.getStage());
+        return !processingCompletedAt(details.getStage());
     }
 
     private boolean processingCompletedAt(Stage stage) {

@@ -52,6 +52,6 @@ public class OrderSynchronizer {
         var targetOrder = orderMapper.map(sourceOrder, dictionary);
         saveSynchronizedOrder.save(targetOrder);
         saveSynchronizedFronts.save(targetOrder.getFronts());
-        LOGGER.debug(format("Synchronized order (id=%s) with %s fronts", targetOrder.getOrderId().getOrderId(), targetOrder.getFronts().size()));
+        LOGGER.info(format("Synchronized order (id=%s) with %s fronts", targetOrder.getOrderId().getOrderId(), targetOrder.getFronts().size()));
     }
 }
