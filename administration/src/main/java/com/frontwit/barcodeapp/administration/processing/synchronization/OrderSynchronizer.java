@@ -1,6 +1,5 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization;
 
-import com.frontwit.barcodeapp.administration.processing.front.application.ProcessingFront;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontNotFound;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.shared.ProcessingException;
@@ -9,8 +8,6 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
-
-import java.time.LocalDate;
 
 import static java.lang.String.format;
 

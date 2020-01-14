@@ -41,6 +41,7 @@ public class OrderEntity {
     private boolean completed;
     private int quantity;
     private LocalDate lastProcessedOn;
+    private boolean packed;
 
     public OrderEntity(TargetOrder targetOrder) {
         this.id = targetOrder.getOrderId().getOrderId();
@@ -57,6 +58,8 @@ public class OrderEntity {
                 .map(TargetFront::getQuantity)
                 .map(Quantity::getValue)
                 .mapToInt(Integer::intValue).sum();
+        this.completed = false;
+        this.packed = false;
     }
 
     public void update(Order order) {
