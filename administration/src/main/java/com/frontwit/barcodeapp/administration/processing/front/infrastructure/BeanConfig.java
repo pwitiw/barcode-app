@@ -2,7 +2,7 @@ package com.frontwit.barcodeapp.administration.processing.front.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.frontwit.barcodeapp.administration.processing.front.application.ProcessingFront;
+import com.frontwit.barcodeapp.administration.processing.front.application.FrontProcessor;
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.messaging.MosquittoCommandHandler;
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.MongoFrontRepository;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontProcessingPolicy;
@@ -33,8 +33,8 @@ public class BeanConfig {
     }
 
     @Bean
-    ProcessingFront frontProcessing(FrontRepository frontRepository, DomainEvents domainEvents) {
-        return new ProcessingFront(frontRepository, domainEvents);
+    FrontProcessor frontProcessing(FrontRepository frontRepository, DomainEvents domainEvents) {
+        return new FrontProcessor(frontRepository, domainEvents);
     }
 
     @Bean
@@ -45,7 +45,7 @@ public class BeanConfig {
     }
 
     @Bean
-    MosquittoCommandHandler mosquittoCommandHandler(ProcessingFront processingFront, ObjectMapper objectMapper) {
-        return new MosquittoCommandHandler(processingFront, objectMapper);
+    MosquittoCommandHandler mosquittoCommandHandler(FrontProcessor frontProcessor, ObjectMapper objectMapper) {
+        return new MosquittoCommandHandler(frontProcessor, objectMapper);
     }
 }

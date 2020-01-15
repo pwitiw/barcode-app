@@ -1,9 +1,8 @@
 package com.frontwit.barcodeapp.administration.processing.front.infrastructure.messaging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.frontwit.barcodeapp.administration.processing.front.application.ProcessingFront;
+import com.frontwit.barcodeapp.administration.processing.front.application.FrontProcessor;
 import com.frontwit.barcodeapp.administration.processing.front.application.dto.ProcessFrontCommand;
-import com.frontwit.barcodeapp.administration.processing.shared.ProcessingException;
 import org.eclipse.paho.client.mqttv3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +18,7 @@ import static java.lang.String.format;
 public class MosquittoCommandHandler implements MqttCallback {
     private static final Logger LOGGER = LoggerFactory.getLogger(MosquittoCommandHandler.class);
 
-    private ProcessingFront processingFront;
+    private FrontProcessor frontProcessor;
     private ObjectMapper objectMapper;
 
     private IMqttClient mqttClient;
@@ -30,8 +29,8 @@ public class MosquittoCommandHandler implements MqttCallback {
     @Value("${mqtt.topic}")
     private String topic;
 
-    public MosquittoCommandHandler(ProcessingFront processingFront, ObjectMapper objectMapper) {
-        this.processingFront = processingFront;
+    public MosquittoCommandHandler(FrontProcessor frontProcessor, ObjectMapper objectMapper) {
+        this.frontProcessor = frontProcessor;
         this.objectMapper = objectMapper;
     }
 
@@ -61,10 +60,10 @@ public class MosquittoCommandHandler implements MqttCallback {
 
     @Override
     public void messageArrived(String topic, MqttMessage message) {
-        LOGGER.debug(format("Message on topic %s arrived", topic));
         try {
             var command = objectMapper.readValue(message.getPayload(), ProcessFrontCommand.class);
-            new Thread((() -> processingFront.process(command))).start();
+            LOGGER.debug(format("[MQTT] topic: %s, payload: %s", topic, command.toString()));
+            new Thread((() -> frontProcessor.process(command))).start();
         } catch (IOException e) {
             LOGGER.warn(e.getMessage());
         }

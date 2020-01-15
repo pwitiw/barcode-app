@@ -24,7 +24,7 @@ class OrderCommand {
                 .ifPresentOrElse(order -> {
                     order.setCompleted(!order.isCompleted());
                     mongoTemplate.save(order);
-                    LOGGER.info(format("STATUS CHANGED for order %s --> (%s)", id, order.isCompleted() ? "COMPLETED" : "NOT COMPLETED"));
+                    LOGGER.info(format("STATUS CHANGED {orderId=%s, status=%s}", id, order.isCompleted() ? "COMPLETED" : "NOT COMPLETED"));
                 }, () -> new IllegalArgumentException(format("Order with id %s does not exist", id)));
     }
 }

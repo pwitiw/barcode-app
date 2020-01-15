@@ -18,7 +18,7 @@ public class FrontNotFound implements DomainEvent {
 
     @Override
     public String toString() {
-        return "FrontNotFound{" +
+        return "FrontNotFound {" +
                 "barcode=" + delayedProcessFrontCommand.getBarcode() +
                 '}';
     }

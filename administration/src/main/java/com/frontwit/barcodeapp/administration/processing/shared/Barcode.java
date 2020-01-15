@@ -24,4 +24,9 @@ public class Barcode {
     public static Barcode valueOf(OrderId orderId, long frontId) {
         return new Barcode(orderId.getOrderId() * LIMIT + frontId);
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(barcode);
+    }
 }

@@ -17,14 +17,13 @@ import org.springframework.context.event.EventListener;
 import static java.lang.String.format;
 
 @AllArgsConstructor
-public class ProcessingFront {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessingFront.class);
+public class FrontProcessor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FrontProcessor.class);
 
     private FrontRepository frontRepository;
     private DomainEvents domainEvents;
 
     public void process(ProcessFrontCommand command) {
-        LOGGER.debug(command.toString());
         var barcode = new Barcode(command.getBarcode());
         frontRepository.findBy(barcode)
                 .ifPresentOrElse(front -> process(front, command), () -> publishFrontNotFound(command));

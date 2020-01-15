@@ -7,11 +7,11 @@ import com.frontwit.barcodeapp.administration.processing.shared.Stage
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents
 import spock.lang.Specification
 
-class ProcessingFrontTest extends Specification implements SampleFront {
+class FrontProcessorTest extends Specification implements SampleFront {
 
     DomainEvents domainEvents = Mock()
     FrontRepository frontRepository = Mock()
-    ProcessingFront frontProcessing = new ProcessingFront(frontRepository, domainEvents)
+    FrontProcessor frontProcessing = new FrontProcessor(frontRepository, domainEvents)
 
     def "should publish stage changed event when stage updated"() {
         given:

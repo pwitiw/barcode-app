@@ -38,17 +38,20 @@ public class OrderSynchronizer {
         var lastSyncDate = synchronizationRepository.getLastSynchronizationDate();
         var dictionary = sourceOrderRepository.getDictionary();
         synchronizationRepository.updateSyncDate();
-        return sourceOrderRepository.findByDateBetween(lastSyncDate)
+        LOGGER.debug(format("Synchronization for date: %s", lastSyncDate));
+        long count = sourceOrderRepository.findByDateBetween(lastSyncDate)
                 .stream()
                 .filter(sourceOrder -> !checkSynchronizedOrder.isSynchronized(new OrderId(sourceOrder.getId())))
                 .peek(sourceOrder -> saveOrderWithFronts(sourceOrder, dictionary))
                 .count();
+        LOGGER.debug(format("Synchronization for date: %s  ====> %s orders", lastSyncDate, count));
+        return count;
     }
 
     private void saveOrderWithFronts(SourceOrder sourceOrder, Dictionary dictionary) {
         var targetOrder = orderMapper.map(sourceOrder, dictionary);
         saveSynchronizedOrder.save(targetOrder);
         saveSynchronizedFronts.save(targetOrder.getFronts());
-        LOGGER.info(format("Synchronized order (id=%s) with %s fronts", targetOrder.getOrderId().getOrderId(), targetOrder.getFronts().size()));
+        LOGGER.info(format("OrderSynchronized {id=%s, frontsNr=%s}", targetOrder.getOrderId().getOrderId(), targetOrder.getFronts().size()));
     }
 }

@@ -9,7 +9,7 @@ import spock.lang.Unroll
 import static com.frontwit.barcodeapp.administration.processing.shared.Stage.*
 import static java.time.LocalDateTime.now
 
-class ProcessingFrontScenarios extends Specification implements SampleFront {
+class FrontProcessorScenarios extends Specification implements SampleFront {
 
     @Unroll
     def "should apply front processing #nextStage and update status"() {
