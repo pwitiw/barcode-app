@@ -14,6 +14,7 @@ export interface OrderDetails {
     orderedAt: string;
     fronts: Front[];
     completed: boolean;
+    packed: boolean;
 }
 
 

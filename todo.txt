@@ -9,11 +9,12 @@ BUGS:
 
 Pytania:
     * jak ktos da ze zakonczony a ktos inny bedzie chcial procesowac zamowienie to co sie ma stac?
+    * jak "spakowane" nie jest zaznaczone to maja byc wszystkie czy tylko niespakowane?
 
 ====> T O D O <====
 !!!BARDZO WAŻNE:
-- synchronizacja wszystkich,
-- lokalizacja logów
+- spakowane czy nie?
+- synchronizacja zamówień z datą z dnia poprzedniego
 - skrypt na start up systemu naprawić (chyba wywala, bo jeszcze baza nie wstała) (3)
 - poprawić proces deploymentu (4) (wrzucanie do dockerhuba -> budowanie image etc)
 - dostep zdalny (5)
@@ -33,7 +34,6 @@ technical improvement:
 - logowanie kontekstu uzytkownika
 
 new features:
-- synchronizacja wszystkich zamowien
 - offline mode dla magazyniera
 
 TODO route finder

@@ -1,7 +1,10 @@
 package com.frontwit.barcodeapp.administration.processing.order.application;
 
+import com.frontwit.barcodeapp.administration.processing.front.model.FrontPacked;
 import com.frontwit.barcodeapp.administration.processing.front.model.StageChanged;
+import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderRepository;
+import com.frontwit.barcodeapp.administration.processing.order.model.PackFront;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStageDetails;
 import com.frontwit.barcodeapp.administration.processing.shared.ProcessingException;
 import lombok.AllArgsConstructor;
@@ -26,4 +29,13 @@ public class FrontEventsHandler {
         orderRepository.save(order);
     }
 
+    @EventListener
+    public void handle(FrontPacked event) {
+        var orderId = event.getBarcode().getOrderId();
+        orderRepository.findBy(orderId)
+                .ifPresent(order -> {
+                    order.pack(new PackFront(event.getBarcode()));
+                    orderRepository.save(order);
+                });
+    }
 }

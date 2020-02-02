@@ -1,8 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.front.model
 
-
 import com.frontwit.barcodeapp.administration.processing.shared.Stage
-import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -17,21 +15,19 @@ class FrontProcessorScenarios extends Specification implements SampleFront {
         def front = aFrontWithAppliedProcesses(1, processedStages as Stage[])
 
         when:
-        def event = front.apply(new ProcessingDetails(nextStage, getIncrementedDateTime()))
+        def events = front.apply(new ProcessingDetails(nextStage, getIncrementedDateTime()))
 
         then:
-        event.isPresent()
-        nextStage == event.get().stage
+        events.size() == amount
 
         where:
-        processedStages                                         | nextStage
-        []                                                      | MILLING
-        [MILLING]                                               | POLISHING
-        [MILLING, POLISHING]                                    | BASE
-        [MILLING, POLISHING, BASE]                              | GRINDING
-        [MILLING, POLISHING, BASE, GRINDING]                    | PAINTING
-        [MILLING, POLISHING, BASE, GRINDING, PAINTING]          | PACKING
-        [MILLING, POLISHING, BASE, GRINDING, PAINTING, PACKING] | IN_DELIVERY
+        processedStages                                | amount | nextStage
+        []                                             | 1      | MILLING
+        [MILLING]                                      | 2      | POLISHING
+        [MILLING, POLISHING]                           | 3      | BASE
+        [MILLING, POLISHING, BASE]                     | 4      | GRINDING
+        [MILLING, POLISHING, BASE, GRINDING]           | 5      | PAINTING
+        [MILLING, POLISHING, BASE, GRINDING, PAINTING] | 7      | PACKING
     }
 
     def "stage is updated when at least one processed"() {
@@ -39,11 +35,11 @@ class FrontProcessorScenarios extends Specification implements SampleFront {
         def front = aFrontWithAppliedProcesses(2)
 
         when:
-        def event = front.apply(new ProcessingDetails(MILLING, now()))
+        def events = front.apply(new ProcessingDetails(MILLING, now()))
 
         then:
-        event.isPresent()
-        MILLING == event.get().stage
+        !events.isEmpty()
+        MILLING == events.get(0).stage
     }
 
     def "stage is not downgraded when amendment applied"() {
@@ -51,10 +47,10 @@ class FrontProcessorScenarios extends Specification implements SampleFront {
         def front = aFrontWithAppliedProcesses(1, MILLING, POLISHING)
 
         when:
-        def event = front.apply(new ProcessingDetails(MILLING, getIncrementedDateTime()))
+        def events = front.apply(new ProcessingDetails(MILLING, getIncrementedDateTime()))
 
         then:
-        event.isEmpty()
+        events.size() == 2
     }
 
     def "amending on the same stage as current does not update stage"() {
@@ -62,10 +58,10 @@ class FrontProcessorScenarios extends Specification implements SampleFront {
         def front = aFrontWithAppliedProcesses(1, MILLING, POLISHING)
 
         when:
-        def event = front.apply(new ProcessingDetails(POLISHING, getIncrementedDateTime()))
+        def events = front.apply(new ProcessingDetails(POLISHING, getIncrementedDateTime()))
 
         then:
-        event.isEmpty()
+        events.size() == 2
     }
 
     def "can not process same front with frequency greater than once per 3 seconds"() {
@@ -101,27 +97,25 @@ class FrontProcessorScenarios extends Specification implements SampleFront {
         IN_DELIVERY | _
     }
 
-    @Unroll
-    @Ignore
-    def "can not process front in wrong order"() {
+    def "raise event when all fronts packed"() {
+        def front = aFront(BARCODE, 1);
+
         when:
-        aFrontWithAppliedProcesses(1, stages as Stage[])
+        def events = front.apply(new ProcessingDetails(PACKING, now()))
 
         then:
-        thrown(ProcessingPolicyViolationException)
+        events.size() == 2
+        events.containsAll(new FrontPacked(BARCODE), new StageChanged(BARCODE, PACKING))
+    }
 
-        true
-        where:
-        stages                                        | _
-        [POLISHING]                                   | _
-        [BASE]                                        | _
-        [GRINDING]                                    | _
-        [PAINTING]                                    | _
-        [PACKING]                                     | _
-        [IN_DELIVERY]                                 | _
-        [MILLING, BASE]                               | _
-        [MILLING, POLISHING, GRINDING]                | _
-        [MILLING, POLISHING, BASE, PAINTING]          | _
-        [MILLING, POLISHING, BASE, GRINDING, PACKING] | _
+    def "do not raise event when not all fronts packed"() {
+        def front = aFront(BARCODE, 2);
+
+        when:
+        def events = front.apply(new ProcessingDetails(PACKING, now()))
+
+        then:
+        events.size() == 1
+        events.containsAll( new StageChanged(BARCODE, PACKING))
     }
 }

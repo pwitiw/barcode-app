@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 
 import static com.frontwit.barcodeapp.administration.processing.shared.Stage.*
 
-class AcceptanceTest extends IntegrationSpec {
+class AcceptanceIT extends IntegrationSpec {
 
     @Autowired
     FrontProcessor processingFront
@@ -44,10 +44,6 @@ class AcceptanceTest extends IntegrationSpec {
         frontIsBeingProcessed(PACKING)
         then:
         orderIsUpdated(PACKING)
-        when:
-        frontIsBeingProcessed(IN_DELIVERY)
-        then:
-        orderIsUpdated(IN_DELIVERY)
     }
 
     void orderIsUpdated(Stage stage) {

@@ -38,7 +38,7 @@ public class FrontProcessor {
 
     private void process(Front front, ProcessFrontCommand command) {
         var processingDetails = new ProcessingDetails(Stage.valueOf(command.getStage()), command.getDateTime());
-        front.apply(processingDetails).ifPresent(domainEvents::publish);
+        front.apply(processingDetails).forEach(domainEvents::publish);
         frontRepository.save(front);
     }
 

@@ -23,5 +23,5 @@ public class OrderDetailDto {
     private LocalDate orderedAt;
     private List<FrontDto> fronts;
     private boolean completed;
-
+    private boolean packed;
 }

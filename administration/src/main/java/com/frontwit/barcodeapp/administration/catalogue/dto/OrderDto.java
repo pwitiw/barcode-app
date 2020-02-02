@@ -17,4 +17,5 @@ public class OrderDto {
     private int quantity;
     private String customer;
     private String route;
+    private boolean packed;
 }

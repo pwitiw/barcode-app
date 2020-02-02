@@ -7,32 +7,41 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @AllArgsConstructor
 public class Order {
 
     @Getter
-    private OrderId orderId;
-    private Map<Barcode, Stage> fronts;
+    private final OrderId orderId;
+    @Getter
+    private final Set<Barcode> notPackedFronts;
     @Getter
     private Stage stage = Stage.INIT;
     @Getter
-    private boolean isCompleted;
+    private LocalDate lastProcessedOn = LocalDate.now();
     @Getter
-    private LocalDate lastProcessedOn;
+    private boolean packed;
 
-    private UpdateStagePolicy policy;
+    private final UpdateStagePolicy policy;
 
-    public Order(OrderId orderId, UpdateStagePolicy policy) {
+    public Order(OrderId orderId, UpdateStagePolicy policy, Set<Barcode> notPackedFronts) {
         this.orderId = orderId;
         this.policy = policy;
+        this.notPackedFronts = notPackedFronts;
     }
 
     public void update(UpdateStageDetails details) {
         policy.verify(this, details.getBarcode());
         updateStage(details.getStage());
-        isCompleted = Stage.isLast(stage) || isCompleted;
+    }
+
+    public void pack(PackFront front) {
+        notPackedFronts.remove(front.getBarcode());
+        packed = notPackedFronts.isEmpty();
     }
 
     private void updateStage(Stage newStage) {

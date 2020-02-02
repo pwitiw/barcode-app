@@ -1,6 +1,5 @@
 package com.frontwit.barcodeapp.administration.processing.order.infrastructure;
 
-import com.frontwit.barcodeapp.administration.infrastructure.database.OrderEntity;
 import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderRepository;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy;

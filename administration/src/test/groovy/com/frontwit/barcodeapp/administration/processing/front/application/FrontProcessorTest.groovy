@@ -28,21 +28,6 @@ class FrontProcessorTest extends Specification implements SampleFront {
         } as StageChanged)
     }
 
-    def "should publish stage changed event when stage downgraded"() {
-        given:
-        persistedFront()
-        and:
-        def command = aDowngradeProcess()
-        when:
-        frontProcessing.process(command)
-        then:
-        1 * frontRepository.save(_)
-        1 * domainEvents.publish({
-            it.barcode == new Barcode(command.getBarcode())
-            it.stage == Stage.valueOf(command.getStage())
-        } as StageChanged)
-    }
-
     def "should not fire any event when stage not changed"() {
         given:
         persistedFront()

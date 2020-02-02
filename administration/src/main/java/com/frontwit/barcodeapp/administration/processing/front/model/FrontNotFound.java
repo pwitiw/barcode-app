@@ -10,7 +10,6 @@ public class FrontNotFound implements DomainEvent {
     OrderId orderId;
     ProcessFrontCommand delayedProcessFrontCommand;
 
-
     @Override
     public Long getId() {
         return delayedProcessFrontCommand.getBarcode();

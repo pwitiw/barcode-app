@@ -3,80 +3,94 @@ package com.frontwit.barcodeapp.administration.processing.front.model;
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
 import com.frontwit.barcodeapp.administration.processing.shared.Quantity;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
+import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvent;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
+import static lombok.AccessLevel.PROTECTED;
 
-@AllArgsConstructor
 public class Front {
     private static final Logger LOGGER = LoggerFactory.getLogger(Front.class);
 
     @Getter
-    private Barcode barcode;
-    private Quantity quantity;
+    private final Barcode barcode;
+    private final Quantity quantity;
+
+    @Getter
+    private final Set<ProcessingDetails> processings;
+    @Getter
+    private final Set<ProcessingDetails> amendments;
+    private final FrontProcessingPolicy policy;
+
     @Getter
     private Stage currentStage = Stage.INIT;
-    @Getter
-    private Set<ProcessingDetails> processings = new HashSet<>();
-    @Getter
-    private Set<ProcessingDetails> amendments = new HashSet<>();
-    private FrontProcessingPolicy policy;
+    private List<DomainEvent> eventsToProcess = new ArrayList<>();
 
     Front(Barcode barcode, Quantity quantity, FrontProcessingPolicy policy) {
         this.barcode = barcode;
         this.quantity = quantity;
+        this.processings = new HashSet<>();
+        this.amendments = new HashSet<>();
         this.policy = policy;
     }
 
-    public Optional<StageChanged> apply(ProcessingDetails details) {
-        policy.verify(this, details);
-        if (isProcess(details)) {
-            return process(details);
-        }
-        return amend(details);
+    public Front(Barcode barcode, Quantity quantity, Stage currentStage, Set<ProcessingDetails> processings, Set<ProcessingDetails> amendments, FrontProcessingPolicy policy) {
+        this.barcode = barcode;
+        this.quantity = quantity;
+        this.processings = processings;
+        this.amendments = amendments;
+        this.policy = policy;
+        this.currentStage = currentStage;
     }
 
-    private Optional<StageChanged> process(ProcessingDetails details) {
+    public List<DomainEvent> apply(ProcessingDetails details) {
+        policy.verify(this, details);
+        if (notCompletedAt(details.getStage())) {
+            process(details);
+        } else {
+            amend(details);
+
+        }
+        return eventsToProcess;
+    }
+
+    private void process(ProcessingDetails details) {
         processings.add(details);
         if (!details.getStage().equals(this.currentStage)) {
-            return Optional.of(statusUpdated(details));
+            eventsToProcess.add(stageChanged(details));
+        } else {
+            LOGGER.info(format("PROCESSING {barcode=%s, stage=%s}", barcode, details.getStage()));
         }
-        LOGGER.debug(format("PROCESSING: front %s on stage %s", barcode, details.getStage()));
-        return Optional.empty();
+        if (isPacked()) {
+            eventsToProcess.add(new FrontPacked(barcode));
+        }
     }
 
-    private Optional<StageChanged> amend(ProcessingDetails details) {
+    private boolean isPacked() {
+        return processings.stream()
+                .map(ProcessingDetails::getStage)
+                .filter(s -> s.equals(Stage.PACKING))
+                .count() == quantity.getValue();
+    }
+
+    private void amend(ProcessingDetails details) {
         amendments.add(details);
-        LOGGER.debug(format("AMENDMENT: front %s on stage %s", barcode, details.getStage()));
-        return Optional.empty();
+        LOGGER.info(format("AMENDMENT {front=%s, stage=%s}", barcode, details.getStage()));
     }
 
-    private boolean isProcess(ProcessingDetails details) {
-        var processedQuantity = processings.stream()
-                .filter(p -> p.getStage() == details.getStage())
-                .count();
-        var processedAtPreviousStageQuantity = processings.stream()
-                .filter(p -> p.getStage() == Stage.valueOf(details.getStage().getId() - 1))
-                .count();
-        // fixme right now there is only one stage in production environment
-//        var processable = processedQuantity == 0 || processedAtPreviousStageQuantity - processedQuantity > 0;
-//        return !processingCompletedAt(details.getStage()) && processable;
-        return !processingCompletedAt(details.getStage());
-    }
-
-    private boolean processingCompletedAt(Stage stage) {
+    private boolean notCompletedAt(Stage stage) {
         var processedQuantity = processings.stream()
                 .filter(p -> p.getStage() == stage)
                 .count();
-        return quantity.equals(new Quantity((int) processedQuantity));
+        return !quantity.equals(new Quantity((int) processedQuantity));
     }
 
     boolean containsDuplicates(ProcessingDetails details) {
@@ -84,7 +98,7 @@ public class Front {
                 .anyMatch(detail -> detail.equalsWithTimeAccuracy(details, 3));
     }
 
-    private StageChanged statusUpdated(ProcessingDetails details) {
+    private StageChanged stageChanged(ProcessingDetails details) {
         currentStage = details.getStage();
         return new StageChanged(barcode, details.getStage());
     }

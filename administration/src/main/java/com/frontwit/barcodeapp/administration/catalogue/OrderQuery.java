@@ -4,7 +4,7 @@ import com.frontwit.barcodeapp.administration.catalogue.dto.FrontDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderSearchCriteria;
-import com.frontwit.barcodeapp.administration.infrastructure.database.OrderEntity;
+import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,8 +15,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

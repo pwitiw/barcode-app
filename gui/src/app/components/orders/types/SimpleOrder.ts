@@ -6,4 +6,5 @@ export interface SimpleOrder {
     stage: string;
     customer: string;
     route: string;
+    packed: boolean;
 }

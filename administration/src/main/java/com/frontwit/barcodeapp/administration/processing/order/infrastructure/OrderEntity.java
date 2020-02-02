@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp.administration.infrastructure.database;
+package com.frontwit.barcodeapp.administration.processing.order.infrastructure;
 
 import com.frontwit.barcodeapp.administration.catalogue.dto.FrontDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
@@ -19,7 +19,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Document(collection = "order")
 @Data
@@ -42,8 +45,9 @@ public class OrderEntity {
     private int quantity;
     private LocalDate lastProcessedOn;
     private boolean packed;
+    private Set<Barcode> notPackedFronts;
 
-    public OrderEntity(TargetOrder targetOrder) {
+    OrderEntity(TargetOrder targetOrder) {
         this.id = targetOrder.getOrderId().getOrderId();
         this.name = targetOrder.getInfo().getName();
         this.color = targetOrder.getInfo().getColor();
@@ -58,26 +62,29 @@ public class OrderEntity {
                 .map(TargetFront::getQuantity)
                 .map(Quantity::getValue)
                 .mapToInt(Integer::intValue).sum();
+        this.notPackedFronts = targetOrder.getFronts().stream()
+                .map(TargetFront::getBarcode)
+                .collect(Collectors.toSet());
         this.completed = false;
         this.packed = false;
     }
 
-    public void update(Order order) {
+    void update(Order order) {
         this.stage = order.getStage();
-        this.completed = order.isCompleted();
+        this.packed = order.isPacked();
+        this.notPackedFronts = order.getNotPackedFronts();
         this.lastProcessedOn = order.getLastProcessedOn();
     }
 
-    public Order toDomainModel(UpdateStagePolicy policy) {
-        var domainFronts = new HashMap<Barcode, Stage>();
-        return new Order(new OrderId(id), domainFronts, stage, completed, lastProcessedOn, policy);
+    Order toDomainModel(UpdateStagePolicy policy) {
+        return new Order(new OrderId(id), notPackedFronts, stage, lastProcessedOn, completed, policy);
     }
 
     public OrderDetailDto detailsDto(List<FrontDto> fronts) {
-        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, route, stage, orderedAt, fronts, completed);
+        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, route, stage, orderedAt, fronts, completed, packed);
     }
 
     public OrderDto dto() {
-        return new OrderDto(id, name, orderedAt, stage, quantity, customer, route);
+        return new OrderDto(id, name, orderedAt, stage, quantity, customer, route, packed);
     }
 }

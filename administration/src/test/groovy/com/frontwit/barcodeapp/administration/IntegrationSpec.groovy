@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration
 
-import com.frontwit.barcodeapp.administration.infrastructure.database.OrderEntity
+import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId

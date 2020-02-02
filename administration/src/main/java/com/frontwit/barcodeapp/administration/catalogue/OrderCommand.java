@@ -1,7 +1,6 @@
 package com.frontwit.barcodeapp.administration.catalogue;
 
-import com.frontwit.barcodeapp.administration.infrastructure.database.OrderEntity;
-import com.frontwit.barcodeapp.administration.processing.synchronization.OrderMapper;
+import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

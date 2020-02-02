@@ -12,6 +12,7 @@ trait SampleOrder {
     String SIZE = "18MM"
     String COLOR = "Biały"
     String CUTTER = "PŁYTA"
+    String ROUTE = "trasa"
 
     Integer NUMBER = 1
     Integer QUANTITY = 1
@@ -36,6 +37,7 @@ trait SampleOrder {
         order.setDescription(DESCRIPTION)
         order.setFeatures("{\"cu\":\"2\",\"si\":\"1\",\"co\":\"3\",\"do\":\"1\"}")
         order.setCustomer(CUSTOMER)
+        order.setRoute(ROUTE)
         return order
     }
 

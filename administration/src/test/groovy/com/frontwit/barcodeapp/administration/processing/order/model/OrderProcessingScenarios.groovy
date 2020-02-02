@@ -14,7 +14,7 @@ class OrderProcessingScenarios extends Specification {
     OrderId orderId = new OrderId(1L)
     Barcode barcode = Barcode.valueOf(orderId, 1)
 
-    def "should update stage "() {
+    def "should update stage and processing date"() {
         given:
         def order = aOrderWithOneFront()
         when:
@@ -22,7 +22,6 @@ class OrderProcessingScenarios extends Specification {
         then:
         order.getStage() == MILLING
         order.getLastProcessedOn() == LocalDate.now()
-        !order.isCompleted()
     }
 
     def "should change stage when at least one front processed"() {
@@ -32,19 +31,27 @@ class OrderProcessingScenarios extends Specification {
         order.update(aUpdateStageDetails(MILLING))
         then:
         order.getStage() == MILLING
-        !order.isCompleted()
     }
 
-    def "is completed when reaches last stage"() {
+    def "is packed when all fronts are packed"() {
         given:
-        def order = aOrderWithoutLastProcess()
+        def order = aOrderWithOneFront()
         when:
-        order.update(aUpdateStageDetails(IN_DELIVERY))
+        order.pack(new PackFront(barcode))
         then:
-        order.getStage() == IN_DELIVERY
-
-        order.isCompleted()
+        order.isPacked()
     }
+
+
+    def "is not packed when not all fronts are packed"() {
+        given:
+        def order = aOrderWithTwoFronts()
+        when:
+        order.pack(new PackFront(barcode))
+        then:
+        !order.isPacked()
+    }
+
 
     def "should throw exception when order does not contain front"() {
         given:
@@ -56,36 +63,24 @@ class OrderProcessingScenarios extends Specification {
     }
 
     Order aOrderWithTwoFronts() {
-        def fronts = frontsAtStage(INIT, barcode, Barcode.valueOf(orderId, 2))
+        def fronts = [barcode, Barcode.valueOf(orderId, 2)].toSet()
         createOrder(orderId, fronts)
     }
 
     Order aOrderWithOneFront() {
-        def fronts = frontsAtStage(INIT, barcode)
+        def fronts = [barcode].toSet()
         createOrder(orderId, fronts)
     }
 
-    Order aOrderWithoutLastProcess() {
-        def fronts = frontsAtStage(PACKING, barcode)
-        createOrder(orderId, fronts)
-    }
-
-    Order createOrder(OrderId orderId, Map<Barcode, Stage> fronts) {
-        new Order(orderId, UpdateStagePolicy.allPolicies())
+    static Order createOrder(OrderId orderId, Set<Barcode> fronts) {
+        new Order(orderId, UpdateStagePolicy.allPolicies(), fronts)
     }
 
     UpdateStageDetails aUpdateStageDetails(Stage stage) {
         new UpdateStageDetails(barcode, stage)
     }
 
-    UpdateStageDetails aUnknownBarcodeUpdateStageDetails() {
+    static UpdateStageDetails aUnknownBarcodeUpdateStageDetails() {
         new UpdateStageDetails(new Barcode(201L), MILLING)
-    }
-
-    Map<Barcode, Stage> frontsAtStage(Stage stage, Barcode... barcodes) {
-        Map<Barcode, Stage> fronts = barcodes.collectEntries {
-            [(it): stage]
-        }
-        fronts
     }
 }
