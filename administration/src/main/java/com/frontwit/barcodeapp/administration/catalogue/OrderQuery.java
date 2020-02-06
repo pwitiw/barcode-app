@@ -27,6 +27,7 @@ import static java.lang.String.format;
 public class OrderQuery {
 
     private MongoTemplate mongoTemplate;
+    private CriteriaBuilder criteriaBuilder;
 
     OrderDetailDto find(long id) {
         var frontDtos = findFrontsForOrderId(id);
@@ -44,41 +45,11 @@ public class OrderQuery {
     }
 
     Page<OrderDto> find(Pageable pageable, OrderSearchCriteria searchCriteria) {
-        var criteria = createCriteria(searchCriteria);
+        var criteria = criteriaBuilder.build(searchCriteria);
         var query = new Query(criteria).with(pageable);
         var orders = mongoTemplate.find(query, OrderEntity.class);
         return PageableExecutionUtils
                 .getPage(orders, pageable, () -> mongoTemplate.count(new Query(criteria), OrderEntity.class))
                 .map(OrderEntity::dto);
-    }
-
-    private Criteria createCriteria(OrderSearchCriteria searchCriteria) {
-        var criteria = new Criteria();
-        if (isNotEmpty(searchCriteria.getName())) {
-            criteria.and("name").regex(format("%s", searchCriteria.getName()), "i");
-        }
-        if (searchCriteria.getCompleted() != null && searchCriteria.getCompleted()) {
-            criteria.and("completed").is(true);
-        } else {
-            criteria.and("completed").is(false);
-        }
-        if (searchCriteria.getStage() != null) {
-            criteria.and("stage").is(searchCriteria.getStage());
-        }
-        if (isNotEmpty(searchCriteria.getCustomer())) {
-            criteria.and("customer").regex(format("%s", searchCriteria.getCustomer()), "i");
-        }
-        if (isNotEmpty(searchCriteria.getRoute())) {
-            criteria.and("route").regex(format("%s", searchCriteria.getRoute()), "i");
-        }
-        if (searchCriteria.getProcessingDate() != null) {
-            criteria.and("lastProcessedOn").is(searchCriteria.getProcessingDate());
-        }
-
-        return criteria;
-    }
-
-    private boolean isNotEmpty(String arg) {
-        return arg != null && !"".equals(arg);
     }
 }

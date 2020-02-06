@@ -18,10 +18,14 @@
 
   .label {
     flex-basis: 34%;
-    margin: 0 0 0 $margin-lg;
 
     &.growing {
       flex-grow: 1;
+    }
+
+    &.tiny {
+      display: flex;
+      justify-content: space-between;
     }
   }
 
@@ -35,6 +39,9 @@
     margin: auto;
   }
 
+  .packed {
+    color: green;
+  }
 
   ::-webkit-scrollbar {
     width: 6px;

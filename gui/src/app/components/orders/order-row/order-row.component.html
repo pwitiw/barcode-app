@@ -15,12 +15,19 @@
                         [text]="stageService.convertToView(order.stage)"
                         title="Etap produkcji">
         </icon-with-text>
+        <div class="label tiny">
+            <icon-with-text class="label"
+                            [icon]="iconQuantity"
+                            [text]="order.quantity"
+                            title="Ilość">
+            </icon-with-text>
+            <icon-with-text *ngIf="order.packed" class="packed"
+                            [icon]="iconPacked"
+                            title="Spakowane">
+            </icon-with-text>
+        </div>
+
         <icon-with-text class="label"
-                        [icon]="iconQuantity"
-                        [text]="order.quantity"
-                        title="Ilość">
-        </icon-with-text>
-        <icon-with-text class="label growing"
                         [icon]="iconCustomer"
                         [text]="order.customer"
                         title="Klient">

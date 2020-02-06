@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SimpleOrder} from 'src/app/components/orders/types/SimpleOrder';
-import {faCalendarAlt, faIndustry, faInfoCircle, faUserTie, faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons';
+import {faCalendarAlt, faIndustry, faInfoCircle, faUserTie, faMapMarkedAlt, faArchive} from '@fortawesome/free-solid-svg-icons';
 import {faStackOverflow} from "@fortawesome/free-brands-svg-icons";
 import {StageService} from "../stage.service";
 
@@ -20,6 +20,7 @@ export class OrderRow implements OnInit {
     iconQuantity = faStackOverflow;
     iconCustomer = faUserTie;
     iconRoute = faMapMarkedAlt;
+    iconPacked = faArchive;
 
     constructor(public  stageService: StageService) {
     }
