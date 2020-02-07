@@ -40,7 +40,6 @@ public class MosquittoCommandPublisher implements PublishBarcode {
     void init() throws MqttException {
         mqttClient = new MqttClient(uri, "reader");
         options = new MqttConnectOptions();
-//        options.setAutomaticReconnect(true);
         options.setCleanSession(false);
         options.setConnectionTimeout(10);
 
