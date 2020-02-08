@@ -1,9 +1,10 @@
 <div class="orders-view">
     <div class="search">
         <search-criteria (searchClicked)="handleSearchClicked($event)"
-                         (fetchClicked)="handleFetchClicked()"></search-criteria>
-        <h3 class="title">Lista aktywnych zamówień</h3>
+                         (fetchClicked)="handleFetchClicked()">
+        </search-criteria>
         <div class="order-list">
+            <h4 class="title">Lista aktywnych zamówień</h4>
             <order-row
                     *ngFor="let order of orders | paginate:{totalItems: totalElements, itemsPerPage:size, currentPage: page}"
                     [order]="order"

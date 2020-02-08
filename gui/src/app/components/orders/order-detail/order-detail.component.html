@@ -1,6 +1,6 @@
 <div class="details-overview" *ngIf="order">
     <div class="order-details">
-        <h3>Szczegóły</h3>
+        <h4>Szczegóły</h4>
         <icon-with-text [icon]="iconName"
                         [text]="order.name"
                         title="Numer zamówienia">
@@ -58,7 +58,7 @@
         <div class="front-row" *ngFor="let front of order.fronts;let i = index">
             <span><b>{{i + 1}}.</b></span>
             <div class="row-details">
-                <div class="group">
+                <div class="front info">
                     <icon-with-text [icon]="iconHeight"
                                     [text]="front.height"
                                     title="Wysokość">
@@ -83,10 +83,7 @@
                         <span [ngClass]="getBorderColor(front)">{{getQuantity(front)}}</span>
                     </div>
                 </div>
-                <div class="group">
-
-                </div>
-                <div class="group" *ngIf="front.comment">
+                <div class="front" *ngIf="front.comment">
                     <icon-with-text [icon]="iconComment" [text]="front.comment" title="Komentarz"></icon-with-text>
                 </div>
             </div>

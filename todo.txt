@@ -5,7 +5,7 @@
 
 BUGS:
 - brak favicon
-- jak blad serwera prz detalach to wyswietla detale mimo wszystko
+- szukaj trzeba dwa razy nacisnac, zeby faktycznie zaczelo szukac
 
 Pytania:
     * jak ktos da ze zakonczony a ktos inny bedzie chcial procesowac zamowienie to co sie ma stac?
