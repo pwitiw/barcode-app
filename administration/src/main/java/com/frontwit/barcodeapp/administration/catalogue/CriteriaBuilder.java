@@ -68,8 +68,8 @@ public class CriteriaBuilder {
     }
 
     private void lastProcessedOn(OrderSearchCriteria searchCriteria, Criteria result) {
-        LocalDateTime startOfDay = searchCriteria.getProcessingDate().atStartOfDay();
         if (nonNull(searchCriteria.getProcessingDate())) {
+            LocalDateTime startOfDay = searchCriteria.getProcessingDate().atStartOfDay();
             result.and("lastProcessedOn")
                     .gte(startOfDay)
                     .lt(startOfDay.plusDays(1));

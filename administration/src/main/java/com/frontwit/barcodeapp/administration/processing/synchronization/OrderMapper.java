@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,7 +42,7 @@ public class OrderMapper {
             var size = dictionary.getValue(features.getSize());
             return new TargetOrder.Info(color, cutter, size, source.getNr(), source.getCustomer(), source.getRoute(), source.getOrderedAt().toInstant());
         } catch (IOException e) {
-            LOG.warn(format("Exception while parsing order info. Default order info set. {orderId= %s}", source.getId()), e);
+            LOG.warn(format("Order parsing error. Default order info set {orderId= %s}", source.getId()), e);
         }
         return new TargetOrder.Info("", "", "", source.getNr(), source.getCustomer(), source.getRoute(), source.getOrderedAt().toInstant());
     }
@@ -53,9 +53,9 @@ public class OrderMapper {
             var fronts = objectMapper.readValue(source.getFronts(), Element[].class);
             return Stream.of(fronts).map(element -> createFront(orderId, element)).collect(Collectors.toList());
         } catch (IOException e) {
-            LOG.warn(format("Exception while parsing fronts collection. Empty fronts collection. {orderId= %s}", source.getId()), e);
+            LOG.warn(format("Fronts parsing error. Empty collection set {orderId= %s}", source.getId()), e);
         }
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
     private TargetFront createFront(OrderId orderId, Element element) {
