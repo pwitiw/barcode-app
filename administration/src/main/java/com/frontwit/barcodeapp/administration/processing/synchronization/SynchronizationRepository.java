@@ -1,10 +1,10 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization;
 
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 public interface SynchronizationRepository {
-    LocalDate getLastSynchronizationDate();
+    Instant getLastSynchronizationDate();
 
     void updateSyncDate();
 }

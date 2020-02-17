@@ -3,13 +3,14 @@ package com.frontwit.barcodeapp.administration.processing.synchronization;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.util.Date;
+
 @Data
 public class SourceOrder {
     private Long id;
     private String nr;
     private String fronts;
-    private LocalDate orderedAt;
+    private Date orderedAt;
     private String additionalInfo;
     private String description;
     private String features;

@@ -9,7 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
+import java.time.ZoneId;
+
 import static java.lang.String.format;
+import static java.time.ZoneId.of;
 
 @AllArgsConstructor
 public class OrderSynchronizer {
@@ -37,14 +40,13 @@ public class OrderSynchronizer {
     public long synchronizeOrders() {
         var lastSyncDate = synchronizationRepository.getLastSynchronizationDate();
         var dictionary = sourceOrderRepository.getDictionary();
-        synchronizationRepository.updateSyncDate();
-        LOGGER.debug(format("Synchronization for date: %s", lastSyncDate));
         long count = sourceOrderRepository.findByDateBetween(lastSyncDate)
                 .stream()
                 .filter(sourceOrder -> !checkSynchronizedOrder.isSynchronized(new OrderId(sourceOrder.getId())))
                 .peek(sourceOrder -> saveOrderWithFronts(sourceOrder, dictionary))
                 .count();
-        LOGGER.debug(format("Synchronization for date: %s  ====> %s orders", lastSyncDate, count));
+        synchronizationRepository.updateSyncDate();
+        LOGGER.debug(format("Synchronized {date= %s, orders=%s}", lastSyncDate, count));
         return count;
     }
 

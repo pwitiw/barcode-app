@@ -38,7 +38,7 @@ public class OrderQuery {
 
     private List<FrontDto> findFrontsForOrderId(long orderId) {
         var query = new Query(new Criteria("orderId").is(orderId));
-        var frontEntities = Optional.ofNullable(mongoTemplate.find(query, FrontEntity.class)).orElse(new ArrayList<>());
+        var frontEntities = mongoTemplate.find(query, FrontEntity.class);
         return frontEntities.stream()
                 .map(FrontEntity::dto)
                 .collect(Collectors.toList());

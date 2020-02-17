@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
+
 @AllArgsConstructor
 public class OrderMapper {
     private static final Logger LOG = LoggerFactory.getLogger(OrderMapper.class);
@@ -38,12 +40,11 @@ public class OrderMapper {
             var color = dictionary.getValue(features.getColor());
             var cutter = dictionary.getValue(features.getCutter());
             var size = dictionary.getValue(features.getSize());
-            return new TargetOrder.Info(color, cutter, size, source.getNr(), source.getCustomer(), source.getRoute(), source.getOrderedAt());
+            return new TargetOrder.Info(color, cutter, size, source.getNr(), source.getCustomer(), source.getRoute(), source.getOrderedAt().toInstant());
         } catch (IOException e) {
-            LOG.warn("Exception while parsing order info. Default order info set for order id= " + source.getId());
-            LOG.warn(e.getMessage());
+            LOG.warn(format("Exception while parsing order info. Default order info set. {orderId= %s}", source.getId()), e);
         }
-        return new TargetOrder.Info("", "", "", source.getNr(), source.getCustomer(), source.getRoute(), source.getOrderedAt());
+        return new TargetOrder.Info("", "", "", source.getNr(), source.getCustomer(), source.getRoute(), source.getOrderedAt().toInstant());
     }
 
     private List<TargetFront> createFronts(SourceOrder source) {
@@ -52,8 +53,7 @@ public class OrderMapper {
             var fronts = objectMapper.readValue(source.getFronts(), Element[].class);
             return Stream.of(fronts).map(element -> createFront(orderId, element)).collect(Collectors.toList());
         } catch (IOException e) {
-            LOG.warn("Exception while parsing fronts collection. Empty fronts collection for order id=" + source.getId());
-            LOG.warn(e.getMessage());
+            LOG.warn(format("Exception while parsing fronts collection. Empty fronts collection. {orderId= %s}", source.getId()), e);
         }
         return new ArrayList<>();
     }

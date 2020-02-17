@@ -6,10 +6,7 @@ import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.time.Instant;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -22,7 +19,7 @@ public class Order {
     @Getter
     private Stage stage = Stage.INIT;
     @Getter
-    private LocalDate lastProcessedOn = LocalDate.now();
+    private Instant lastProcessedOn = Instant.now();
     @Getter
     private boolean packed;
 
@@ -48,6 +45,6 @@ public class Order {
         if (newStage.isFurtherStage(stage)) {
             stage = newStage;
         }
-        lastProcessedOn = LocalDate.now();
+        lastProcessedOn = Instant.now();
     }
 }
