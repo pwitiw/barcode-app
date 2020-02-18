@@ -19,7 +19,7 @@ public class Order {
     @Getter
     private Stage stage = Stage.INIT;
     @Getter
-    private Instant lastProcessedOn = Instant.now();
+    private Instant lastProcessedOn;
     @Getter
     private boolean packed;
 

@@ -29,7 +29,7 @@ public class OrderQuery {
     private MongoTemplate mongoTemplate;
     private CriteriaBuilder criteriaBuilder;
 
-    OrderDetailDto find(long id) {
+    public OrderDetailDto find(long id) {
         var frontDtos = findFrontsForOrderId(id);
         return Optional.ofNullable(mongoTemplate.findById(id, OrderEntity.class))
                 .map(entity -> entity.detailsDto(frontDtos))

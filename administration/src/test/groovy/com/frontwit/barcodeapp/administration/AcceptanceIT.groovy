@@ -43,7 +43,7 @@ class AcceptanceIT extends IntegrationSpec {
         when:
         frontIsBeingProcessed(PACKING)
         then:
-        orderIsUpdated(PACKING)
+        orderIsPacked()
     }
 
     void orderIsUpdated(Stage stage) {
@@ -51,6 +51,14 @@ class AcceptanceIT extends IntegrationSpec {
         assert details.getStage() == stage
         assert details.getFronts().get(0).getAmendments().size() == 0
         assert details.getFronts().get(0).getProcessings().size() == stage.getId()
+    }
+
+    void orderIsPacked() {
+        def details = orderQuery.find(ORDER_ID)
+        assert details.getStage() == PACKING
+        assert details.getFronts().get(0).getAmendments().size() == 0
+        assert details.getFronts().get(0).getProcessings().size() == PACKING.getId()
+        assert details.isPacked()
     }
 
     void frontIsBeingProcessed(Stage status) {
