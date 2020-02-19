@@ -18,13 +18,13 @@ import {LocalStorageService} from "./services/local-storage.service";
 import {LoggedUserService} from "./services/logged-user.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SnackBarService} from "./services/snack-bar.service";
+import {ReportsModule} from "./components/reports/reports.module";
 
 @NgModule({
     declarations: [
         AppComponent,
         NavbarComponent,
         LoginComponent,
-        ReportsComponent,
     ],
     imports: [
         BrowserModule,
@@ -32,6 +32,7 @@ import {SnackBarService} from "./services/snack-bar.service";
         HttpClientModule,
         NgbModule,
         OrdersModule,
+        ReportsModule,
         NgxLoadingModule,
         CommonsModule,
         BrowserAnimationsModule,
