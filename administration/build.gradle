@@ -24,7 +24,7 @@ test {
         testImplementation "com.tngtech.archunit:archunit-junit4:${archUnitVersion}"
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
-        testImplementation platform("org.spockframework:spock-bom:${spockBoomVersion}")
+        testImplementation platform("org.spockframework:spock-bom:${spockVersion}")
         testImplementation 'org.spockframework:spock-core'
         testImplementation "com.h2database:h2:${h2Version}"
         testImplementation "org.spockframework:spock-spring:${spockVersion}"
