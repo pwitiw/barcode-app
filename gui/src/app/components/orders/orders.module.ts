@@ -21,7 +21,6 @@ import {
 import {StageService} from "./stage.service";
 import {FormsModule} from "@angular/forms";
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from "@angular/material-moment-adapter";
-import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
     declarations: [
