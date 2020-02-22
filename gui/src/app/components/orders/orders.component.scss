@@ -9,7 +9,6 @@
     width: 460px;
 
     .title {
-      padding: $padding-md;
       text-align: center;
     }
 
@@ -20,6 +19,7 @@
       grid-row: 3 / 7;
       grid-column: 1 / 4;
       margin-right: $margin-sm;
+      margin-top: $margin-sm;
     }
   }
 

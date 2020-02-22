@@ -3,7 +3,7 @@ package com.frontwit.barcodeapp.administration.processing.synchronization;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import lombok.Value;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +38,7 @@ public class TargetOrder {
         private String name;
         private String customer;
         private String route;
-        private LocalDate orderedAt;
+        private Instant orderedAt;
     }
 
 }

@@ -62,7 +62,7 @@ public class SqsCommandHandler {
         if (!messagesForDeletion.isEmpty()) {
             sqs.deleteMessageBatch(url, messagesForDeletion);
         }
-        LOGGER.info("Cron processing. Processed fronts: {}", messagesForDeletion.size());
+        LOGGER.info("Cron processing, processed commands: {}", messagesForDeletion.size());
     }
 
     private ReceiveMessageRequest aRequest() {

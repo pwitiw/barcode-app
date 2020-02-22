@@ -4,8 +4,13 @@ import com.frontwit.barcodeapp.administration.catalogue.dto.OrderSearchCriteria;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
+
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Objects.nonNull;
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -64,7 +69,10 @@ public class CriteriaBuilder {
 
     private void lastProcessedOn(OrderSearchCriteria searchCriteria, Criteria result) {
         if (nonNull(searchCriteria.getProcessingDate())) {
-            result.and("lastProcessedOn").is(searchCriteria.getProcessingDate());
+            LocalDateTime startOfDay = searchCriteria.getProcessingDate().atStartOfDay();
+            result.and("lastProcessedOn")
+                    .gte(startOfDay)
+                    .lt(startOfDay.plusDays(1));
         }
     }
 

@@ -571,7 +571,6 @@ db.order.insertMany([
         "customer": "Jankowski",
         "route": "Śląsk",
         "completed": false,
-        "packed": false,
         "quantity": 2,
         "lastProcessedOn": ISODate("2019-12-22T23:00:00.000+0000"),
         "_class": "com.frontwit.barcodeapp.administration.infrastructure.database.OrderEntity"

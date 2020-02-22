@@ -4,15 +4,15 @@ import com.frontwit.barcode.reader.application.BarcodeScanned;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.hid4java.HidDevice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.function.Consumer;
-import java.util.logging.Logger;
 
 
 @AllArgsConstructor
 class BarcodeScanner {
-    private final static Logger LOG = Logger.getLogger(BarcodeScanner.class.getName());
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(BarcodeScanner.class);
     static final short VENDOR_ID = 0x581;
     static final short PRODUCT_ID = 0x103;
 
@@ -32,32 +32,35 @@ class BarcodeScanner {
     }
 
     void listen() {
-        byte[] data = new byte[3];
         if (!device.isOpen()) {
             device.open();
         }
+        byte[] data = new byte[3];
         var builder = new StringBuilder();
-
         while (device.isOpen()) {
-            device.read(data);
-            if (data[2] != 0) {
-                if (data[2] >= FIRST_LETTER && data[2] <= LAST_LETTER) {
-                    builder.append((char) ('A' + (data[2] - FIRST_LETTER)));
-                } else if (data[2] > LAST_LETTER && data[2] < ZERO) {
-                    builder.append(data[2] - LAST_LETTER);
-                } else if (data[2] == ZERO) {
-                    builder.append(0);
-                } else if (data[2] == ENTER) {
-                    LOG.info("Scanned: " + builder.toString());
-                    barcodeScannedPublisher.accept(new BarcodeScanned(builder.toString()));
-                    builder.setLength(0);
+            try {
+                device.read(data);
+                if (data[2] != 0) {
+                    if (data[2] >= FIRST_LETTER && data[2] <= LAST_LETTER) {
+                        builder.append((char) ('A' + (data[2] - FIRST_LETTER)));
+                    } else if (data[2] > LAST_LETTER && data[2] < ZERO) {
+                        builder.append(data[2] - LAST_LETTER);
+                    } else if (data[2] == ZERO) {
+                        builder.append(0);
+                    } else if (data[2] == ENTER) {
+                        LOGGER.info("Scanned {}", builder.toString());
+                        barcodeScannedPublisher.accept(new BarcodeScanned(builder.toString()));
+                        builder.setLength(0);
+                    }
                 }
+            } catch (Exception e) {
+                LOGGER.warn("Unexpected exception raised", e);
             }
         }
     }
 
     boolean matches(HidDevice device) {
-        return this.device.getPath() == device.getPath();
+        return this.device.getPath().equals(device.getPath());
     }
 
     static boolean isBarcodeScanner(HidDevice device) {

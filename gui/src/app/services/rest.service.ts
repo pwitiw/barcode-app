@@ -14,7 +14,7 @@ export class RestService {
     }
 
     public post<T>(url: string, body: any): Observable<HttpResponse<T>> {
-        setTimeout(() => this.loadingService.show(), 500);
+        setTimeout(() => this.loadingService.show(), 200);
         return this.http
             .post(url, body, {observe: "response"})
             .pipe(

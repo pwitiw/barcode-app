@@ -1,10 +1,11 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization
 
-import java.time.LocalDate
+import java.time.Instant
 
 trait SampleOrder {
     long ID = 1L
-    String ORDERED_AT = "2019-06-07"
+    long millis = 12345678L
+    Instant ORDERED_AT = Instant.ofEpochMilli(12345678L)
     String NR = "TW 100"
     String ADDITIONAL_INFO = "additional info"
     String DESCRIPTION = "express"
@@ -32,7 +33,7 @@ trait SampleOrder {
                         "\"a\":\"0.484\",\"el\":\"\",\"cu\":\"2\",\"si\":\"1\",\"do\":1,\"co\":\"3\"," +
                         "\"com\":\"" + COMMENT + "\"}]"
         )
-        order.setOrderedAt(LocalDate.parse(ORDERED_AT))
+        order.setOrderedAt(new Date(millis))
         order.setAdditionalInfo(ADDITIONAL_INFO)
         order.setDescription(DESCRIPTION)
         order.setFeatures("{\"cu\":\"2\",\"si\":\"1\",\"co\":\"3\",\"do\":\"1\"}")
