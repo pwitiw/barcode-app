@@ -3,7 +3,6 @@ package com.frontwit.barcodeapp.administration.processing.front.infrastructure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.frontwit.barcodeapp.administration.processing.front.application.FrontProcessor;
-import com.frontwit.barcodeapp.administration.processing.front.infrastructure.messaging.MosquittoCommandHandler;
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.MongoFrontRepository;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontProcessingPolicy;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
@@ -44,8 +43,4 @@ public class BeanConfig {
         return objectMapper;
     }
 
-    @Bean
-    MosquittoCommandHandler mosquittoCommandHandler(FrontProcessor frontProcessor, ObjectMapper objectMapper) {
-        return new MosquittoCommandHandler(frontProcessor, objectMapper);
-    }
 }

@@ -5,12 +5,12 @@ import lombok.Value;
 @Value
 public class OrderId {
 
-    private long orderId;
+    private long id;
 
-    public OrderId(long orderId) {
-        if (orderId <= 0) {
+    public OrderId(long id) {
+        if (id <= 0) {
             throw new IllegalStateException("Id must be positive value.");
         }
-        this.orderId = orderId;
+        this.id = id;
     }
 }

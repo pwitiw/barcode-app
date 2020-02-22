@@ -4,8 +4,9 @@ import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
-import com.amazonaws.services.sqs.model.SendMessageResult;
-import com.frontwit.barcode.reader.application.ProcessBarcodeCommand;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.frontwit.barcode.reader.application.ProcessFrontCommand;
 import com.frontwit.barcode.reader.application.PublishBarcode;
 import com.frontwit.barcode.reader.application.PublishingException;
 import org.slf4j.Logger;
@@ -22,29 +23,30 @@ import static com.amazonaws.regions.Regions.EU_CENTRAL_1;
 public class SqsCommandPublisher implements PublishBarcode {
     private static final Logger LOGGER = LoggerFactory.getLogger(SqsCommandPublisher.class);
 
-    @Value("${aws.sqs.url}")
-    private String url;
-
+    private final String url;
+    private final ObjectMapper objectMapper;
     private final AmazonSQS sqs;
 
-    SqsCommandPublisher() {
+    SqsCommandPublisher(@Value("${aws.sqs.url}") String url,
+                        ObjectMapper objectMapper) {
+        this.url = url;
+        this.objectMapper = objectMapper;
         sqs = AmazonSQSClientBuilder.standard()
                 .withCredentials(new DefaultAWSCredentialsProviderChain())
                 .withRegion(EU_CENTRAL_1)
                 .build();
     }
 
-    @PostConstruct
-    void run() {
-        publish(new ProcessBarcodeCommand(2, 1L, LocalDateTime.now()));
-    }
-
     @Override
-    public void publish(ProcessBarcodeCommand command) throws PublishingException {
-        SendMessageRequest request = new SendMessageRequest()
-                .withQueueUrl(url)
-                .withMessageBody(command.toString());
-        sqs.sendMessage(request);
-        LOGGER.info("SQS Published " + command.toString());
+    public void publish(ProcessFrontCommand command) throws PublishingException {
+        try {
+            SendMessageRequest request = new SendMessageRequest()
+                    .withQueueUrl(url)
+                    .withMessageBody(objectMapper.writeValueAsString(command));
+            sqs.sendMessage(request);
+            LOGGER.info("SQS Published " + command.toString());
+        } catch (JsonProcessingException e) {
+            LOGGER.error("Error while JSON processing {}", command);
+        }
     }
 }

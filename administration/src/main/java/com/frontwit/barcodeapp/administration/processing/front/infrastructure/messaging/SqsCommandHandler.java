@@ -16,9 +16,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.amazonaws.regions.Regions.EU_CENTRAL_1;
 import static java.lang.String.format;
@@ -29,14 +33,15 @@ public class SqsCommandHandler {
     private static final int LONG_POLL_TIME = 20;
     private static final int MAX_MSGS = 10;
 
-    @Value("${aws.sqs.url}")
-    private String url;
-
+    private final String url;
     private final AmazonSQS sqs;
     private final FrontProcessor frontProcessor;
     private final ObjectMapper objectMapper;
 
-    public SqsCommandHandler(FrontProcessor frontProcessor, ObjectMapper objectMapper) {
+    public SqsCommandHandler(@Value("${aws.sqs.url}") String url,
+                             FrontProcessor frontProcessor,
+                             ObjectMapper objectMapper) {
+        this.url = url;
         this.frontProcessor = frontProcessor;
         this.objectMapper = objectMapper;
         sqs = AmazonSQSClientBuilder
@@ -46,42 +51,39 @@ public class SqsCommandHandler {
                 .build();
     }
 
-    @Scheduled(fixedRate = 60000)
-    void handleCommands() {
-        List<Message> messages = getMessages();
-        if (!messages.isEmpty()) {
-            processMessages(messages);
-            deleteMessages(messages);
+    @Scheduled(cron = "0 * * * * MON-SAT")
+    public void handleCommands() {
+        List<DeleteMessageBatchRequestEntry> messagesForDeletion =
+                sqs.receiveMessage(aRequest())
+                        .getMessages().stream()
+                        .filter(this::processMessage)
+                        .map(this::toDeleteMessageBatchRequestEntry)
+                        .collect(Collectors.toList());
+        if (!messagesForDeletion.isEmpty()) {
+            sqs.deleteMessageBatch(url, messagesForDeletion);
         }
+        LOGGER.info("Cron processing. Processed fronts: {}", messagesForDeletion.size());
     }
 
-    private List<Message> getMessages() {
-        ReceiveMessageRequest request =
-                new ReceiveMessageRequest()
-                        .withQueueUrl(url)
-                        .withWaitTimeSeconds(LONG_POLL_TIME)
-                        .withMaxNumberOfMessages(MAX_MSGS);
-        return sqs.receiveMessage(request).getMessages();
+    private ReceiveMessageRequest aRequest() {
+        return new ReceiveMessageRequest()
+                .withQueueUrl(url)
+                .withWaitTimeSeconds(LONG_POLL_TIME)
+                .withMaxNumberOfMessages(MAX_MSGS);
     }
 
-    private void processMessages(List<Message> messages) {
-        messages.stream()
-                .map(m -> {
-                    try {
-                        return objectMapper.readValue(m.getBody(), ProcessFrontCommand.class);
-                    } catch (JsonProcessingException e) {
-                        LOGGER.error(format("Mapping failed %s", m.getBody()), e);
-                    }
-                    return null;
-                })
-                .filter(Objects::nonNull)
-                .forEach(frontProcessor::process);
+    private boolean processMessage(Message message) {
+        try {
+            var command = objectMapper.readValue(message.getBody(), ProcessFrontCommand.class);
+            frontProcessor.process(command);
+            return true;
+        } catch (JsonProcessingException e) {
+            LOGGER.error("Mapping failed body={}", message.getBody(), e);
+        }
+        return false;
     }
 
-    private void deleteMessages(List<Message> messages) {
-        List<DeleteMessageBatchRequestEntry> deleteMessageEntries = messages.stream()
-                .map(msg -> new DeleteMessageBatchRequestEntry(msg.getMessageId(), msg.getReceiptHandle()))
-                .collect(Collectors.toList());
-        sqs.deleteMessageBatch(url, deleteMessageEntries);
+    private DeleteMessageBatchRequestEntry toDeleteMessageBatchRequestEntry(Message msg) {
+        return new DeleteMessageBatchRequestEntry(msg.getMessageId(), msg.getReceiptHandle());
     }
 }

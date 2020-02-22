@@ -1,6 +1,6 @@
 package com.frontwit.barcode.reader.store;
 
-import com.frontwit.barcode.reader.application.ProcessBarcodeCommand;
+import com.frontwit.barcode.reader.application.ProcessFrontCommand;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
@@ -50,9 +50,9 @@ public class SQLiteRepository {
         return false;
     }
 
-    Map<UUID, ProcessBarcodeCommand> findAll() {
+    Map<UUID, ProcessFrontCommand> findAll() {
         String sql = "SELECT * FROM barcode";
-        var results = new HashMap<UUID, ProcessBarcodeCommand>();
+        var results = new HashMap<UUID, ProcessFrontCommand>();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             var resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -92,11 +92,11 @@ public class SQLiteRepository {
         LOGGER.info(format("[SQLite] Creation script ended with result: %s", result));
     }
 
-    ProcessBarcodeCommand mapBarcode(ResultSet resultSet) throws SQLException {
+    ProcessFrontCommand mapBarcode(ResultSet resultSet) throws SQLException {
         var readerId = resultSet.getInt(READER_ID);
         var barcode = resultSet.getLong(BARCODE);
         var dateTime = LocalDateTime.parse(resultSet.getString(DATE));
-        return new ProcessBarcodeCommand(readerId, barcode, dateTime);
+        return new ProcessFrontCommand(readerId, barcode, dateTime);
     }
 
     @PreDestroy

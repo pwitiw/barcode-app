@@ -1,6 +1,4 @@
-2) zeby mqtt zapamietywal jak nie zostanie obsluzony event (Jak administrator jest wylaczony) - chyba trzeba komunikat zwrotny
 3) dodac admina do serwisu
-
 ---
 
 BUGS:
@@ -22,7 +20,6 @@ Pytania:
 
 sprzątanie:
 - procesy w orderze sa zbedne juz
-- pliki mqtt sie generuja - usunac (po wprowadzeniu sqs nie bedzie problemu)
 - pliki typu hs_err_pid.log sie generuja - usunac (po wprowadzeniu sqs nie bedzie problemu)
 
 Skanery w roznych lokalizacjach:

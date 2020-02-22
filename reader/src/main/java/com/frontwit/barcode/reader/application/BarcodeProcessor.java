@@ -41,23 +41,23 @@ public class BarcodeProcessor {
         }
     }
 
-    private Optional<ProcessBarcodeCommand> createProcessBarcodeCommand(BarcodeScanned event) {
+    private Optional<ProcessFrontCommand> createProcessBarcodeCommand(BarcodeScanned event) {
         try {
             var stageId = Integer.valueOf(event.getValue().substring(0, 1));
             var barcode = Long.valueOf(event.getValue().substring(1));
-            var command = new ProcessBarcodeCommand(stageId, barcode, LocalDateTime.now());
+            var command = new ProcessFrontCommand(stageId, barcode, LocalDateTime.now());
             return Optional.of(command);
         } catch (NumberFormatException ex) {
             LOG.warn(format("Barcode contains letters %s -> deleted letters", event.getValue()));
             var stageId = Integer.valueOf(event.getValue().substring(0, 1));
             var barcode = event.getValue().substring(1);
             barcode = barcode.replaceAll("[A-Za-z]", "");
-            var command = new ProcessBarcodeCommand(stageId, Long.valueOf(barcode), LocalDateTime.now());
+            var command = new ProcessFrontCommand(stageId, Long.valueOf(barcode), LocalDateTime.now());
             return Optional.of(command);
         }
     }
 
-    private void publishOrStore(ProcessBarcodeCommand command) {
+    private void publishOrStore(ProcessFrontCommand command) {
         try {
             publishBarcode.publish(command);
         } catch (PublishingException ex) {

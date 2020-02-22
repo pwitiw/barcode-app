@@ -18,8 +18,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,7 +46,7 @@ public class OrderEntity {
     private Set<Barcode> notPackedFronts;
 
     OrderEntity(TargetOrder targetOrder) {
-        this.id = targetOrder.getOrderId().getOrderId();
+        this.id = targetOrder.getOrderId().getId();
         this.name = targetOrder.getInfo().getName();
         this.color = targetOrder.getInfo().getColor();
         this.cutter = targetOrder.getInfo().getCutter();
