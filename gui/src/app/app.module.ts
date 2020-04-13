@@ -12,13 +12,12 @@ import {RestService} from "./services/rest.service";
 import {OrdersModule} from "./components/orders/orders.module";
 import {NgxLoadingModule} from "ngx-loading";
 import {CommonsModule} from "./components/commons/commons.module";
-import {ReportsComponent} from './components/reports/reports.component';
 import {MAT_DATE_LOCALE, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatButtonModule, MatSnackBarModule} from "@angular/material";
 import {LocalStorageService} from "./services/local-storage.service";
 import {LoggedUserService} from "./services/logged-user.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SnackBarService} from "./services/snack-bar.service";
-import {ReportsModule} from "./components/reports/reports.module";
+import {RoutesModule} from "./components/routes/routes.module";
 
 @NgModule({
     declarations: [
@@ -32,7 +31,7 @@ import {ReportsModule} from "./components/reports/reports.module";
         HttpClientModule,
         NgbModule,
         OrdersModule,
-        ReportsModule,
+        RoutesModule,
         NgxLoadingModule,
         CommonsModule,
         BrowserAnimationsModule,
