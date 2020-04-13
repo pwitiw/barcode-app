@@ -7,8 +7,8 @@
         </icon-with-text>
         <icon-with-text class="label"
                         [icon]="iconCalendar"
-                        [text]="order.orderedAt| date:'dd/MM/yyyy'"
-                        title="Data zlecenia">
+                        [text]="order.lastProcessedOn | date:'dd/MM/yyyy'"
+                        title="Data spakowania">
         </icon-with-text>
         <icon-with-text class="label growing"
                         [icon]="iconStage"

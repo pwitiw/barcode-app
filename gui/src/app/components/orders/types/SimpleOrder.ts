@@ -1,7 +1,7 @@
 export interface SimpleOrder {
     id: number;
     name: string;
-    orderedAt: Date;
+    lastProcessedOn: Date;
     quantity: number;
     stage: string;
     customer: string;

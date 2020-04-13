@@ -89,6 +89,6 @@ public class OrderEntity {
     }
 
     public OrderDto dto() {
-        return new OrderDto(id, name, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), stage, quantity, customer, route, packed);
+        return new OrderDto(id, name, LocalDate.ofInstant(lastProcessedOn, CLIENT_ZONE_ID), stage, quantity, customer, route, packed);
     }
 }
