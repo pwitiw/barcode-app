@@ -16,16 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.time.Instant;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.amazonaws.regions.Regions.EU_CENTRAL_1;
-import static java.lang.String.format;
 
 @Service
 public class SqsCommandHandler {

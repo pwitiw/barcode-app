@@ -1,6 +1,6 @@
 package com.frontwit.barcode.reader.messaging;
 
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
 
 import static com.amazonaws.regions.Regions.EU_CENTRAL_1;
 
@@ -28,11 +26,12 @@ public class SqsCommandPublisher implements PublishBarcode {
     private final AmazonSQS sqs;
 
     SqsCommandPublisher(@Value("${aws.sqs.url}") String url,
+                        @Value("${aws.sqs.profile:default}") String profile,
                         ObjectMapper objectMapper) {
         this.url = url;
         this.objectMapper = objectMapper;
         sqs = AmazonSQSClientBuilder.standard()
-                .withCredentials(new DefaultAWSCredentialsProviderChain())
+                .withCredentials(new ProfileCredentialsProvider(profile))
                 .withRegion(EU_CENTRAL_1)
                 .build();
     }
