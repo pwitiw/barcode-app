@@ -5,8 +5,10 @@ import com.frontwit.barcodeapp.administration.processing.shared.OrderId
 import com.frontwit.barcodeapp.administration.processing.shared.Stage
 import spock.lang.Specification
 
+import java.time.Instant
 import java.time.LocalDate
 
+import static com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy.*
 import static com.frontwit.barcodeapp.administration.processing.shared.Stage.*
 
 class OrderProcessingScenarios extends Specification {
@@ -21,7 +23,7 @@ class OrderProcessingScenarios extends Specification {
         order.update(aUpdateStageDetails(MILLING))
         then:
         order.getStage() == MILLING
-        order.getLastProcessedOn() == LocalDate.now()
+        order.getLastProcessedOn() != null
     }
 
     def "should change stage when at least one front processed"() {
@@ -73,7 +75,7 @@ class OrderProcessingScenarios extends Specification {
     }
 
     static Order createOrder(OrderId orderId, Set<Barcode> fronts) {
-        new Order(orderId, UpdateStagePolicy.allPolicies(), fronts)
+        new Order(orderId, allPolicies(), fronts)
     }
 
     UpdateStageDetails aUpdateStageDetails(Stage stage) {

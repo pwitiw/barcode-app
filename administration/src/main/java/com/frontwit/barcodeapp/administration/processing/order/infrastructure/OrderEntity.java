@@ -17,23 +17,26 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static java.time.ZoneId.of;
 
 @Document(collection = "order")
 @Data
 @NoArgsConstructor
 public class OrderEntity {
+    private final static ZoneId CLIENT_ZONE_ID = of("Europe/Paris");
 
     @Id
     private Long id;
     @NotNull
     private String name;
-    private LocalDate orderedAt;
+    private Instant orderedAt;
     private String color;
     private String size;
     private Stage stage;
@@ -43,7 +46,7 @@ public class OrderEntity {
     private String route;
     private boolean completed;
     private int quantity;
-    private LocalDate lastProcessedOn;
+    private Instant lastProcessedOn;
     private boolean packed;
     private Set<Barcode> notPackedFronts;
 
@@ -67,6 +70,7 @@ public class OrderEntity {
                 .collect(Collectors.toSet());
         this.completed = false;
         this.packed = false;
+        this.lastProcessedOn = Instant.now();
     }
 
     void update(Order order) {
@@ -81,10 +85,10 @@ public class OrderEntity {
     }
 
     public OrderDetailDto detailsDto(List<FrontDto> fronts) {
-        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, route, stage, orderedAt, fronts, completed, packed);
+        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed);
     }
 
     public OrderDto dto() {
-        return new OrderDto(id, name, orderedAt, stage, quantity, customer, route, packed);
+        return new OrderDto(id, name, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), stage, quantity, customer, route, packed);
     }
 }

@@ -10,8 +10,6 @@ import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.frontwit.barcode.reader.usb.BarcodeScanner.PRODUCT_ID;
 import static com.frontwit.barcode.reader.usb.BarcodeScanner.VENDOR_ID;
@@ -22,7 +20,7 @@ public class HidRegister implements HidServicesListener {
     private HidServicesSpecification hidServicesSpecification;
     private ConcurrentTaskExecutor concurrentTaskExecutor;
     private ApplicationEventPublisher eventPublisher;
-    private List<BarcodeScanner> registeredScanners = new ArrayList<>();
+    private AttachedScanners attachedScanners = new AttachedScanners();
 
     public HidRegister(ConcurrentTaskExecutor concurrentTaskExecutor, ApplicationEventPublisher eventPublisher) {
         this.concurrentTaskExecutor = concurrentTaskExecutor;
@@ -34,8 +32,6 @@ public class HidRegister implements HidServicesListener {
     void register() {
         var hidServices = HidManager.getHidServices(hidServicesSpecification);
         hidServices.addHidServicesListener(this);
-        var device = hidServices.getHidDevice(VENDOR_ID, BarcodeScanner.PRODUCT_ID, null);
-
         hidServices.getAttachedHidDevices().stream()
                 .filter(BarcodeScanner::isBarcodeScanner)
                 .forEach(this::addScanner);
@@ -43,7 +39,7 @@ public class HidRegister implements HidServicesListener {
 
     @PreDestroy
     void tearDown() {
-        registeredScanners.forEach(BarcodeScanner::close);
+        attachedScanners.closeAll();
     }
 
     private void initServicesSpecification() {
@@ -60,7 +56,7 @@ public class HidRegister implements HidServicesListener {
         if (device.getVendorId() == VENDOR_ID && device.getProductId() == PRODUCT_ID) {
             addScanner(device);
         }
-        LOG.info("Attached: " + event.getHidDevice());
+        LOG.info("Attached {}", device);
     }
 
     @Override
@@ -69,11 +65,8 @@ public class HidRegister implements HidServicesListener {
         if (device.isOpen()) {
             device.close();
         }
-        registeredScanners.stream()
-                .filter(scanner -> scanner.matches(device))
-                .findFirst()
-                .ifPresent(registeredScanners::remove);
-        LOG.info("Detached: " + event.getHidDevice());
+        attachedScanners.detach(device);
+        LOG.info("Detached {}", device);
     }
 
     @Override
@@ -84,11 +77,12 @@ public class HidRegister implements HidServicesListener {
     private void addScanner(HidDevice device) {
         if (device.open()) {
             var scanner = new BarcodeScanner(device, eventPublisher::publishEvent);
-            registeredScanners.add(scanner);
+            attachedScanners.attach(scanner);
+            //co w przypadku kilku readerow?
             concurrentTaskExecutor.execute(scanner::listen);
-            LOG.info("Device opened successfully");
+            LOG.info("Device opened successfully {}", device);
         } else {
-            LOG.info("Can not open device");
+            LOG.info("Couldn't open device {}", device);
         }
     }
 }

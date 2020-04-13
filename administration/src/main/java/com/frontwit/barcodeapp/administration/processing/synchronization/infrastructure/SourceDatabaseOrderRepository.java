@@ -8,10 +8,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.time.ZoneOffset.UTC;
 
 @AllArgsConstructor
 public class SourceDatabaseOrderRepository implements SourceOrderRepository {
@@ -35,8 +39,8 @@ public class SourceDatabaseOrderRepository implements SourceOrderRepository {
     }
 
     @Override
-    public List<SourceOrder> findByDateBetween(LocalDate from) {
-        return jdbcTemplate.query(findOrdersByDateGteQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), from);
+    public List<SourceOrder> findByDateBetween(Instant from) {
+        return jdbcTemplate.query(findOrdersByDateGteQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), LocalDate.ofInstant(from, ZoneId.of("Europe/Paris")));
     }
 
     private String findOrdersQuery() {
