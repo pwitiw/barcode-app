@@ -7,12 +7,11 @@ Pytania:
 - jak ktos da ze zakonczony a ktos inny bedzie chcial procesowac zamowienie to co sie ma stac?
 
 !!!BARDZO WAŻNE:
-- skrypt na start up systemu naprawić (chyba wywala, bo jeszcze baza nie wstała) (3)
 - poprawić proces deploymentu (4) (wrzucanie do dockerhuba -> budowanie image etc)
-- dostep zdalny (5)
 - security improvement
 -- logowanie przy uzyciu cookies
 -- logowanie kontekstu uzytkownika
+- logi nie zapisuje sie tam gdzie trzeba
 
 Features:
 -  jest zamowienie i jest juz spakowane i jest niekompletne i wiemy ze brakuje jednej witryny bo jest na docieciu
@@ -22,6 +21,9 @@ i na cos trzeba czekac
 - raportowanie:
     * ile metrow w danym miesiacu
 - offline mode dla magazyniera
+- feature switch dla amazona zeby nie ssal
+- deadline dla zamowienia + wyswietlanie ich gdzies
+- statystyki
 
 TODO route finder
 - ( na pinezkach kolejnosc)
