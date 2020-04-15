@@ -50,7 +50,7 @@ public class SqsCommandHandler {
         List<DeleteMessageBatchRequestEntry> messagesForDeletion =
                 sqs.receiveMessage(aRequest())
                         .getMessages().stream()
-                        .filter(this::processMessage)
+                        .peek(this::processMessage)
                         .map(this::toDeleteMessageBatchRequestEntry)
                         .collect(Collectors.toList());
         if (!messagesForDeletion.isEmpty()) {
@@ -66,15 +66,15 @@ public class SqsCommandHandler {
                 .withMaxNumberOfMessages(MAX_MSGS);
     }
 
-    private boolean processMessage(Message message) {
+    private void processMessage(Message message) {
         try {
             var command = objectMapper.readValue(message.getBody(), ProcessFrontCommand.class);
             frontProcessor.process(command);
-            return true;
         } catch (JsonProcessingException e) {
-            LOGGER.error("Mapping failed body={}", message.getBody(), e);
+            LOGGER.error("Mapping failed, body={}", message.getBody(), e);
+        } catch (Exception ex) {
+            LOGGER.warn(ex.getMessage(), ex);
         }
-        return false;
     }
 
     private DeleteMessageBatchRequestEntry toDeleteMessageBatchRequestEntry(Message msg) {
