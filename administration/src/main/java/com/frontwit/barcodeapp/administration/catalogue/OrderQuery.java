@@ -4,23 +4,24 @@ import com.frontwit.barcodeapp.administration.catalogue.dto.FrontDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderSearchCriteria;
-import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity;
+import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @AllArgsConstructor
 @Component
@@ -46,7 +47,7 @@ public class OrderQuery {
 
     Page<OrderDto> find(Pageable pageable, OrderSearchCriteria searchCriteria) {
         var criteria = criteriaBuilder.build(searchCriteria);
-        var query = new Query(criteria).with(pageable);
+        var query = new Query(criteria).with(pageable).with(Sort.by(DESC, "lastProcessedOn"));
         var orders = mongoTemplate.find(query, OrderEntity.class);
         return PageableExecutionUtils
                 .getPage(orders, pageable, () -> mongoTemplate.count(new Query(criteria), OrderEntity.class))

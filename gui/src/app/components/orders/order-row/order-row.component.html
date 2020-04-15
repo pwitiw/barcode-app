@@ -7,7 +7,7 @@
         </icon-with-text>
         <icon-with-text class="label"
                         [icon]="iconCalendar"
-                        [text]="order.lastProcessedOn | date:'dd/MM/yyyy'"
+                        [text]="order.lastProcessedOn? (order.lastProcessedOn | date:'dd/MM/yyyy'): '---'"
                         title="Data spakowania">
         </icon-with-text>
         <icon-with-text class="label growing"
