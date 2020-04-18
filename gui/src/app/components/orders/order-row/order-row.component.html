@@ -1,32 +1,20 @@
-<div class="orders-row" [ngClass]="{'selected':isSelected}">
+<div class="orders-row" [ngClass]="{'selected':isSelected}" (click)="showDetails()">
     <div class="order-info">
-        <icon-with-text class="label growing"
+        <icon-with-text class="label"
                         [icon]="iconName"
                         [text]="order.name"
                         title="Numer zamówienia">
         </icon-with-text>
-        <icon-with-text class="label"
+        <icon-with-text class="label date"
                         [icon]="iconCalendar"
                         [text]="order.lastProcessedOn? (order.lastProcessedOn | date:'dd/MM/yyyy'): '---'"
                         title="Data spakowania">
         </icon-with-text>
-        <icon-with-text class="label growing"
+        <icon-with-text class="label stage"
                         [icon]="iconStage"
                         [text]="stageService.convertToView(order.stage)"
                         title="Etap produkcji">
         </icon-with-text>
-        <div class="label tiny">
-            <icon-with-text class="label"
-                            [icon]="iconQuantity"
-                            [text]="order.quantity"
-                            title="Ilość">
-            </icon-with-text>
-            <icon-with-text *ngIf="order.packed" class="packed"
-                            [icon]="iconPacked"
-                            title="Spakowane">
-            </icon-with-text>
-        </div>
-
         <icon-with-text class="label"
                         [icon]="iconCustomer"
                         [text]="order.customer"
@@ -37,11 +25,15 @@
                         [text]="order.route"
                         title="Trasa">
         </icon-with-text>
+        <icon-with-text class="label quantity"
+                        [icon]="iconQuantity"
+                        [text]="order.quantity"
+                        title="Ilość">
+        </icon-with-text>
     </div>
-    <div class="details-btn">
-        <button mat-icon-button color="primary" (click)="showDetails()">
-            <mat-icon>chevron_right</mat-icon>
-        </button>
+    <div *ngIf="order.packed" class="packed-icon">
+        <icon-with-text [icon]="iconPacked"
+                        title="Spakowane">
+        </icon-with-text>
     </div>
-
 </div>

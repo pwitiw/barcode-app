@@ -2,9 +2,10 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   margin: $margin-md;
-  box-shadow: 0 -2px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 
-  &.selected {
+  &:hover {
     background: $selected-color;
   }
 
@@ -17,15 +18,18 @@
   }
 
   .label {
-    flex-basis: 34%;
+    flex-basis: 20%;
 
-    &.growing {
-      flex-grow: 1;
+    &.date {
+      flex-basis: 12%;
     }
 
-    &.tiny {
-      display: flex;
-      justify-content: space-between;
+    &.stage {
+      flex-basis: 15%;
+    }
+
+    &.quantity {
+      flex-basis: 7%;
     }
   }
 
@@ -34,12 +38,9 @@
     padding-left: $padding-sm;
   }
 
-  .details-btn {
-    grid-column: 8;
-    margin: auto;
-  }
-
-  .packed {
+  .packed-icon {
+    position: absolute;
+    right: 30px;
     color: green;
   }
 

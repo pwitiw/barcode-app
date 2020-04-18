@@ -1,46 +1,18 @@
 <div class="orders-view">
-<!--    <mat-list>-->
-<!--        <mat-list-item> Pepper</mat-list-item>-->
-<!--        <mat-list-item> Salt</mat-list-item>-->
-<!--        <mat-list-item> Paprika</mat-list-item>-->
-<!--    </mat-list>-->
-<!--    <mat-action-list>-->
-<!--        <button mat-list-item (click)="alert('lala')"> Save</button>-->
-<!--        <mat-divider></mat-divider>-->
-<!--        <button mat-list-item (click)="alert('undo')"> Undo</button>-->
-<!--        <mat-divider></mat-divider>-->
-<!--        <button mat-list-item (click)="alert('undo')"> SS</button>-->
-<!--        <button mat-list-item (click)="alert('undo')"> SS</button>-->
-<!--        <button mat-list-item (click)="alert('undo')"> SS</button>-->
-<!--        <button mat-list-item (click)="alert('undo')"> SS</button>-->
-<!--        <button mat-list-item (click)="alert('undo')"> SS</button>-->
-<!--        <mat-divider></mat-divider>-->
-<!--        <button mat-list-item (click)="alert('undo')"> SS</button>-->
-<!--        <button mat-list-item (click)="alert('undo')"> SS</button>-->
-<!--    </mat-action-list>-->
-    <div class="search">
-        <search-criteria (searchClicked)="handleSearchClicked($event)"
-                         (fetchClicked)="handleFetchClicked()">
-        </search-criteria>
-        <div class="order-list">
-            <h4 class="title">Lista aktywnych zamówień</h4>
-            <order-row
-                    *ngFor="let order of orders | paginate:{totalItems: totalElements, itemsPerPage:size, currentPage: page}"
-                    [order]="order"
-                    (showDetailsClicked)="handleShowDetails(order)"
-                    [isSelected]="order.id === selectedId">
-            </order-row>
-        </div>
-        <pagination-controls *ngIf="showPagination()" class="pagination"
-                             previousLabel="Poprzednia"
-                             nextLabel="Następna"
-                             (pageChange)="handlePageChanged($event)"></pagination-controls>
+    <search-criteria (searchClicked)="handleSearchClicked($event)"
+                     (fetchClicked)="handleFetchClicked()">
+    </search-criteria>
+    <div class="order-list" *ngIf="orders">
+        <h4 class="title">Lista zamówień</h4>
+        <order-row
+                *ngFor="let order of orders | paginate:{totalItems: totalElements, itemsPerPage:size, currentPage: page}"
+                [order]="order"
+                (showDetailsClicked)="handleShowDetails(order)"
+                [isSelected]="order.id === selectedId">
+        </order-row>
     </div>
-    <div class="details">
-        <div *ngIf="(orderDetail$| async)?.id" id="details-container">
-            <div id="order-detail">
-                <order-detail [order]="orderDetail$|async"></order-detail>
-            </div>
-        </div>
-    </div>
+    <pagination-controls *ngIf="showPagination()" class="pagination"
+                         previousLabel="Poprzednia"
+                         nextLabel="Następna"
+                         (pageChange)="handlePageChanged($event)"></pagination-controls>
 </div>
