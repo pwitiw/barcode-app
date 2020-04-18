@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
 import {SimpleOrder} from 'src/app/components/orders/types/SimpleOrder';
 import {OrderRestService} from 'src/app/components/orders/order.rest.service';
-import {OrderDetails} from 'src/app/components/orders/types/OrderDetails';
 import {SearchCriteria} from "./types/SearchCriteria";
 import {Page} from "./types/Page";
 import {SnackBarService} from "../../services/snack-bar.service";
@@ -14,14 +12,13 @@ import {OrderDetailsDialog} from "./order-detail/order-details.dialog";
     templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
-    static readonly MAX_ORDERS = 10;
+    static readonly MAX_ORDERS = 20;
     criteria: SearchCriteria;
     totalElements: number;
     page: number;
     selectedId: number;
     size: number;
     orders: SimpleOrder[];
-    orderDetail$: Observable<OrderDetails>;
 
     constructor(private orderService: OrderRestService,
                 private snackBarService: SnackBarService,
