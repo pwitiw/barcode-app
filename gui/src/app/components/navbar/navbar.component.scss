@@ -4,7 +4,7 @@
   width: 100%;
   top: 0;
   display: flex;
-  padding: 0 56px 0 38px;
+  padding: 0 $padding-lg;
   z-index: 1;
   color: $font-color;
   background-color: $color-white;
@@ -15,21 +15,20 @@
   display: flex;
   align-items: center;
   margin: 0 $margin-md;
+  font-size: $font-medium;
+
+  &.left {
+    display: flex;
+  }
+
+  &.right {
+    margin-left: auto;
+  }
 }
 
 .nav-link {
   padding: 0 28px 0 28px;
   font-weight: bold;
-}
-
-.nav-items-right {
-  margin-left: auto;
-  font-size: $font-medium;
-  font-weight: bold;
-}
-
-.nav-items-left {
-  font-size: $font-medium;
 }
 
 .nav-link-brand {
@@ -39,4 +38,10 @@
 a {
   color: inherit;
   text-decoration: inherit;
+
+  > button {
+    &:hover {
+      background: inherit;
+    }
+  }
 }

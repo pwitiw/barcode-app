@@ -12,19 +12,24 @@ import {RestService} from "./services/rest.service";
 import {OrdersModule} from "./components/orders/orders.module";
 import {NgxLoadingModule} from "ngx-loading";
 import {CommonsModule} from "./components/commons/commons.module";
-import {ReportsComponent} from './components/reports/reports.component';
 import {MAT_DATE_LOCALE, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatButtonModule, MatSnackBarModule} from "@angular/material";
 import {LocalStorageService} from "./services/local-storage.service";
 import {LoggedUserService} from "./services/logged-user.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SnackBarService} from "./services/snack-bar.service";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatIconModule} from "@angular/material/icon";
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
     declarations: [
         AppComponent,
         NavbarComponent,
         LoginComponent,
-        ReportsComponent,
+        StatisticsComponent,
     ],
     imports: [
         BrowserModule,
@@ -36,7 +41,11 @@ import {SnackBarService} from "./services/snack-bar.service";
         CommonsModule,
         BrowserAnimationsModule,
         MatButtonModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatMenuModule,
+        MatIconModule,
+        MatTableModule,
+        MatPaginatorModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
