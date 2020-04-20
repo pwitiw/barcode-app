@@ -1,16 +1,29 @@
-<div>
-    <div class="navbar">
-        <nav class="nav-items nav-items-left">
+<div class="navbar">
+    <div class="nav-items left">
+        <nav>
             <div class="nav-link-brand">
-                <a routerLink="/main"><img src="/assets/frontwitlogo.jpg" alt="FRONTWIT"></a>
+                <a routerLink="/"><img src="/assets/frontwitlogo.jpg" alt="FRONTWIT"></a>
             </div>
         </nav>
-<!--        <nav class="nav-items nav-items-left">-->
-<!--            <a routerLink="/orders">MONITOROWANIE ZAMÓWIEŃ</a>-->
-<!--        </nav>-->
-
-        <nav *ngIf="isAuthenticated()" class="nav-items nav-items-right">
-            <a routerLink="/login" (click)="logout()">WYLOGUJ [ {{loggedUser}} ]</a>
-        </nav>
+        <a *ngIf="isAuthenticated()" routerLink="/">
+            <button color="primary" class="nav-items" mat-button>
+                <mat-icon>home</mat-icon>
+            </button>
+        </a>
+        <a *ngIf="isAuthenticated()" routerLink="/orders">
+            <button class="nav-items" mat-button>
+                Zamówienia
+            </button>
+        </a>
+        <a *ngIf="isAuthenticated()" routerLink="/routes">
+            <button class="nav-items" mat-button>
+                Trasy
+            </button>
+        </a>
     </div>
+    <a *ngIf="isAuthenticated()" routerLink="/login" (click)="logout()">
+        <button class="nav-items right" mat-button>
+            Wyloguj [ {{loggedUser}} ]
+        </button>
+    </a>
 </div>

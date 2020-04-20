@@ -22,8 +22,6 @@ export class NavbarComponent implements DoCheck {
     }
 
     isAuthenticated(): boolean {
-        // return this.loggedUserService.getLoggedUser();
-
         return !!this.loggedUser;
     }
 }
