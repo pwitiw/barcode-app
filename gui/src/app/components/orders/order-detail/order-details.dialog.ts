@@ -39,8 +39,8 @@ export class OrderDetailsDialog {
     iconRoute = faMapMarkedAlt;
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) protected order: OrderDetails,
-        protected stageService: StageService,
+        @Inject(MAT_DIALOG_DATA) public order: OrderDetails,
+        public stageService: StageService,
         private orderRestService: OrderRestService,
         private snackBarService: SnackBarService) {
     }
