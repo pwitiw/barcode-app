@@ -1,11 +1,8 @@
 package com.frontwit.barcode.reader;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.frontwit.barcode.reader.application.BarcodeProcessor;
 import com.frontwit.barcode.reader.application.BarcodeStorage;
 import com.frontwit.barcode.reader.application.PublishBarcode;
-import com.frontwit.barcode.reader.messaging.MosquittoCommandPublisher;
 import com.frontwit.barcode.reader.store.SQLiteBarcodeStorage;
 import com.frontwit.barcode.reader.store.SQLiteRepository;
 import com.frontwit.barcode.reader.usb.HidRegister;
@@ -20,13 +17,6 @@ import java.util.concurrent.Executors;
 @Configuration
 @EnableScheduling
 public class BeanConfig {
-
-    @Bean
-    PublishBarcode publishBarcode() {
-        var objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        return new MosquittoCommandPublisher(objectMapper);
-    }
 
     @Bean
     SQLiteRepository sqLiteRepository() {

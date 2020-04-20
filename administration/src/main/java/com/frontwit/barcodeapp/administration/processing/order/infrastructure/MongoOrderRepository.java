@@ -25,13 +25,13 @@ public class MongoOrderRepository implements OrderRepository, SaveSynchronizedOr
 
     @Override
     public Optional<Order> findBy(OrderId orderId) {
-        return findById(orderId.getOrderId())
+        return findById(orderId.getId())
                 .map(entity -> entity.toDomainModel(updateStagePolicy));
     }
 
     @Override
     public void save(Order order) {
-        Optional.ofNullable(mongoTemplate.findById(order.getOrderId().getOrderId(), OrderEntity.class))
+        Optional.ofNullable(mongoTemplate.findById(order.getOrderId().getId(), OrderEntity.class))
                 .ifPresent(entity -> {
                     entity.update(order);
                     mongoTemplate.save(entity);
@@ -40,7 +40,7 @@ public class MongoOrderRepository implements OrderRepository, SaveSynchronizedOr
 
     @Override
     public boolean isSynchronized(OrderId orderId) {
-        return findById(orderId.getOrderId()).isPresent();
+        return findById(orderId.getId()).isPresent();
     }
 
     private Optional<OrderEntity> findById(Long id) {

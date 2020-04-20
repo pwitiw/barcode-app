@@ -5,7 +5,7 @@ import lombok.Value;
 import java.time.LocalDateTime;
 
 @Value
-public class ProcessBarcodeCommand {
+public class ProcessFrontCommand {
 
     private  Integer stage;
     private  Long barcode;

@@ -3,9 +3,9 @@
   display: flex;
   flex-direction: column;
   align-items: baseline;
+  text-align: center;
 
   .title {
-    text-align: center;
     width: 100%;
   }
 
@@ -15,21 +15,21 @@
     flex-wrap: wrap;
     justify-content: space-between;
 
+    .mat-form-field-infix {
+      border: 0;
+    }
+
     .mat-form-field-wrapper {
-      padding-bottom: $padding-lg
+      padding-bottom: $padding-lg;
     }
 
     .mat-checkbox {
       align-self: center;
+      padding: 0 $padding-md;
     }
 
     > * {
-      flex-basis: 50%;
       padding: 0 $margin-md;
-    }
-
-    .action-btns {
-
     }
 
     .search-btn {
@@ -38,6 +38,7 @@
   }
 
   button {
-    width: 50%;
+    text-align: center;
+    width: 30%;
   }
 }

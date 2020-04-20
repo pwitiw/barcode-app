@@ -12,7 +12,7 @@ public class Barcode {
 
     public Barcode(Long barcode) {
         if (barcode < LIMIT) {
-            throw new IllegalStateException(format("Illegal barcode: %s", barcode, LIMIT));
+            throw new IllegalStateException(format("Illegal barcode: %s, max value: %s", barcode, LIMIT));
         }
         this.barcode = barcode;
     }
@@ -22,7 +22,7 @@ public class Barcode {
     }
 
     public static Barcode valueOf(OrderId orderId, long frontId) {
-        return new Barcode(orderId.getOrderId() * LIMIT + frontId);
+        return new Barcode(orderId.getId() * LIMIT + frontId);
     }
 
     @Override

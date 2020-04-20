@@ -1,5 +1,8 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {OrderDetails} from 'src/app/components/orders/types/OrderDetails';
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {Component, Inject} from "@angular/core";
+import {OrderDetails} from "../types/OrderDetails";
+import {faStackOverflow} from "@fortawesome/free-brands-svg-icons";
+import {faCommentDots} from "@fortawesome/free-regular-svg-icons";
 import {
     faArrowsAltH,
     faArrowsAltV,
@@ -8,23 +11,20 @@ import {
     faHighlighter,
     faIndustry,
     faInfoCircle,
+    faMapMarkedAlt,
     faPalette,
-    faUserTie,
-    faMapMarkedAlt
+    faUserTie
 } from '@fortawesome/free-solid-svg-icons';
-import {faStackOverflow} from '@fortawesome/free-brands-svg-icons';
-import {faCommentDots} from '@fortawesome/free-regular-svg-icons';
-import {StageService} from '../stage.service';
-import {Front} from "../types/Front";
+import {StageService} from "../stage.service";
 import {OrderRestService} from "../order.rest.service";
 import {SnackBarService} from "../../../services/snack-bar.service";
+import {Front} from "../types/Front";
 
 @Component({
-    selector: 'order-detail',
-    templateUrl: './order-detail.component.html'
+    selector: 'order-details-dialog',
+    templateUrl: 'order-details.dialog.html',
 })
-export class OrderDetailComponent implements OnInit, OnChanges {
-    @Input() order: OrderDetails;
+export class OrderDetailsDialog {
     iconBarcode = faBarcode;
     iconHeight = faArrowsAltV;
     iconWidth = faArrowsAltH;
@@ -38,16 +38,14 @@ export class OrderDetailComponent implements OnInit, OnChanges {
     iconName = faInfoCircle;
     iconRoute = faMapMarkedAlt;
 
-
-    constructor(protected stageService: StageService,
-                private orderRestService: OrderRestService,
-                private snackBarService: SnackBarService) {
+    constructor(
+        @Inject(MAT_DIALOG_DATA) public order: OrderDetails,
+        public stageService: StageService,
+        private orderRestService: OrderRestService,
+        private snackBarService: SnackBarService) {
     }
 
     ngOnInit() {
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
     }
 
     getBorderColor(front: Front): string {

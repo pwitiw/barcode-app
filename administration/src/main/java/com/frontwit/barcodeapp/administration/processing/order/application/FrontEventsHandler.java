@@ -2,7 +2,6 @@ package com.frontwit.barcodeapp.administration.processing.order.application;
 
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontPacked;
 import com.frontwit.barcodeapp.administration.processing.front.model.StageChanged;
-import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderRepository;
 import com.frontwit.barcodeapp.administration.processing.order.model.PackFront;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStageDetails;
@@ -24,7 +23,7 @@ public class FrontEventsHandler {
     public void handle(StageChanged event) {
         var orderId = event.getBarcode().getOrderId();
         var order = orderRepository.findBy(orderId)
-                .orElseThrow(() -> new ProcessingException(format("Order with id %s does not exist.", orderId.getOrderId())));
+                .orElseThrow(() -> new ProcessingException(format("Order with id %s does not exist.", orderId.getId())));
         order.update(new UpdateStageDetails(event.getBarcode(), event.getStage()));
         orderRepository.save(order);
     }

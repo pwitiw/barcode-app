@@ -2,7 +2,6 @@ package com.frontwit.barcodeapp.administration.processing.synchronization;
 
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontNotFound;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
-import com.frontwit.barcodeapp.administration.processing.shared.ProcessingException;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -29,11 +28,13 @@ public class OrderSynchronizer {
     @EventListener
     public void synchronize(FrontNotFound event) {
         if (!checkSynchronizedOrder.isSynchronized(event.getOrderId())) {
-            var sourceOrder = sourceOrderRepository.findBy(event.getOrderId())
-                    .orElseThrow(() -> new ProcessingException(format("No order for id %s", event.getOrderId().getOrderId())));
-            var dictionary = sourceOrderRepository.getDictionary();
-            saveOrderWithFronts(sourceOrder, dictionary);
-            domainEvents.publish(new FrontSynchronized(event.getDelayedProcessFrontCommand()));
+            sourceOrderRepository.findBy(event.getOrderId()).ifPresentOrElse(
+                    order -> {
+                        var dictionary = sourceOrderRepository.getDictionary();
+                        saveOrderWithFronts(order, dictionary);
+                        domainEvents.publish(new FrontSynchronized(event.getDelayedProcessFrontCommand()));
+                    },
+                    () -> LOGGER.warn("Order not found {}", event.getOrderId()));
         }
     }
 
@@ -54,6 +55,6 @@ public class OrderSynchronizer {
         var targetOrder = orderMapper.map(sourceOrder, dictionary);
         saveSynchronizedOrder.save(targetOrder);
         saveSynchronizedFronts.save(targetOrder.getFronts());
-        LOGGER.info(format("OrderSynchronized {id=%s, frontsNr=%s}", targetOrder.getOrderId().getOrderId(), targetOrder.getFronts().size()));
+        LOGGER.info(format("OrderSynchronized {id=%s, frontsNr=%s}", targetOrder.getOrderId().getId(), targetOrder.getFronts().size()));
     }
 }

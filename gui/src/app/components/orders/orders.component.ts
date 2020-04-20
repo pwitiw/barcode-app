@@ -1,29 +1,28 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
 import {SimpleOrder} from 'src/app/components/orders/types/SimpleOrder';
 import {OrderRestService} from 'src/app/components/orders/order.rest.service';
-import {OrderDetails} from 'src/app/components/orders/types/OrderDetails';
 import {SearchCriteria} from "./types/SearchCriteria";
 import {Page} from "./types/Page";
 import {SnackBarService} from "../../services/snack-bar.service";
-import {tap} from "rxjs/operators";
+import {MatDialog} from "@angular/material/dialog";
+import {OrderDetailsDialog} from "./order-detail/order-details.dialog";
 
 @Component({
     selector: 'app-orders',
     templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
-    static readonly MAX_ORDERS = 10;
+    static readonly MAX_ORDERS = 20;
     criteria: SearchCriteria;
     totalElements: number;
     page: number;
     selectedId: number;
     size: number;
     orders: SimpleOrder[];
-    orderDetail$: Observable<OrderDetails>;
 
     constructor(private orderService: OrderRestService,
-                private snackBarService: SnackBarService) {
+                private snackBarService: SnackBarService,
+                private dialog: MatDialog) {
 
         this.size = OrdersComponent.MAX_ORDERS;
         this.page = 1;
@@ -66,7 +65,12 @@ export class OrdersComponent implements OnInit {
     }
 
     handleShowDetails(order: SimpleOrder): void {
-        this.orderDetail$ = this.orderService.getOrderDetails(order.id).pipe(tap(order => this.selectedId = order.id));
+        this.orderService.getOrderDetails(order.id).subscribe(order => {
+            this.dialog.open(OrderDetailsDialog, {
+                minWidth: '90%',
+                data: order
+            });
+        });
         window.scroll(0, 0);
     }
 

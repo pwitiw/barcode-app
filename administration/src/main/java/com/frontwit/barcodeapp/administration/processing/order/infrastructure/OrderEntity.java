@@ -51,7 +51,7 @@ public class OrderEntity {
     private Set<Barcode> notPackedFronts;
 
     OrderEntity(TargetOrder targetOrder) {
-        this.id = targetOrder.getOrderId().getOrderId();
+        this.id = targetOrder.getOrderId().getId();
         this.name = targetOrder.getInfo().getName();
         this.color = targetOrder.getInfo().getColor();
         this.cutter = targetOrder.getInfo().getCutter();
@@ -70,7 +70,6 @@ public class OrderEntity {
                 .collect(Collectors.toSet());
         this.completed = false;
         this.packed = false;
-        this.lastProcessedOn = Instant.now();
     }
 
     void update(Order order) {
@@ -89,6 +88,7 @@ public class OrderEntity {
     }
 
     public OrderDto dto() {
-        return new OrderDto(id, name, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), stage, quantity, customer, route, packed);
+        LocalDate zonedDate = this.lastProcessedOn != null ? LocalDate.ofInstant(this.lastProcessedOn, CLIENT_ZONE_ID) : null;
+        return new OrderDto(id, name, zonedDate, stage, quantity, customer, route, packed);
     }
 }

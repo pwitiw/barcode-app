@@ -23,9 +23,3 @@ services:
       - 3306:3306
     volumes:
       - "./administration/src/test/resources:/docker-entrypoint-initdb.d"
-
-  mqtt:
-    image: eclipse-mosquitto
-    ports:
-      - "1883:1883"
-

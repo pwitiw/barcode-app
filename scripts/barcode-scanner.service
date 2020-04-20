@@ -1,0 +1,16 @@
+# copy this file to /etc/systemd/system/
+# run sudo systemctl daemon-reload
+# run sudo systemctl enable barcode-scanner.service
+# run sudo systemctl start barcode-scanner.service
+[Unit]
+Description=Barcode reader Spring App
+[Service]
+User=pi
+WorkingDirectory=/home/pi/dev
+ExecStart=/home/pi/dev/run-barcode-scanner
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=multi-user.target

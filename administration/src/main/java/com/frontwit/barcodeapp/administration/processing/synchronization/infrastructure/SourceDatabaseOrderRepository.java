@@ -24,7 +24,7 @@ public class SourceDatabaseOrderRepository implements SourceOrderRepository {
 
     @Override
     public Optional<SourceOrder> findBy(OrderId orderId) {
-        List<SourceOrder> query = jdbcTemplate.query(findOrderByIdQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), orderId.getOrderId());
+        List<SourceOrder> query = jdbcTemplate.query(findOrderByIdQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), orderId.getId());
         if (query.isEmpty()) {
             return Optional.empty();
         }

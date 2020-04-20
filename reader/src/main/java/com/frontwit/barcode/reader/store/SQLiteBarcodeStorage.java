@@ -1,7 +1,7 @@
 package com.frontwit.barcode.reader.store;
 
 import com.frontwit.barcode.reader.application.BarcodeStorage;
-import com.frontwit.barcode.reader.application.ProcessBarcodeCommand;
+import com.frontwit.barcode.reader.application.ProcessFrontCommand;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,16 +19,16 @@ public class SQLiteBarcodeStorage implements BarcodeStorage {
     private SQLiteRepository sqLiteRepository;
 
     @Override
-    public void store(ProcessBarcodeCommand processBarcodeCommand) {
-        var readerId = processBarcodeCommand.getStage();
-        var barcode = processBarcodeCommand.getBarcode();
-        var dateTime = processBarcodeCommand.getDateTime();
+    public void store(ProcessFrontCommand processFrontCommand) {
+        var readerId = processFrontCommand.getStage();
+        var barcode = processFrontCommand.getBarcode();
+        var dateTime = processFrontCommand.getDateTime();
         sqLiteRepository.persist(readerId, barcode, dateTime);
-        LOG.info(format("[SQLite] Stored barcode %s", processBarcodeCommand));
+        LOG.info(format("[SQLite] Stored barcode %s", processFrontCommand));
     }
 
     @Override
-    public Map<UUID, ProcessBarcodeCommand> findAll() {
+    public Map<UUID, ProcessFrontCommand> findAll() {
         return sqLiteRepository.findAll();
     }
 

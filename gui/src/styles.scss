@@ -7,11 +7,12 @@
 @import 'app/components/commons/icon-with-text/icon-with-text.component.scss';
 @import './app/components/navbar/navbar.component.scss';
 @import './app/components/orders/orders.component.scss';
-@import 'app/components/orders/order-row/order-row.component.scss';
-@import './app/components/orders/order-detail/order-detail.component.scss';
+@import './app/components/orders/order-row/order-row.component.scss';
+@import './app/components/orders/order-detail/order-detail.dialog.scss';
 @import './app/components/orders/search-criteria/search-criteria.component.scss';
 @import './app/components/login/login.component.scss';
 @import './app/components/routes/routes.component.scss';
+@import './app/components/statistics/statistics.component.scss';
 
 
 html, body {

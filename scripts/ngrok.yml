@@ -1,0 +1,7 @@
+# install ngrok and move it and this config to /opt/ngrok/
+authtoken: <add_your_token_here>
+region: eu
+tunnels:
+  ssh:
+    proto: tcp
+    addr: 22

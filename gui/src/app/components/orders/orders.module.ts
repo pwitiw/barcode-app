@@ -2,7 +2,6 @@ import {NgModule} from "@angular/core";
 import {OrderRow} from './order-row/order-row.component';
 import {OrdersComponent} from './orders.component';
 import {OrderRestService} from './order.rest.service';
-import {OrderDetailComponent} from './order-detail/order-detail.component';
 import {SearchCriteriaComponent} from './search-criteria/search-criteria.component';
 import {CommonModule} from "@angular/common";
 import {CommonsModule} from "../commons/commons.module";
@@ -21,13 +20,16 @@ import {
 import {StageService} from "./stage.service";
 import {FormsModule} from "@angular/forms";
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from "@angular/material-moment-adapter";
+import {MatListModule} from "@angular/material/list";
+import {OrderDetailsDialog} from "./order-detail/order-details.dialog";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
     declarations: [
         OrderRow,
         OrdersComponent,
-        OrderDetailComponent,
-        SearchCriteriaComponent
+        SearchCriteriaComponent,
+        OrderDetailsDialog
     ],
     imports: [
         CommonModule,
@@ -43,8 +45,11 @@ import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from "@angular/mat
         MatIconModule,
         FormsModule,
         MatDatepickerModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        MatListModule,
+        MatDialogModule
     ],
+    entryComponents: [OrderDetailsDialog],
     providers: [
         OrderRestService,
         StageService,

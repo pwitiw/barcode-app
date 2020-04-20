@@ -6,9 +6,9 @@ import java.util.UUID;
 
 public interface BarcodeStorage {
 
-    void store(ProcessBarcodeCommand command);
+    void store(ProcessFrontCommand command);
 
-    Map<UUID, ProcessBarcodeCommand> findAll();
+    Map<UUID, ProcessFrontCommand> findAll();
 
     void delete(Collection<UUID> ids);
 
