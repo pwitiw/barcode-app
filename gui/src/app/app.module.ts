@@ -21,6 +21,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {HomeModule} from "./components/home/home.module";
 
 @NgModule({
     declarations: [
@@ -29,20 +30,21 @@ import {MatPaginatorModule} from "@angular/material/paginator";
         LoginComponent,
     ],
     imports: [
-        BrowserModule,
         AppRoutingModule,
-        HttpClientModule,
-        NgbModule,
-        OrdersModule,
-        NgxLoadingModule,
-        CommonsModule,
         BrowserAnimationsModule,
+        BrowserModule,
+        CommonsModule,
+        HomeModule,
+        HttpClientModule,
         MatButtonModule,
-        MatSnackBarModule,
-        MatMenuModule,
         MatIconModule,
+        MatMenuModule,
+        MatPaginatorModule,
+        MatSnackBarModule,
         MatTableModule,
-        MatPaginatorModule
+        NgbModule,
+        NgxLoadingModule,
+        OrdersModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
