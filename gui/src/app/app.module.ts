@@ -19,17 +19,14 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SnackBarService} from "./services/snack-bar.service";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
-import { StatisticsComponent } from './components/statistics/statistics.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import {RouterModule} from "@angular/router";
 
 @NgModule({
     declarations: [
         AppComponent,
         NavbarComponent,
         LoginComponent,
-        StatisticsComponent,
     ],
     imports: [
         BrowserModule,
