@@ -20,14 +20,15 @@ import {SnackBarService} from "./services/snack-bar.service";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {HomeModule} from "./components/home/home.module";
+import {PolishPaginator} from "./services/polish-paginator.service";
 
 @NgModule({
     declarations: [
         AppComponent,
         NavbarComponent,
-        LoginComponent,
+        LoginComponent
     ],
     imports: [
         AppRoutingModule,
@@ -44,7 +45,7 @@ import {HomeModule} from "./components/home/home.module";
         MatTableModule,
         NgbModule,
         NgxLoadingModule,
-        OrdersModule
+        OrdersModule,
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
@@ -57,7 +58,14 @@ import {HomeModule} from "./components/home/home.module";
                 horizontalPosition: 'end',
             }
         },
-        AuthGuardService, RestService, LocalStorageService, LoggedUserService, SnackBarService],
+        {provide: MatPaginatorIntl, useClass: PolishPaginator},
+        AuthGuardService,
+        LoggedUserService,
+        LocalStorageService,
+        PolishPaginator,
+        RestService,
+        SnackBarService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
