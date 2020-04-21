@@ -1,59 +1,50 @@
 <div class="routes-component">
     <span>Stwórz trasę:</span>
     <br/>
-    <mat-form-field>
-        <mat-label>Wyszukaj..</mat-label>
-        <input matInput (keyup)="applyFilter($event)">
-    </mat-form-field>
-
-    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let movie of movies" cdkDrag>{{movie}}</div>
-    </div>
-
-
-    <table  mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef>
-                <mat-checkbox color="primary"
-                              (change)="$event ? masterToggle() : null"
-                              [checked]="selection.hasValue() && isAllSelected()"
-                              [indeterminate]="selection.hasValue() && !isAllSelected()">
-                </mat-checkbox> Zaznacz wszystko
-            </th>
-            <td mat-cell *matCellDef="let row">
-                <mat-checkbox color="primary"
-                              (click)="$event.stopPropagation()"
-                              (change)="$event ? selection.toggle(row) : null"
-                              [checked]="selection.isSelected(row)">
+    <div class="tables">
+        <div class="candidate-list">
+            <mat-expansion-panel *ngFor="let customer of customers">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="label customer">
+                        {{customer.customer}}
+                    </mat-panel-title>
+                    <mat-panel-title class="label payment">
+                        {{customer.paymentType}}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-checkbox color="primary" (change)="changeAllOrders($event.checked,customer)">Wszystkie zamówienia
                 </mat-checkbox>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="client">
-            <th mat-header-cell *matHeaderCellDef> Klient</th>
-            <td mat-cell *matCellDef="let element"> {{element.client}} </td>
-        </ng-container>
-        <ng-container matColumnDef="order">
-            <th mat-header-cell *matHeaderCellDef> Zamówienia</th>
-            <td mat-cell *matCellDef="let element"> {{element.order}} </td>
-        </ng-container>
-        <ng-container matColumnDef="amount">
-            <th mat-header-cell *matHeaderCellDef> Kwota</th>
-            <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
-        </ng-container>
-        <ng-container matColumnDef="payment">
-            <th mat-header-cell *matHeaderCellDef> Forma płatności</th>
-            <td mat-cell *matCellDef="let element"> {{element.payment}} </td>
-        </ng-container>
-        <ng-container matColumnDef="sequence">
-            <th mat-header-cell *matHeaderCellDef> Kolejność</th>
-            <td mat-cell *matCellDef="let element"> {{element.sequence}} </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <button mat-button color="primary">
-        <mat-icon>picture_as_pdf</mat-icon>
-       Generuj raport
-    </button>
+                <table class="flex-list" *ngFor="let order of customer.orders">
+                    <span title="Zamówienie" class="label order">
+                        <mat-icon>info_outline</mat-icon>
+                        {{order.name}}</span>
+                    <td class="label quantity"> {{order.quantity}} szt.</td>
+                    <td class="label price"> {{order.price}}  zł</td>
+                    <mat-checkbox color="primary"
+                                  (change)="$event.checked?addToRoute(customer,order):removeFromRoute(customer,order)"
+                                  [checked]="order.isSelected"></mat-checkbox>
+                </table>
+            </mat-expansion-panel>
+        </div>
+        <div class="route-list">
+            <div cdkDropList (cdkDropListDropped)="drop($event)">
+                <table class="example-box" *ngFor="let routeDetail of routeDetails" cdkDrag>
+                    <td class="customer">
+                        {{routeDetail.customer}}
+                    </td>
+                    <td class="order">
+                        {{routeDetail.displayAggregateOrders()}}
+                    </td>
+                    <td>{{routeDetail.calculatePrice()}} zł</td>
+                    <td class="payment">
+                        {{routeDetail.paymentType}}
+                    </td>
+                </table>
+            </div>
+            <button mat-button color="primary" (click)="generateRouteDocument()">
+                <mat-icon>picture_as_pdf</mat-icon>
+                Generuj raport
+            </button>
+        </div>
+    </div>
 </div>

@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {
     MatButtonModule,
-    MatCheckboxModule,
+    MatCheckboxModule, MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -12,6 +12,7 @@ import {StageService} from "../orders/stage.service";
 import {RoutesComponent} from "./routes.component";
 import {CommonModule} from "@angular/common";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {RestService} from "../../services/rest.service";
 
 @NgModule({
     declarations: [
@@ -25,10 +26,12 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
         MatFormFieldModule,
         MatInputModule,
         CommonModule,
-        DragDropModule
+        DragDropModule,
+        MatExpansionModule
     ],
     providers: [
         StageService,
+        RestService,
         {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}
     ]
 })

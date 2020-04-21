@@ -17,7 +17,7 @@ task npmBuild(type: NpmTask, dependsOn: npm_install) {
 }
 
 task cleanStatics(type: Delete) {
-  group 'build client'
+  group 'build customer'
   delete "./dist"
 }
 

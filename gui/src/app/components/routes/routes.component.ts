@@ -2,74 +2,130 @@ import {Component, OnInit} from '@angular/core';
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatTableDataSource} from "@angular/material";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {RestService} from "../../services/rest.service";
 
 @Component({
     selector: 'app-routes',
     templateUrl: './routes.component.html'
 })
 export class RoutesComponent implements OnInit {
-    displayedColumns: string[] = ['select', 'client', 'order', 'amount', 'payment', 'sequence'];
-    dataSource = new MatTableDataSource<RouteReportDetails>(ELEMENT_DATA);
-    selection = new SelectionModel<RouteReportDetails>(true, []);
-    movies = [
-        'Episode I - The Phantom Menace',
-        'Episode II - Attack of the Clones',
-        'Episode III - Revenge of the Sith',
-        'Episode IV - A New Hope',
-        'Episode V - The Empire Strikes Back',
-        'Episode VI - Return of the Jedi',
-        'Episode VII - The Force Awakens',
-        'Episode VIII - The Last Jedi',
-        'Episode IX – The Rise of Skywalker'
-    ];
+    dataSource = new MatTableDataSource<DeliveryInformation>(ELEMENT_DATA);
+    selection = new SelectionModel<DeliveryInformation>(true, []);
+    customers = ELEMENT_DATA;
+    routeDetails: DeliveryInformation[] = [];
 
-    drop(event: CdkDragDrop<string[]>) {
-        moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
-    }
-
-
-    constructor() {
-    }
-
-    isAllSelected() {
-        const numSelected = this.selection.selected.length;
-        const numRows = this.dataSource.data.length;
-        return numSelected === numRows;
-    }
-
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    masterToggle() {
-        this.isAllSelected() ?
-            this.selection.clear() :
-            this.dataSource.data.forEach(row => this.selection.select(row));
-    }
-
-    applyFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value;
-        this.dataSource.filter = filterValue.trim().toLowerCase();
+    constructor(private restService: RestService) {
     }
 
     ngOnInit() {
     }
 
+    drop(event: CdkDragDrop<string[]>): void {
+        moveItemInArray(this.routeDetails, event.previousIndex, event.currentIndex);
+    }
+
+    changeAllOrders(isSelected: boolean, customer: DeliveryInformation): void {
+        customer.orders.forEach(o => isSelected ? this.addToRoute(customer, o) : this.removeFromRoute(customer, o));
+    }
+
+    generateRouteDocument(): void {
+        var mediaType = 'application/pdf';
+        this.restService.get('/api/route', {responseType: 'arraybuffer'})
+            .subscribe((response: 'arraybuffer') => {
+                const file = new Blob([response], {type: mediaType});
+                const fileURL = URL.createObjectURL(file);
+                window.open(fileURL);
+            });
+    }
+
+    getSelectedCustomers() : DeliveryInformation[] {
+        return this.customers.filter(deliveryInfo => deliveryInfo.isIncludedInPlanning());
+    }
+
+    addToRoute(customer: DeliveryInformation, order: Order): void {
+        order.isSelected = true;
+        if (this.routeDetails.filter(info => info == customer).length == 0) {
+            this.routeDetails.push(customer);
+        }
+    }
+
+    removeFromRoute(customer: DeliveryInformation, order: Order): void {
+        order.isSelected = false;
+        this.routeDetails = this.routeDetails.filter(info => info.isIncludedInPlanning())
+    }
 }
 
-export interface RouteReportDetails {
-    client: string;
-    order: string;
-    amount: number;
-    payment: string;
-    sequence: string;
+export class DeliveryInformation {
+    customer: string;
+    orders: Order[];
+    paymentType: string;
+
+    static of(customer: string, orders: Order[], paymentType: string): DeliveryInformation {
+        const deliveryInformation = new DeliveryInformation();
+        deliveryInformation.customer = customer;
+        deliveryInformation.orders = orders;
+        deliveryInformation.paymentType = paymentType;
+        return deliveryInformation;
+    }
+
+    isIncludedInPlanning(): boolean {
+        return this.orders.filter(order => order.isSelected).length > 0;
+    }
+
+    displayAggregateOrders(): string {
+        const displayOrder = (o: Order) => `${o.name} - ${o.quantity} szt.`;
+        return this.orders.filter(o => o.isSelected).map(displayOrder).reduce((o1, o2) => o1 + "\n" + o2);
+    }
+
+    calculatePrice(): number {
+        return this.orders.filter(o => o.isSelected).map(o => o.price).reduce((o1, o2) => o1 + o2);
+    }
 }
 
-const ELEMENT_DATA: RouteReportDetails[] = [
-    {client: 'Hydrogen', order: '12-10szt', amount: 1450, payment: 'FV', sequence: ''},
-    {client: 'Helium', order: '12-10szt', amount: 627, payment: 'KP', sequence: ''},
-    {client: 'Lithium', order: '12-10szt', amount: 1300, payment: 'KP', sequence: ''},
-    {client: 'Beryllium', order: '12-10szt', amount: 100, payment: 'FV', sequence: ''},
-    {client: 'Boron', order: '12-10szt', amount: 5000, payment: 'FV', sequence: ''},
-    {client: 'Carbon', order: '12-10szt', amount: 425, payment: '', sequence: ''},
-    {client: 'Nitrogen', order: '12-10szt', amount: 0, payment: '', sequence: ''}
+interface Order {
+    name: string;
+    quantity: number;
+    price: number;
+    isSelected: boolean;
+}
+
+const ELEMENT_DATA: DeliveryInformation[] = [
+    DeliveryInformation.of(
+        "Jan Gaj",
+        [
+            {name: 'TW 201', quantity: 15, price: 1000, isSelected: false},
+            {name: '69', quantity: 20, price: 2000, isSelected: false}
+        ],
+        "FV"),
+    DeliveryInformation.of(
+        "Bartłomiej Szczepańczykiewicz",
+        [
+            {name: '69', quantity: 20, price: 2000, isSelected: false},
+            {name: 'TW 1', quantity: 3, price: 300, isSelected: false},
+            {name: '905', quantity: 5, price: 575, isSelected: false}
+        ],
+        "KP"),
+    DeliveryInformation.of(
+        "Patryk Wilk",
+        [
+            {name: '137', quantity: 15, price: 500, isSelected: false},
+            {name: 'TW 1', quantity: 3, price: 300, isSelected: false},
+        ],
+        "KP"),
+    DeliveryInformation.of(
+        "Przemysław Szafraniec",
+        [
+            {name: 'A1', quantity: 16, price: 580, isSelected: true},
+            {name: 'A3', quantity: 18, price: 459, isSelected: false},
+            {name: 'A6', quantity: 20, price: 1450, isSelected: false},
+            {name: 'A8', quantity: 50, price: 470, isSelected: false},
+            {name: 'A9', quantity: 70, price: 2000, isSelected: false},
+            {name: 'TW 1', quantity: 3, price: 300, isSelected: false},
+        ],
+        "KP")
 ];
+
+
+
 
 

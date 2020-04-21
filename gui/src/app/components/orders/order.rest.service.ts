@@ -9,7 +9,7 @@ import {SimpleOrder} from "./types/SimpleOrder";
 
 @Injectable()
 export class OrderRestService {
-    private static readonly ORDERS_ENDPOINT = "/api/orders";
+    private static readonly ORDERS_ENDPOINT = "/api/customers";
 
     constructor(private restService: RestService) {
     }
