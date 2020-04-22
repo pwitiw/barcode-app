@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SimpleOrder} from 'src/app/components/orders/types/SimpleOrder';
 import {OrderRestService} from 'src/app/components/orders/order.rest.service';
 import {SearchCriteria} from "./types/SearchCriteria";
-import {Page} from "./types/Page";
+import {Page} from "../types/Page";
 import {SnackBarService} from "../../services/snack-bar.service";
 import {MatDialog} from "@angular/material/dialog";
 import {OrderDetailsDialog} from "./order-detail/order-details.dialog";

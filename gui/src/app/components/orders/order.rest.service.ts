@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {OrderDetails} from 'src/app/components/orders/types/OrderDetails';
 import {RestService} from "../../services/rest.service";
 import {map} from "rxjs/operators";
-import {Page} from "./types/Page";
+import {Page} from "../types/Page";
 import {SearchCriteria} from "./types/SearchCriteria";
 import {SimpleOrder} from "./types/SimpleOrder";
 
