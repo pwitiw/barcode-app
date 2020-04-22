@@ -17,6 +17,7 @@ import {LocalStorageService} from "./services/local-storage.service";
 import {LoggedUserService} from "./services/logged-user.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SnackBarService} from "./services/snack-bar.service";
+import {RoutesModule} from "./components/routes/routes.module";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
 import { StatisticsComponent } from './components/statistics/statistics.component';
@@ -37,6 +38,7 @@ import {RouterModule} from "@angular/router";
         HttpClientModule,
         NgbModule,
         OrdersModule,
+        RoutesModule,
         NgxLoadingModule,
         CommonsModule,
         BrowserAnimationsModule,

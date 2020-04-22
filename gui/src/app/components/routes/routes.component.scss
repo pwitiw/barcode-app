@@ -1,0 +1,69 @@
+.routes-component {
+
+  .tables {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .candidate-list {
+    width: 45%;
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
+    cursor: default;
+
+    &.customer {
+      flex-basis: 50%;
+    }
+
+    &.payment {
+      flex-basis: 20%;
+    }
+
+    &.order {
+      flex-basis: 50%;
+    }
+  }
+
+  .flex-list {
+    display: flex;
+
+  }
+
+  .order-label {
+    flex-basis: 50%;
+  }
+
+  .mat-column-client {
+    width: 40%;
+  }
+
+  .route-list {
+    width: 50%;
+
+    border: solid 1px #ccc;
+    min-height: 60px;
+    display: block;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .example-box {
+    padding: 20px 10px;
+    border-bottom: solid 1px #ccc;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    cursor: move;
+    background: white;
+    font-size: 14px;
+  }
+
+}

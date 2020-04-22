@@ -25,9 +25,9 @@ export class RestService {
             ) as Observable<HttpResponse<T>>;
     }
 
-    public get<T>(url): Observable<T> {
+    public get<T>(url,options?): Observable<T> {
         setTimeout(() => this.loadingService.show(), 500);
-        return this.http.get(url)
+        return this.http.get(url,options)
             .pipe(
                 tap(() => this.loadingService.hide()),
                 catchError(error => this.handleError(error))
