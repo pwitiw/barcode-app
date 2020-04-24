@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {SelectionModel} from "@angular/cdk/collections";
-import {MatTableDataSource} from "@angular/material";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {RestService} from "../../services/rest.service";
 
@@ -9,10 +7,9 @@ import {RestService} from "../../services/rest.service";
     templateUrl: './routes.component.html'
 })
 export class RoutesComponent implements OnInit {
-    dataSource = new MatTableDataSource<DeliveryInformation>(ELEMENT_DATA);
-    selection = new SelectionModel<DeliveryInformation>(true, []);
     customers = ELEMENT_DATA;
     routeDetails: DeliveryInformation[] = [];
+    routeInfo: RouteInformation;
 
     constructor(private restService: RestService) {
     }
@@ -28,17 +25,22 @@ export class RoutesComponent implements OnInit {
         customer.orders.forEach(o => isSelected ? this.addToRoute(customer, o) : this.removeFromRoute(customer, o));
     }
 
-    generateRouteDocument(): void {
+    generateRouteDocument() {
         var mediaType = 'application/pdf';
-        this.restService.get('/api/route', {responseType: 'arraybuffer'})
-            .subscribe((response: 'arraybuffer') => {
-                const file = new Blob([response], {type: mediaType});
+        this.restService.post('/api/route', {
+            deliveryInfos: this.routeDetails,
+            route: "tw-wroclaw"
+        }, {responseType: 'arraybuffer'})
+            .subscribe((response: any) => {
+                const file = new Blob([response.body], {type: mediaType});
                 const fileURL = URL.createObjectURL(file);
                 window.open(fileURL);
+                console.info(response);
             });
     }
 
-    getSelectedCustomers() : DeliveryInformation[] {
+
+    getSelectedCustomers(): DeliveryInformation[] {
         return this.customers.filter(deliveryInfo => deliveryInfo.isIncludedInPlanning());
     }
 
@@ -89,6 +91,11 @@ interface Order {
     isSelected: boolean;
 }
 
+interface RouteInformation {
+    deliveryInfos: DeliveryInformation[];
+    route: string;
+}
+
 const ELEMENT_DATA: DeliveryInformation[] = [
     DeliveryInformation.of(
         "Jan Gaj",
@@ -125,7 +132,11 @@ const ELEMENT_DATA: DeliveryInformation[] = [
         "KP")
 ];
 
+const RouteInfo: RouteInformation = {
+    deliveryInfos: ELEMENT_DATA,
+    route: "Olesnica-Wroclaw"
 
+};
 
 
 
