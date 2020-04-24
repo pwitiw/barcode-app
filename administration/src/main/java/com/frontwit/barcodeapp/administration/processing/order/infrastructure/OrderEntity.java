@@ -3,6 +3,7 @@ package com.frontwit.barcodeapp.administration.processing.order.infrastructure;
 import com.frontwit.barcodeapp.administration.catalogue.dto.FrontDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDto;
+import com.frontwit.barcodeapp.administration.catalogue.dto.ReminderDto;
 import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy;
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
@@ -21,6 +22,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,6 +49,7 @@ public class OrderEntity {
     private boolean completed;
     private int quantity;
     private Instant lastProcessedOn;
+    private Instant deadline;
     private boolean packed;
     private Set<Barcode> notPackedFronts;
 
@@ -84,11 +87,16 @@ public class OrderEntity {
     }
 
     public OrderDetailDto detailsDto(List<FrontDto> fronts) {
-        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed);
+        var deadline = this.deadline != null ? this.deadline.toEpochMilli() : null;
+        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline);
     }
 
     public OrderDto dto() {
         LocalDate zonedDate = this.lastProcessedOn != null ? LocalDate.ofInstant(this.lastProcessedOn, CLIENT_ZONE_ID) : null;
         return new OrderDto(id, name, zonedDate, stage, quantity, customer, route, packed);
+    }
+
+    public ReminderDto reminderDto() {
+        return new ReminderDto(name, customer, deadline.toEpochMilli());
     }
 }

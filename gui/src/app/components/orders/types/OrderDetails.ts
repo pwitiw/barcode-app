@@ -15,6 +15,7 @@ export interface OrderDetails {
     fronts: Front[];
     completed: boolean;
     packed: boolean;
+    deadline: number;
 }
 
 

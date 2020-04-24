@@ -23,18 +23,19 @@ export class OrdersComponent implements OnInit {
     constructor(private orderService: OrderRestService,
                 private snackBarService: SnackBarService,
                 private dialog: MatDialog) {
-
+        this.criteria = {};
         this.size = OrdersComponent.MAX_ORDERS;
         this.page = 1;
         this.totalElements = 0;
     }
 
-    handlePageChanged($event) {
-        this.page = $event;
+    ngOnInit(): void {
         this.handleSearchClicked();
     }
 
-    ngOnInit(): void {
+    handlePageChanged($event) {
+        this.page = $event;
+        this.handleSearchClicked();
     }
 
     handleSearchClicked(criteria?: SearchCriteria): void {
@@ -71,7 +72,6 @@ export class OrdersComponent implements OnInit {
                 data: order
             });
         });
-        window.scroll(0, 0);
     }
 
     showPagination() {

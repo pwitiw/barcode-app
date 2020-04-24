@@ -1,9 +1,6 @@
 package com.frontwit.barcodeapp.administration.catalogue;
 
-import com.frontwit.barcodeapp.administration.catalogue.dto.FrontDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.OrderSearchCriteria;
+import com.frontwit.barcodeapp.administration.catalogue.dto.*;
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity;
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
 import lombok.AllArgsConstructor;
@@ -21,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @AllArgsConstructor
@@ -52,5 +50,15 @@ public class OrderQuery {
         return PageableExecutionUtils
                 .getPage(orders, pageable, () -> mongoTemplate.count(new Query(criteria), OrderEntity.class))
                 .map(OrderEntity::dto);
+    }
+
+    Page<ReminderDto> findDeadlines(Pageable pageable) {
+        var criteria = Criteria.where("deadline").ne(null).and("completed").is(false);
+        var query = new Query(criteria).with(pageable).with(Sort.by(ASC, "deadline"));
+        var orders = mongoTemplate.find(query, OrderEntity.class);
+
+        return PageableExecutionUtils
+                .getPage(orders, pageable, () -> mongoTemplate.count(new Query(criteria), OrderEntity.class))
+                .map(OrderEntity::reminderDto);
     }
 }

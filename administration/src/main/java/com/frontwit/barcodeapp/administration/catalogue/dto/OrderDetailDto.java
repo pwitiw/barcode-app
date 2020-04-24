@@ -24,4 +24,5 @@ public class OrderDetailDto {
     private List<FrontDto> fronts;
     private boolean completed;
     private boolean packed;
+    private Long deadline;
 }

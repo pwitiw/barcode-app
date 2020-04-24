@@ -1,8 +1,6 @@
 package com.frontwit.barcodeapp.administration.catalogue;
 
-import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.OrderSearchCriteria;
+import com.frontwit.barcodeapp.administration.catalogue.dto.*;
 import com.frontwit.barcodeapp.administration.processing.front.application.FrontProcessor;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,8 +27,18 @@ public class OrderResource {
         return orderQuery.find(pageable, searchCriteria);
     }
 
-    @PostMapping(value = "/orders/{id}/status")
-    void getOrdersForSearchCriteria(@PathVariable Long id) {
-        orderCommand.changeStatus(id);
+    @PutMapping(value = "/orders/{orderId}/status")
+    void changeStatus(@PathVariable Long orderId) {
+        orderCommand.changeStatus(orderId);
+    }
+
+    @PutMapping(value = "/orders/{orderId}/deadline")
+    void updateDeadline(@PathVariable Long orderId, @RequestBody DeadlineDto dto) {
+        orderCommand.updateDeadline(DeadlineUpdated.of(orderId, dto.getDeadline()));
+    }
+
+    @GetMapping("/orders/reminders")
+    public Page<ReminderDto> getReminders(Pageable pageable) {
+        return orderQuery.findDeadlines(pageable);
     }
 }

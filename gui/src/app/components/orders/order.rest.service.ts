@@ -27,12 +27,17 @@ export class OrderRestService {
     }
 
     public changeStatus(id: number): Observable<boolean> {
-        return this.restService.post(OrderRestService.ORDERS_ENDPOINT + '/' + id + '/status', {})
-            .pipe(map(response => response.ok));
+        return this.restService.put(OrderRestService.ORDERS_ENDPOINT + '/' + id + '/status', {})
+            .pipe(map(response => response == null));
     }
 
     synchronize(): Observable<any> {
         return this.restService.post(OrderRestService.ORDERS_ENDPOINT + '/synchronize', {})
             .pipe(map(response => response.body));
+    }
+
+    setDeadline(id: number, deadline: number): Observable<boolean> {
+        return this.restService.put(OrderRestService.ORDERS_ENDPOINT + '/' + id + '/deadline', {deadline: deadline})
+            .pipe(map(response => response == null));
     }
 }
