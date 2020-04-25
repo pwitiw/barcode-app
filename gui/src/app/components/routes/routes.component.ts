@@ -26,11 +26,14 @@ export class RoutesComponent implements OnInit {
     }
 
     generateRouteDocument() {
-        var mediaType = 'application/pdf';
-        this.restService.post('/api/route', {
-            deliveryInfos: this.routeDetails,
-            route: "tw-wroclaw"
-        }, {responseType: 'arraybuffer'})
+        const mediaType = 'application/pdf';
+        const url = '/api/route';
+        this.restService.post(url,
+            {
+                deliveryInfos: this.routeDetails,
+                route: "tw-wroclaw"
+            },
+            {responseType: 'arraybuffer'})
             .subscribe((response: any) => {
                 const file = new Blob([response.body], {type: mediaType});
                 const fileURL = URL.createObjectURL(file);

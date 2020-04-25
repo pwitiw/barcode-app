@@ -4,11 +4,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ReportConfiguration {
+class RouteConfiguration {
 
     @Bean
-    public RouteReportGenerator routeReportGenerator() {
-        return new RouteReportGenerator();
+    public RouteGenerator routeReportGenerator() {
+        return new RouteGenerator();
     }
 
 }

@@ -42,16 +42,16 @@ class RouteDetails {
         private final SettlementType settlementType;
 
 
-        String getOrders() {
+        String displayOrders() {
             return orders.stream()
-                    .map(Order::readOrder)
+                    .map(Order::displayOrder)
                     .reduce((order1, order2) -> order1 + "\n" + order2)
                     .orElse("");
         }
 
         BigDecimal getAmount() {
             return orders.stream()
-                    .map(Order::getPricing)
+                    .map(Order::getPrice)
                     .reduce(BigDecimal::add)
                     .orElse(BigDecimal.valueOf(0));
         }

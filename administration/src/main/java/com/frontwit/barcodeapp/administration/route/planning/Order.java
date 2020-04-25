@@ -6,19 +6,19 @@ import lombok.Value;
 import java.math.BigDecimal;
 
 @Value
-public class Order {
+class Order {
     private final String name;
     private final int quantity;
-    private final BigDecimal pricing;
+    private final BigDecimal price;
 
 
-    private Order(String name, int quantity, BigDecimal pricing) {
+    private Order(String name, int quantity, BigDecimal price) {
         this.name = name;
         this.quantity = quantity;
-        this.pricing = pricing;
+        this.price = price;
     }
 
-    String readOrder() {
+    String displayOrder() {
         return name + " - " + quantity + " szt., ";
     }
 

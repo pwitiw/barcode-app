@@ -15,11 +15,7 @@ import static com.itextpdf.text.FontFactory.COURIER;
 import static com.itextpdf.text.FontFactory.getFont;
 import static java.lang.String.format;
 
-//TODO add tests
-//TODO polish signs
-//TODO https://blog.softwaremill.com/the-forgotten-value-of-value-objects-73f955587cd3
-// TODO nazwa pdf'a ma byc inna
-public class RouteReportGenerator {
+public class RouteGenerator {
 
     private static final String SETTLEMENT = "Płatność";
     private static final String NUMBER = "Lp";
@@ -44,9 +40,7 @@ public class RouteReportGenerator {
     private static final int NO_AMOUNT = 0;
 
 
-    //TODO poczytac o try with resources
-    //TODO zamknac bytearray stream
-    public byte[] generateReport(RouteDetails reportDetails) throws DocumentException {
+    byte[] generateRouteSummary(RouteDetails reportDetails) throws DocumentException {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, out);
@@ -57,7 +51,7 @@ public class RouteReportGenerator {
     }
 
     private void createPdf(Document document, RouteDetails details) throws DocumentException {
-        PdfName name = new PdfName("a");
+        PdfName name = new PdfName("Trasa: " + details.getRoute());
         document.getAccessibleAttribute(name);
         addTitle(document, details);
         addTable(document, details.getReports());
@@ -91,7 +85,7 @@ public class RouteReportGenerator {
         reports.forEach(report -> {
             table.addCell(String.valueOf(reports.indexOf(report) + 1));
             table.addCell(report.getCustomer());
-            table.addCell(report.getOrders());
+            table.addCell(report.displayOrders());
             table.addCell(report.getSettlementType().getDisplayValue());
             table.addCell(report.getAmount().toString());
             table.addCell("");

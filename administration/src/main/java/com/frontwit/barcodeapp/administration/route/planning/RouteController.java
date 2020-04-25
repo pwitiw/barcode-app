@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class RouteController {
 
-    private final RouteReportGenerator routeReportGenerator;
+    private final RouteGenerator routeGenerator;
 
-    public RouteController(RouteReportGenerator routeReportGenerator) {
-        this.routeReportGenerator = routeReportGenerator;
+    public RouteController(RouteGenerator routeGenerator) {
+        this.routeGenerator = routeGenerator;
     }
 
     @PostMapping(value = "/route", produces = MediaType.APPLICATION_PDF_VALUE)
-    public byte[] generateRouteReport(@RequestBody RouteInfoDto routeInfoDto) throws DocumentException {
+    public byte[] generateRouteSummary(@RequestBody RouteInfoDto routeInfoDto) throws DocumentException {
         var routeReportDetails = RouteDetails.of(routeInfoDto);
-        return routeReportGenerator.generateReport(routeReportDetails);
+        return routeGenerator.generateRouteSummary(routeReportDetails);
     }
 }

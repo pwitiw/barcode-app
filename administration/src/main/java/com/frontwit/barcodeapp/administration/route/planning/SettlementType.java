@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum SettlementType {
+enum SettlementType {
     INVOICE("Faktura VAT"),
     PROOF_OF_PAYMENT("KP");
 
