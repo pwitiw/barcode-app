@@ -20,6 +20,15 @@ export class RoutesComponent implements OnInit {
     ngOnInit() {
     }
 
+    search(routes):DeliveryInformation[]{
+        this.restService.post("/route/",{routes: []})
+            .subscribe(result=> {
+            result;
+        });
+        return this.routeDetails;
+    }
+
+
     drop(event: CdkDragDrop<string[]>): void {
         moveItemInArray(this.routeDetails, event.previousIndex, event.currentIndex);
     }

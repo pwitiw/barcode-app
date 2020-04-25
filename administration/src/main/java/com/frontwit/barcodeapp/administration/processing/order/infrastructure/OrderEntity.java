@@ -91,4 +91,8 @@ public class OrderEntity {
         LocalDate zonedDate = this.lastProcessedOn != null ? LocalDate.ofInstant(this.lastProcessedOn, CLIENT_ZONE_ID) : null;
         return new OrderDto(id, name, zonedDate, stage, quantity, customer, route, packed);
     }
+
+    public OrderDeliveryDto orderDeliveryDto (List<OrderEntity> entities){
+        return new OrderDeliveryDto();
+    }
 }

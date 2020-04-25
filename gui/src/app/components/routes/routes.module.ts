@@ -1,7 +1,8 @@
 import {NgModule} from "@angular/core";
 import {
     MatButtonModule,
-    MatCheckboxModule, MatExpansionModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,

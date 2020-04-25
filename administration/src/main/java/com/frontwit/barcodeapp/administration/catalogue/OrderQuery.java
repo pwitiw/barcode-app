@@ -37,6 +37,15 @@ public class OrderQuery {
                 .orElseThrow(() -> new IllegalArgumentException(format("No order for id %s", id)));
     }
 
+    public List<DeliveryOrderDto> findOrdersForRoutes(List<String> routes) {
+        var query = new Query(new Criteria("route").in(routes));
+        var orderEntities = mongoTemplate.find(query, OrderEntity.class);
+        return orderEntities.stream()
+                .filter(orderEntity -> !orderEntity.isCompleted() & orderEntity.isPacked())
+                .map(entity->entity.orderDeliveryDto(orderEntities));
+                .collect(Collectors.toList());
+    }
+
     private List<FrontDto> findFrontsForOrderId(long orderId) {
         var query = new Query(new Criteria("orderId").is(orderId));
         var frontEntities = mongoTemplate.find(query, FrontEntity.class);

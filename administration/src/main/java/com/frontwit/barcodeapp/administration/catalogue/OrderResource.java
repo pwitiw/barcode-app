@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api")
@@ -32,5 +34,10 @@ public class OrderResource {
     @PostMapping(value = "/orders/{id}/status")
     void getOrdersForSearchCriteria(@PathVariable Long id) {
         orderCommand.changeStatus(id);
+    }
+
+    @GetMapping(value = "")
+    List<OrderDetailDto> getOrdersForRoutes(@RequestBody List<String> routes){
+        return orderQuery.findOrdersForRoutes(routes);
     }
 }
