@@ -13,10 +13,10 @@ export class RestService {
                 private snackBarService: SnackBarService) {
     }
 
-    public post<T>(url: string, body: any): Observable<HttpResponse<T>> {
+    public post<T>(url: string, body: any, options?): Observable<HttpResponse<T>> {
         setTimeout(() => this.loadingService.show(), 200);
         return this.http
-            .post(url, body, {observe: "response"})
+            .post(url, body, {observe: "response", ...options},)
             .pipe(
                 tap(() => {
                     this.loadingService.hide();
@@ -25,9 +25,9 @@ export class RestService {
             ) as Observable<HttpResponse<T>>;
     }
 
-    public get<T>(url,options?): Observable<T> {
+    public get<T>(url, options?): Observable<T> {
         setTimeout(() => this.loadingService.show(), 500);
-        return this.http.get(url,options)
+        return this.http.get(url, options)
             .pipe(
                 tap(() => this.loadingService.hide()),
                 catchError(error => this.handleError(error))
