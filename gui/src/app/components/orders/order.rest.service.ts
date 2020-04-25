@@ -6,6 +6,7 @@ import {map} from "rxjs/operators";
 import {Page} from "../types/Page";
 import {SearchCriteria} from "./types/SearchCriteria";
 import {SimpleOrder} from "./types/SimpleOrder";
+import {UpdateOrder} from "./order-detail/order-details.dialog";
 
 @Injectable()
 export class OrderRestService {
@@ -36,8 +37,8 @@ export class OrderRestService {
             .pipe(map(response => response.body));
     }
 
-    setDeadline(id: number, deadline: number): Observable<boolean> {
-        return this.restService.put(OrderRestService.ORDERS_ENDPOINT + '/' + id + '/deadline', {deadline: deadline})
+    updateOrder(id: number, updateOrder: UpdateOrder): Observable<boolean> {
+        return this.restService.put(OrderRestService.ORDERS_ENDPOINT + '/' + id + '/deadline', updateOrder)
             .pipe(map(response => response == null));
     }
 }

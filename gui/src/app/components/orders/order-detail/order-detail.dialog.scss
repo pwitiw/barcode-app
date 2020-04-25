@@ -26,6 +26,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      > * {
+        display: flex;
+        flex-basis: 30%;
+      }
     }
 
     .front-list {

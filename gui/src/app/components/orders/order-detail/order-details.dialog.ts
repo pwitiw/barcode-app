@@ -84,10 +84,13 @@ export class OrderDetailsDialog {
             });
     }
 
-    saveDeadline() {
-        const deadlineFromEpoch = this.deadline.valueOf();
-        const text = "Zmiana terminu realizacji";
-        this.orderRestService.setDeadline(this.order.id, deadlineFromEpoch)
+    updateOrder() {
+        const text = "Aktualizacja zamówienia";
+        const orderUpdate: UpdateOrder = {
+            deadline: this.deadline.valueOf(),
+            price: this.order.price
+        };
+        this.orderRestService.updateOrder(this.order.id, orderUpdate)
             .subscribe(result => this.displayResponseMsg(result, text))
     }
 
@@ -98,4 +101,9 @@ export class OrderDetailsDialog {
             this.snackBarService.failure(`${text} nie powiodła się`);
         }
     }
+}
+
+export interface UpdateOrder {
+    deadline: number;
+    price: number;
 }

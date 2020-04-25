@@ -18,6 +18,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -52,6 +53,7 @@ public class OrderEntity {
     private Instant deadline;
     private boolean packed;
     private Set<Barcode> notPackedFronts;
+    private BigDecimal price;
 
     OrderEntity(TargetOrder targetOrder) {
         this.id = targetOrder.getOrderId().getId();
@@ -88,7 +90,7 @@ public class OrderEntity {
 
     public OrderDetailDto detailsDto(List<FrontDto> fronts) {
         var deadline = this.deadline != null ? this.deadline.toEpochMilli() : null;
-        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline);
+        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline, price);
     }
 
     public OrderDto dto() {
