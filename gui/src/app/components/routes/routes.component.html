@@ -3,47 +3,50 @@
     <br/>
     <div class="tables">
         <div class="candidate-list">
-            <mat-expansion-panel *ngFor="let customer of customers">
-                <mat-expansion-panel-header>
-                    <mat-panel-title class="label customer">
-                        {{customer.customer}}
-                    </mat-panel-title>
-                    <mat-panel-title class="label payment">
-                        {{customer.paymentType}}
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-checkbox color="primary" (change)="changeAllOrders($event.checked,customer)">Wszystkie zamówienia
-                </mat-checkbox>
-                <table class="flex-list" *ngFor="let order of customer.orders">
-                    <span title="Zamówienie" class="label order">
+            <mat-accordion>
+                <mat-expansion-panel *ngFor="let customer of customers">
+                    <mat-expansion-panel-header [expandedHeight]="'48px'">
+                        <mat-panel-title (click)="$event.stopPropagation()">
+                            <mat-checkbox color="primary" (change)="changeAllOrders($event.checked,customer)">
+                            </mat-checkbox>
+                        </mat-panel-title>
+                        <mat-panel-title class="label customer">
+                            {{customer.customer}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <table class="customer-orders-list" *ngFor="let order of customer.orders">
+                        <mat-checkbox color="primary"
+                                      (change)="$event.checked?addToRoute(customer,order):removeFromRoute(customer,order)"
+                                      [checked]="order.isSelected"></mat-checkbox>
+                        <span title="Zamówienie" class="label order">
                         <mat-icon>info_outline</mat-icon>
-                        {{order.name}}</span>
-                    <td class="label quantity"> {{order.quantity}} szt.</td>
-                    <td class="label price"> {{order.price}}  zł</td>
-                    <mat-checkbox color="primary"
-                                  (change)="$event.checked?addToRoute(customer,order):removeFromRoute(customer,order)"
-                                  [checked]="order.isSelected"></mat-checkbox>
-                </table>
-            </mat-expansion-panel>
+                            {{order.name}}
+                    </span>
+                        <td class="label quantity"> {{order.quantity}} szt.</td>
+                        <td class="label price"> {{order.price}} zł</td>
+                    </table>
+                </mat-expansion-panel>
+            </mat-accordion>
         </div>
+        <!--        -->
+
         <div class="route-list">
             <div cdkDropList (cdkDropListDropped)="drop($event)">
-                <table class="example-box" *ngFor="let routeDetail of routeDetails" cdkDrag>
-                    <td class="customer">
+                <div class="example-box" *ngFor="let routeDetail of routeDetails; let i=index" cdkDrag>
+                    <span class="label no">{{i + 1}}</span>
+                    <span class="label customer">
                         {{routeDetail.customer}}
-                    </td>
-                    <td class="order">
-                        {{routeDetail.displayAggregateOrders()}}
-                    </td>
-                    <td>{{routeDetail.calculatePrice()}} zł</td>
-                    <td class="payment">
+                    </span>
+                    <span [innerHTML]="routeDetail.displayAggregateOrders()" class="label orders"></span>
+                    <span class="label payment">
                         {{routeDetail.paymentType}}
-                    </td>
-                </table>
+                    </span>
+                    <span class="label price">{{routeDetail.calculatePrice()}} zł</span>
+                </div>
             </div>
-            <button mat-button color="primary" (click)="generateRouteDocument()">
+            <button *ngIf="routeDetails.length > 0" mat-button color="primary" (click)="generateRouteDocument()">
                 <mat-icon>picture_as_pdf</mat-icon>
-                Generuj raport
+                Generuj trase
             </button>
         </div>
     </div>

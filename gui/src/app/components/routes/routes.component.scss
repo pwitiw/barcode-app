@@ -1,69 +1,103 @@
 .routes-component {
 
+  .wrapper {
+    position: relative;
+  }
+
+  .mask {
+    position: absolute;
+    background: transparent;
+    width: calc(20%);
+    z-index: 1;
+    height: 48px;
+  }
+
   .tables {
-    width: 90%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
   }
 
   .candidate-list {
     width: 45%;
-  }
 
-  .label {
-    display: flex;
-    align-items: center;
-    cursor: default;
-
-    &.customer {
-      flex-basis: 50%;
+    .mat-expanded {
+      background: $color-background;
     }
 
-    &.payment {
-      flex-basis: 20%;
+    .customer-orders-list {
+      display: flex;
+
+      .mat-checkbox-layout {
+        margin-bottom: 0;
+      }
     }
 
-    &.order {
-      flex-basis: 50%;
+    .label {
+      display: flex;
+      align-items: center;
+      cursor: default;
+
+      &.customer {
+        flex-basis: 90%;
+      }
+
+      &.order {
+        flex-basis: 40%;
+        margin-left: $margin-sm;
+      }
+
+      &.quantity {
+        flex-basis: 20%;
+      }
+
+      &.price {
+        flex-basis: 20%;
+      }
     }
-  }
-
-  .flex-list {
-    display: flex;
-
-  }
-
-  .order-label {
-    flex-basis: 50%;
-  }
-
-  .mat-column-client {
-    width: 40%;
   }
 
   .route-list {
     width: 50%;
-
-    border: solid 1px #ccc;
-    min-height: 60px;
     display: block;
     background: white;
-    border-radius: 4px;
     overflow: hidden;
-  }
 
-  .example-box {
-    padding: 20px 10px;
-    border-bottom: solid 1px #ccc;
-    color: rgba(0, 0, 0, 0.87);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    cursor: move;
-    background: white;
-    font-size: 14px;
-  }
+    .example-box {
+      min-height: 60px;
+      padding: 20px 10px;
+      border: solid 1px #ccc;
+      border-radius: 4px;
 
+      color: rgba(0, 0, 0, 0.87);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      cursor: move;
+      background: white;
+
+      .label {
+        &.no {
+          flex-basis: 3%;
+        }
+
+        &.customer {
+          flex-basis: 42%;
+        }
+
+        &.orders {
+          flex-basis: 35%;
+        }
+
+        &.payment {
+          flex-basis: 3%;
+        }
+
+        &.price {
+          flex-basis: 12%;
+        }
+      }
+    }
+  }
 }
