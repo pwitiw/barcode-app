@@ -27,6 +27,18 @@ i na cos trzeba czekac
 - deadline dla zamowienia + wyswietlanie ich gdzies
 - statystyki
 
+
+PLATNOSC: - bajt musi w swoim programie dodatkowe pole na wycene dac
+
+statystyki:
+- ile w dniu, tygodniu, miesiacu spakowanych jest
+- podzial na tygodnie w deadlinach
+
+TRASY:
+- kierowca
+- data
+- adres, numer telefonu
+
 TODO route finder
 - ( na pinezkach kolejnosc)
 - sortowanie od punktu docelowego
