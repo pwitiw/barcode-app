@@ -26,4 +26,14 @@ class OrderCommand {
                     LOGGER.info(format("STATUS CHANGED {orderId=%s, status=%s}", id, order.isCompleted() ? "COMPLETED" : "NOT COMPLETED"));
                 }, () -> new IllegalArgumentException(format("Order with id %s does not exist", id)));
     }
+
+    void updateOrder(UpdateOrder updateOrder) {
+        Optional.ofNullable(mongoTemplate.findById(updateOrder.getOrderId(), OrderEntity.class))
+                .ifPresentOrElse(order -> {
+                    order.setDeadline(updateOrder.getDeadline());
+                    order.setPrice(updateOrder.getPrice());
+                    mongoTemplate.save(order);
+                    LOGGER.info(updateOrder.toString());
+                }, () -> new IllegalArgumentException(format("Order with id %s does not exist", updateOrder.getOrderId())));
+    }
 }

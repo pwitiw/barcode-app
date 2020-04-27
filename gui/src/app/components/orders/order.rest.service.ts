@@ -3,9 +3,10 @@ import {Observable} from 'rxjs';
 import {OrderDetails} from 'src/app/components/orders/types/OrderDetails';
 import {RestService} from "../../services/rest.service";
 import {map} from "rxjs/operators";
-import {Page} from "./types/Page";
+import {Page} from "../types/Page";
 import {SearchCriteria} from "./types/SearchCriteria";
 import {SimpleOrder} from "./types/SimpleOrder";
+import {UpdateOrder} from "./order-detail/order-details.dialog";
 
 @Injectable()
 export class OrderRestService {
@@ -27,12 +28,17 @@ export class OrderRestService {
     }
 
     public changeStatus(id: number): Observable<boolean> {
-        return this.restService.post(OrderRestService.ORDERS_ENDPOINT + '/' + id + '/status', {})
-            .pipe(map(response => response.ok));
+        return this.restService.put(OrderRestService.ORDERS_ENDPOINT + '/' + id + '/status', {})
+            .pipe(map(response => response == null));
     }
 
     synchronize(): Observable<any> {
         return this.restService.post(OrderRestService.ORDERS_ENDPOINT + '/synchronize', {})
             .pipe(map(response => response.body));
+    }
+
+    updateOrder(id: number, updateOrder: UpdateOrder): Observable<boolean> {
+        return this.restService.put(OrderRestService.ORDERS_ENDPOINT + '/' + id + '/deadline', updateOrder)
+            .pipe(map(response => response == null));
     }
 }

@@ -91,7 +91,7 @@ export class DeliveryInformation {
 
     displayAggregateOrders(): string {
         const displayOrder = (o: Order) => `${o.name} - ${o.quantity} szt.`;
-        return this.orders.filter(o => o.isSelected).map(displayOrder).reduce((o1, o2) => o1 + "\n" + o2);
+        return this.orders.filter(o => o.isSelected).map(displayOrder).reduce((o1, o2) => o1 + "<br>" + o2);
     }
 
     calculatePrice(): number {

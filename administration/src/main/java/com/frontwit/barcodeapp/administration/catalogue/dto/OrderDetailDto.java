@@ -4,6 +4,7 @@ import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -24,4 +25,6 @@ public class OrderDetailDto {
     private List<FrontDto> fronts;
     private boolean completed;
     private boolean packed;
+    private Long deadline;
+    private BigDecimal price;
 }

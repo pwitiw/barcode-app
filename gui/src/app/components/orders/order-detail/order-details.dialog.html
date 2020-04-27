@@ -44,15 +44,27 @@
 
             <mat-divider class="mat-divider"></mat-divider>
 
-            <button *ngIf="!order.completed" mat-raised-button color="primary" (click)="statusChanged()">Zakończ
+            <div class="deadline-form">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" placeholder="Termin realizacji"
+                           [(ngModel)]="deadline" name="deadline">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                    <input type="number" min="0" matInput placeholder="Wycena (zł)" [(ngModel)]="order.price"
+                           name="price">
+                </mat-form-field>
+                <button mat-raised-button color="primary" (click)="updateOrder()">Zapisz</button>
+            </div>
+
+            <mat-divider class="mat-divider"></mat-divider>
+
+            <button *ngIf="!order.completed" mat-raised-button color="success" (click)="statusChanged()">Oznacz jako zrealizowane
             </button>
-            <button *ngIf="order.completed" mat-raised-button color="warn" (click)="statusChanged()">Wznów</button>
+            <button *ngIf="order.completed" mat-raised-button color="warn" (click)="statusChanged()">Cofnij do produkcji
+            </button>
 
-            <!--        <mat-divider class="mat-divider"></mat-divider>-->
-
-            <!--        <mat-form-field>-->
-            <!--            <input matInput placeholder="Wycena" [(ngModel)]="order.price" name="price">-->
-            <!--        </mat-form-field>-->
             <!--        <mat-form-field>-->
             <!--            <input matInput placeholder="Plik do wycinki" [(ngModel)]="order.price" name="price">-->
             <!--        </mat-form-field>-->
@@ -89,7 +101,8 @@
                         </div>
                     </div>
                     <div class="front" *ngIf="front.comment">
-                        <icon-with-text [icon]="iconComment" [text]="front.comment" title="Komentarz"></icon-with-text>
+                        <icon-with-text [icon]="iconComment" [text]="front.comment"
+                                        title="Komentarz"></icon-with-text>
                     </div>
                 </div>
             </div>

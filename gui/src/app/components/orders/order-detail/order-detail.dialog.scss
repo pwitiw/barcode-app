@@ -2,7 +2,7 @@
   .close {
     margin: -20px;
 
-   &:focus {
+    &:focus {
       outline: 0;
     }
   }
@@ -20,6 +20,17 @@
       display: flex;
       flex-direction: column;
       margin: $margin-lg;
+    }
+
+    .deadline-form {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      > * {
+        display: flex;
+        flex-basis: 30%;
+      }
     }
 
     .front-list {

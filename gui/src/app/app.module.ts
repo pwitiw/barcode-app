@@ -20,34 +20,34 @@ import {SnackBarService} from "./services/snack-bar.service";
 import {RoutesModule} from "./components/routes/routes.module";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
-import { StatisticsComponent } from './components/statistics/statistics.component';
 import {MatTableModule} from "@angular/material/table";
-import {MatPaginatorModule} from "@angular/material/paginator";
-import {RouterModule} from "@angular/router";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
+import {HomeModule} from "./components/home/home.module";
+import {PolishPaginator} from "./services/polish-paginator.service";
 
 @NgModule({
     declarations: [
         AppComponent,
         NavbarComponent,
-        LoginComponent,
-        StatisticsComponent,
+        LoginComponent
     ],
     imports: [
-        BrowserModule,
         AppRoutingModule,
-        HttpClientModule,
-        NgbModule,
-        OrdersModule,
-        RoutesModule,
-        NgxLoadingModule,
-        CommonsModule,
         BrowserAnimationsModule,
+        BrowserModule,
+        CommonsModule,
+        HomeModule,
+        HttpClientModule,
         MatButtonModule,
-        MatSnackBarModule,
-        MatMenuModule,
         MatIconModule,
+        MatMenuModule,
+        MatPaginatorModule,
+        MatSnackBarModule,
         MatTableModule,
-        MatPaginatorModule
+        NgbModule,
+        NgxLoadingModule,
+        OrdersModule,
+        RoutesModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
@@ -60,7 +60,14 @@ import {RouterModule} from "@angular/router";
                 horizontalPosition: 'end',
             }
         },
-        AuthGuardService, RestService, LocalStorageService, LoggedUserService, SnackBarService],
+        {provide: MatPaginatorIntl, useClass: PolishPaginator},
+        AuthGuardService,
+        LoggedUserService,
+        LocalStorageService,
+        PolishPaginator,
+        RestService,
+        SnackBarService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

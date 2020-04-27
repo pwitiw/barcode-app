@@ -19,6 +19,8 @@ import {StageService} from "../stage.service";
 import {OrderRestService} from "../order.rest.service";
 import {SnackBarService} from "../../../services/snack-bar.service";
 import {Front} from "../types/Front";
+import * as moment from "moment";
+import {Moment} from "moment";
 
 @Component({
     selector: 'order-details-dialog',
@@ -37,6 +39,7 @@ export class OrderDetailsDialog {
     iconCutter = faHighlighter;
     iconName = faInfoCircle;
     iconRoute = faMapMarkedAlt;
+    deadline: Moment;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public order: OrderDetails,
@@ -46,6 +49,7 @@ export class OrderDetailsDialog {
     }
 
     ngOnInit() {
+        this.deadline = moment(this.order.deadline);
     }
 
     getBorderColor(front: Front): string {
@@ -72,14 +76,34 @@ export class OrderDetailsDialog {
     }
 
     statusChanged(): void {
+        const text = "Zmiana statusu";
         this.orderRestService.changeStatus(this.order.id)
             .subscribe(result => {
-                if (result) {
-                    this.order.completed = !this.order.completed;
-                    this.snackBarService.success("Status zmieniono pomyślnie")
-                } else {
-                    this.snackBarService.failure("Zmiana statusu nie powiodła się")
-                }
+                this.order.completed = !this.order.completed;
+                this.displayResponseMsg(result, text)
             });
     }
+
+    updateOrder() {
+        const text = "Aktualizacja zamówienia";
+        const orderUpdate: UpdateOrder = {
+            deadline: this.deadline.valueOf(),
+            price: this.order.price
+        };
+        this.orderRestService.updateOrder(this.order.id, orderUpdate)
+            .subscribe(result => this.displayResponseMsg(result, text))
+    }
+
+    displayResponseMsg(result: boolean, text: string): void {
+        if (result) {
+            this.snackBarService.success(`${text} powiodła się`);
+        } else {
+            this.snackBarService.failure(`${text} nie powiodła się`);
+        }
+    }
+}
+
+export interface UpdateOrder {
+    deadline: number;
+    price: number;
 }
