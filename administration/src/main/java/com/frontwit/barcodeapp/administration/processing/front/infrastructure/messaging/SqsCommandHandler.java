@@ -13,7 +13,6 @@ import com.frontwit.barcodeapp.administration.processing.front.application.dto.P
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public class SqsCommandHandler {
                 .build();
     }
 
-    @Scheduled(cron = "0 * * * * MON-SAT")
+//    @Scheduled(cron = "0 * * * * MON-SAT")
     public void handleCommands() {
         List<DeleteMessageBatchRequestEntry> messagesForDeletion =
                 sqs.receiveMessage(aRequest())

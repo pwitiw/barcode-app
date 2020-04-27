@@ -6,6 +6,7 @@ import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderSearchCriteria;
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity;
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
+import com.frontwit.barcodeapp.administration.route.planning.dto.DeliveryInfoDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,12 +38,13 @@ public class OrderQuery {
                 .orElseThrow(() -> new IllegalArgumentException(format("No order for id %s", id)));
     }
 
-    public List<DeliveryOrderDto> findOrdersForRoutes(List<String> routes) {
+    public List<DeliveryInfoDto> findOrdersForRoutes(List<String> routes) {
         var query = new Query(new Criteria("route").in(routes));
         var orderEntities = mongoTemplate.find(query, OrderEntity.class);
+
         return orderEntities.stream()
-                .filter(orderEntity -> !orderEntity.isCompleted() & orderEntity.isPacked())
-                .map(entity->entity.orderDeliveryDto(orderEntities));
+                .filter(entity -> !entity.isCompleted() & entity.isPacked())
+                .map(OrderEntity::deliveryInfoDto)
                 .collect(Collectors.toList());
     }
 

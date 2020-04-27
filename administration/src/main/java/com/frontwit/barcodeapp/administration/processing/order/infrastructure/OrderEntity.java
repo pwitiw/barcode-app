@@ -11,6 +11,7 @@ import com.frontwit.barcodeapp.administration.processing.shared.Quantity;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import com.frontwit.barcodeapp.administration.processing.synchronization.TargetFront;
 import com.frontwit.barcodeapp.administration.processing.synchronization.TargetOrder;
+import com.frontwit.barcodeapp.administration.route.planning.dto.DeliveryInfoDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -92,7 +93,7 @@ public class OrderEntity {
         return new OrderDto(id, name, zonedDate, stage, quantity, customer, route, packed);
     }
 
-    public OrderDeliveryDto orderDeliveryDto (List<OrderEntity> entities){
-        return new OrderDeliveryDto();
+    public DeliveryInfoDto deliveryInfoDto (){
+        return new DeliveryInfoDto();
     }
 }

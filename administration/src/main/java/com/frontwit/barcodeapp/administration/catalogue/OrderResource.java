@@ -4,6 +4,7 @@ import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderSearchCriteria;
 import com.frontwit.barcodeapp.administration.processing.front.application.FrontProcessor;
+import com.frontwit.barcodeapp.administration.route.planning.dto.DeliveryInfoDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +38,7 @@ public class OrderResource {
     }
 
     @GetMapping(value = "")
-    List<OrderDetailDto> getOrdersForRoutes(@RequestBody List<String> routes){
+    List<DeliveryInfoDto> getOrdersForRoutes(@RequestBody List<String> routes){
         return orderQuery.findOrdersForRoutes(routes);
     }
 }

@@ -1,19 +1,15 @@
 <div class="routes-component" *ngIf="true">
     <h4 class="title">Kryteria wyszukiwania</h4>
-    <form>
-        <div class="search-form">
-            <mat-form-field>
-                <input matInput placeholder="Trasa" >
-                <!--<input matInput placeholder="Trasa" [(ngModel)]="route" name="route">-->
-            </mat-form-field>
-        </div>
-        <button mat-button color="primary">
-            <mat-icon>search</mat-icon>
-            Szukaj
-        </button>
-    </form>
-
-    <br/>
+    <span>
+        <mat-form-field>
+            <input matInput placeholder="Trasa" [(ngModel)]="routes" name="route">
+        </mat-form-field>
+        <button mat-button color="primary" (click)="search()">
+        <mat-icon>search</mat-icon>
+        Szukaj
+    </button>
+    </span>
+    <br/>\
     <div class="tables">
         <div class="candidate-list">
             <mat-expansion-panel *ngFor="let customer of customers">
