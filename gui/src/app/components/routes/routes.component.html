@@ -53,6 +53,11 @@
                     <span class="label price">{{routeDetail.calculatePrice()}} zł</span>
                 </div>
             </div>
+            <p>
+                <mat-form-field *ngIf="routeDetails.length > 0">
+                    <input matInput placeholder="Nazwa trasy" [(ngModel)]="routeNamePdf" name="routeNamePdf">
+                </mat-form-field>
+            </p>
             <button *ngIf="routeDetails.length > 0" mat-button color="primary" (click)="generateRouteDocument()">
                 <mat-icon>picture_as_pdf</mat-icon>
                 Generuj trase

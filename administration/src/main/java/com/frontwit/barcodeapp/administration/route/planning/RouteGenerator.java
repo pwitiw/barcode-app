@@ -24,7 +24,7 @@ public class RouteGenerator {
     private static final String AMOUNT = "Kwota";
     private static final String COMMENTS = "Uwagi";
     private static final String TOTAL = "Kwota całkowita: %s";
-    private static final String ROUTE = "Trasa ";
+    private static final String ROUTE = "Trasa: ";
 
     private static final int COLUMNS_NR = 6;
     private static final int NR_COL_WIDTH = 50;

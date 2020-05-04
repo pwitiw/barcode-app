@@ -10,6 +10,7 @@ import {SnackBarService} from "../../services/snack-bar.service";
 export class RoutesComponent implements OnInit {
     customers = [];
     routeDetails: DeliveryInformation[] = [];
+    routeNamePdf: string;
     routes: string;
     totalElements: number;
 
@@ -23,32 +24,17 @@ export class RoutesComponent implements OnInit {
         this.routeDetails = [];
         this.restService.get('/api/routes?routes=' + this.routes, {responseType: 'text'})
             .subscribe((response: any) => {
-                    //todo przeanalizuj
-                    //todo dlaczego jak klikne search a po prawej stronie cos bylo to dalej jest???
-                    // todo co jak nie dziala server a pdf generuj klikniemy?
-                    this.customers = [].concat(JSON.parse(response)).map(e => DeliveryInformation.of(e.customer, e.orders, e.paymentType))
-                    this.totalElements = this.customers.length;
-                    this.snackBarService.success("Znaleziono " + this.totalElements + " wyników");
-                });
+                this.customers = [].concat(JSON.parse(response)).map(e => DeliveryInformation.of(e.customer, e.orders, e.paymentType))
+                this.totalElements = this.customers.length;
+                this.snackBarService.success("Znaleziono " + this.totalElements + " wyników");
+            });
     }
 
-    drop(event
-             :
-             CdkDragDrop<string[]>
-    ):
-        void {
-        moveItemInArray(this.routeDetails, event.previousIndex, event.currentIndex
-        )
-        ;
+    drop(event: CdkDragDrop<string[]>): void {
+        moveItemInArray(this.routeDetails, event.previousIndex, event.currentIndex);
     }
 
-    changeAllOrders(isSelected
-                        :
-                        boolean, customer
-                        :
-                        DeliveryInformation
-    ):
-        void {
+    changeAllOrders(isSelected: boolean, customer: DeliveryInformation): void {
         customer.orders.forEach(o => isSelected ? this.addToRoute(customer, o) : this.removeFromRoute(customer, o));
     }
 
@@ -58,44 +44,31 @@ export class RoutesComponent implements OnInit {
         this.restService.post(url,
             {
                 deliveryInfos: this.routeDetails,
-                route: "tw-wroclaw"
+                route: this.routeNamePdf,
             },
             {responseType: 'arraybuffer'})
             .subscribe((response: any) => {
-                const file = new Blob([response.body], {type: mediaType});
-                const fileURL = URL.createObjectURL(file);
-                window.open(fileURL);
-                console.info(response);
+                if (response.body) {
+                    const file = new Blob([response.body], {type: mediaType});
+                    const fileURL = URL.createObjectURL(file);
+                    window.open(fileURL);
+                    console.info(response);
+                }
             });
     }
 
-
-    getSelectedCustomers()
-        :
-        DeliveryInformation[] {
+    getSelectedCustomers(): DeliveryInformation[] {
         return this.customers.filter(deliveryInfo => deliveryInfo.isIncludedInPlanning());
     }
 
-    addToRoute(customer
-                   :
-                   DeliveryInformation, order
-                   :
-                   Order
-    ):
-        void {
+    addToRoute(customer: DeliveryInformation, order: Order): void {
         order.isSelected = true;
         if (this.routeDetails.filter(info => info == customer).length == 0) {
             this.routeDetails.push(customer);
         }
     }
 
-    removeFromRoute(customer
-                        :
-                        DeliveryInformation, order
-                        :
-                        Order
-    ):
-        void {
+    removeFromRoute(customer: DeliveryInformation, order: Order): void {
         order.isSelected = false;
         this.routeDetails = this.routeDetails.filter(info => info.isIncludedInPlanning())
     }
