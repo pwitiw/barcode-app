@@ -1,9 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.order.infrastructure;
 
-import com.frontwit.barcodeapp.administration.catalogue.dto.FrontDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.ReminderDto;
+import com.frontwit.barcodeapp.administration.catalogue.dto.*;
 import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy;
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
@@ -12,7 +9,6 @@ import com.frontwit.barcodeapp.administration.processing.shared.Quantity;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import com.frontwit.barcodeapp.administration.processing.synchronization.TargetFront;
 import com.frontwit.barcodeapp.administration.processing.synchronization.TargetOrder;
-import com.frontwit.barcodeapp.administration.route.planning.dto.DeliveryInfoDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -24,6 +20,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -102,7 +99,11 @@ public class OrderEntity {
         return new ReminderDto(name, customer, deadline.toEpochMilli());
     }
 
-    public DeliveryInfoDto deliveryInfoDto (){
-        return new DeliveryInfoDto();
+
+    public OrderInfoDto deliveryOrderDto() {
+        double price = Optional.ofNullable(this.price)
+                .orElse(BigDecimal.valueOf(0d))
+                .doubleValue();
+        return new OrderInfoDto(name, quantity, price);
     }
 }

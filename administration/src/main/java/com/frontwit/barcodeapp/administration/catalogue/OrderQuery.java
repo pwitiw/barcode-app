@@ -3,7 +3,6 @@ package com.frontwit.barcodeapp.administration.catalogue;
 import com.frontwit.barcodeapp.administration.catalogue.dto.*;
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity;
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
-import com.frontwit.barcodeapp.administration.route.planning.dto.DeliveryInfoDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
@@ -36,14 +36,23 @@ public class OrderQuery {
                 .orElseThrow(() -> new IllegalArgumentException(format("No order for id %s", id)));
     }
 
-    public List<DeliveryInfoDto> findOrdersForRoutes(List<String> routes) {
+    List<OrdersForCustomerDto> findOrdersForRoutes(List<String> routes) {
         var query = new Query(new Criteria("route").in(routes));
         var orderEntities = mongoTemplate.find(query, OrderEntity.class);
 
         return orderEntities.stream()
-                .filter(entity -> !entity.isCompleted() & entity.isPacked())
-                .map(OrderEntity::deliveryInfoDto)
-                .collect(Collectors.toList());
+//                .filter(entity -> !entity.isCompleted() & entity.isPacked())
+                .collect(Collectors.groupingBy(OrderEntity::getCustomer))
+                .entrySet()
+                .stream()
+                .map(entry -> new OrdersForCustomerDto(entry.getKey(), mapToOrderInfoDto(entry.getValue()), "FV"))
+                .collect(toList());
+    }
+
+    private List<OrderInfoDto> mapToOrderInfoDto(List<OrderEntity> entities) {
+        return entities.stream()
+                .map(OrderEntity::deliveryOrderDto)
+                .collect(toList());
     }
 
     private List<FrontDto> findFrontsForOrderId(long orderId) {
@@ -51,7 +60,7 @@ public class OrderQuery {
         var frontEntities = mongoTemplate.find(query, FrontEntity.class);
         return frontEntities.stream()
                 .map(FrontEntity::dto)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     Page<OrderDto> find(Pageable pageable, OrderSearchCriteria searchCriteria) {

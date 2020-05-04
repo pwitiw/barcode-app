@@ -2,7 +2,6 @@ package com.frontwit.barcodeapp.administration.catalogue;
 
 import com.frontwit.barcodeapp.administration.catalogue.dto.*;
 import com.frontwit.barcodeapp.administration.processing.front.application.FrontProcessor;
-import com.frontwit.barcodeapp.administration.route.planning.dto.DeliveryInfoDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,8 +44,10 @@ public class OrderResource {
         return orderQuery.findDeadlines(pageable);
     }
 
-    @GetMapping(value = "")
-    List<DeliveryInfoDto> getOrdersForRoutes(@RequestBody List<String> routes){
-        return orderQuery.findOrdersForRoutes(routes);
+    @GetMapping(value = "/routes")
+    List<OrdersForCustomerDto> getOrdersForRoutes(@RequestParam String routes) {
+        routes = routes.replaceAll(" ","");
+        List<String> routesList = List.of(routes.split(","));
+        return orderQuery.findOrdersForRoutes(routesList);
     }
 }
