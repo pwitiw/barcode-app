@@ -1,11 +1,11 @@
 <div class="home">
     <div class="reminders">
         <h4 class="title">Terminy zamówień</h4>
-        <table mat-table [dataSource]="remindersPage.content" class="mat-elevation-z8">
+        <table mat-table [dataSource]="reminders" class="mat-elevation-z8">
 
             <ng-container matColumnDef="index" class="column">
                 <th mat-header-cell *matHeaderCellDef>L.p.</th>
-                <td mat-cell *matCellDef="let element; let i = index;">{{i + 1}}</td>
+                <td mat-cell *matCellDef="let element; let i = index;">{{getIndex(i)}}</td>
             </ng-container>
 
             <ng-container matColumnDef="name" class="column name">
@@ -27,9 +27,9 @@
             <tr mat-row *matRowDef="let row; columns: remindersColumns"></tr>
         </table>
 
-        <mat-paginator [length]="remindersPage.totalElements"
-                       [pageSize]="10"
-                       [pageSizeOptions]="[10, 25, 100]"
+        <mat-paginator [length]="totalElements"
+                       [pageSize]="size"
+                       [pageSizeOptions]="sizeOptions"
                        (page)="paginationChanged($event)">
         </mat-paginator>
     </div>

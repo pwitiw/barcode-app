@@ -4,6 +4,7 @@ import com.frontwit.barcodeapp.administration.catalogue.dto.*;
 import com.frontwit.barcodeapp.administration.processing.front.application.FrontProcessor;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,7 @@ public class OrderResource {
     }
 
     @GetMapping("/orders/reminders")
-    public Page<ReminderDto> getReminders(Pageable pageable) {
-        return orderQuery.findDeadlines(pageable);
+    public Page<ReminderDto> getReminders(@RequestParam Integer page, @RequestParam Integer size) {
+        return orderQuery.findDeadlines(PageRequest.of(page, size));
     }
 }

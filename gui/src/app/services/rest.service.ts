@@ -25,13 +25,13 @@ export class RestService {
             ) as Observable<HttpResponse<T>>;
     }
 
-    public get<T>(url, options?): Observable<T> {
+    public get<T>(url, options?): Observable<HttpResponse<T>> {
         setTimeout(() => this.loadingService.show(), 500);
-        return this.http.get(url, options)
+        return this.http.get(url, {observe: 'response', ...options})
             .pipe(
                 tap(() => this.loadingService.hide()),
                 catchError(error => this.handleError(error))
-            ) as Observable<T>;
+            ) as Observable<HttpResponse<T>>;
     }
 
     public put<T>(url: string, body: any): Observable<HttpResponse<T>> {

@@ -1,5 +1,4 @@
 import {NgModule} from "@angular/core";
-import {OrderRow} from './order-row/order-row.component';
 import {OrdersComponent} from './orders.component';
 import {OrderRestService} from './order.rest.service';
 import {SearchCriteriaComponent} from './search-criteria/search-criteria.component';
@@ -23,10 +22,11 @@ import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from "@angular/mat
 import {MatListModule} from "@angular/material/list";
 import {OrderDetailsDialog} from "./order-detail/order-details.dialog";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
     declarations: [
-        OrderRow,
         OrdersComponent,
         SearchCriteriaComponent,
         OrderDetailsDialog
@@ -47,7 +47,9 @@ import {MatDialogModule} from "@angular/material/dialog";
         MatDatepickerModule,
         MatMomentDateModule,
         MatListModule,
-        MatDialogModule
+        MatDialogModule,
+        MatTableModule,
+        MatPaginatorModule
     ],
     entryComponents: [OrderDetailsDialog],
     providers: [

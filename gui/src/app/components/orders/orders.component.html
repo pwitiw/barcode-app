@@ -4,15 +4,45 @@
     </search-criteria>
     <div class="order-list" *ngIf="orders">
         <h4 class="title">Lista zamówień</h4>
-        <order-row
-                *ngFor="let order of orders | paginate:{totalItems: totalElements, itemsPerPage:size, currentPage: page}"
-                [order]="order"
-                (showDetailsClicked)="handleShowDetails(order)"
-                [isSelected]="order.id === selectedId">
-        </order-row>
+        <table mat-table [dataSource]="orders" class="mat-elevation-z8">
+            <ng-container matColumnDef="index" class="column">
+                <th mat-header-cell *matHeaderCellDef>L.p.</th>
+                <td mat-cell *matCellDef="let i = index;">{{getIndex(i)}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="name" class="column name">
+                <th mat-header-cell *matHeaderCellDef>Zamówienie</th>
+                <td mat-cell *matCellDef="let order"> {{order.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="lastProcessedOn" class="column customer">
+                <th mat-header-cell *matHeaderCellDef>Data spakowania</th>
+                <td mat-cell
+                    *matCellDef="let order"> {{order.lastProcessedOn ? (order.lastProcessedOn | date:'dd/MM/yyyy') : ' - - - - - - - - - - '}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="stage" class="column">
+                <th mat-header-cell *matHeaderCellDef>Etap produkcji</th>
+                <td mat-cell *matCellDef="let order"> {{stageService.convertToView(order.stage)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="customer" class="column">
+                <th mat-header-cell *matHeaderCellDef>Klient</th>
+                <td mat-cell *matCellDef="let order"> {{order.customer}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="route" class="column">
+                <th mat-header-cell *matHeaderCellDef>Trasa</th>
+                <td mat-cell *matCellDef="let order"> {{order.route}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="orderColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: orderColumns" (click)="handleShowDetails(row)"></tr>
+        </table>
+        <mat-paginator #paginator [length]="totalElements"
+                       [pageSize]="size"
+                       [pageSizeOptions]="sizeOptions"
+                       (page)="paginationChanged($event)">
+        </mat-paginator>
     </div>
-    <pagination-controls *ngIf="showPagination()" class="pagination"
-                         previousLabel="Poprzednia"
-                         nextLabel="Następna"
-                         (pageChange)="handlePageChanged($event)"></pagination-controls>
 </div>

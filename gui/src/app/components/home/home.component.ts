@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Page} from "../types/Page";
 import {PageEvent} from "@angular/material/paginator";
 import {RestService} from "../../services/rest.service";
+import {getIndex, PolishPaginator} from "../../services/polish-paginator.service";
 
 @Component({
     selector: 'app-home',
@@ -9,14 +9,17 @@ import {RestService} from "../../services/rest.service";
 })
 export class HomeComponent implements OnInit {
     remindersColumns = ['index', 'name', 'customer', 'deadline'];
-    remindersPage: Page<OrderReminder[]>;
+    page: number;
+    sizeOptions = PolishPaginator.PAGE_SIZE_OPTIONS;
+    size: number;
+    totalElements: number;
+    reminders: OrderReminder[];
+    getIndex = (i) => getIndex(i, this.page, this.size);
 
     constructor(private restService: RestService) {
-        this.remindersPage = {
-            page: 1,
-            size: 10,
-            totalElements: 24
-        };
+        this.page = 0;
+        this.size = this.sizeOptions[0];
+        this.totalElements = 0;
     }
 
     ngOnInit() {
@@ -24,15 +27,18 @@ export class HomeComponent implements OnInit {
     }
 
     paginationChanged($event: PageEvent): void {
-        this.remindersPage.page = $event.pageIndex;
-        this.remindersPage.size = $event.pageSize;
+        this.page = $event.pageIndex;
+        this.size = $event.pageSize;
         this.loadDeadlines();
     }
 
     loadDeadlines(): void {
-        this.restService.get<Page<OrderReminder[]>>(`/api/orders/reminders?page=&${this.remindersPage.page}&size=${this.remindersPage.size}`)
-            .subscribe(page => {
-                this.remindersPage = page;
+        this.restService.get<any>(`/api/orders/reminders?page=${this.page}&size=${this.size}`)
+            .subscribe(response => {
+                const result = response.body;
+                this.page = result.number;
+                this.totalElements = result.totalElements;
+                this.reminders = result.content;
             });
     }
 }

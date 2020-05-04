@@ -11,12 +11,25 @@
   }
 
   .order-list {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 50%;
+
     overflow-y: auto;
     overflow-x: hidden;
-    grid-row: 3 / 7;
-    grid-column: 1 / 4;
     margin-right: $margin-sm;
     margin-top: $margin-sm;
+
+    .mat-row {
+      &:hover {
+        background: $selected-color;
+        cursor: pointer;
+      }
+
+      &:active {
+        background: white;
+      }
+    }
   }
 
   .pagination {

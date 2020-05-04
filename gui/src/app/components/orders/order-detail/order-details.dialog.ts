@@ -76,7 +76,7 @@ export class OrderDetailsDialog {
     }
 
     statusChanged(): void {
-        const text = "Zmiana statusu";
+        const text = "Zmieniono status";
         this.orderRestService.changeStatus(this.order.id)
             .subscribe(result => {
                 this.order.completed = !this.order.completed;
@@ -85,7 +85,7 @@ export class OrderDetailsDialog {
     }
 
     updateOrder() {
-        const text = "Aktualizacja zamówienia";
+        const text = "Zapisano zmiany";
         const orderUpdate: UpdateOrder = {
             deadline: this.deadline.valueOf(),
             price: this.order.price
@@ -96,7 +96,7 @@ export class OrderDetailsDialog {
 
     displayResponseMsg(result: boolean, text: string): void {
         if (result) {
-            this.snackBarService.success(`${text} powiodła się`);
+            this.snackBarService.success(text);
         } else {
             this.snackBarService.failure(`${text} nie powiodła się`);
         }

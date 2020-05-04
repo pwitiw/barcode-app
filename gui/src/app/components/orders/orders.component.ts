@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {SimpleOrder} from 'src/app/components/orders/types/SimpleOrder';
 import {OrderRestService} from 'src/app/components/orders/order.rest.service';
 import {SearchCriteria} from "./types/SearchCriteria";
@@ -6,51 +6,62 @@ import {Page} from "../types/Page";
 import {SnackBarService} from "../../services/snack-bar.service";
 import {MatDialog} from "@angular/material/dialog";
 import {OrderDetailsDialog} from "./order-detail/order-details.dialog";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {getIndex, PolishPaginator} from "../../services/polish-paginator.service";
+import {StageService} from "./stage.service";
 
 @Component({
     selector: 'app-orders',
     templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
-    static readonly MAX_ORDERS = 20;
+    orderColumns = ['index', 'name', 'lastProcessedOn', 'stage', 'customer', 'route'];
     criteria: SearchCriteria;
-    totalElements: number;
+    @ViewChild("paginator", {} as any)
+    paginator: MatPaginator;
     page: number;
-    selectedId: number;
-    size: number;
+    sizeOptions = PolishPaginator.PAGE_SIZE_OPTIONS;
+    size;
+    totalElements: number;
     orders: SimpleOrder[];
+    getIndex = (i) => getIndex(i, this.page, this.size);
 
     constructor(private orderService: OrderRestService,
                 private snackBarService: SnackBarService,
+                public stageService: StageService,
                 private dialog: MatDialog) {
         this.criteria = {};
-        this.size = OrdersComponent.MAX_ORDERS;
-        this.page = 1;
+        this.page = 0;
+        this.size = this.sizeOptions[0];
         this.totalElements = 0;
     }
 
     ngOnInit(): void {
-        this.handleSearchClicked();
+        this.getOrders()
     }
 
-    handlePageChanged($event) {
-        this.page = $event;
-        this.handleSearchClicked();
+    handleSearchClicked(criteria: SearchCriteria): void {
+        const displayOrderFoundSnackBar = () => {
+            this.snackBarService.success("Znaleziono " + this.totalElements + " wyników");
+        };
+        this.criteria = criteria;
+        this.paginator.firstPage();
+        this.getOrders(displayOrderFoundSnackBar);
     }
 
-    handleSearchClicked(criteria?: SearchCriteria): void {
-        this.criteria = criteria ? criteria : this.criteria;
+    getOrders(consumer?: () => void): void {
         const page: Page<SearchCriteria> = {
             content: this.criteria,
-            page: this.page - 1,
+            page: this.page,
             size: this.size,
             totalElements: this.totalElements
         };
         this.orderService.getOrders(page).subscribe(result => {
             if (result) {
+                this.page = result.number;
                 this.totalElements = result.totalElements;
                 this.orders = result.content;
-                criteria && this.snackBarService.success("Znaleziono " + this.totalElements + " wyników");
+                consumer && consumer();
             }
         });
     }
@@ -67,14 +78,18 @@ export class OrdersComponent implements OnInit {
 
     handleShowDetails(order: SimpleOrder): void {
         this.orderService.getOrderDetails(order.id).subscribe(order => {
-            this.dialog.open(OrderDetailsDialog, {
-                minWidth: '90%',
-                data: order
-            });
+            if (order != null) {
+                this.dialog.open(OrderDetailsDialog, {
+                    minWidth: '90%',
+                    data: order
+                });
+            }
         });
     }
 
-    showPagination() {
-        return this.totalElements > this.size;
+    paginationChanged($event: PageEvent): void {
+        this.page = $event.pageIndex;
+        this.size = $event.pageSize;
+        this.getOrders();
     }
 }
