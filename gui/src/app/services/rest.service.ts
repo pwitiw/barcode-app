@@ -45,7 +45,7 @@ export class RestService {
 
     private handleError<T>(error: any): Observable<T> {
         this.loadingService.hide();
-        this.snackBarService.failure("Błąd", "Wystąpił błąd serwera");
+        this.snackBarService.failure("Wystąpił błąd serwera");
         console.info(error);
         return of(error);
     };

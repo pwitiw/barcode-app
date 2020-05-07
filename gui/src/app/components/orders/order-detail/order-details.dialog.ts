@@ -75,15 +75,6 @@ export class OrderDetailsDialog {
         return front.processings.filter(p => front.stage === p.stage).length;
     }
 
-    statusChanged(): void {
-        const text = "Zmieniono status";
-        this.orderRestService.changeStatus(this.order.id)
-            .subscribe(result => {
-                this.order.completed = !this.order.completed;
-                this.displayResponseMsg(result, text)
-            });
-    }
-
     updateOrder() {
         const text = "Zapisano zmiany";
         const orderUpdate: UpdateOrder = {

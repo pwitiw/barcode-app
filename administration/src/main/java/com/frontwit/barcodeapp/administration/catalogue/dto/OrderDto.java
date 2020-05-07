@@ -18,4 +18,5 @@ public class OrderDto {
     private String customer;
     private String route;
     private boolean packed;
+    private boolean completed;
 }

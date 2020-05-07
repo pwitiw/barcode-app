@@ -20,6 +20,17 @@
     margin-right: $margin-sm;
     margin-top: $margin-sm;
 
+    .packed-icon {
+      position: absolute;
+      left: 10px;
+      color: green;
+    }
+
+    .mat-column-completed {
+      text-align: right;
+      justify-content: flex-end;
+    }
+
     .mat-row {
       &:hover {
         background: $selected-color;

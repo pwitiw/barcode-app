@@ -8,7 +8,7 @@ export class SnackBarService {
     }
 
     success(message: string, action?: string): void {
-        this.snackBar.open(message, action, {duration:100000, panelClass: ["success"]});
+        this.snackBar.open(message, action, {panelClass: ["success"]});
     }
 
     failure(message: string, action?: string) {

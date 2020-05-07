@@ -15,7 +15,7 @@ import {StageService} from "./stage.service";
     templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
-    orderColumns = ['index', 'name', 'lastProcessedOn', 'stage', 'customer', 'route'];
+    orderColumns = ['index', 'name', 'quantity', 'lastProcessedOn', 'stage', 'customer', 'route', 'completed'];
     criteria: SearchCriteria;
     @ViewChild("paginator", {} as any)
     paginator: MatPaginator;
@@ -26,7 +26,7 @@ export class OrdersComponent implements OnInit {
     orders: SimpleOrder[];
     getIndex = (i) => getIndex(i, this.page, this.size);
 
-    constructor(private orderService: OrderRestService,
+    constructor(private orderRestService: OrderRestService,
                 private snackBarService: SnackBarService,
                 public stageService: StageService,
                 private dialog: MatDialog) {
@@ -56,7 +56,7 @@ export class OrdersComponent implements OnInit {
             size: this.size,
             totalElements: this.totalElements
         };
-        this.orderService.getOrders(page).subscribe(result => {
+        this.orderRestService.getOrders(page).subscribe(result => {
             if (result) {
                 this.page = result.number;
                 this.totalElements = result.totalElements;
@@ -67,7 +67,7 @@ export class OrdersComponent implements OnInit {
     }
 
     handleFetchClicked(): void {
-        this.orderService.synchronize().subscribe(result => {
+        this.orderRestService.synchronize().subscribe(result => {
             if (result != null) {
                 this.snackBarService.success("Pobrano " + result + " zamowień");
             } else {
@@ -77,7 +77,7 @@ export class OrdersComponent implements OnInit {
     }
 
     handleShowDetails(order: SimpleOrder): void {
-        this.orderService.getOrderDetails(order.id).subscribe(order => {
+        this.orderRestService.getOrderDetails(order.id).subscribe(order => {
             if (order != null) {
                 this.dialog.open(OrderDetailsDialog, {
                     minWidth: '90%',
@@ -91,5 +91,17 @@ export class OrdersComponent implements OnInit {
         this.page = $event.pageIndex;
         this.size = $event.pageSize;
         this.getOrders();
+    }
+
+    statusChanged(order: SimpleOrder) {
+        this.orderRestService.changeStatus(order.id)
+            .subscribe(result => {
+                if (result) {
+                    this.snackBarService.success("Zmieniono status");
+                } else {
+                    order.completed = !order.completed;
+                    this.snackBarService.failure("Zmiana statusu zamówienia nie powiodła się");
+                }
+            });
     }
 }

@@ -58,13 +58,6 @@
                 <button mat-raised-button color="primary" (click)="updateOrder()">Zapisz</button>
             </div>
 
-            <mat-divider class="mat-divider"></mat-divider>
-
-            <button *ngIf="!order.completed" mat-raised-button color="success" (click)="statusChanged()">Oznacz jako zrealizowane
-            </button>
-            <button *ngIf="order.completed" mat-raised-button color="warn" (click)="statusChanged()">Cofnij do produkcji
-            </button>
-
             <!--        <mat-form-field>-->
             <!--            <input matInput placeholder="Plik do wycinki" [(ngModel)]="order.price" name="price">-->
             <!--        </mat-form-field>-->

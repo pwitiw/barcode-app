@@ -7,4 +7,5 @@ export interface SimpleOrder {
     customer: string;
     route: string;
     packed: boolean;
+    completed: boolean;
 }
