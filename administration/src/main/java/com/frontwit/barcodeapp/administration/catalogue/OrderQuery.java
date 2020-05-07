@@ -39,9 +39,8 @@ public class OrderQuery {
     List<OrdersForCustomerDto> findOrdersForRoutes(List<String> routes) {
         var query = new Query(new Criteria("route").in(routes));
         var orderEntities = mongoTemplate.find(query, OrderEntity.class);
-
         return orderEntities.stream()
-//                .filter(entity -> !entity.isCompleted() & entity.isPacked())
+                .filter(entity -> !entity.isCompleted() && entity.isPacked())
                 .collect(Collectors.groupingBy(OrderEntity::getCustomer))
                 .entrySet()
                 .stream()

@@ -591,6 +591,23 @@ db.order.insertMany([
         "quantity": 2,
         "lastProcessedOn": ISODate("2019-12-22T23:00:00.000+0000"),
         "_class": "com.frontwit.barcodeapp.administration.infrastructure.database.OrderEntity"
+    }, {
+        "_id": 3,
+        "name": "TW 201",
+        "orderedAt": ISODate("2019-06-07T22:00:00.000+0000"),
+        "color": "BIAŁY",
+        "size": "18MM",
+        "stage": "BASE",
+        "cutter": "PŁYTA",
+        "comment": "express",
+        "customer": "Chrabąszcz",
+        "route": "Wrocław",
+        "completed": false,
+        "packed": true,
+        "quantity": 2,
+        "price": 300.02,
+        "lastProcessedOn": ISODate("2019-12-22T23:00:00.000+0000"),
+        "_class": "com.frontwit.barcodeapp.administration.infrastructure.database.OrderEntity"
     }
 ]);
 db.front.insertMany([
@@ -621,6 +638,23 @@ db.front.insertMany([
         "orderId": 2,
         "height": 100,
         "width": 200,
+        "quantity": 1,
+        "stage": "BASE",
+        "comment": "casadas",
+        "processings": [
+            {
+                "stage": "PACKING",
+                "dateTime": ISODate("2019-12-21T23:09:35.563+0000")
+            }
+        ],
+        "amendments": [],
+        "_class": "com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity"
+    },
+    {
+        "_id": 301,
+        "orderId": 3,
+        "height": 220,
+        "width": 204,
         "quantity": 1,
         "stage": "BASE",
         "comment": "casadas",

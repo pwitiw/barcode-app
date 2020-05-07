@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api")
 public class RouteController {
@@ -19,7 +21,7 @@ public class RouteController {
     }
 
     @PostMapping(value = "/route", produces = MediaType.APPLICATION_PDF_VALUE)
-    public byte[] generateRouteSummary(@RequestBody RouteInfoDto routeInfoDto) throws DocumentException {
+    public byte[] generateRouteSummary(@RequestBody RouteInfoDto routeInfoDto) throws DocumentException, IOException {
         var routeReportDetails = RouteDetails.of(routeInfoDto);
         return routeGenerator.generateRouteSummary(routeReportDetails);
     }

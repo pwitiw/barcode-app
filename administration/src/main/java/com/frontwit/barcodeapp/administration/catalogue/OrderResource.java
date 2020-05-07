@@ -46,7 +46,7 @@ public class OrderResource {
 
     @GetMapping(value = "/routes")
     List<OrdersForCustomerDto> getOrdersForRoutes(@RequestParam String routes) {
-        routes = routes.replaceAll(" ","");
+        routes = routes.trim();
         List<String> routesList = List.of(routes.split(","));
         return orderQuery.findOrdersForRoutes(routesList);
     }

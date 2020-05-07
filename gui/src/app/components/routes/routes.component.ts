@@ -12,22 +12,30 @@ export class RoutesComponent implements OnInit {
     routeDetails: DeliveryInformation[] = [];
     routeNamePdf: string;
     routes: string;
-    totalElements: number;
 
-    constructor(private restService: RestService, private snackBarService: SnackBarService) {
+    constructor(private restService: RestService,
+                private snackBarService: SnackBarService) {
     }
 
     ngOnInit() {
     }
 
     search(): void {
-        this.routeDetails = [];
-        this.restService.get('/api/routes?routes=' + this.routes, {responseType: 'text'})
+        const url = '/api/routes?routes=';
+        this.restService.get(url + this.routes, {responseType: 'text'})
             .subscribe((response: any) => {
-                this.customers = [].concat(JSON.parse(response)).map(e => DeliveryInformation.of(e.customer, e.orders, e.paymentType))
-                this.totalElements = this.customers.length;
-                this.snackBarService.success("Znaleziono " + this.totalElements + " wyników");
+                if (response) {
+                    this.routeDetails = [];
+                    this.mapToDeliveryInfo(response);
+                    this.snackBarService.success("Znaleziono " + this.customers.length + " wyników");
+                }
             });
+    }
+
+    private mapToDeliveryInfo(response: any): void {
+        this.customers = []
+            .concat(JSON.parse(response))
+            .map(e => DeliveryInformation.of(e.customer, e.orders, e.paymentType))
     }
 
     drop(event: CdkDragDrop<string[]>): void {
