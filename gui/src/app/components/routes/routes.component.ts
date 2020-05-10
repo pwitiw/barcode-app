@@ -23,9 +23,9 @@ export class RoutesComponent implements OnInit {
     search(): void {
         this.restService.get('/api/routes?routes=' + this.routes, {responseType: 'text'})
             .subscribe((response: any) => {
-                if (response) {
+                if (response.body) {
                     this.routeDetails = [];
-                    this.mapToDeliveryInfo(response);
+                    this.mapToDeliveryInfo(response.body);
                     this.snackBarService.success("Znaleziono " + this.customers.length + " wyników");
                 }
             });
