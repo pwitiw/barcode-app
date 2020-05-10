@@ -6,8 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 enum SettlementType {
     INVOICE("Faktura VAT"),
-    PROOF_OF_PAYMENT("KP"),
-    NONE("");
+    PROOF_OF_PAYMENT("KP");
 
     static SettlementType of(String value) {
         if ("KP".equals(value)) {
@@ -16,7 +15,8 @@ enum SettlementType {
         if ("FV".equals(value)) {
             return INVOICE;
         }
-        return NONE;
+        //TODO we are waiting for settlement type in DB
+        return PROOF_OF_PAYMENT;
     }
 
     @Getter

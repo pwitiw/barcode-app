@@ -5,12 +5,14 @@ import com.frontwit.barcodeapp.administration.route.planning.dto.DeliveryOrderDt
 import com.frontwit.barcodeapp.administration.route.planning.dto.RouteInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ToString
 class RouteDetails {
 
     private final List<Report> reports;
@@ -32,6 +34,7 @@ class RouteDetails {
         return new RouteDetails(reports, route);
     }
 
+    @ToString
     @AllArgsConstructor
     static class Report {
         @Getter

@@ -8,7 +8,7 @@ class RouteConfiguration {
 
     @Bean
     public RouteGenerator routeReportGenerator() {
-        return new RouteGenerator(new RouteTable());
+        return new RouteGenerator(new RouteTable(new RoutePdfParts()), new RoutePdfParts());
     }
 
 }
