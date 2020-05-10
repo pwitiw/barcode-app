@@ -5,12 +5,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Calendar;
 
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
-import static java.time.ZoneOffset.UTC;
 import static java.util.Objects.nonNull;
 import static org.springframework.util.StringUtils.isEmpty;
 

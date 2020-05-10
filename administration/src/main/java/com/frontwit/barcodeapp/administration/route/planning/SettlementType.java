@@ -15,7 +15,8 @@ enum SettlementType {
         if ("FV".equals(value)) {
             return INVOICE;
         }
-        throw new IllegalArgumentException("Brak danych");
+        //TODO we are waiting for settlement type in DB
+        return PROOF_OF_PAYMENT;
     }
 
     @Getter
