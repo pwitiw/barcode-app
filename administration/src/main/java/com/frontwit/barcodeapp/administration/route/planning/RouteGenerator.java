@@ -28,12 +28,12 @@ public class RouteGenerator {
     private static final int NO_AMOUNT = 0;
 
     private final RouteTable routeTable;
-    private final RoutePdfParts routePdfParts;
+    private final RoutePdfParts pdfParts;
 
     RouteGenerator(RouteTable routeTable,
-                   RoutePdfParts routePdfParts) {
+                   RoutePdfParts pdfParts) {
         this.routeTable = routeTable;
-        this.routePdfParts = routePdfParts;
+        this.pdfParts = pdfParts;
     }
 
     byte[] generateRouteSummary(RouteDetails reportDetails) {
@@ -45,7 +45,7 @@ public class RouteGenerator {
             createPdf(document, reportDetails);
             document.close();
         } catch (DocumentException e) {
-            LOG.warn("Problem with pdf document creation occurred {}", reportDetails);
+            LOG.warn("Problem with pdfParts document creation occurred {}", reportDetails);
             throw new RouteGenerationException();
         }
         return out.toByteArray();
@@ -61,19 +61,19 @@ public class RouteGenerator {
 
     private void addTitle(Document document, RouteDetails reportDetails) throws DocumentException {
         String name = reportDetails.getRoute() == null ? EMPTY_STRING : reportDetails.getRoute();
-        Paragraph title = routePdfParts.createParagraphWithName(ROUTE + name, TITLE_SIZE);
+        Paragraph title = pdfParts.createParagraph(ROUTE + name, TITLE_SIZE);
         document.add(title);
-        document.add(routePdfParts.createSpace(SPACE_SMALL));
+        document.add(pdfParts.createSpace(SPACE_SMALL));
     }
 
     private void addSummary(Document document, List<RouteDetails.Report> reports) throws DocumentException {
-        document.add(routePdfParts.createSpace(SPACE_BIG));
+        document.add(pdfParts.createSpace(SPACE_BIG));
         BigDecimal total = reports.stream()
                 .map(RouteDetails.Report::getAmount)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.valueOf(NO_AMOUNT));
         Chunk chunk = new Chunk(format(TOTAL, total.setScale(2, RoundingMode.HALF_EVEN)));
-        Paragraph p = routePdfParts.createParagraphWithName(String.valueOf(chunk), HEADER_SIZE);
+        Paragraph p = pdfParts.createParagraph(String.valueOf(chunk), HEADER_SIZE);
         document.add(p);
     }
 }

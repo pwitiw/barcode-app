@@ -28,10 +28,10 @@ class RouteTable {
     private static final int BODY_SIZE = 12;
     private static final int HEADER_SIZE = 13;
 
-    private final RoutePdfParts routePdfParts;
+    private final RoutePdfParts pdfParts;
 
-    RouteTable(RoutePdfParts routePdfParts) {
-        this.routePdfParts = routePdfParts;
+    RouteTable(RoutePdfParts pdfParts) {
+        this.pdfParts = pdfParts;
     }
 
     void addTable(Document document, List<RouteDetails.Report> reports) throws DocumentException {
@@ -52,9 +52,10 @@ class RouteTable {
     private void addBody(List<RouteDetails.Report> reports, PdfPTable table) {
         reports.forEach(report -> {
             table.addCell(String.valueOf(reports.indexOf(report) + 1));
-            table.addCell(routePdfParts.createParagraphWithName(report.getCustomer(), BODY_SIZE));
+            table.addCell(pdfParts.createParagraph(report.getCustomer(), BODY_SIZE));
             table.addCell(report.displayOrders());
-            table.addCell(report.getSettlementType().getDisplayValue());
+            table.addCell(EMPTY_STRING);
+// TODO wating for working settlement type           table.addCell(report.getSettlementType().getDisplayValue());
             table.addCell(report.getAmount().setScale(2, RoundingMode.HALF_EVEN).toString());
             table.addCell(EMPTY_STRING);
         });
@@ -71,7 +72,7 @@ class RouteTable {
 
     private PdfPCell createHeaderCell(String name) {
         PdfPCell cell = new PdfPCell();
-        cell.addElement(routePdfParts.createParagraphWithName(name, HEADER_SIZE));
+        cell.addElement(pdfParts.createParagraph(name, HEADER_SIZE));
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         return cell;
     }
