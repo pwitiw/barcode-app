@@ -21,8 +21,7 @@ export class RoutesComponent implements OnInit {
     }
 
     search(): void {
-        const url = '/api/routes?routes=';
-        this.restService.get(url + this.routes, {responseType: 'text'})
+        this.restService.get('/api/routes?routes=' + this.routes, {responseType: 'text'})
             .subscribe((response: any) => {
                 if (response) {
                     this.routeDetails = [];
@@ -47,9 +46,7 @@ export class RoutesComponent implements OnInit {
     }
 
     generateRouteDocument() {
-        const mediaType = 'application/pdf';
-        const url = '/api/route';
-        this.restService.post(url,
+        this.restService.post('/api/route',
             {
                 deliveryInfos: this.routeDetails,
                 route: this.routeNamePdf,
@@ -57,16 +54,12 @@ export class RoutesComponent implements OnInit {
             {responseType: 'arraybuffer'})
             .subscribe((response: any) => {
                 if (response.body) {
-                    const file = new Blob([response.body], {type: mediaType});
+                    const file = new Blob([response.body], {type: 'application/pdf'});
                     const fileURL = URL.createObjectURL(file);
                     window.open(fileURL);
                     console.info(response);
                 }
             });
-    }
-
-    getSelectedCustomers(): DeliveryInformation[] {
-        return this.customers.filter(deliveryInfo => deliveryInfo.isIncludedInPlanning());
     }
 
     addToRoute(customer: DeliveryInformation, order: Order): void {

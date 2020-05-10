@@ -36,16 +36,22 @@ public class OrderQuery {
                 .orElseThrow(() -> new IllegalArgumentException(format("No order for id %s", id)));
     }
 
-    List<OrdersForCustomerDto> findOrdersForRoutes(List<String> routes) {
-        var query = new Query(new Criteria("route").in(routes));
+    List<OrdersForCustomerDto> findOrdersForRoute(String route) {
+        var query = routeQuery(route);
         var orderEntities = mongoTemplate.find(query, OrderEntity.class);
         return orderEntities.stream()
-                .filter(entity -> !entity.isCompleted() && entity.isPacked())
                 .collect(Collectors.groupingBy(OrderEntity::getCustomer))
                 .entrySet()
                 .stream()
-                .map(entry -> new OrdersForCustomerDto(entry.getKey(), mapToOrderInfoDto(entry.getValue()), "FV"))
+                .map(entry -> new OrdersForCustomerDto(entry.getKey(), mapToOrderInfoDto(entry.getValue()), ""))
                 .collect(toList());
+    }
+
+    private Query routeQuery(String route) {
+        return new Query(new Criteria()
+                .and("route").regex(format("%s", route), "i")
+                .and("completed").is(false)
+                .and("packed").is(true));
     }
 
     private List<OrderInfoDto> mapToOrderInfoDto(List<OrderEntity> entities) {
