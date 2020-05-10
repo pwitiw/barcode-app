@@ -27,8 +27,8 @@ export class OrderRestService {
             );
     }
 
-    public changeStatus(id: number): Observable<boolean> {
-        return this.restService.put(OrderRestService.ORDERS_ENDPOINT + '/' + id + '/status', {})
+    public changeStatus(ids: number[], completed: boolean): Observable<boolean> {
+        return this.restService.put(OrderRestService.ORDERS_ENDPOINT + '/status', {ids: ids, completed: completed})
             .pipe(map(response => response == null));
     }
 

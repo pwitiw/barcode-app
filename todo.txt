@@ -5,6 +5,7 @@ BUGS:
 
 Pytania:
 - jak ktos da ze zakonczony a ktos inny bedzie chcial procesowac zamowienie to co sie ma stac?
+- obgadac etapy produkcji
 
 !!!BARDZO WAŻNE:
 - poprawić proces deploymentu (4) (wrzucanie do dockerhuba -> budowanie image etc)
@@ -14,21 +15,18 @@ Pytania:
 - logi nie zapisuje sie tam gdzie trzeba
 
 Features:
-- przypominanie, kiedy dane zamowienie powinno byc zrobione (jakis kalendarz i zaznaczone zamowienia) - tylko wybrane zamowienia
-- wycena zamowienia + inne potrzebne do raportu
+- synchronizaca wyceny + deadlinu
+- synchronizacja adresu i telefonu klienta potrzebnych do raportu
+- mapa z trasą
 -  jest zamowienie i jest juz spakowane i jest niekompletne i wiemy ze brakuje jednej witryny bo jest na docieciu
 i robi beata trase i w jakims zamowieniu brakuje jakiegos elementu i ktos dopisze to bedzie wiadomo, ze niekompletne
 i na cos trzeba czekac
-- zamowienie sklada sie z 3 cen: proste 180 zl, uchwyty 200, wytryna 30 zl  -- tego nie robimy
 - raportowanie:
     * ile metrow w danym miesiacu
+    * metr per klient
+    * poprawki ?? - do obgadania
 - offline mode dla magazyniera
 - feature switch dla amazona zeby nie ssal
-- deadline dla zamowienia + wyswietlanie ich gdzies
-- statystyki
-
-
-PLATNOSC: - bajt musi w swoim programie dodatkowe pole na wycene dac
 
 statystyki:
 - ile w dniu, tygodniu, miesiacu spakowanych jest

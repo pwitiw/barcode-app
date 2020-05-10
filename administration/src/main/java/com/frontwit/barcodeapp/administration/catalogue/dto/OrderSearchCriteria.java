@@ -7,11 +7,12 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 
+import static org.springframework.util.StringUtils.*;
+
 
 @Getter
 @ToString
 public class OrderSearchCriteria {
-
     String name;
     Boolean completed;
     Boolean packed;
@@ -19,14 +20,16 @@ public class OrderSearchCriteria {
     String customer;
     String route;
     LocalDate processingDate;
+    LocalDate orderedAt;
 
     public boolean empty() {
-        return StringUtils.isEmpty(this.name)
+        return isEmpty(this.name)
+                && isEmpty(this.customer)
+                && isEmpty(this.route)
                 && completed == null
+                && packed == null
                 && stage == null
-                && customer == null
-                && route == null
                 && processingDate == null
-                && packed == null;
+                && orderedAt == null;
     }
 }

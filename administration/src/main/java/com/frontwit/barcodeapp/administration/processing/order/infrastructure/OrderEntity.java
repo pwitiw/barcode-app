@@ -94,8 +94,9 @@ public class OrderEntity {
     }
 
     public OrderDto dto() {
-        LocalDate zonedDate = this.lastProcessedOn != null ? LocalDate.ofInstant(this.lastProcessedOn, CLIENT_ZONE_ID) : null;
-        return new OrderDto(id, name, zonedDate, stage, quantity, customer, route, packed, completed);
+        LocalDate zonedProcessedOnDate = this.lastProcessedOn != null ? LocalDate.ofInstant(this.lastProcessedOn, CLIENT_ZONE_ID) : null;
+        LocalDate zonedOrderedAt = this.orderedAt != null ? LocalDate.ofInstant(this.orderedAt, CLIENT_ZONE_ID) : null;
+        return new OrderDto(id, name, zonedOrderedAt, zonedProcessedOnDate, stage, quantity, customer, route, packed, completed);
     }
 
     public ReminderDto reminderDto() {

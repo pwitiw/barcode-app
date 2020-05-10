@@ -15,7 +15,7 @@ import {StageService} from "./stage.service";
     templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
-    orderColumns = ['index', 'name', 'quantity', 'lastProcessedOn', 'stage', 'customer', 'route', 'completed'];
+    orderColumns = ['index', 'name', 'quantity', 'orderedAt', 'lastProcessedOn', 'stage', 'customer', 'route', 'completed'];
     criteria: SearchCriteria;
     @ViewChild("paginator", {} as any)
     paginator: MatPaginator;
@@ -24,6 +24,7 @@ export class OrdersComponent implements OnInit {
     size;
     totalElements: number;
     orders: SimpleOrder[];
+    allCompleted: boolean;
     getIndex = (i) => getIndex(i, this.page, this.size);
 
     constructor(private orderRestService: OrderRestService,
@@ -43,9 +44,9 @@ export class OrdersComponent implements OnInit {
     handleSearchClicked(criteria: SearchCriteria): void {
         const displayOrderFoundSnackBar = () => {
             this.snackBarService.success("Znaleziono " + this.totalElements + " wyników");
+            this.paginator.firstPage();
         };
         this.criteria = criteria;
-        this.paginator.firstPage();
         this.getOrders(displayOrderFoundSnackBar);
     }
 
@@ -62,6 +63,7 @@ export class OrdersComponent implements OnInit {
                 this.totalElements = result.totalElements;
                 this.orders = result.content;
                 consumer && consumer();
+                this.allCompleted = false;
             }
         });
     }
@@ -93,14 +95,28 @@ export class OrdersComponent implements OnInit {
         this.getOrders();
     }
 
-    statusChanged(order: SimpleOrder) {
-        this.orderRestService.changeStatus(order.id)
+    allCompletedChecked(): void {
+        const completedIds = this.orders.map(o => o.id);
+        this.orderRestService.changeStatus(completedIds, this.allCompleted)
             .subscribe(result => {
                 if (result) {
-                    this.snackBarService.success("Zmieniono status");
+                    this.snackBarService.success("Zakończono zamówienia");
+                    this.orders.forEach(o => o.completed = this.allCompleted);
+                } else {
+                    this.allCompleted = !this.allCompleted;
+                    this.snackBarService.failure("Operacja nie powiodła się");
+                }
+            });
+    }
+
+    completedChecked(order: SimpleOrder): void {
+        this.orderRestService.changeStatus([order.id], order.completed)
+            .subscribe(result => {
+                if (result) {
+                    this.snackBarService.success("Zakończono zamówienie");
                 } else {
                     order.completed = !order.completed;
-                    this.snackBarService.failure("Zmiana statusu zamówienia nie powiodła się");
+                    this.snackBarService.failure("Operacja nie powiodła się");
                 }
             });
     }

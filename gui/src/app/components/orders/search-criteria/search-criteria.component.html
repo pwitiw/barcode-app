@@ -9,10 +9,16 @@
                 <input matInput placeholder="Nazwa klienta" [(ngModel)]="customer" name="customer">
             </mat-form-field>
             <mat-form-field>
-                <input matInput [matDatepicker]="picker" [max]="today" placeholder="Data przetwarzania"
+                <input matInput [matDatepicker]="orderedAtPicker" [max]="today" placeholder="Data zlecenia"
+                       [(ngModel)]="orderedAt" name="orderedAt">
+                <mat-datepicker-toggle matSuffix [for]="orderedAtPicker"></mat-datepicker-toggle>
+                <mat-datepicker #orderedAtPicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [matDatepicker]="processingPicker" [max]="today" placeholder="Ostatnie skanowanie"
                        [(ngModel)]="processingDate" name="processingDate">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker-toggle matSuffix [for]="processingPicker"></mat-datepicker-toggle>
+                <mat-datepicker #processingPicker></mat-datepicker>
             </mat-form-field>
             <mat-form-field>
                 <input matInput placeholder="Trasa" [(ngModel)]="route" name="route">
@@ -41,7 +47,7 @@
         </button>
         <button type="button" mat-button color="primary" (click)="fetch()">
             <mat-icon>sync</mat-icon>
-            Pobierz zamówienia
+            Pobierz zamówienia z innego systemu
         </button>
     </form>
 </div>

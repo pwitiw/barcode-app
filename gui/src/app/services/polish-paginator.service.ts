@@ -3,7 +3,7 @@ import {MatPaginatorIntl} from "@angular/material/paginator";
 
 @Injectable()
 export class PolishPaginator extends MatPaginatorIntl {
-    public static readonly PAGE_SIZE_OPTIONS = [10, 25, 100];
+    public static readonly PAGE_SIZE_OPTIONS = [15, 25, 50, 100];
 
     itemsPerPageLabel = 'Pozycji na stronie';
     nextPageLabel = 'Następna strona';

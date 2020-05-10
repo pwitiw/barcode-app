@@ -19,6 +19,7 @@ export class SearchCriteriaComponent implements OnInit {
     route: string;
     stages: Stage[];
     processingDate: string;
+    orderedAt: string;
     today: Date;
 
     constructor(private stageProviderService: StageService) {
@@ -38,6 +39,7 @@ export class SearchCriteriaComponent implements OnInit {
             customer: this.customer,
             route: this.route,
             processingDate: this.processingDate,
+            orderedAt: this.orderedAt,
             packed: this.packed
         };
         this.searchClicked.emit(searchParams);

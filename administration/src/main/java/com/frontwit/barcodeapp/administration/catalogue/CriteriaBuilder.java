@@ -26,6 +26,7 @@ public class CriteriaBuilder {
         stage(searchCriteria, result);
         route(searchCriteria, result);
         lastProcessedOn(searchCriteria, result);
+        orderedAt(searchCriteria, result);
         return result;
     }
 
@@ -71,6 +72,15 @@ public class CriteriaBuilder {
         if (nonNull(searchCriteria.getProcessingDate())) {
             LocalDateTime startOfDay = searchCriteria.getProcessingDate().atStartOfDay();
             result.and("lastProcessedOn")
+                    .gte(startOfDay)
+                    .lt(startOfDay.plusDays(1));
+        }
+    }
+
+    private void orderedAt(OrderSearchCriteria searchCriteria, Criteria result) {
+        if (nonNull(searchCriteria.getOrderedAt())) {
+            LocalDateTime startOfDay = searchCriteria.getOrderedAt().atStartOfDay();
+            result.and("orderedAt")
                     .gte(startOfDay)
                     .lt(startOfDay.plusDays(1));
         }

@@ -12,6 +12,7 @@ public class OrderDto {
 
     private Long id;
     private String name;
+    private LocalDate orderedAt;
     private LocalDate lastProcessedOn;
     private Stage stage;
     private int quantity;

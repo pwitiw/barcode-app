@@ -28,9 +28,9 @@ public class OrderResource {
         return orderQuery.find(pageable, searchCriteria);
     }
 
-    @PutMapping(value = "/orders/{orderId}/status")
-    void changeStatus(@PathVariable Long orderId) {
-        orderCommand.changeStatus(orderId);
+    @PutMapping(value = "/orders/status")
+    void changeStatus(@RequestBody OrderStatusesDto dto) {
+        orderCommand.updateStatuses(dto.getIds(), dto.isCompleted());
     }
 
     @PutMapping(value = "/orders/{orderId}/deadline")

@@ -6,4 +6,5 @@ export class SearchCriteria {
     customer?: string;
     route?: string;
     processingDate?: string
+    orderedAt?: string
 }
