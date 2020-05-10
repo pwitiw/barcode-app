@@ -1,20 +1,40 @@
 import {Component, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {RestService} from "../../services/rest.service";
+import {SnackBarService} from "../../services/snack-bar.service";
 
 @Component({
     selector: 'app-routes',
     templateUrl: './routes.component.html'
 })
 export class RoutesComponent implements OnInit {
-    customers = ELEMENT_DATA;
+    customers = [];
     routeDetails: DeliveryInformation[] = [];
-    routeInfo: RouteInformation;
+    routeNamePdf: string;
+    routes: string;
 
-    constructor(private restService: RestService) {
+    constructor(private restService: RestService,
+                private snackBarService: SnackBarService) {
     }
 
     ngOnInit() {
+    }
+
+    search(): void {
+        this.restService.get('/api/routes?routes=' + this.routes, {responseType: 'text'})
+            .subscribe((response: any) => {
+                if (response) {
+                    this.routeDetails = [];
+                    this.mapToDeliveryInfo(response);
+                    this.snackBarService.success("Znaleziono " + this.customers.length + " wyników");
+                }
+            });
+    }
+
+    private mapToDeliveryInfo(response: any): void {
+        this.customers = []
+            .concat(JSON.parse(response))
+            .map(e => DeliveryInformation.of(e.customer, e.orders, e.paymentType))
     }
 
     drop(event: CdkDragDrop<string[]>): void {
@@ -26,25 +46,20 @@ export class RoutesComponent implements OnInit {
     }
 
     generateRouteDocument() {
-        const mediaType = 'application/pdf';
-        const url = '/api/route';
-        this.restService.post(url,
+        this.restService.post('/api/route',
             {
                 deliveryInfos: this.routeDetails,
-                route: "tw-wroclaw"
+                route: this.routeNamePdf,
             },
             {responseType: 'arraybuffer'})
             .subscribe((response: any) => {
-                const file = new Blob([response.body], {type: mediaType});
-                const fileURL = URL.createObjectURL(file);
-                window.open(fileURL);
-                console.info(response);
+                if (response.body) {
+                    const file = new Blob([response.body], {type: 'application/pdf'});
+                    const fileURL = URL.createObjectURL(file);
+                    window.open(fileURL);
+                    console.info(response);
+                }
             });
-    }
-
-
-    getSelectedCustomers(): DeliveryInformation[] {
-        return this.customers.filter(deliveryInfo => deliveryInfo.isIncludedInPlanning());
     }
 
     addToRoute(customer: DeliveryInformation, order: Order): void {
@@ -91,55 +106,7 @@ interface Order {
     name: string;
     quantity: number;
     price: number;
-    isSelected: boolean;
+    isSelected?: boolean;
 }
-
-interface RouteInformation {
-    deliveryInfos: DeliveryInformation[];
-    route: string;
-}
-
-const ELEMENT_DATA: DeliveryInformation[] = [
-    DeliveryInformation.of(
-        "Jan Gaj",
-        [
-            {name: 'TW 201', quantity: 15, price: 1000, isSelected: false},
-            {name: '69', quantity: 20, price: 2000, isSelected: false}
-        ],
-        "FV"),
-    DeliveryInformation.of(
-        "Bartłomiej Szczepańczykiewicz",
-        [
-            {name: '69', quantity: 20, price: 2000, isSelected: false},
-            {name: 'TW 1', quantity: 3, price: 300, isSelected: false},
-            {name: '905', quantity: 5, price: 575, isSelected: false}
-        ],
-        "KP"),
-    DeliveryInformation.of(
-        "Patryk Wilk",
-        [
-            {name: '137', quantity: 15, price: 500, isSelected: false},
-            {name: 'TW 1', quantity: 3, price: 300, isSelected: false},
-        ],
-        "KP"),
-    DeliveryInformation.of(
-        "Przemysław Szafraniec",
-        [
-            {name: 'A1', quantity: 16, price: 580, isSelected: true},
-            {name: 'A3', quantity: 18, price: 459, isSelected: false},
-            {name: 'A6', quantity: 20, price: 1450, isSelected: false},
-            {name: 'A8', quantity: 50, price: 470, isSelected: false},
-            {name: 'A9', quantity: 70, price: 2000, isSelected: false},
-            {name: 'TW 1', quantity: 3, price: 300, isSelected: false},
-        ],
-        "KP")
-];
-
-const RouteInfo: RouteInformation = {
-    deliveryInfos: ELEMENT_DATA,
-    route: "Olesnica-Wroclaw"
-
-};
-
 
 

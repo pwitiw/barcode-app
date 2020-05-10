@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
@@ -35,12 +36,36 @@ public class OrderQuery {
                 .orElseThrow(() -> new IllegalArgumentException(format("No order for id %s", id)));
     }
 
+    List<OrdersForCustomerDto> findOrdersForRoute(String route) {
+        var query = routeQuery(route);
+        var orderEntities = mongoTemplate.find(query, OrderEntity.class);
+        return orderEntities.stream()
+                .collect(Collectors.groupingBy(OrderEntity::getCustomer))
+                .entrySet()
+                .stream()
+                .map(entry -> new OrdersForCustomerDto(entry.getKey(), mapToOrderInfoDto(entry.getValue()), ""))
+                .collect(toList());
+    }
+
+    private Query routeQuery(String route) {
+        return new Query(new Criteria()
+                .and("route").regex(format("%s", route), "i")
+                .and("completed").is(false)
+                .and("packed").is(true));
+    }
+
+    private List<OrderInfoDto> mapToOrderInfoDto(List<OrderEntity> entities) {
+        return entities.stream()
+                .map(OrderEntity::deliveryOrderDto)
+                .collect(toList());
+    }
+
     private List<FrontDto> findFrontsForOrderId(long orderId) {
         var query = new Query(new Criteria("orderId").is(orderId));
         var frontEntities = mongoTemplate.find(query, FrontEntity.class);
         return frontEntities.stream()
                 .map(FrontEntity::dto)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     Page<OrderDto> find(Pageable pageable, OrderSearchCriteria searchCriteria) {

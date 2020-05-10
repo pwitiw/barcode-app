@@ -19,8 +19,8 @@ import {StageService} from "../stage.service";
 import {OrderRestService} from "../order.rest.service";
 import {SnackBarService} from "../../../services/snack-bar.service";
 import {Front} from "../types/Front";
+import * as moment from "moment";
 import {Moment} from "moment";
-import * as moment from 'moment';
 
 @Component({
     selector: 'order-details-dialog',

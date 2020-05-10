@@ -1,7 +1,8 @@
 import {NgModule} from "@angular/core";
 import {
     MatButtonModule,
-    MatCheckboxModule, MatExpansionModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -13,6 +14,7 @@ import {RoutesComponent} from "./routes.component";
 import {CommonModule} from "@angular/common";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {RestService} from "../../services/rest.service";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -27,7 +29,8 @@ import {RestService} from "../../services/rest.service";
         MatInputModule,
         CommonModule,
         DragDropModule,
-        MatExpansionModule
+        MatExpansionModule,
+        FormsModule
     ],
     providers: [
         StageService,

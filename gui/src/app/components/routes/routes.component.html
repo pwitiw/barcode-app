@@ -1,5 +1,14 @@
 <div class="routes-component" *ngIf="true">
-    <span>Stwórz trasę:</span>
+    <h4 class="title">Planowanie trasy</h4>
+    <span>
+        <mat-form-field>
+            <input matInput placeholder="Trasa" [(ngModel)]="routes" name="route">
+        </mat-form-field>
+        <button mat-button color="primary" (click)="search()">
+        <mat-icon>search</mat-icon>
+        Szukaj
+    </button>
+    </span>
     <br/>
     <div class="tables">
         <div class="candidate-list">
@@ -44,6 +53,11 @@
                     <span class="label price">{{routeDetail.calculatePrice()}} zł</span>
                 </div>
             </div>
+            <p>
+                <mat-form-field *ngIf="routeDetails.length > 0">
+                    <input matInput placeholder="Nazwa trasy" [(ngModel)]="routeNamePdf" name="routeNamePdf">
+                </mat-form-field>
+            </p>
             <button *ngIf="routeDetails.length > 0" mat-button color="primary" (click)="generateRouteDocument()">
                 <mat-icon>picture_as_pdf</mat-icon>
                 Generuj trase

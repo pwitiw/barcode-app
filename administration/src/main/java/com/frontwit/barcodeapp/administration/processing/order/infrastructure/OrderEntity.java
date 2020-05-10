@@ -1,9 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.order.infrastructure;
 
-import com.frontwit.barcodeapp.administration.catalogue.dto.FrontDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.ReminderDto;
+import com.frontwit.barcodeapp.administration.catalogue.dto.*;
 import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy;
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
@@ -100,5 +97,13 @@ public class OrderEntity {
 
     public ReminderDto reminderDto() {
         return new ReminderDto(name, customer, deadline.toEpochMilli());
+    }
+
+
+    public OrderInfoDto deliveryOrderDto() {
+        double price = Optional.ofNullable(this.price)
+                .orElse(BigDecimal.valueOf(0d))
+                .doubleValue();
+        return new OrderInfoDto(name, quantity, price);
     }
 }
