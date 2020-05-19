@@ -62,6 +62,11 @@
                 <mat-icon>picture_as_pdf</mat-icon>
                 Generuj trase
             </button>
+            <!--            <button *ngIf="routeDetails.length > 0" mat-button color="primary" (click)="generateRouteDocument()">-->
+            <button mat-button color="primary" (click)="setRouteClicked()">
+                <mat-icon>map</mat-icon>
+                Wyznacz trasę
+            </button>
         </div>
     </div>
 </div>

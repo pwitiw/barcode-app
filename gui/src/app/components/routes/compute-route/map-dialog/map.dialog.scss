@@ -1,0 +1,22 @@
+.set-route {
+  display: flex;
+  flex-direction: column;
+
+  .close {
+    margin: -20px;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  agm-map {
+    height: 500px;
+  }
+
+  .gm-ui-hover-effect {
+    display: none;
+  }
+}
+
+

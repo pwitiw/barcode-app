@@ -1,0 +1,27 @@
+<div class="set-route">
+    <h2>Trasa</h2>
+        <agm-map
+                [latitude]="lat"
+                [longitude]="lng"
+                [disableDefaultUI]="false"
+                [zoomControl]="false"
+                [fitBounds]="true"
+                (mapClick)="mapClicked($event)">
+            <agm-polygon [paths]="waypoints"></agm-polygon>
+            <agm-marker
+                    *ngFor="let c of cities; let i = index"
+                    (markerClick)="clickedMarker(c.name, i)"
+                    [latitude]="c.lat"
+                    [longitude]="c.lng"
+                    [label]="c.name"
+                    [markerDraggable]="false"
+                    (dragEnd)="markerDragEnd(c, $event)"
+                    (mouseOver)="infoWindow.open()">
+                <!--                (mouseOut)="infoWindow.close()">-->
+
+                <agm-info-window [disableAutoPan]="false" #infoWindow>
+                    sadas
+                </agm-info-window>
+            </agm-marker>
+        </agm-map>
+</div>

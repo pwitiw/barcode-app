@@ -1,4 +1,6 @@
 import {Injectable} from "@angular/core";
+import {Address} from "../components/routes/compute-route/Address";
+import {City} from "../components/routes/compute-route/City";
 
 @Injectable()
 export class LocalStorageService {
@@ -21,5 +23,13 @@ export class LocalStorageService {
 
     getStoredToken() {
         return localStorage.getItem(LocalStorageService.TOKEN_KEY);
+    }
+
+    storeCity(address: Address, city: City): void {
+        localStorage.setItem(address.normalized(), JSON.stringify(city));
+    }
+
+    getCity(address: Address): City {
+        return JSON.parse(localStorage.getItem(address.normalized()));
     }
 }
