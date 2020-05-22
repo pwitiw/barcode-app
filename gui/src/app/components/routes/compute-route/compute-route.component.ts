@@ -23,7 +23,7 @@ export class ComputeRoute {
         this.googleApi.getDetails(
             [
                 new Address("Oleśnica"),
-                new Address("Łódź"),
+                // new Address("Łódź"),
                 new Address("Twardogóra"),
                 new Address("Wrocław"),
                 new Address("Bierutów")

@@ -1,27 +1,25 @@
-<div class="set-route">
+<div class="map-dialog">
+    <button class="dialog close" mat-icon-button color="primary" [mat-dialog-close]>
+        <mat-icon>close</mat-icon>
+    </button>
     <h2>Trasa</h2>
-        <agm-map
-                [latitude]="lat"
-                [longitude]="lng"
-                [disableDefaultUI]="false"
-                [zoomControl]="false"
-                [fitBounds]="true"
-                (mapClick)="mapClicked($event)">
-            <agm-polygon [paths]="waypoints"></agm-polygon>
-            <agm-marker
-                    *ngFor="let c of cities; let i = index"
-                    (markerClick)="clickedMarker(c.name, i)"
-                    [latitude]="c.lat"
-                    [longitude]="c.lng"
-                    [label]="c.name"
-                    [markerDraggable]="false"
-                    (dragEnd)="markerDragEnd(c, $event)"
-                    (mouseOver)="infoWindow.open()">
-                <!--                (mouseOut)="infoWindow.close()">-->
-
-                <agm-info-window [disableAutoPan]="false" #infoWindow>
-                    sadas
-                </agm-info-window>
-            </agm-marker>
-        </agm-map>
+    <agm-map
+            [fitBounds]="true">
+        <agm-polygon [paths]="waypoints"></agm-polygon>
+        <agm-marker
+                *ngFor="let c of cities; let i = index"
+                (markerClick)="clickedMarker(c.name, i)"
+                [latitude]="c.lat"
+                [longitude]="c.lng"
+                [agmFitBounds]="true"
+                [label]="(i+1).toString()"
+                [markerDraggable]="false"
+                [opacity]="0.8"
+        >
+            <!--                            (mouseOver)="infoWindow.open()"
+                        <agm-info-window class="test" [disableAutoPan]="false" #infoWindow>-->
+            <!--                Kowalski-->
+            <!--            </agm-info-window>-->
+        </agm-marker>
+    </agm-map>
 </div>

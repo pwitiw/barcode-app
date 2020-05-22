@@ -19,6 +19,7 @@ import {MapDialog} from "./compute-route/map-dialog/map.dialog";
 import {AgmCoreModule} from "@agm/core";
 import {GoogleApi} from "./compute-route/GoogleApi";
 import {ComputeRoute} from './compute-route/compute-route.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
     declarations: [
@@ -39,8 +40,9 @@ import {ComputeRoute} from './compute-route/compute-route.component';
         AgmCoreModule.forRoot({
             apiKey: '',
             region: 'pl',
-            libraries: ['places', 'drawing', 'geometry','geocoder']
-        })
+            libraries: ['places', 'drawing', 'geometry', 'geocoder']
+        }),
+        MatDialogModule
     ],
     entryComponents: [MapDialog],
     providers: [

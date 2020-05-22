@@ -1,21 +1,11 @@
-.set-route {
-  display: flex;
-  flex-direction: column;
+.map-dialog {
 
-  .close {
-    margin: -20px;
-
-    &:focus {
-      outline: 0;
-    }
+  h2 {
+    text-align: center;
   }
 
   agm-map {
     height: 500px;
-  }
-
-  .gm-ui-hover-effect {
-    display: none;
   }
 }
 

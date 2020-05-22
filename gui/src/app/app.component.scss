@@ -34,3 +34,13 @@
 .mat-header-cell {
   font-size: $font-medium;
 }
+
+.dialog {
+  &.close {
+    margin: -20px;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+}

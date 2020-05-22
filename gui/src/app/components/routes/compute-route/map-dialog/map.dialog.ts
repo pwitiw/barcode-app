@@ -20,12 +20,6 @@ export class MapDialog {
         });
     }
 
-    zoom: number = 8;
-    // initial center position for the map
-    lat: number = 51.22;
-    lng: number = 17.28;
-
-
     clickedMarker(label: string, index: number) {
         console.log(`clicked the marker: ${label || index}`)
     }
