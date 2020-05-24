@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class DeliveryInfoDto {
     private String customer;
+    private String address;
     private List<DeliveryOrderDto> orders;
     private String paymentType;
 }

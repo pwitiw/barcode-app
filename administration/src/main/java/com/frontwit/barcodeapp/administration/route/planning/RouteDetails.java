@@ -39,8 +39,9 @@ class RouteDetails {
     static class Report {
         @Getter
         private final String customer;
+        @Getter
+        private final String address;
         private final List<Order> orders;
-
         @Getter
         private final SettlementType settlementType;
 
@@ -61,13 +62,13 @@ class RouteDetails {
 
         static Report of(DeliveryInfoDto dto) {
             String customer = dto.getCustomer();
+            String address = dto.getAddress();
             SettlementType paymentType = SettlementType.of(dto.getPaymentType());
             List<Order> orders = dto.getOrders().stream()
                     .filter(DeliveryOrderDto::isSelected)
                     .map(Order::of)
                     .collect(Collectors.toList());
-            return new Report(customer, orders, paymentType);
+            return new Report(customer, address, orders, paymentType);
         }
-
     }
 }

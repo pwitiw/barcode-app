@@ -52,7 +52,7 @@ class RouteTable {
     private void addBody(List<RouteDetails.Report> reports, PdfPTable table) {
         reports.forEach(report -> {
             table.addCell(String.valueOf(reports.indexOf(report) + 1));
-            table.addCell(pdfParts.createParagraph(report.getCustomer(), BODY_SIZE));
+            table.addCell(pdfParts.createParagraph(concatNameWithAddress(report), BODY_SIZE));
             table.addCell(report.displayOrders());
             table.addCell(EMPTY_STRING);
 // TODO wating for working settlement type           table.addCell(report.getSettlementType().getDisplayValue());
@@ -76,4 +76,12 @@ class RouteTable {
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         return cell;
     }
+
+    private String concatNameWithAddress(RouteDetails.Report report) {
+        if (report.getAddress().isEmpty()) {
+            return report.getCustomer();
+        }
+        return report.getCustomer().concat(" ").concat(report.getAddress());
+    }
 }
+

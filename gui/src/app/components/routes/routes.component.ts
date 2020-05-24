@@ -34,7 +34,7 @@ export class RoutesComponent implements OnInit {
     private mapToDeliveryInfo(response: any): void {
         this.customers = []
             .concat(JSON.parse(response))
-            .map(e => DeliveryInformation.of(e.customer, e.orders, e.paymentType))
+            .map(e => DeliveryInformation.of(e.customer, e.address, e.orders, e.paymentType))
     }
 
     drop(event: CdkDragDrop<string[]>): void {
@@ -77,12 +77,14 @@ export class RoutesComponent implements OnInit {
 
 export class DeliveryInformation {
     customer: string;
+    address: string;
     orders: Order[];
     paymentType: string;
 
-    static of(customer: string, orders: Order[], paymentType: string): DeliveryInformation {
+    static of(customer: string, address: string, orders: Order[], paymentType: string): DeliveryInformation {
         const deliveryInformation = new DeliveryInformation();
         deliveryInformation.customer = customer;
+        deliveryInformation.address = address;
         deliveryInformation.orders = orders;
         deliveryInformation.paymentType = paymentType;
         return deliveryInformation;
