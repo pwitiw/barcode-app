@@ -1,9 +1,10 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization.infrastructure;
 
+import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.synchronization.Dictionary;
 import com.frontwit.barcodeapp.administration.processing.synchronization.SourceOrder;
-import com.frontwit.barcodeapp.administration.processing.synchronization.SourceOrderRepository;
+import com.frontwit.barcodeapp.administration.processing.synchronization.SourceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,10 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.time.ZoneOffset.UTC;
-
 @AllArgsConstructor
-public class SourceDatabaseOrderRepository implements SourceOrderRepository {
+public class JdbcSourceRepository implements SourceRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -43,6 +42,21 @@ public class SourceDatabaseOrderRepository implements SourceOrderRepository {
         return jdbcTemplate.query(findOrdersByDateGteQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), LocalDate.ofInstant(from, ZoneId.of("Europe/Paris")));
     }
 
+    @Override
+    public List<CustomerEntity> findCustomers() {
+        return jdbcTemplate.query(findCustomersQuery(), new BeanPropertyRowMapper<>(CustomerEntity.class));
+    }
+
+    private String findCustomersQuery() {
+        return "SELECT " +
+                "k.id as id, " +
+                "k.nazwa as name, " +
+                "k.trasa as route, " +
+                "k.adres as address " +
+                "FROM tklienci k ";
+    }
+
+
     private String findOrdersQuery() {
         return "SELECT " +
                 "z.id as id, " +
@@ -52,8 +66,10 @@ public class SourceDatabaseOrderRepository implements SourceOrderRepository {
                 "z.nr_zam_kl as additionalInfo, " +
                 "z.opis as description, " +
                 "z.cechy as features, " +
-                "k.nazwa as customer, " +
-                "k.trasa as route " +
+                "k.nazwa as customerName, " +
+                "k.trasa as route, " +
+                "k.adres as customerAddress, " +
+                "k.id as customerId " +
                 "FROM tzamowienia z JOIN tklienci k " +
                 "ON z.tklienci_id = k.id ";
     }

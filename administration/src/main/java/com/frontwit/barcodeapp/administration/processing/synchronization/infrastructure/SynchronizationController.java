@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class SynchronizationController {
 
     private OrderSynchronizer orderSynchronizer;
+    private CustomerSynchronizer customerSynchronizer;
 
     @PostMapping(value = "/orders/synchronize")
     public long synchronize() {
+        customerSynchronizer.synchronizeCustomers();
         return orderSynchronizer.synchronizeOrders();
     }
 }

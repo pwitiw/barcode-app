@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrdersForCustomerDto {
     private String customer;
+    private String address;
     private List<OrderInfoDto> orders;
     private String paymentType;
 }

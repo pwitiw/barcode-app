@@ -11,8 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class BeanConfig {
 
     @Bean
-    SourceDatabaseOrderRepository sourceDatabaseOrderRepository(JdbcTemplate jdbcTemplate) {
-        return new SourceDatabaseOrderRepository(jdbcTemplate);
+    JdbcSourceRepository sourceDatabaseOrderRepository(JdbcTemplate jdbcTemplate) {
+        return new JdbcSourceRepository(jdbcTemplate);
     }
 
     @Bean
@@ -21,20 +21,28 @@ public class BeanConfig {
     }
 
     @Bean
-    OrderSynchronizer synchronizer(SourceOrderRepository sourceOrderRepository,
+    OrderSynchronizer synchronizer(SourceRepository sourceRepository,
                                    SaveSynchronizedFronts saveSynchronizedFronts,
                                    SaveSynchronizedOrder saveSynchronizedOrder,
+                                   SaveSynchronizedCustomer saveSynchronizedCustomer,
                                    CheckSynchronizedOrder checkSynchronizedOrder,
                                    OrderMapper orderMapper,
                                    DomainEvents domainEvents,
                                    SynchronizationRepository synchronizationRepository) {
-        return new OrderSynchronizer(sourceOrderRepository,
+        return new OrderSynchronizer(sourceRepository,
                 saveSynchronizedFronts,
                 saveSynchronizedOrder,
+                saveSynchronizedCustomer,
                 checkSynchronizedOrder,
                 orderMapper,
                 domainEvents,
                 synchronizationRepository);
     }
+
+    @Bean
+    CustomerSynchronizer customerSynchronizer(SaveSynchronizedCustomer saveSynchronizedCustomer, SourceRepository sourceRepository) {
+        return new CustomerSynchronizer(saveSynchronizedCustomer, sourceRepository);
+    }
+
 
 }

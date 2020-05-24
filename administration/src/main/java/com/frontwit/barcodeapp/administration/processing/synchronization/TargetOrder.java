@@ -14,6 +14,7 @@ public class TargetOrder {
     private TargetOrder.Comment comment;
     private TargetOrder.Info info;
     private List<TargetFront> fronts;
+    private TargetOrder.Customer customer;
 
     @Value
     public static class Comment {
@@ -36,9 +37,15 @@ public class TargetOrder {
         private String cutter;
         private String size;
         private String name;
-        private String customer;
-        private String route;
         private Instant orderedAt;
+    }
+
+    @Value
+    public static class Customer {
+        private Long customerId;
+        private String name;
+        private String address;
+        private String route;
     }
 
 }

@@ -31,7 +31,9 @@ CREATE TABLE IF NOT EXISTS `tklienci`
   DEFAULT CHARSET = utf8;
 
 INSERT INTO `tklienci` (`id`, `nazwa`, `adres`,`trasa`, `email`)
-VALUES (1, 'Jan Kowalski', 'Wroclaw', 'wroclaw', 'www@gmail.com');
+VALUES (1, 'Jan Kowalski', 'Wroclaw', 'wroclaw', 'www@gmail.com'),
+       (2, 'Adam Batat', 'Warszawa', 'warszawa', 'www@gmail.com'),
+       (3, 'Grzegorz Gaj', 'warszawa', 'lublin', 'www@gmail.com');
 
 CREATE TABLE IF NOT EXISTS `tzamowienia`
 (

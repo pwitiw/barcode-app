@@ -8,18 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
-import java.time.ZoneId;
-
 import static java.lang.String.format;
-import static java.time.ZoneId.of;
 
 @AllArgsConstructor
 public class OrderSynchronizer {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderSynchronizer.class);
 
-    private SourceOrderRepository sourceOrderRepository;
+    private SourceRepository sourceRepository;
     private SaveSynchronizedFronts saveSynchronizedFronts;
     private SaveSynchronizedOrder saveSynchronizedOrder;
+    private SaveSynchronizedCustomer saveSynchronizedCustomers;
     private CheckSynchronizedOrder checkSynchronizedOrder;
     private OrderMapper orderMapper;
     private DomainEvents domainEvents;
@@ -28,9 +26,9 @@ public class OrderSynchronizer {
     @EventListener
     public void synchronize(FrontNotFound event) {
         if (!checkSynchronizedOrder.isSynchronized(event.getOrderId())) {
-            sourceOrderRepository.findBy(event.getOrderId()).ifPresentOrElse(
+            sourceRepository.findBy(event.getOrderId()).ifPresentOrElse(
                     order -> {
-                        var dictionary = sourceOrderRepository.getDictionary();
+                        var dictionary = sourceRepository.getDictionary();
                         saveOrderWithFronts(order, dictionary);
                         domainEvents.publish(new FrontSynchronized(event.getDelayedProcessFrontCommand()));
                     },
@@ -40,8 +38,8 @@ public class OrderSynchronizer {
 
     public long synchronizeOrders() {
         var lastSyncDate = synchronizationRepository.getLastSynchronizationDate();
-        var dictionary = sourceOrderRepository.getDictionary();
-        long count = sourceOrderRepository.findByDateBetween(lastSyncDate)
+        var dictionary = sourceRepository.getDictionary();
+        long count = sourceRepository.findByDateBetween(lastSyncDate)
                 .stream()
                 .filter(sourceOrder -> !checkSynchronizedOrder.isSynchronized(new OrderId(sourceOrder.getId())))
                 .peek(sourceOrder -> saveOrderWithFronts(sourceOrder, dictionary))
@@ -55,6 +53,7 @@ public class OrderSynchronizer {
         var targetOrder = orderMapper.map(sourceOrder, dictionary);
         saveSynchronizedOrder.save(targetOrder);
         saveSynchronizedFronts.save(targetOrder.getFronts());
-        LOGGER.info(format("OrderSynchronized {id=%s, frontsNr=%s}", targetOrder.getOrderId().getId(), targetOrder.getFronts().size()));
+        saveSynchronizedCustomers.save(targetOrder.getCustomer());
+        LOGGER.info("OrderSynchronized {id={}, customer={}, frontsNr={}}", targetOrder.getOrderId().getId(), targetOrder.getCustomer().getName(), targetOrder.getFronts().size());
     }
 }
