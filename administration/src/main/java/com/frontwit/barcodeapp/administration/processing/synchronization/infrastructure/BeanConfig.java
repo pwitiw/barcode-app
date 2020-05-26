@@ -1,6 +1,9 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerRepository;
+import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
+import com.frontwit.barcodeapp.administration.processing.order.model.OrderRepository;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents;
 import com.frontwit.barcodeapp.administration.processing.synchronization.*;
 import org.springframework.context.annotation.Bean;
@@ -22,26 +25,17 @@ public class BeanConfig {
 
     @Bean
     OrderSynchronizer synchronizer(SourceRepository sourceRepository,
-                                   SaveSynchronizedFronts saveSynchronizedFronts,
-                                   SaveSynchronizedOrder saveSynchronizedOrder,
-                                   SaveSynchronizedCustomer saveSynchronizedCustomer,
-                                   CheckSynchronizedOrder checkSynchronizedOrder,
+                                   FrontRepository frontRepository,
+                                   OrderRepository orderRepository,
                                    OrderMapper orderMapper,
                                    DomainEvents domainEvents,
                                    SynchronizationRepository synchronizationRepository) {
-        return new OrderSynchronizer(sourceRepository,
-                saveSynchronizedFronts,
-                saveSynchronizedOrder,
-                saveSynchronizedCustomer,
-                checkSynchronizedOrder,
-                orderMapper,
-                domainEvents,
-                synchronizationRepository);
+        return new OrderSynchronizer(sourceRepository, frontRepository, orderRepository, orderMapper, domainEvents, synchronizationRepository);
     }
 
     @Bean
-    CustomerSynchronizer customerSynchronizer(SaveSynchronizedCustomer saveSynchronizedCustomer, SourceRepository sourceRepository) {
-        return new CustomerSynchronizer(saveSynchronizedCustomer, sourceRepository);
+    CustomerSynchronizer customerSynchronizer(CustomerRepository customerRepository, SourceRepository sourceRepository) {
+        return new CustomerSynchronizer(customerRepository, sourceRepository);
     }
 
 

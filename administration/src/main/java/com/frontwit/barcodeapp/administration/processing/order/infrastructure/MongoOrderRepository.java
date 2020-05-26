@@ -4,8 +4,6 @@ import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderRepository;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
-import com.frontwit.barcodeapp.administration.processing.synchronization.CheckSynchronizedOrder;
-import com.frontwit.barcodeapp.administration.processing.synchronization.SaveSynchronizedOrder;
 import com.frontwit.barcodeapp.administration.processing.synchronization.TargetOrder;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -13,7 +11,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class MongoOrderRepository implements OrderRepository, SaveSynchronizedOrder, CheckSynchronizedOrder {
+public class MongoOrderRepository implements OrderRepository {
 
     private MongoTemplate mongoTemplate;
     private UpdateStagePolicy updateStagePolicy;
@@ -39,7 +37,7 @@ public class MongoOrderRepository implements OrderRepository, SaveSynchronizedOr
     }
 
     @Override
-    public boolean isSynchronized(OrderId orderId) {
+    public boolean isNotSynchronized(OrderId orderId) {
         return findById(orderId.getId()).isPresent();
     }
 

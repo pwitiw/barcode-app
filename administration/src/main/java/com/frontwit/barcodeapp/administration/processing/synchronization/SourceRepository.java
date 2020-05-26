@@ -1,6 +1,5 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization;
 
-import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 
 import java.time.Instant;
@@ -15,5 +14,5 @@ public interface SourceRepository {
 
     List<SourceOrder> findByDateBetween(Instant from);
 
-    List<CustomerEntity> findCustomers();
+    List<SourceCustomer> findCustomers();
 }

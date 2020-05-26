@@ -11,10 +11,10 @@ import java.util.Optional;
 @Value
 public class TargetOrder {
     private OrderId orderId;
+    private Long customerId;
     private TargetOrder.Comment comment;
     private TargetOrder.Info info;
     private List<TargetFront> fronts;
-    private TargetOrder.Customer customer;
 
     @Value
     public static class Comment {
@@ -39,13 +39,4 @@ public class TargetOrder {
         private String name;
         private Instant orderedAt;
     }
-
-    @Value
-    public static class Customer {
-        private Long customerId;
-        private String name;
-        private String address;
-        private String route;
-    }
-
 }

@@ -1,8 +1,8 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization.infrastructure;
 
-import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.synchronization.Dictionary;
+import com.frontwit.barcodeapp.administration.processing.synchronization.SourceCustomer;
 import com.frontwit.barcodeapp.administration.processing.synchronization.SourceOrder;
 import com.frontwit.barcodeapp.administration.processing.synchronization.SourceRepository;
 import lombok.AllArgsConstructor;
@@ -43,8 +43,8 @@ public class JdbcSourceRepository implements SourceRepository {
     }
 
     @Override
-    public List<CustomerEntity> findCustomers() {
-        return jdbcTemplate.query(findCustomersQuery(), new BeanPropertyRowMapper<>(CustomerEntity.class));
+    public List<SourceCustomer> findCustomers() {
+        return jdbcTemplate.query(findCustomersQuery(), new BeanPropertyRowMapper<>(SourceCustomer.class));
     }
 
     private String findCustomersQuery() {
@@ -55,7 +55,6 @@ public class JdbcSourceRepository implements SourceRepository {
                 "k.adres as address " +
                 "FROM tklienci k ";
     }
-
 
     private String findOrdersQuery() {
         return "SELECT " +
@@ -90,5 +89,4 @@ public class JdbcSourceRepository implements SourceRepository {
                 "name as value " +
                 "FROM tdictionary";
     }
-
 }

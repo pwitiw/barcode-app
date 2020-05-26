@@ -27,12 +27,12 @@ public class OrderMapper {
 
     public TargetOrder map(SourceOrder source, Dictionary dictionary) {
         var orderId = new OrderId(source.getId());
+        var customerId = source.getCustomerId();
         var comment = new TargetOrder.Comment(source.getDescription(), source.getAdditionalInfo());
         var orderInfo = createOrderInfo(source, dictionary);
         var fronts = createFronts(source);
-        var customer = new TargetOrder.Customer(source.getCustomerId(), source.getCustomerName(), source.getCustomerAddress(), source.getRoute());
 
-        return new TargetOrder(orderId, comment, orderInfo, fronts, customer);
+        return new TargetOrder(orderId, customerId, comment, orderInfo, fronts);
     }
 
     private TargetOrder.Info createOrderInfo(SourceOrder source, Dictionary dictionary) {

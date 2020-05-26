@@ -62,7 +62,7 @@ public class OrderEntity {
         this.size = targetOrder.getInfo().getSize();
         this.stage = Stage.INIT;
         this.orderedAt = targetOrder.getInfo().getOrderedAt();
-        this.customerId = targetOrder.getCustomer().getCustomerId();
+        this.customerId = targetOrder.getCustomerId();
         this.comment = targetOrder.getComment().compose();
         this.quantity = targetOrder.getFronts().stream()
                 .map(TargetFront::getQuantity)

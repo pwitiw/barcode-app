@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.infrastructure.db;
 
-import com.frontwit.barcodeapp.administration.processing.synchronization.TargetOrder;
+import com.frontwit.barcodeapp.administration.processing.synchronization.SourceCustomer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -17,8 +17,8 @@ public class CustomerEntity {
     private String address;
     private String route;
 
-    public CustomerEntity(TargetOrder.Customer customer) {
-        this.id = customer.getCustomerId();
+    public CustomerEntity(SourceCustomer customer) {
+        this.id = customer.getId();
         this.name = customer.getName();
         this.address = customer.getAddress();
         this.route = customer.getRoute();

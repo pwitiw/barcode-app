@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,20 +40,20 @@ public class OrderQuery {
                 .orElseThrow(() -> new IllegalArgumentException(format("No order for id %s", id)));
     }
 
-    List<OrdersForCustomerDto> findOrdersForRoute(String route) {
+    List<CustomerOrdersDto> findCustomersOrdersForRoute(String route) {
         var routeQuery = routeQuery(route);
         List<OrderEntity> orderEntities = mongoTemplate.find(routeQuery, OrderEntity.class);
         var customerQuery = customerQuery(orderEntities.stream().map(OrderEntity::getCustomerId).collect(toList()));
         var customerEntities = mongoTemplate.find(customerQuery, CustomerEntity.class);
+        if (customerEntities.isEmpty()) {
+            return new ArrayList<>();
+        }
         return orderEntities.stream()
                 .collect(Collectors.groupingBy(OrderEntity::getCustomerId))
                 .entrySet()
                 .stream()
-                .map(entry -> new OrdersForCustomerDto
-                        (getCustomerInfo(customerEntities, entry.getKey()).getName(),
-                                getCustomerInfo(customerEntities, entry.getKey()).getAddress(),
-                                mapToOrderInfoDto(entry.getValue()),
-                                ""))
+                .map(entry -> new CustomerOrdersDto(getCustomerInfo(customerEntities, entry.getKey()).getName(),
+                        getCustomerInfo(customerEntities, entry.getKey()).getAddress(), mapToOrderInfoDto(entry.getValue()), ""))
                 .collect(toList());
     }
 
