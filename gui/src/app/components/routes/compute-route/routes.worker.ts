@@ -4,13 +4,18 @@ import {City} from "./algorithm/City";
 
 addEventListener('message', ({data}) => {
     if (!data) return;
-    const cities = data.map(city => new City(city.name, city.lat, city.lng));
-    const start = performance.now();
+    const cities = data.map(c => new City(c.city.name, c.city.lat, c.city.lng));
     const result = new GeneticAlgorithm(cities).run();
-    const time = Math.round(performance.now() - start) / 1000;
-    console.log("Czas: " + time + " s");
-    postMessage(result.map(c => {
-            return {name: c.name, lat: c.x, lng: c.y}
-        }
-    ));
+    const cityWithAddress = toCityWithAddressMap(data);
+    const res = result.map(city => cityWithAddress.get(city.name));
+    postMessage(res);
 });
+
+
+function toCityWithAddressMap(addresses) {
+    const result = new Map();
+    addresses.forEach(address => {
+        result.set(address.city.name, address);
+    });
+    return result;
+}

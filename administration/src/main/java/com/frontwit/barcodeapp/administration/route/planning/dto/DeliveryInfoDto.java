@@ -13,4 +13,5 @@ public class DeliveryInfoDto {
     private String customer;
     private List<DeliveryOrderDto> orders;
     private String paymentType;
+    private String address;
 }

@@ -1,4 +1,4 @@
-import {Address} from "./Address";
+import {CustomerAddress} from "./CustomerAddress";
 import {forkJoin, Observable, of} from "rxjs";
 import {Injectable} from "@angular/core";
 import {AgmGeocoder, GeocoderResult} from "@agm/core";
@@ -12,31 +12,37 @@ export class GoogleApi {
                 private localStorage: LocalStorageService) {
     }
 
-    getDetails(addresses: Address[]): Observable<City[]> {
+    getDetails(addresses: CustomerAddress[]): Observable<CustomerAddress[]> {
         const $addresses = addresses.map((address) => this.getCity(address));
-        return forkJoin($addresses).pipe(filter(city => city != null));
+        return forkJoin($addresses)
+            .pipe(map(addresses => addresses.filter(address => address.city != null)));
     }
 
-    private getCity(address: Address): Observable<City> {
-        const cached = this.localStorage.getCity(address);
-        return cached ?
+    private getCity(customerAdress: CustomerAddress): Observable<CustomerAddress> {
+        const cached = this.localStorage.getCity(customerAdress);
+        const city = cached ?
             of(cached) :
-            this.callGoogleApi(address);
+            this.callGoogleApi(customerAdress)
+
+        return city.pipe(map(city => {
+            customerAdress.city = city;
+            return customerAdress;
+        }));
     }
 
-    private callGoogleApi(address: Address) {
-        return this.geocoder.geocode({address: address.name})
+    private callGoogleApi(customer: CustomerAddress) {
+        return this.geocoder.geocode({address: customer.address})
             .pipe(
                 map((results: GeocoderResult[]) => {
                     const {lat, lng} = results[0].geometry.location;
-                    const name = results[0].formatted_address;
-                    const city: City = { name, lat: lat(), lng: lng()};
-                    this.localStorage.storeCity(address, city);
+                    const name = results[0].formatted_address.split(",")[0];
+                    const city: City = {name, lat: lat(), lng: lng()};
+                    this.localStorage.storeCity(customer, city);
                     return city
                 }),
                 catchError((response) => {
                     console.log(response);
-                    this.localStorage.storeCity(address, null);
+                    this.localStorage.storeCity(customer, null);
                     return of(null);
                 })
             );

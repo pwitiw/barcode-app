@@ -2,12 +2,14 @@ export class DeliveryInformation {
     customer: string;
     orders: Order[];
     paymentType: string;
+    address: string;
 
-    static of(customer: string, orders: Order[], paymentType: string): DeliveryInformation {
+    static of(customer: string, orders: Order[], paymentType: string, address: string): DeliveryInformation {
         const deliveryInformation = new DeliveryInformation();
         deliveryInformation.customer = customer;
         deliveryInformation.orders = orders;
         deliveryInformation.paymentType = paymentType;
+        deliveryInformation.address = address;
         return deliveryInformation;
     }
 

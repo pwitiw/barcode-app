@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Address} from "../components/routes/compute-route/Address";
+import {CustomerAddress} from "../components/routes/compute-route/CustomerAddress";
 import {City} from "../components/routes/compute-route/City";
 
 @Injectable()
@@ -25,11 +25,11 @@ export class LocalStorageService {
         return localStorage.getItem(LocalStorageService.TOKEN_KEY);
     }
 
-    storeCity(address: Address, city: City): void {
-        localStorage.setItem(address.normalized(), JSON.stringify(city));
+    storeCity(address: CustomerAddress, city: City): void {
+        localStorage.setItem(address.normalizedAddress(), JSON.stringify(city));
     }
 
-    getCity(address: Address): City {
-        return JSON.parse(localStorage.getItem(address.normalized()));
+    getCity(address: CustomerAddress): City {
+        return JSON.parse(localStorage.getItem(address.normalizedAddress()));
     }
 }

@@ -1,30 +1,24 @@
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Component, Inject} from "@angular/core";
-import {faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons';
 import {Moment} from "moment";
-import {MouseEvent} from '@agm/core';
-import {City} from "../City";
+import {CustomerAddress} from "../CustomerAddress";
 
 @Component({
     selector: 'set-route-dialog',
     templateUrl: 'map.dialog.html',
 })
 export class MapDialog {
-    iconRoute = faMapMarkedAlt;
     deadline: Moment;
     waypoints: any[];
 
-    constructor(@Inject(MAT_DIALOG_DATA) public cities: City[]) {
-        this.waypoints = cities.map(city => {
-            return {lat: city.lat, lng: city.lng};
+    constructor(@Inject(MAT_DIALOG_DATA) public addresses: CustomerAddress[],
+                private dialogRef: MatDialogRef<MapDialog>) {
+        this.waypoints = addresses.map(address => {
+            return {lat: address.city.lat, lng: address.city.lng};
         });
     }
 
-    clickedMarker(label: string, index: number) {
-        console.log(`clicked the marker: ${label || index}`)
-    }
-
-    markerDragEnd(m: City, $event: MouseEvent) {
-        console.log('dragEnd', m, $event);
+    okClicked(): void {
+        this.dialogRef.close(true);
     }
 }

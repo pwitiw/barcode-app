@@ -55,8 +55,9 @@ public class HidRegister implements HidServicesListener {
         var device = event.getHidDevice();
         if (device.getVendorId() == VENDOR_ID && device.getProductId() == PRODUCT_ID) {
             addScanner(device);
+        }else{
+            LOG.info("Attached {}", device);
         }
-        LOG.info("Attached {}", device);
     }
 
     @Override

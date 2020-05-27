@@ -35,7 +35,3 @@ TRASY:
 - kierowca
 - data
 - adres, numer telefonu
-
-TODO route finder
-- sortowanie od punktu docelowego
-- dwa przyciski - wyznacz kolejnosc i pokaz mape vs jeden generuj trase i na dole moznaby zaakceptuj

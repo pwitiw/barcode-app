@@ -14,4 +14,8 @@ export class SnackBarService {
     failure(message: string, action?: string) {
         this.snackBar.open(message, action, {panelClass: ["error"]});
     }
+
+    warn(message: string, action?: string) {
+        this.snackBar.open(message, action, {panelClass: ["warn"]});
+    }
 }

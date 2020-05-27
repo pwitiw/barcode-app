@@ -20,7 +20,6 @@ export class GeneticAlgorithm {
         }
         let population = new Population(POPULATION, this.cities, CROSSOVER_PROBABILITY, MUTATION_PROBABILITY);
         let bestScore = population.getFittest();
-        console.log(bestScore);
         for (let generation = 0; generation < MAX_GENERATIONS; generation++) {
             population.nextGeneration();
             bestScore = this.getBestScore(bestScore, population.getFittest());
