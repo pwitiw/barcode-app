@@ -2,7 +2,6 @@ package com.frontwit.barcodeapp.administration.processing.order.infrastructure;
 
 import com.frontwit.barcodeapp.administration.catalogue.dto.*;
 import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
-import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerRepository;
 import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy;
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
@@ -26,7 +25,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static java.lang.String.format;
 import static java.time.ZoneId.of;
 
 @Document(collection = "order")
@@ -86,20 +84,17 @@ public class OrderEntity {
         return new Order(new OrderId(id), notPackedFronts, stage, lastProcessedOn, completed, policy);
     }
 
-    public OrderDetailDto detailsDto(List<FrontDto> fronts, CustomerRepository customerRepository) {
+    public OrderDetailDto detailsDto(List<FrontDto> fronts, CustomerEntity customer) {
         var deadline = this.deadline != null ? this.deadline.toEpochMilli() : null;
-        var customer = customerRepository.findBy(id).orElseThrow(() -> new IllegalArgumentException(format("No customer for id %s", id)));
-        var name = customer.getName();
+        var customerName = customer.getName();
         var route = customer.getRoute();
-        return new OrderDetailDto(id, name, color, size, cutter, comment, name, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline, price);
+        return new OrderDetailDto(id, name, color, size, cutter, comment, customerName, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline, price);
     }
 
-    public OrderDto dto(CustomerRepository customerRepository) {
+    public OrderDto dto(CustomerEntity customer) {
         LocalDate zonedProcessedOnDate = this.lastProcessedOn != null ? LocalDate.ofInstant(this.lastProcessedOn, CLIENT_ZONE_ID) : null;
         LocalDate zonedOrderedAt = this.orderedAt != null ? LocalDate.ofInstant(this.orderedAt, CLIENT_ZONE_ID) : null;
-        var customer = customerRepository.findBy(customerId).orElse(new CustomerEntity()).getName();
-        var route = customerRepository.findBy(customerId).orElse(new CustomerEntity()).getRoute();
-        return new OrderDto(id, name, zonedOrderedAt, zonedProcessedOnDate, stage, quantity, customer, route, packed, completed);
+        return new OrderDto(id, name, zonedOrderedAt, zonedProcessedOnDate, stage, quantity, customer.getName(), customer.getRoute(), packed, completed);
     }
 
     public ReminderDto reminderDto() {

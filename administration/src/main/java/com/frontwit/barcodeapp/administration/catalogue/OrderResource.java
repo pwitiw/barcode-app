@@ -47,6 +47,6 @@ public class OrderResource {
 
     @GetMapping(value = "/routes")
     List<CustomerOrdersDto> getOrdersForRoute(@RequestParam String routes) {
-        return orderQuery.findCustomersOrdersForRoute(routes);
+        return orderQuery.findCustomersWithOrdersForRoute(routes);
     }
 }

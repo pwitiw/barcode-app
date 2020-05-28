@@ -6,6 +6,8 @@ import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerReposito
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity;
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,6 +30,7 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @AllArgsConstructor
 @Component
 public class OrderQuery {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderQuery.class);
 
     private MongoTemplate mongoTemplate;
     private CriteriaBuilder criteriaBuilder;
@@ -36,29 +39,47 @@ public class OrderQuery {
     public OrderDetailDto find(long id) {
         var frontDtos = findFrontsForOrderId(id);
         return Optional.ofNullable(mongoTemplate.findById(id, OrderEntity.class))
-                .map(entity -> entity.detailsDto(frontDtos, customerRepository))
+                .map(entity -> entity.detailsDto(frontDtos, findCustomerBy(entity.getCustomerId())))
                 .orElseThrow(() -> new IllegalArgumentException(format("No order for id %s", id)));
     }
 
-    List<CustomerOrdersDto> findCustomersOrdersForRoute(String route) {
-        var routeQuery = routeQuery(route);
-        List<OrderEntity> orderEntities = mongoTemplate.find(routeQuery, OrderEntity.class);
-        var customerQuery = customerQuery(orderEntities.stream().map(OrderEntity::getCustomerId).collect(toList()));
-        var customerEntities = mongoTemplate.find(customerQuery, CustomerEntity.class);
+    List<CustomerOrdersDto> findCustomersWithOrdersForRoute(String route) {
+        List<OrderEntity> orderEntities = getOrderEntities(route);
+        List<CustomerEntity> customerEntities = getCustomerEntities(orderEntities);
         if (customerEntities.isEmpty()) {
             return new ArrayList<>();
         }
         return orderEntities.stream()
-                .collect(Collectors.groupingBy(OrderEntity::getCustomerId))
+                .collect(Collectors.groupingBy(o -> getCustomerInfo(customerEntities, o.getId())))
                 .entrySet()
                 .stream()
-                .map(entry -> new CustomerOrdersDto(getCustomerInfo(customerEntities, entry.getKey()).getName(),
-                        getCustomerInfo(customerEntities, entry.getKey()).getAddress(), mapToOrderInfoDto(entry.getValue()), ""))
+                .map(e -> {
+                    var customer = e.getKey();
+                    var orders = e.getValue();
+                    return new CustomerOrdersDto(customer.getName(), customer.getAddress(), mapToOrderInfoDto(orders), "");
+                })
                 .collect(toList());
     }
 
-    private CustomerEntity getCustomerInfo(List<CustomerEntity> entities, Long id) {
-        return entities.stream().filter(e -> e.getId().equals(id)).collect(toList()).get(0);
+    private CustomerEntity findCustomerBy(long id) {
+        return customerRepository.findBy(id).orElseGet(() -> {
+            LOGGER.warn("No customer for id {}", id);
+            return new CustomerEntity();
+        });
+    }
+
+    private List<CustomerEntity> getCustomerEntities(List<OrderEntity> orderEntities) {
+        var customerQuery = customerQuery(orderEntities.stream().map(OrderEntity::getCustomerId).collect(toList()));
+        return mongoTemplate.find(customerQuery, CustomerEntity.class);
+    }
+
+    private List<OrderEntity> getOrderEntities(String route) {
+        var query = routeQuery(route);
+        return mongoTemplate.find(query, OrderEntity.class);
+    }
+
+    private CustomerEntity getCustomerInfo(List<CustomerEntity> customers, Long id) {
+        return customers.stream().filter(e -> e.getId().equals(id)).collect(toList()).get(0);
     }
 
     private Query routeQuery(String route) {
@@ -92,7 +113,7 @@ public class OrderQuery {
         var orders = mongoTemplate.find(query, OrderEntity.class);
         return PageableExecutionUtils
                 .getPage(orders, pageable, () -> mongoTemplate.count(new Query(criteria), OrderEntity.class))
-                .map(o -> o.dto(customerRepository));
+                .map(o -> o.dto(findCustomerBy(o.getCustomerId())));
     }
 
     Page<ReminderDto> findDeadlines(Pageable pageable) {

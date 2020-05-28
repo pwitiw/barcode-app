@@ -70,5 +70,12 @@ class RouteDetails {
                     .collect(Collectors.toList());
             return new Report(customer, address, orders, paymentType);
         }
+
+        String concatNameWithAddress(Report report) {
+            if (report.getAddress().isEmpty()) {
+                return report.getCustomer();
+            }
+            return report.getCustomer().concat(" ").concat(report.getAddress());
+        }
     }
 }

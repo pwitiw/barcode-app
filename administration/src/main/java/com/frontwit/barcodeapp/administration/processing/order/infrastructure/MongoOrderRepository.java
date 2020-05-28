@@ -38,7 +38,7 @@ public class MongoOrderRepository implements OrderRepository {
 
     @Override
     public boolean isNotSynchronized(OrderId orderId) {
-        return findById(orderId.getId()).isPresent();
+        return findById(orderId.getId()).isEmpty();
     }
 
     private Optional<OrderEntity> findById(Long id) {

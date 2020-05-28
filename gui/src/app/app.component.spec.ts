@@ -19,7 +19,7 @@ describe('AppComponent', () => {
   it(`should have as title 'barcode-app-client'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('barcode-app-customerName');
+    expect(app.title).toEqual('barcode-app-customer');
   });
 
   it('should render title in a h1 tag', () => {
