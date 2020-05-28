@@ -48,12 +48,8 @@ public class BarcodeProcessor {
             var command = new ProcessFrontCommand(stageId, barcode, LocalDateTime.now());
             return Optional.of(command);
         } catch (NumberFormatException ex) {
-            LOG.warn(format("Barcode contains letters %s -> deleted letters", event.getValue()));
-            var stageId = Integer.valueOf(event.getValue().substring(0, 1));
-            var barcode = event.getValue().substring(1);
-            barcode = event.getValue().replaceAll("[A-Za-z]", "");
-            var command = new ProcessFrontCommand(stageId, Long.valueOf(barcode), LocalDateTime.now());
-            return Optional.of(command);
+            LOG.warn(format("Barcode contains letters %s", event.getValue()));
+            return Optional.empty();
         }
     }
 
