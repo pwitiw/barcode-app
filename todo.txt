@@ -4,7 +4,6 @@ BUGS:
 - brak favicon
 
 Pytania:
-- jak ktos da ze zakonczony a ktos inny bedzie chcial procesowac zamowienie to co sie ma stac?
 - obgadac etapy produkcji
 
 !!!BARDZO WAŻNE:
@@ -17,26 +16,22 @@ Pytania:
 Features:
 - synchronizaca wyceny + deadlinu
 - synchronizacja adresu i telefonu klienta potrzebnych do raportu
-- mapa z trasą
 -  jest zamowienie i jest juz spakowane i jest niekompletne i wiemy ze brakuje jednej witryny bo jest na docieciu
 i robi beata trase i w jakims zamowieniu brakuje jakiegos elementu i ktos dopisze to bedzie wiadomo, ze niekompletne
 i na cos trzeba czekac
-- raportowanie:
-    * ile metrow w danym miesiacu
-    * metr per klient
-    * poprawki ?? - do obgadania
 - offline mode dla magazyniera
 - feature switch dla amazona zeby nie ssal
 
 statystyki:
 - ile w dniu, tygodniu, miesiacu spakowanych jest
 - podzial na tygodnie w deadlinach
+- raportowanie:
+    * ile metrow w danym miesiacu
+    * metr per klient
+    * poprawki ?? - do obgadania
+
 
 TRASY:
 - kierowca
 - data
 - adres, numer telefonu
-
-TODO route finder
-- ( na pinezkach kolejnosc)
-- sortowanie od punktu docelowego

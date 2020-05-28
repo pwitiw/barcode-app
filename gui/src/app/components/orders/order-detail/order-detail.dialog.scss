@@ -1,12 +1,4 @@
 .details-overview {
-  .close {
-    margin: -20px;
-
-    &:focus {
-      outline: 0;
-    }
-  }
-
   .details {
     display: flex;
     justify-content: space-around;

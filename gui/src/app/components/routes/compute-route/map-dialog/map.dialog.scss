@@ -1,0 +1,21 @@
+.map-dialog {
+  text-align: center;
+
+  h2 {
+    text-align: center;
+  }
+
+  .gm-ui-hover-effect {
+    display: none !important;
+  }
+
+  agm-map {
+    height: 500px;
+  }
+
+  .approve-btn {
+    margin-top: $margin-md;
+  }
+}
+
+

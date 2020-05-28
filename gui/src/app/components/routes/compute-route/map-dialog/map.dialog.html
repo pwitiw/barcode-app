@@ -1,0 +1,29 @@
+<div class="map-dialog">
+    <button class="dialog close" mat-icon-button color="primary" [mat-dialog-close]>
+        <mat-icon>close</mat-icon>
+    </button>
+    <h2>Trasa</h2>
+    <agm-map [fitBounds]="true">
+        <agm-polygon [paths]="waypoints" fillColor="transparent"></agm-polygon>
+        <agm-marker
+                *ngFor="let a of addresses; let i = index"
+                [latitude]="a.city.lat"
+                [longitude]="a.city.lng"
+                [agmFitBounds]="true"
+                [label]="(i+1).toString()"
+                [markerDraggable]="false"
+                [opacity]="0.8"
+                (mouseOver)="infoWindow.open()"
+                (mouseOut)="infoWindow.close()">
+            <agm-info-window [disableAutoPan]="false" #infoWindow>
+                <div>
+                    {{a.customer}}
+                </div>
+            </agm-info-window>
+        </agm-marker>
+    </agm-map>
+    <button color="primary" class="approve-btn" (click)="okClicked()" mat-button>
+        <mat-icon>done</mat-icon>
+        Zatwierdź
+    </button>
+</div>

@@ -2,19 +2,23 @@ import {Component, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {RestService} from "../../services/rest.service";
 import {SnackBarService} from "../../services/snack-bar.service";
+import {DeliveryInformation, Order} from "./DeliveryInformation";
+import {ComputeRoute} from "./compute-route/compute-route.component";
+import {CustomerAddress} from "./compute-route/CustomerAddress";
 
 @Component({
     selector: 'app-routes',
     templateUrl: './routes.component.html'
 })
 export class RoutesComponent implements OnInit {
-    customers = [];
+    customers: DeliveryInformation[] = [];
     routeDetails: DeliveryInformation[] = [];
     routeNamePdf: string;
     routes: string;
 
     constructor(private restService: RestService,
-                private snackBarService: SnackBarService) {
+                private snackBarService: SnackBarService,
+                private computeRoute: ComputeRoute) {
     }
 
     ngOnInit() {
@@ -34,7 +38,7 @@ export class RoutesComponent implements OnInit {
     private mapToDeliveryInfo(response: any): void {
         this.customers = []
             .concat(JSON.parse(response))
-            .map(e => DeliveryInformation.of(e.customer, e.address, e.orders, e.paymentType))
+            .map(e => DeliveryInformation.of(e.customer, e.orders, e.paymentType, e.address))
     }
 
     drop(event: CdkDragDrop<string[]>): void {
@@ -57,7 +61,6 @@ export class RoutesComponent implements OnInit {
                     const file = new Blob([response.body], {type: 'application/pdf'});
                     const fileURL = URL.createObjectURL(file);
                     window.open(fileURL);
-                    console.info(response);
                 }
             });
     }
@@ -73,42 +76,45 @@ export class RoutesComponent implements OnInit {
         order.isSelected = false;
         this.routeDetails = this.routeDetails.filter(info => info.isIncludedInPlanning())
     }
-}
 
-export class DeliveryInformation {
-    customer: string;
-    address: string;
-    orders: Order[];
-    paymentType: string;
-
-    static of(customer: string, address: string, orders: Order[], paymentType: string): DeliveryInformation {
-        const deliveryInformation = new DeliveryInformation();
-        deliveryInformation.customer = customer;
-        deliveryInformation.address = address;
-        deliveryInformation.orders = orders;
-        deliveryInformation.paymentType = paymentType;
-        return deliveryInformation;
+    setRouteClicked(): void {
+        let addresses = this.routeDetails.map(detail => new CustomerAddress(detail.customer, detail.address));
+        this.computeRoute.compute(addresses).subscribe(addresses => {
+            if (addresses.length == 0) {
+                this.snackBarService.failure("Wystąpił błąd podczas wyszukiwania trasy");
+                return;
+            } else if (addresses.length != this.routeDetails.length) {
+                this.snackBarService.warn("Niektóre adresy nie zostały odnalezione.");
+            } else {
+                this.snackBarService.success("Kolejność została pomyślnie wprowadzona");
+            }
+            this.reorderRouteDetails(addresses);
+        });
     }
 
-    isIncludedInPlanning(): boolean {
-        return this.orders.filter(order => order.isSelected).length > 0;
-    }
-
-    displayAggregateOrders(): string {
-        const displayOrder = (o: Order) => `${o.name} - ${o.quantity} szt.`;
-        return this.orders.filter(o => o.isSelected).map(displayOrder).reduce((o1, o2) => o1 + "<br>" + o2);
-    }
-
-    calculatePrice(): number {
-        return this.orders.filter(o => o.isSelected).map(o => o.price).reduce((o1, o2) => o1 + o2);
+    reorderRouteDetails(sortedAddresses: CustomerAddress[]): void {
+        let orderedCustomers = sortedAddresses.map(a => a.customer);
+        this.routeDetails = orderedCustomers.map(c => this.routeDetails.filter(details => details.customer == c)[0])
+            .concat(this.routeDetails.filter(details => orderedCustomers.indexOf(details.customer) < 0));
     }
 }
 
-interface Order {
-    name: string;
-    quantity: number;
-    price: number;
-    isSelected?: boolean;
+function testData(): DeliveryInformation[] {
+    return [
+        DeliveryInformation.of("Ostatek", [
+            {name: 'TW501', price: 222, quantity: 33, isSelected: true},
+        ], "FV", "ascjaiucbajkvhalkwvabjlk"),
+        DeliveryInformation.of("Kowalczyk", [
+            {name: 'TW101', price: 222, quantity: 11, isSelected: true},
+        ], "FV", "Wrocław"),
+        DeliveryInformation.of("Krawczyk", [
+            {name: 'TW201', price: 222, quantity: 23, isSelected: true},
+        ], "FV", "Lubin"),
+        DeliveryInformation.of("Ambrozy", [
+            {name: 'TW301', price: 222, quantity: 101, isSelected: true},
+        ], "FV", "Karpacz"),
+        DeliveryInformation.of("Wilczak", [
+            {name: 'TW401', price: 222, quantity: 1, isSelected: true},
+        ], "FV", "Drezno"),
+    ];
 }
-
-

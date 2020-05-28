@@ -4,15 +4,18 @@
 
 .mat-snack-bar-container, .mat-simple-snackbar-action {
   color: white;
+  min-width: 250px;
 
   &.error {
     background-color: #fb000087;
-    min-width: 250px;
   }
 
   &.success {
     background: rgba(0, 128, 0, 0.7);
-    min-width: 250px;
+  }
+
+  &.warn {
+    background: rgba(221, 208, 58, 0.7);
   }
 }
 
@@ -20,6 +23,10 @@
   .mat-paginator-container {
     justify-content: center;
   }
+}
+
+button:focus {
+  outline: none;
 }
 
 .title {
@@ -33,4 +40,14 @@
 
 .mat-header-cell {
   font-size: $font-medium;
+}
+
+.dialog {
+  &.close {
+    margin: -20px;
+
+    &:focus {
+      outline: 0;
+    }
+  }
 }

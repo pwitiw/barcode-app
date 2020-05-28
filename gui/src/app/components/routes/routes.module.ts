@@ -15,10 +15,16 @@ import {CommonModule} from "@angular/common";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {RestService} from "../../services/rest.service";
 import {FormsModule} from "@angular/forms";
+import {MapDialog} from "./compute-route/map-dialog/map.dialog";
+import {AgmCoreModule} from "@agm/core";
+import {GoogleApi} from "./compute-route/GoogleApi";
+import {ComputeRoute} from './compute-route/compute-route.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
     declarations: [
-        RoutesComponent
+        RoutesComponent,
+        MapDialog,
     ],
     imports: [
         MatTableModule,
@@ -30,11 +36,20 @@ import {FormsModule} from "@angular/forms";
         CommonModule,
         DragDropModule,
         MatExpansionModule,
-        FormsModule
+        FormsModule,
+        AgmCoreModule.forRoot({
+            apiKey: '',
+            region: 'pl',
+            libraries: ['places', 'drawing', 'geometry', 'geocoder']
+        }),
+        MatDialogModule
     ],
+    entryComponents: [MapDialog],
     providers: [
         StageService,
         RestService,
+        GoogleApi,
+        ComputeRoute,
         {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}
     ]
 })

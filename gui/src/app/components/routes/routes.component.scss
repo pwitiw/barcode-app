@@ -1,4 +1,11 @@
 .routes-component {
+  padding: $padding-lg;
+
+  .search {
+    display: flex;
+    //justify-content: space-between;
+    justify-content: space-around;
+  }
 
   .wrapper {
     position: relative;
@@ -14,11 +21,11 @@
 
   .tables {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
   }
 
   .candidate-list {
-    width: 45%;
+    width: 48%;
 
     .mat-expanded {
       background: $color-background;
@@ -74,7 +81,7 @@
       align-items: center;
       justify-content: space-between;
       box-sizing: border-box;
-      cursor: move;
+      cursor: grab;
       background: white;
 
       .label {

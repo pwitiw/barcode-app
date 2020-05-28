@@ -1,17 +1,16 @@
 <div class="routes-component" *ngIf="true">
     <h4 class="title">Planowanie trasy</h4>
-    <span>
-        <mat-form-field>
-            <input matInput placeholder="Trasa" [(ngModel)]="routes" name="route">
-        </mat-form-field>
-        <button mat-button color="primary" (click)="search()">
-        <mat-icon>search</mat-icon>
-        Szukaj
-    </button>
-    </span>
-    <br/>
     <div class="tables">
         <div class="candidate-list">
+            <span>
+                <mat-form-field>
+                    <input matInput placeholder="Trasa" [(ngModel)]="routes" name="route">
+                </mat-form-field>
+                <button mat-button color="primary" (click)="search()">
+                    <mat-icon>search</mat-icon>
+                    Szukaj
+                </button>
+            </span>
             <mat-accordion>
                 <mat-expansion-panel *ngFor="let customer of customers">
                     <mat-expansion-panel-header [expandedHeight]="'48px'">
@@ -37,9 +36,19 @@
                 </mat-expansion-panel>
             </mat-accordion>
         </div>
-        <!--        -->
 
-        <div class="route-list">
+        <div class="route-list" *ngIf="routeDetails.length > 0">
+            <mat-form-field *ngIf="routeDetails.length > 0">
+                <input matInput placeholder="Nazwa trasy" [(ngModel)]="routeNamePdf" name="routeNamePdf">
+            </mat-form-field>
+            <button mat-button color="primary" (click)="setRouteClicked()">
+                <mat-icon>map</mat-icon>
+                Wyznacz trasę
+            </button>
+            <button mat-button color="primary" (click)="generateRouteDocument()">
+                <mat-icon>picture_as_pdf</mat-icon>
+                Generuj PDF
+            </button>
             <div cdkDropList (cdkDropListDropped)="drop($event)">
                 <div class="example-box" *ngFor="let routeDetail of routeDetails; let i=index" cdkDrag>
                     <span class="label no">{{i + 1}}</span>
@@ -53,15 +62,6 @@
                     <span class="label price">{{routeDetail.calculatePrice()}} zł</span>
                 </div>
             </div>
-            <p>
-                <mat-form-field *ngIf="routeDetails.length > 0">
-                    <input matInput placeholder="Nazwa trasy" [(ngModel)]="routeNamePdf" name="routeNamePdf">
-                </mat-form-field>
-            </p>
-            <button *ngIf="routeDetails.length > 0" mat-button color="primary" (click)="generateRouteDocument()">
-                <mat-icon>picture_as_pdf</mat-icon>
-                Generuj trase
-            </button>
         </div>
     </div>
 </div>

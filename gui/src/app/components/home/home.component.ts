@@ -36,9 +36,11 @@ export class HomeComponent implements OnInit {
         this.restService.get<any>(`/api/orders/reminders?page=${this.page}&size=${this.size}`)
             .subscribe(response => {
                 const result = response.body;
-                this.page = result.number;
-                this.totalElements = result.totalElements;
-                this.reminders = result.content;
+                if (result) {
+                    this.page = result.number;
+                    this.totalElements = result.totalElements;
+                    this.reminders = result.content;
+                }
             });
     }
 }
