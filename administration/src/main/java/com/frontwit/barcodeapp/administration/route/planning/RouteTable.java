@@ -52,7 +52,7 @@ class RouteTable {
     private void addBody(List<RouteDetails.Report> reports, PdfPTable table) {
         reports.forEach(report -> {
             table.addCell(String.valueOf(reports.indexOf(report) + 1));
-            table.addCell(pdfParts.createParagraph(report.getCustomer(), BODY_SIZE));
+            table.addCell(pdfParts.createParagraph(report.concatNameWithAddress(report), BODY_SIZE));
             table.addCell(report.displayOrders());
             table.addCell(EMPTY_STRING);
 // TODO wating for working settlement type           table.addCell(report.getSettlementType().getDisplayValue());
@@ -77,3 +77,4 @@ class RouteTable {
         return cell;
     }
 }
+

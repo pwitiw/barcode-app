@@ -1,6 +1,7 @@
 package com.frontwit.barcodeapp.administration.processing.order.infrastructure;
 
 import com.frontwit.barcodeapp.administration.catalogue.dto.*;
+import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
 import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy;
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
@@ -42,8 +43,7 @@ public class OrderEntity {
     private Stage stage;
     private String cutter;
     private String comment;
-    private String customer;
-    private String route;
+    private Long customerId;
     private boolean completed;
     private int quantity;
     private Instant lastProcessedOn;
@@ -60,9 +60,8 @@ public class OrderEntity {
         this.size = targetOrder.getInfo().getSize();
         this.stage = Stage.INIT;
         this.orderedAt = targetOrder.getInfo().getOrderedAt();
-        this.customer = targetOrder.getInfo().getCustomer();
+        this.customerId = targetOrder.getCustomerId();
         this.comment = targetOrder.getComment().compose();
-        this.route = targetOrder.getInfo().getRoute();
         this.quantity = targetOrder.getFronts().stream()
                 .map(TargetFront::getQuantity)
                 .map(Quantity::getValue)
@@ -85,19 +84,21 @@ public class OrderEntity {
         return new Order(new OrderId(id), notPackedFronts, stage, lastProcessedOn, completed, policy);
     }
 
-    public OrderDetailDto detailsDto(List<FrontDto> fronts) {
+    public OrderDetailDto detailsDto(List<FrontDto> fronts, CustomerEntity customer) {
         var deadline = this.deadline != null ? this.deadline.toEpochMilli() : null;
-        return new OrderDetailDto(id, name, color, size, cutter, comment, customer, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline, price);
+        var customerName = customer.getName();
+        var route = customer.getRoute();
+        return new OrderDetailDto(id, name, color, size, cutter, comment, customerName, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline, price);
     }
 
-    public OrderDto dto() {
+    public OrderDto dto(CustomerEntity customer) {
         LocalDate zonedProcessedOnDate = this.lastProcessedOn != null ? LocalDate.ofInstant(this.lastProcessedOn, CLIENT_ZONE_ID) : null;
         LocalDate zonedOrderedAt = this.orderedAt != null ? LocalDate.ofInstant(this.orderedAt, CLIENT_ZONE_ID) : null;
-        return new OrderDto(id, name, zonedOrderedAt, zonedProcessedOnDate, stage, quantity, customer, route, packed, completed);
+        return new OrderDto(id, name, zonedOrderedAt, zonedProcessedOnDate, stage, quantity, customer.getName(), customer.getRoute(), packed, completed);
     }
 
     public ReminderDto reminderDto() {
-        return new ReminderDto(name, customer, deadline.toEpochMilli());
+        return new ReminderDto(name, customerId, deadline.toEpochMilli());
     }
 
 

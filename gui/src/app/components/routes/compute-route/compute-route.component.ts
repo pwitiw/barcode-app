@@ -4,7 +4,6 @@ import {SnackBarService} from "../../../services/snack-bar.service";
 import {MatDialog} from "@angular/material/dialog";
 import {GoogleApi} from "./GoogleApi";
 import {CustomerAddress} from "./CustomerAddress";
-import {City} from "./City";
 import {LoadingService} from "../../../services/loading.service";
 import {Observable, Subject} from "rxjs";
 

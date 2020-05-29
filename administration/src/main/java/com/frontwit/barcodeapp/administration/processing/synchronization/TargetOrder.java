@@ -11,6 +11,7 @@ import java.util.Optional;
 @Value
 public class TargetOrder {
     private OrderId orderId;
+    private Long customerId;
     private TargetOrder.Comment comment;
     private TargetOrder.Info info;
     private List<TargetFront> fronts;
@@ -36,9 +37,6 @@ public class TargetOrder {
         private String cutter;
         private String size;
         private String name;
-        private String customer;
-        private String route;
         private Instant orderedAt;
     }
-
 }

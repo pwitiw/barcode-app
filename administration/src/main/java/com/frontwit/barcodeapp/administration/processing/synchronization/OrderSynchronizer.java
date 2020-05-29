@@ -1,6 +1,8 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization;
 
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontNotFound;
+import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
+import com.frontwit.barcodeapp.administration.processing.order.model.OrderRepository;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents;
 import lombok.AllArgsConstructor;
@@ -8,29 +10,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
-import java.time.ZoneId;
-
 import static java.lang.String.format;
-import static java.time.ZoneId.of;
 
 @AllArgsConstructor
 public class OrderSynchronizer {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderSynchronizer.class);
 
-    private SourceOrderRepository sourceOrderRepository;
-    private SaveSynchronizedFronts saveSynchronizedFronts;
-    private SaveSynchronizedOrder saveSynchronizedOrder;
-    private CheckSynchronizedOrder checkSynchronizedOrder;
+    private SourceRepository sourceRepository;
+    private FrontRepository frontRepository;
+    private OrderRepository orderRepository;
     private OrderMapper orderMapper;
     private DomainEvents domainEvents;
     private SynchronizationRepository synchronizationRepository;
 
     @EventListener
     public void synchronize(FrontNotFound event) {
-        if (!checkSynchronizedOrder.isSynchronized(event.getOrderId())) {
-            sourceOrderRepository.findBy(event.getOrderId()).ifPresentOrElse(
+        if (orderRepository.isNotSynchronized(event.getOrderId())) {
+            sourceRepository.findBy(event.getOrderId()).ifPresentOrElse(
                     order -> {
-                        var dictionary = sourceOrderRepository.getDictionary();
+                        var dictionary = sourceRepository.getDictionary();
                         saveOrderWithFronts(order, dictionary);
                         domainEvents.publish(new FrontSynchronized(event.getDelayedProcessFrontCommand()));
                     },
@@ -38,12 +36,12 @@ public class OrderSynchronizer {
         }
     }
 
-    public long synchronizeOrders() {
+    public long synchronize() {
         var lastSyncDate = synchronizationRepository.getLastSynchronizationDate();
-        var dictionary = sourceOrderRepository.getDictionary();
-        long count = sourceOrderRepository.findByDateBetween(lastSyncDate)
+        var dictionary = sourceRepository.getDictionary();
+        long count = sourceRepository.findByDateBetween(lastSyncDate)
                 .stream()
-                .filter(sourceOrder -> !checkSynchronizedOrder.isSynchronized(new OrderId(sourceOrder.getId())))
+                .filter(sourceOrder -> orderRepository.isNotSynchronized(new OrderId(sourceOrder.getId())))
                 .peek(sourceOrder -> saveOrderWithFronts(sourceOrder, dictionary))
                 .count();
         synchronizationRepository.updateSyncDate();
@@ -53,8 +51,8 @@ public class OrderSynchronizer {
 
     private void saveOrderWithFronts(SourceOrder sourceOrder, Dictionary dictionary) {
         var targetOrder = orderMapper.map(sourceOrder, dictionary);
-        saveSynchronizedOrder.save(targetOrder);
-        saveSynchronizedFronts.save(targetOrder.getFronts());
-        LOGGER.info(format("OrderSynchronized {id=%s, frontsNr=%s}", targetOrder.getOrderId().getId(), targetOrder.getFronts().size()));
+        orderRepository.save(targetOrder);
+        frontRepository.save(targetOrder.getFronts());
+        LOGGER.info("OrderSynchronized {id={}, customer={}, frontsNr={}}", targetOrder.getOrderId().getId(), targetOrder.getCustomerId(), targetOrder.getFronts().size());
     }
 }

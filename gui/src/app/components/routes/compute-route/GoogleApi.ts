@@ -2,7 +2,7 @@ import {CustomerAddress} from "./CustomerAddress";
 import {forkJoin, Observable, of} from "rxjs";
 import {Injectable} from "@angular/core";
 import {AgmGeocoder, GeocoderResult} from "@agm/core";
-import {catchError, filter, map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 import {LocalStorageService} from "../../../services/local-storage.service";
 import {City} from "./City";
 

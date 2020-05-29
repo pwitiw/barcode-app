@@ -1,5 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization.infrastructure;
 
+import com.frontwit.barcodeapp.administration.processing.synchronization.CustomerSynchronizer;
 import com.frontwit.barcodeapp.administration.processing.synchronization.OrderSynchronizer;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class SynchronizationController {
 
     private OrderSynchronizer orderSynchronizer;
+    private CustomerSynchronizer customerSynchronizer;
 
     @PostMapping(value = "/orders/synchronize")
     public long synchronize() {
-        return orderSynchronizer.synchronizeOrders();
+        customerSynchronizer.synchronize();
+        return orderSynchronizer.synchronize();
     }
 }

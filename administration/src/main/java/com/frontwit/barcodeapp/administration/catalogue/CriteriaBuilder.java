@@ -35,7 +35,7 @@ public class CriteriaBuilder {
 
     private void customer(OrderSearchCriteria searchCriteria, Criteria result) {
         if (isNotEmpty(searchCriteria.getCustomer())) {
-            addRegex("customer", searchCriteria.getCustomer(), result);
+            addRegex("customerName", searchCriteria.getCustomer(), result);
         }
     }
 
