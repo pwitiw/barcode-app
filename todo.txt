@@ -19,16 +19,23 @@ Features:
 -  jest zamowienie i jest juz spakowane i jest niekompletne i wiemy ze brakuje jednej witryny bo jest na docieciu
 i robi beata trase i w jakims zamowieniu brakuje jakiegos elementu i ktos dopisze to bedzie wiadomo, ze niekompletne
 i na cos trzeba czekac
-- offline mode dla magazyniera
 - feature switch dla amazona zeby nie ssal
 
 statystyki:
-- ile w dniu, tygodniu, miesiacu spakowanych jest
-- podzial na tygodnie w deadlinach
-- raportowanie:
-    * ile metrow w danym miesiacu
-    * metr per klient
-    * poprawki ?? - do obgadania
+- Zamówienia: to jako tabela na stronie głównej
+ * ilość, metry / dzień, tydzień, miesiąć, kwartał, rok?
+ * Osobno poprawki
+ ?? - poprawki doliczane do zamówień czy trakowane oddzielnie?
+
+kompletne/ niekompletne
+
+- Klienci: ?? jak to ma być wyświetlane
+* ilość, metry /
+
+- Liczba spakowań - ?
+?? w jakim konteksce chce to mieć?
+?? granularność? - dziennie, tygodniowo, miesięcznie
+?? w jakiej formie wyświetlane
 
 
 TRASY:

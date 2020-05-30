@@ -9,29 +9,17 @@ import org.junit.runner.RunWith;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 @RunWith(ArchUnitRunner.class)
-@AnalyzeClasses(packages = {
-        "com.frontwit.barcodeapp.administration.order.front",
-        "com.frontwit.barcodeapp.administration.order.order"
-})
+@AnalyzeClasses(packages = "com.frontwit.barcodeapp.administration")
 public class HexagonalArchitectureTest {
 
     @ArchTest
-    public static final ArchRule model_should_not_depend_on_application =
+    public static final ArchRule model_should_not_depend_on_application_and_infrastructure =
             noClasses()
                     .that()
                     .resideInAPackage("..model..")
                     .should()
                     .dependOnClassesThat()
-                    .resideInAPackage("..application..");
-
-    @ArchTest
-    public static final ArchRule model_should_not_depend_on_infrastructure =
-            noClasses()
-                    .that()
-                    .resideInAPackage("..model..")
-                    .should()
-                    .dependOnClassesThat()
-                    .resideInAPackage("..infrastructure..");
+                    .resideInAnyPackage("..application..", "infrastructure");
 
     @ArchTest
     public static final ArchRule aplication_should_not_depend_on_infrastructure =

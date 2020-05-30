@@ -1,24 +1,27 @@
 package com.frontwit.barcodeapp.administration.processing.front.model;
 
-import com.frontwit.barcodeapp.administration.processing.front.application.dto.ProcessFrontCommand;
+import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvent;
+import lombok.NonNull;
 import lombok.Value;
+
+import java.time.LocalDateTime;
 
 @Value
 public class FrontNotFound implements DomainEvent {
-    OrderId orderId;
-    ProcessFrontCommand delayedProcessFrontCommand;
+    @NonNull
+    private Barcode barcode;
+    @NonNull
+    private Integer stage;
+    private LocalDateTime dateTime;
 
     @Override
     public Long getId() {
-        return delayedProcessFrontCommand.getBarcode();
+        return barcode.getBarcode();
     }
 
-    @Override
-    public String toString() {
-        return "FrontNotFound {" +
-                "barcode=" + delayedProcessFrontCommand.getBarcode() +
-                '}';
+    public OrderId getOrderId() {
+        return barcode.getOrderId();
     }
 }

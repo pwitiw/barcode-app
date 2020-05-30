@@ -1,5 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.front.application.dto;
 
+import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ProcessFrontCommand {
     @NonNull
-    private Long barcode;
+    private Barcode barcode;
     @NonNull
     private Integer stage;
     private LocalDateTime dateTime;

@@ -1,5 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization;
 
+import com.frontwit.barcodeapp.administration.processing.front.application.dto.ProcessFrontCommand;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontNotFound;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderRepository;
@@ -30,7 +31,7 @@ public class OrderSynchronizer {
                     order -> {
                         var dictionary = sourceRepository.getDictionary();
                         saveOrderWithFronts(order, dictionary);
-                        domainEvents.publish(new FrontSynchronized(event.getDelayedProcessFrontCommand()));
+                        domainEvents.publish(new FrontSynchronized(event.getBarcode(), event.getStage(), event.getDateTime()));
                     },
                     () -> LOGGER.warn("Order not found {}", event.getOrderId()));
         }

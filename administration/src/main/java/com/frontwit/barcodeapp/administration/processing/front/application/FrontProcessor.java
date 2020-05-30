@@ -6,6 +6,7 @@ import com.frontwit.barcodeapp.administration.processing.front.model.FrontNotFou
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
 import com.frontwit.barcodeapp.administration.processing.front.model.ProcessingDetails;
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
+import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents;
 import com.frontwit.barcodeapp.administration.processing.synchronization.FrontSynchronized;
@@ -24,16 +25,21 @@ public class FrontProcessor {
     private DomainEvents domainEvents;
 
     public void process(ProcessFrontCommand command) {
-        var barcode = new Barcode(command.getBarcode());
-        frontRepository.findBy(barcode)
-                .ifPresentOrElse(front -> process(front, command), () -> publishFrontNotFound(command));
+        frontRepository.findBy(command.getBarcode())
+                .ifPresentOrElse(
+                        front -> process(front, command),
+                        () -> publishFrontNotFound(command)
+                );
     }
 
     @EventListener
     public void process(FrontSynchronized event) {
-        var barcode = new Barcode(event.getProcessFrontCommand().getBarcode());
-        frontRepository.findBy(barcode).ifPresentOrElse(front -> process(front, event.getProcessFrontCommand()),
-                () -> LOGGER.warn(format("No front for barcode %s", barcode)));
+        var command = new ProcessFrontCommand(event.getBarcode(), event.getStage(), event.getDateTime());
+        frontRepository.findBy(event.getBarcode())
+                .ifPresentOrElse(
+                        front -> process(front, command),
+                        () -> LOGGER.warn(format("No front for barcode %s", event.getId()))
+                );
     }
 
     private void process(Front front, ProcessFrontCommand command) {
@@ -43,6 +49,6 @@ public class FrontProcessor {
     }
 
     private void publishFrontNotFound(ProcessFrontCommand command) {
-        domainEvents.publish(new FrontNotFound(new Barcode(command.getBarcode()).getOrderId(), command));
+        domainEvents.publish(new FrontNotFound(command.getBarcode(), command.getStage(), command.getDateTime()));
     }
 }
