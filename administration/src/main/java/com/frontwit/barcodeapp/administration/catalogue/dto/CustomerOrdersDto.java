@@ -10,6 +10,7 @@ import java.util.List;
 public class CustomerOrdersDto {
     private String customer;
     private String address;
+    private String phoneNumber;
     private List<OrderInfoDto> orders;
     private String paymentType;
 }

@@ -16,11 +16,13 @@ public class CustomerEntity {
     private String name;
     private String address;
     private String route;
+    private String phoneNumber;
 
     public CustomerEntity(SourceCustomer customer) {
         this.id = customer.getId();
         this.name = customer.getName();
         this.address = customer.getAddress();
         this.route = customer.getRoute();
+        this.phoneNumber = customer.getPhoneNumber();
     }
 }

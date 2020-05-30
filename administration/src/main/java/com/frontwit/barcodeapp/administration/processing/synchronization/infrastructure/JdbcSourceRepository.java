@@ -52,7 +52,8 @@ public class JdbcSourceRepository implements SourceRepository {
                 "k.id as id, " +
                 "k.nazwa as name, " +
                 "k.trasa as route, " +
-                "k.adres as address " +
+                "k.adres as address, " +
+                "k.telefon as phoneNumber " +
                 "FROM tklienci k ";
     }
 
@@ -62,13 +63,17 @@ public class JdbcSourceRepository implements SourceRepository {
                 "z.numer as nr, " +
                 "z.pozycje as fronts, " +
                 "data_z as orderedAt, " +
+                "data_r as deadline, " +
+                "valuation as valuation, " +
+                "rodzaj as type, " +
                 "z.nr_zam_kl as additionalInfo, " +
                 "z.opis as description, " +
                 "z.cechy as features, " +
                 "k.nazwa as customerName, " +
                 "k.trasa as route, " +
                 "k.adres as customerAddress, " +
-                "k.id as customerId " +
+                "k.id as customerId, " +
+                "k.telefon as phoneNumber " +
                 "FROM tzamowienia z JOIN tklienci k " +
                 "ON z.tklienci_id = k.id ";
     }

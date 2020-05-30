@@ -9,4 +9,5 @@ public class SourceCustomer {
     private String name;
     private String address;
     private String route;
+    private String phoneNumber;
 }

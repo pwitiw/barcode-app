@@ -12,6 +12,7 @@ import java.util.List;
 public class DeliveryInfoDto {
     private String customer;
     private String address;
+    private String phoneNumber;
     private List<DeliveryOrderDto> orders;
     private String paymentType;
 }

@@ -56,7 +56,7 @@ public class OrderQuery {
                 .map(e -> {
                     var customer = e.getKey();
                     var orders = e.getValue();
-                    return new CustomerOrdersDto(customer.getName(), customer.getAddress(), mapToOrderInfoDto(orders), "");
+                    return new CustomerOrdersDto(customer.getName(), customer.getAddress(), customer.getPhoneNumber(), mapToOrderInfoDto(orders), "");
                 })
                 .collect(toList());
     }
