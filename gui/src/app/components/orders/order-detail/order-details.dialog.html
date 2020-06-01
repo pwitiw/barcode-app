@@ -6,7 +6,7 @@
         <div class="order-details">
             <h4>Szczegóły</h4>
             <icon-with-text [icon]="iconName"
-                            [text]="order.name"
+                            [text]="displayNameAndType(order.name, order.type)"
                             title="Numer zamówienia">
             </icon-with-text>
             <icon-with-text [icon]="iconStage"
