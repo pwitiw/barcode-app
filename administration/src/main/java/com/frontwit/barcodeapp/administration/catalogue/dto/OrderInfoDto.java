@@ -8,5 +8,5 @@ import lombok.Data;
 public class OrderInfoDto {
     private String name;
     private int quantity;
-    private double price;
+    private double valuation;
 }

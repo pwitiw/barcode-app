@@ -3,13 +3,15 @@ export class DeliveryInformation {
     orders: Order[];
     paymentType: string;
     address: string;
+    phoneNumber: string;
 
-    static of(customer: string, orders: Order[], paymentType: string, address: string): DeliveryInformation {
+    static of(customer: string, orders: Order[], paymentType: string, address: string, phoneNumber: string): DeliveryInformation {
         const deliveryInformation = new DeliveryInformation();
         deliveryInformation.customer = customer;
         deliveryInformation.orders = orders;
         deliveryInformation.paymentType = paymentType;
         deliveryInformation.address = address;
+        deliveryInformation.phoneNumber = phoneNumber;
         return deliveryInformation;
     }
 
@@ -23,14 +25,14 @@ export class DeliveryInformation {
     }
 
     calculatePrice(): number {
-        return this.orders.filter(o => o.isSelected).map(o => o.price).reduce((o1, o2) => o1 + o2);
+        return this.orders.filter(o => o.isSelected).map(o => o.valuation).reduce((o1, o2) => o1 + o2);
     }
 }
 
 export interface Order {
     name: string;
     quantity: number;
-    price: number;
+    valuation: number;
     isSelected?: boolean;
 }
 

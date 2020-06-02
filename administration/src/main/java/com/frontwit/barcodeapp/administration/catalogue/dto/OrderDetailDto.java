@@ -1,5 +1,6 @@
 package com.frontwit.barcodeapp.administration.catalogue.dto;
 
+import com.frontwit.barcodeapp.administration.processing.order.model.OrderType;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,5 +27,6 @@ public class OrderDetailDto {
     private boolean completed;
     private boolean packed;
     private Long deadline;
-    private BigDecimal price;
+    private BigDecimal valuation;
+    private OrderType type;
 }

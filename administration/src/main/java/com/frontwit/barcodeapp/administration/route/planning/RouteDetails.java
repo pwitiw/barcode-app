@@ -41,6 +41,8 @@ class RouteDetails {
         private final String customer;
         @Getter
         private final String address;
+        @Getter
+        private final String phoneNumber;
         private final List<Order> orders;
         @Getter
         private final SettlementType settlementType;
@@ -55,7 +57,7 @@ class RouteDetails {
 
         BigDecimal getAmount() {
             return orders.stream()
-                    .map(Order::getPrice)
+                    .map(Order::getValuation)
                     .reduce(BigDecimal::add)
                     .orElse(BigDecimal.valueOf(0));
         }
@@ -63,19 +65,25 @@ class RouteDetails {
         static Report of(DeliveryInfoDto dto) {
             String customer = dto.getCustomer();
             String address = dto.getAddress();
+            String phoneNumber = dto.getPhoneNumber();
             SettlementType paymentType = SettlementType.of(dto.getPaymentType());
             List<Order> orders = dto.getOrders().stream()
                     .filter(DeliveryOrderDto::isSelected)
                     .map(Order::of)
                     .collect(Collectors.toList());
-            return new Report(customer, address, orders, paymentType);
+            return new Report(customer, address, phoneNumber, orders, paymentType);
         }
 
-        String concatNameWithAddress(Report report) {
-            if (report.getAddress().isEmpty()) {
-                return report.getCustomer();
-            }
-            return report.getCustomer().concat(" ").concat(report.getAddress());
+        String getCustomerInfo() {
+            return customer + displayAddress() + displayContactInfo();
+        }
+
+        private Object displayContactInfo() {
+            return phoneNumber == null ? "" : "\n" + "tel. " + phoneNumber;
+        }
+
+        private String displayAddress() {
+            return address == null ? "" : "\n" + address;
         }
     }
 }

@@ -9,5 +9,5 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class UpdateOrderDto {
     long deadline;
-    BigDecimal price;
+    BigDecimal valuation;
 }

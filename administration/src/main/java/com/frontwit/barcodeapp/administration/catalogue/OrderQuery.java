@@ -56,7 +56,7 @@ public class OrderQuery {
                 .map(e -> {
                     var customer = e.getKey();
                     var orders = e.getValue();
-                    return new CustomerOrdersDto(customer.getName(), customer.getAddress(), mapToOrderInfoDto(orders), "");
+                    return new CustomerOrdersDto(customer.getName(), customer.getAddress(), customer.getPhoneNumber(), mapToOrderInfoDto(orders), "");
                 })
                 .collect(toList());
     }
@@ -123,6 +123,6 @@ public class OrderQuery {
 
         return PageableExecutionUtils
                 .getPage(orders, pageable, () -> mongoTemplate.count(new Query(criteria), OrderEntity.class))
-                .map(OrderEntity::reminderDto);
+                .map(o -> o.reminderDto(findCustomerBy(o.getCustomerId())));
     }
 }

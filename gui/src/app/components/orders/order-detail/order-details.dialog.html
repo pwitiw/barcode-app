@@ -6,7 +6,7 @@
         <div class="order-details">
             <h4>Szczegóły</h4>
             <icon-with-text [icon]="iconName"
-                            [text]="order.name"
+                            [text]="displayNameWithOptionalType(order.name, order.type)"
                             title="Numer zamówienia">
             </icon-with-text>
             <icon-with-text [icon]="iconStage"
@@ -52,7 +52,7 @@
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field>
-                    <input type="number" min="0" matInput placeholder="Wycena (zł)" [(ngModel)]="order.price"
+                    <input type="number" min="0" matInput placeholder="Wycena (zł)" [(ngModel)]="order.valuation"
                            name="price">
                 </mat-form-field>
                 <button mat-raised-button color="primary" (click)="updateOrder()">Zapisz</button>

@@ -28,11 +28,13 @@ public class OrderMapper {
     public TargetOrder map(SourceOrder source, Dictionary dictionary) {
         var orderId = new OrderId(source.getId());
         var customerId = source.getCustomerId();
+        var valuation = source.getValuation();
+        var deadline = source.getDeadline().toInstant();
         var comment = new TargetOrder.Comment(source.getDescription(), source.getAdditionalInfo());
         var orderInfo = createOrderInfo(source, dictionary);
         var fronts = createFronts(source);
 
-        return new TargetOrder(orderId, customerId, comment, orderInfo, fronts);
+        return new TargetOrder(orderId, customerId, valuation, deadline, comment, orderInfo, fronts);
     }
 
     private TargetOrder.Info createOrderInfo(SourceOrder source, Dictionary dictionary) {
@@ -41,11 +43,12 @@ public class OrderMapper {
             var color = dictionary.getValue(features.getColor());
             var cutter = dictionary.getValue(features.getCutter());
             var size = dictionary.getValue(features.getSize());
-            return new TargetOrder.Info(color, cutter, size, source.getNr(), source.getOrderedAt().toInstant());
+            var type = OrderTypeMapper.map(source.getType());
+            return new TargetOrder.Info(color, cutter, size, source.getNr(), source.getOrderedAt().toInstant(), type);
         } catch (IOException e) {
             LOG.warn(format("Order parsing error. Default order info set {orderId= %s}", source.getId()), e);
         }
-        return new TargetOrder.Info("", "", "", source.getNr(), source.getOrderedAt().toInstant());
+        return new TargetOrder.Info("", "", "", source.getNr(), source.getOrderedAt().toInstant(), OrderTypeMapper.map(source.getType()));
     }
 
     private List<TargetFront> createFronts(SourceOrder source) {

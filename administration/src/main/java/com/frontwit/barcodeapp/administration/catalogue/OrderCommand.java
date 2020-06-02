@@ -1,7 +1,6 @@
 package com.frontwit.barcodeapp.administration.catalogue;
 
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
-import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.mongodb.client.result.UpdateResult;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -45,7 +43,7 @@ class OrderCommand {
         Optional.ofNullable(mongoTemplate.findById(updateOrder.getOrderId(), OrderEntity.class))
                 .ifPresentOrElse(order -> {
                     order.setDeadline(updateOrder.getDeadline());
-                    order.setPrice(updateOrder.getPrice());
+                    order.setValuation(updateOrder.getValuation());
                     mongoTemplate.save(order);
                     LOGGER.info(updateOrder.toString());
                 }, () -> new IllegalArgumentException(format("Order with id %s does not exist", updateOrder.getOrderId())));

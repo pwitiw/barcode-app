@@ -1,8 +1,10 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization;
 
+import com.frontwit.barcodeapp.administration.processing.order.model.OrderType;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import lombok.Value;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +14,8 @@ import java.util.Optional;
 public class TargetOrder {
     private OrderId orderId;
     private Long customerId;
+    private BigDecimal valuation;
+    private Instant deadline;
     private TargetOrder.Comment comment;
     private TargetOrder.Info info;
     private List<TargetFront> fronts;
@@ -38,5 +42,6 @@ public class TargetOrder {
         private String size;
         private String name;
         private Instant orderedAt;
+        private OrderType type;
     }
 }

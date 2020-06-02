@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class ReminderDto {
     String name;
-    Long customerId;
+    String customer;
     long deadline;
 }
