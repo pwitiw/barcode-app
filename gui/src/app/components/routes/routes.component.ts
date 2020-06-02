@@ -102,19 +102,19 @@ export class RoutesComponent implements OnInit {
 function testData(): DeliveryInformation[] {
     return [
         DeliveryInformation.of("Ostatek", [
-            {name: 'TW501', price: 222, quantity: 33, isSelected: true},
+            {name: 'TW501', valuation: 222, quantity: 33, isSelected: true},
         ], "FV", "ascjaiucbajkvhalkwvabjlk", "12346789"),
         DeliveryInformation.of("Kowalczyk", [
-            {name: 'TW101', price: 222, quantity: 11, isSelected: true},
+            {name: 'TW101', valuation: 222, quantity: 11, isSelected: true},
         ], "FV", "Wrocław", "789456123"),
         DeliveryInformation.of("Krawczyk", [
-            {name: 'TW201', price: 222, quantity: 23, isSelected: true},
+            {name: 'TW201', valuation: 222, quantity: 23, isSelected: true},
         ], "FV", "Lubin", "456321963"),
         DeliveryInformation.of("Ambrozy", [
-            {name: 'TW301', price: 222, quantity: 101, isSelected: true},
+            {name: 'TW301', valuation: 222, quantity: 101, isSelected: true},
         ], "FV", "Karpacz", "963852741"),
         DeliveryInformation.of("Wilczak", [
-            {name: 'TW401', price: 222, quantity: 1, isSelected: true},
+            {name: 'TW401', valuation: 222, quantity: 1, isSelected: true},
         ], "FV", "Drezno", "852147963"),
     ];
 }

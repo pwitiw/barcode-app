@@ -57,7 +57,7 @@ class RouteDetails {
 
         BigDecimal getAmount() {
             return orders.stream()
-                    .map(Order::getPrice)
+                    .map(Order::getValuation)
                     .reduce(BigDecimal::add)
                     .orElse(BigDecimal.valueOf(0));
         }

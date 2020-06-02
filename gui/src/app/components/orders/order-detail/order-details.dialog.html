@@ -52,7 +52,7 @@
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field>
-                    <input type="number" min="0" matInput placeholder="Wycena (zł)" [(ngModel)]="order.price"
+                    <input type="number" min="0" matInput placeholder="Wycena (zł)" [(ngModel)]="order.valuation"
                            name="price">
                 </mat-form-field>
                 <button mat-raised-button color="primary" (click)="updateOrder()">Zapisz</button>

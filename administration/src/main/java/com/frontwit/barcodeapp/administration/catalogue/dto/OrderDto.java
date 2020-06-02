@@ -20,4 +20,5 @@ public class OrderDto {
     private String route;
     private boolean packed;
     private boolean completed;
+    private String type;
 }

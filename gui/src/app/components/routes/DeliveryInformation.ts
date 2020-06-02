@@ -25,14 +25,14 @@ export class DeliveryInformation {
     }
 
     calculatePrice(): number {
-        return this.orders.filter(o => o.isSelected).map(o => o.price).reduce((o1, o2) => o1 + o2);
+        return this.orders.filter(o => o.isSelected).map(o => o.valuation).reduce((o1, o2) => o1 + o2);
     }
 }
 
 export interface Order {
     name: string;
     quantity: number;
-    price: number;
+    valuation: number;
     isSelected?: boolean;
 }
 

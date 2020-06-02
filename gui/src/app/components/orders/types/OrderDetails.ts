@@ -16,7 +16,8 @@ export interface OrderDetails {
     completed: boolean;
     packed: boolean;
     deadline: number;
-    price: number;
+    valuation: number;
+    type: string;
 }
 
 

@@ -50,7 +50,8 @@ public class OrderEntity {
     private Instant deadline;
     private boolean packed;
     private Set<Barcode> notPackedFronts;
-    private BigDecimal price;
+    private BigDecimal valuation;
+    private String type;
 
     OrderEntity(TargetOrder targetOrder) {
         this.id = targetOrder.getOrderId().getId();
@@ -71,6 +72,9 @@ public class OrderEntity {
                 .collect(Collectors.toSet());
         this.completed = false;
         this.packed = false;
+        this.type = targetOrder.getInfo().getType();
+        this.deadline = targetOrder.getDeadline();
+        this.valuation = targetOrder.getValuation();
     }
 
     void update(Order order) {
@@ -88,24 +92,24 @@ public class OrderEntity {
         var deadline = this.deadline != null ? this.deadline.toEpochMilli() : null;
         var customerName = customer.getName();
         var route = customer.getRoute();
-        return new OrderDetailDto(id, name, color, size, cutter, comment, customerName, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline, price);
+        return new OrderDetailDto(id, name, color, size, cutter, comment, customerName, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline, valuation, type);
     }
 
     public OrderDto dto(CustomerEntity customer) {
         LocalDate zonedProcessedOnDate = this.lastProcessedOn != null ? LocalDate.ofInstant(this.lastProcessedOn, CLIENT_ZONE_ID) : null;
         LocalDate zonedOrderedAt = this.orderedAt != null ? LocalDate.ofInstant(this.orderedAt, CLIENT_ZONE_ID) : null;
-        return new OrderDto(id, name, zonedOrderedAt, zonedProcessedOnDate, stage, quantity, customer.getName(), customer.getRoute(), packed, completed);
+        return new OrderDto(id, name, zonedOrderedAt, zonedProcessedOnDate, stage, quantity, customer.getName(), customer.getRoute(), packed, completed, type);
     }
 
-    public ReminderDto reminderDto() {
-        return new ReminderDto(name, customerId, deadline.toEpochMilli());
+    public ReminderDto reminderDto(CustomerEntity customer) {
+        return new ReminderDto(name, customer.getName() , deadline.toEpochMilli());
     }
 
 
     public OrderInfoDto deliveryOrderDto() {
-        double price = Optional.ofNullable(this.price)
+        double valuation = Optional.ofNullable(this.valuation)
                 .orElse(BigDecimal.valueOf(0d))
                 .doubleValue();
-        return new OrderInfoDto(name, quantity, price);
+        return new OrderInfoDto(name, quantity, valuation);
     }
 }

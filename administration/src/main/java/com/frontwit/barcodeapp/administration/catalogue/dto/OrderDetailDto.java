@@ -26,5 +26,6 @@ public class OrderDetailDto {
     private boolean completed;
     private boolean packed;
     private Long deadline;
-    private BigDecimal price;
+    private BigDecimal valuation;
+    private String type;
 }

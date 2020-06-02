@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class DeliveryOrderDto {
     private String name;
     private int quantity;
-    private double price;
+    private double valuation;
     private boolean isSelected;
 
     public void setIsSelected(boolean selected) {

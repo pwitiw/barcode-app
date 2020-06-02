@@ -67,7 +67,7 @@ db.order.insertMany([
         "completed": false,
         "packed": true,
         "quantity": 2,
-        "price": 300.02,
+        "valuation": 300.02,
         "lastProcessedOn": ISODate("2019-12-22T23:00:00.000+0000"),
         "_class": "com.frontwit.barcodeapp.administration.infrastructure.database.OrderEntity"
     }

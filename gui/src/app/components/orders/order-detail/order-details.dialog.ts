@@ -71,6 +71,14 @@ export class OrderDetailsDialog {
         return processedQuantity + "/" + front.quantity;
     }
 
+    displayNameAndType(name: string, type: string): string {
+        if ("Reklamacja" === type) {
+            return name + ' (' + type + ') ';
+        }
+        return name;
+    }
+
+
     private quantityProcessedAtCurrentstage(front: Front): number {
         return front.processings.filter(p => front.stage === p.stage).length;
     }
@@ -79,7 +87,7 @@ export class OrderDetailsDialog {
         const text = "Zapisano zmiany";
         const orderUpdate: UpdateOrder = {
             deadline: this.deadline.valueOf(),
-            price: this.order.price
+            valuation: this.order.valuation
         };
         this.orderRestService.updateOrder(this.order.id, orderUpdate)
             .subscribe(result => this.displayResponseMsg(result, text))
@@ -96,5 +104,5 @@ export class OrderDetailsDialog {
 
 export interface UpdateOrder {
     deadline: number;
-    price: number;
+    valuation: number;
 }

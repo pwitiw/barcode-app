@@ -123,6 +123,6 @@ public class OrderQuery {
 
         return PageableExecutionUtils
                 .getPage(orders, pageable, () -> mongoTemplate.count(new Query(criteria), OrderEntity.class))
-                .map(OrderEntity::reminderDto);
+                .map(o -> o.reminderDto(findCustomerBy(o.getCustomerId())));
     }
 }

@@ -9,13 +9,13 @@ import java.math.BigDecimal;
 class Order {
     private final String name;
     private final int quantity;
-    private final BigDecimal price;
+    private final BigDecimal valuation;
 
 
-    private Order(String name, int quantity, BigDecimal price) {
+    private Order(String name, int quantity, BigDecimal valuation) {
         this.name = name;
         this.quantity = quantity;
-        this.price = price;
+        this.valuation = valuation;
     }
 
     String displayOrder() {
@@ -25,8 +25,8 @@ class Order {
     static Order of(DeliveryOrderDto dto) {
         String name = dto.getName();
         int quantity = dto.getQuantity();
-        BigDecimal price = new BigDecimal(dto.getPrice());
+        BigDecimal valuation = new BigDecimal(dto.getValuation());
 
-        return new Order(name, quantity, price);
+        return new Order(name, quantity, valuation);
     }
 }

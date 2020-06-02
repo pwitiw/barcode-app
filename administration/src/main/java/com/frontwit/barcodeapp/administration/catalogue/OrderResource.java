@@ -37,7 +37,7 @@ public class OrderResource {
 
     @PutMapping(value = "/orders/{orderId}/deadline")
     void updateOrder(@PathVariable Long orderId, @RequestBody UpdateOrderDto dto) {
-        orderCommand.updateOrder(UpdateOrder.of(orderId, dto.getDeadline(), dto.getPrice()));
+        orderCommand.updateOrder(UpdateOrder.of(orderId, dto.getDeadline(), dto.getValuation()));
     }
 
     @GetMapping("/orders/reminders")
