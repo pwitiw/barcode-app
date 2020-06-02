@@ -74,13 +74,16 @@ class RouteDetails {
             return new Report(customer, address, phoneNumber, orders, paymentType);
         }
 
-        //TODO co jesli numer tel jest nullem
-        //TODO powiekszyc kolumne
-        String concatNameWithAddress(Report report) {
-            if (report.getAddress().isEmpty()) {
-                return report.getCustomer();
-            }
-            return report.getCustomer() + "\n" + report.getAddress() + "\n" + "tel. " + report.getPhoneNumber();
+        String getCustomerInfo() {
+            return customer + displayAddress() + displayContactInfo();
+        }
+
+        private Object displayContactInfo() {
+            return phoneNumber == null ? "" : "\n" + "tel. " + phoneNumber;
+        }
+
+        private String displayAddress() {
+            return address == null ? "" : "\n" + address;
         }
     }
 }

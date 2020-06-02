@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS `tklienci`
 
 INSERT INTO `tklienci` (`id`, `nazwa`, `adres`,`trasa`, `email`, `telefon`)
 VALUES (1, 'Jan Kowalski', 'Wroclaw', 'wroclaw', 'www@gmail.com', '456123789'),
-       (2, 'Adam Batat', 'Warszawa', 'warszawa', 'www@gmail.com', '741852963'),
-       (3, 'Grzegorz Gaj', 'warszawa', 'lublin', 'www@gmail.com', '258741369');
+       (2, 'Adam Batat', 'Warszawa', 'warszawa', 'www@gmail.com', NULL),
+       (3, 'Grzegorz Gaj', NULL, 'lublin', 'www@gmail.com', '258741369');
 
 CREATE TABLE IF NOT EXISTS `tzamowienia`
 (

@@ -19,8 +19,8 @@ class RouteTable {
     private static final String EMPTY_STRING = "";
     private static final int COLUMNS_NR = 6;
     private static final int NR_COL_WIDTH = 50;
-    private static final int CUSTOMER_COL_WIDTH = 200;
-    private static final int ORDERS_COL_WIDTH = 300;
+    private static final int CUSTOMER_COL_WIDTH = 250;
+    private static final int ORDERS_COL_WIDTH = 250;
     private static final int SETTLEMENT_COL_WIDTH = 150;
     private static final int AMOUNT_COL_WIDTH = 100;
     private static final int COMMENT_COL_WIDTH = 200;
@@ -52,7 +52,7 @@ class RouteTable {
     private void addBody(List<RouteDetails.Report> reports, PdfPTable table) {
         reports.forEach(report -> {
             table.addCell(String.valueOf(reports.indexOf(report) + 1));
-            table.addCell(pdfParts.createParagraph(report.concatNameWithAddress(report), BODY_SIZE));
+            table.addCell(pdfParts.createParagraph(report.getCustomerInfo(), BODY_SIZE));
             table.addCell(report.displayOrders());
             table.addCell(EMPTY_STRING);
 // TODO wating for working settlement type           table.addCell(report.getSettlementType().getDisplayValue());
