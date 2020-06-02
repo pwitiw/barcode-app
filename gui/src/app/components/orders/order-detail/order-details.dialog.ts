@@ -71,9 +71,9 @@ export class OrderDetailsDialog {
         return processedQuantity + "/" + front.quantity;
     }
 
-    displayNameAndType(name: string, type: string): string {
-        if ("Reklamacja" === type) {
-            return name + ' (' + type + ') ';
+    displayNameWithOptionalType(name: string, type: string): string {
+        if (type === 'COMPLAINT') {
+            return name + ' (Reklamacja)';
         }
         return name;
     }

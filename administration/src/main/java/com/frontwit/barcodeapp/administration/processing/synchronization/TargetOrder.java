@@ -1,5 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization;
 
+import com.frontwit.barcodeapp.administration.processing.order.model.OrderType;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import lombok.Value;
 
@@ -41,6 +42,6 @@ public class TargetOrder {
         private String size;
         private String name;
         private Instant orderedAt;
-        private String type;
+        private OrderType type;
     }
 }

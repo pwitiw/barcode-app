@@ -43,12 +43,12 @@ public class OrderMapper {
             var color = dictionary.getValue(features.getColor());
             var cutter = dictionary.getValue(features.getCutter());
             var size = dictionary.getValue(features.getSize());
-            var type = OrderType.of(source.getType()).getDisplayValue();
+            var type = OrderTypeMapper.map(source.getType());
             return new TargetOrder.Info(color, cutter, size, source.getNr(), source.getOrderedAt().toInstant(), type);
         } catch (IOException e) {
             LOG.warn(format("Order parsing error. Default order info set {orderId= %s}", source.getId()), e);
         }
-        return new TargetOrder.Info("", "", "", source.getNr(), source.getOrderedAt().toInstant(), source.getType());
+        return new TargetOrder.Info("", "", "", source.getNr(), source.getOrderedAt().toInstant(), OrderTypeMapper.map(source.getType()));
     }
 
     private List<TargetFront> createFronts(SourceOrder source) {

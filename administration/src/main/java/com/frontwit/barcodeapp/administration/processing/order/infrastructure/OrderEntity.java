@@ -3,6 +3,7 @@ package com.frontwit.barcodeapp.administration.processing.order.infrastructure;
 import com.frontwit.barcodeapp.administration.catalogue.dto.*;
 import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
 import com.frontwit.barcodeapp.administration.processing.order.model.Order;
+import com.frontwit.barcodeapp.administration.processing.order.model.OrderType;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy;
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
@@ -51,7 +52,7 @@ public class OrderEntity {
     private boolean packed;
     private Set<Barcode> notPackedFronts;
     private BigDecimal valuation;
-    private String type;
+    private OrderType type;
 
     OrderEntity(TargetOrder targetOrder) {
         this.id = targetOrder.getOrderId().getId();
@@ -102,7 +103,7 @@ public class OrderEntity {
     }
 
     public ReminderDto reminderDto(CustomerEntity customer) {
-        return new ReminderDto(name, customer.getName() , deadline.toEpochMilli());
+        return new ReminderDto(name, customer.getName(), deadline.toEpochMilli());
     }
 
 
