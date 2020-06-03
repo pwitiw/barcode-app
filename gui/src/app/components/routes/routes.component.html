@@ -41,7 +41,7 @@
             <mat-form-field *ngIf="routeDetails.length > 0">
                 <input matInput placeholder="Nazwa trasy" [(ngModel)]="routeNamePdf" name="routeNamePdf">
             </mat-form-field>
-            <button mat-button color="primary" (click)="setRouteClicked()">
+            <button disabled mat-button color="primary" (click)="setRouteClicked()">
                 <mat-icon>map</mat-icon>
                 Wyznacz trasę
             </button>

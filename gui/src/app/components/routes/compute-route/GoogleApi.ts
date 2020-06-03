@@ -41,7 +41,6 @@ export class GoogleApi {
                     return city
                 }),
                 catchError((response) => {
-                    console.log(response);
                     this.localStorage.storeCity(customer, null);
                     return of(null);
                 })

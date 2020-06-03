@@ -38,9 +38,9 @@ export class ComputeRoute implements OnDestroy {
     }
 
     private runWorker(customerAddresses: CustomerAddress[]): void {
-        if (typeof Worker !== 'undefined') {
-        } else {
+        if (typeof Worker == 'undefined') {
             this.snackBarService.failure("Operacja nie powiodła się");
+            return;
         }
         this.worker = new Worker('./routes.worker', {type: 'module'});
         this.worker.onmessage = (result: any) => {
@@ -54,11 +54,13 @@ export class ComputeRoute implements OnDestroy {
     }
 
     openMap(cities: CustomerAddress[]): void {
-        this.dialog.open(MapDialog, {
+        const dialogRef = this.dialog.open(MapDialog, {
             minWidth: '100%',
             minHeight: '100%',
             data: cities
-        }).afterClosed().subscribe((result) => {
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.notify.next(cities.slice(1));
             }
