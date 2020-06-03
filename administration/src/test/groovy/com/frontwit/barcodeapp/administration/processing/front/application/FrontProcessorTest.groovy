@@ -7,6 +7,8 @@ import com.frontwit.barcodeapp.administration.processing.shared.Stage
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents
 import spock.lang.Specification
 
+import java.time.LocalDateTime
+
 class FrontProcessorTest extends Specification implements SampleFront {
 
     DomainEvents domainEvents = Mock()
@@ -23,7 +25,7 @@ class FrontProcessorTest extends Specification implements SampleFront {
         then:
         1 * frontRepository.save(_)
         1 * domainEvents.publish({
-            it.barcode == new Barcode(command.getBarcode())
+            it.barcode == command.getBarcode()
             it.stage == Stage.valueOf(command.getStage())
         } as StageChanged)
     }
@@ -49,8 +51,9 @@ class FrontProcessorTest extends Specification implements SampleFront {
         frontProcessing.process(command)
         then:
         1 * domainEvents.publish({
-            it.orderId == new Barcode(command.getBarcode()).getOrderId()
-            it.delayedProcessFrontCommand == command
+            it.orderId == command.getBarcode().getOrderId()
+            it.stage == command.getStage()
+            it.dateTime == command.getDateTime()
         } as FrontNotFound)
     }
 
@@ -69,15 +72,15 @@ class FrontProcessorTest extends Specification implements SampleFront {
     }
 
     ProcessFrontCommand aDowngradeProcess() {
-        return new ProcessFrontCommand(BARCODE.getBarcode(), Stage.MILLING.id, getIncrementedDateTime())
+        return new ProcessFrontCommand(BARCODE, Stage.MILLING.id, getIncrementedDateTime())
     }
 
     ProcessFrontCommand aUpgradeProcess() {
-        return new ProcessFrontCommand(BARCODE.getBarcode(), Stage.BASE.id, getIncrementedDateTime())
+        return new ProcessFrontCommand(BARCODE, Stage.BASE.id, getIncrementedDateTime())
     }
 
     ProcessFrontCommand aProcessWithSameStage() {
-        return new ProcessFrontCommand(BARCODE.getBarcode(), Stage.POLISHING.id, getIncrementedDateTime())
+        return new ProcessFrontCommand(BARCODE, Stage.POLISHING.id, getIncrementedDateTime())
     }
 
 }

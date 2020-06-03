@@ -1,6 +1,7 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.frontwit.barcodeapp.administration.processing.order.model.OrderType
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId
 import com.frontwit.barcodeapp.administration.processing.shared.Quantity
@@ -23,6 +24,6 @@ class OrderMapperTest extends Specification implements SampleOrder {
     }
 
     private void sss(result) {
-        assert result.getInfo() == new TargetOrder.Info(COLOR, CUTTER, SIZE, NR, CUSTOMER, ROUTE, ORDERED_AT)
+        assert result.getInfo() == new TargetOrder.Info(COLOR, CUTTER, SIZE, NR, ORDERED_AT, OrderType.ORDER)
     }
 }

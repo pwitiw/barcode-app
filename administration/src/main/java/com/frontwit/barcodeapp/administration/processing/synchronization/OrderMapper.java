@@ -13,7 +13,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,7 +31,7 @@ public class OrderMapper {
         var orderId = new OrderId(source.getId());
         var customerId = source.getCustomerId();
         var valuation = source.getValuation();
-        var deadline = source.getDeadline().toInstant();
+        var deadline = Optional.ofNullable(source.getDeadline()).map(Date::toInstant).orElse(null);
         var comment = new TargetOrder.Comment(source.getDescription(), source.getAdditionalInfo());
         var orderInfo = createOrderInfo(source, dictionary);
         var fronts = createFronts(source);
