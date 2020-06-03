@@ -53,6 +53,8 @@ public class OrderEntity {
     private Set<Barcode> notPackedFronts;
     private BigDecimal valuation;
     private OrderType type;
+    @Deprecated(forRemoval = true)
+    private String customer;// todo remove after release
 
     OrderEntity(TargetOrder targetOrder) {
         this.id = targetOrder.getOrderId().getId();
