@@ -4,6 +4,7 @@ export class DeliveryInformation {
     paymentType: string;
     address: string;
     phoneNumber: string;
+    allChecked: boolean;
 
     static of(customer: string, orders: Order[], paymentType: string, address: string, phoneNumber: string): DeliveryInformation {
         const deliveryInformation = new DeliveryInformation();

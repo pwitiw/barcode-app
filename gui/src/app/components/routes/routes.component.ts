@@ -74,6 +74,7 @@ export class RoutesComponent implements OnInit {
 
     removeFromRoute(customer: DeliveryInformation, order: Order): void {
         order.isSelected = false;
+        customer.allChecked = false;
         this.routeDetails = this.routeDetails.filter(info => info.isIncludedInPlanning())
     }
 
@@ -96,6 +97,10 @@ export class RoutesComponent implements OnInit {
         let orderedCustomers = sortedAddresses.map(a => a.customer);
         this.routeDetails = orderedCustomers.map(c => this.routeDetails.filter(details => details.customer == c)[0])
             .concat(this.routeDetails.filter(details => orderedCustomers.indexOf(details.customer) < 0));
+    }
+
+    static isChecked(customer: DeliveryInformation): boolean {
+        return customer.orders.every(o => o.isSelected)
     }
 }
 

@@ -15,7 +15,7 @@
                 <mat-expansion-panel *ngFor="let customer of customers">
                     <mat-expansion-panel-header [expandedHeight]="'48px'">
                         <mat-panel-title (click)="$event.stopPropagation()">
-                            <mat-checkbox color="primary" (change)="changeAllOrders($event.checked,customer)">
+                            <mat-checkbox color="primary" (change)="changeAllOrders($event.checked,customer)" [(ngModel)]="customer.allChecked">
                             </mat-checkbox>
                         </mat-panel-title>
                         <mat-panel-title class="label customer">
