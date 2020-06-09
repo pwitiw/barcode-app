@@ -1,5 +1,3 @@
-3) dodac admina do serwisu
-
 BUGS:
 - brak favicon
 
@@ -8,14 +6,13 @@ Pytania:
 
 !!!BARDZO WAŻNE:
 - poprawić proces deploymentu (4) (wrzucanie do dockerhuba -> budowanie image etc)
+- zmniejszyć rozmiar jar-a
 - security improvement
 -- logowanie przy uzyciu cookies
 -- logowanie kontekstu uzytkownika
 - logi nie zapisuje sie tam gdzie trzeba
 
 Features:
-- synchronizaca wyceny + deadlinu
-- synchronizacja adresu i telefonu klienta potrzebnych do raportu
 -  jest zamowienie i jest juz spakowane i jest niekompletne i wiemy ze brakuje jednej witryny bo jest na docieciu
 i robi beata trase i w jakims zamowieniu brakuje jakiegos elementu i ktos dopisze to bedzie wiadomo, ze niekompletne
 i na cos trzeba czekac
@@ -41,4 +38,3 @@ kompletne/ niekompletne
 TRASY:
 - kierowca
 - data
-- adres, numer telefonu
