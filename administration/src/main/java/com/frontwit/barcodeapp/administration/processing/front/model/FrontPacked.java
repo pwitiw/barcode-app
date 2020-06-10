@@ -8,9 +8,4 @@ import lombok.Value;
 @Value
 public class FrontPacked implements DomainEvent {
     @NonNull Barcode barcode;
-
-    @Override
-    public Long getId() {
-        return barcode.getBarcode();
-    }
 }
