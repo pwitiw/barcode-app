@@ -61,7 +61,11 @@ public class OrderQuery {
                 .collect(toList());
     }
 
-    private CustomerEntity findCustomerBy(long id) {
+    // todo optional here
+    private CustomerEntity findCustomerBy(Long id) {
+        if (id == null) {
+            return new CustomerEntity();
+        }
         return customerRepository.findBy(id).orElseGet(() -> {
             LOGGER.warn("No customer for id {}", id);
             return new CustomerEntity();
