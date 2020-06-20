@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable, OnDestroy, OnInit} from '@angular/core';
 import {MapDialog} from "./map-dialog/map.dialog";
 import {SnackBarService} from "../../../services/snack-bar.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -6,12 +6,14 @@ import {GoogleApi} from "./GoogleApi";
 import {CustomerAddress} from "./CustomerAddress";
 import {LoadingService} from "../../../services/loading.service";
 import {Observable, Subject} from "rxjs";
+import {MatDialogRef} from "@angular/material/dialog/typings/dialog-ref";
 
 @Injectable()
-export class ComputeRoute implements OnDestroy {
+export class RouteComputer implements OnDestroy {
     private static DEPARTURE = "Twardogóra";
     private worker: Worker;
     private notify = new Subject<CustomerAddress[]>();
+    private dialogRef: MatDialogRef<MapDialog>;
 
     constructor(private snackBarService: SnackBarService,
                 private dialog: MatDialog,
@@ -25,14 +27,9 @@ export class ComputeRoute implements OnDestroy {
 
     compute(addresses: CustomerAddress[]): Observable<CustomerAddress[]> {
         this.loadingService.show();
-        this.googleApi.getDetails(addresses.concat(new CustomerAddress("Frontwit", ComputeRoute.DEPARTURE)))
+        this.googleApi.getDetails(addresses.concat(new CustomerAddress("Frontwit", RouteComputer.DEPARTURE)))
             .subscribe(customerAddresses => {
-                if (customerAddresses.length > 2) {
-                    this.runWorker(customerAddresses);
-                } else {
-                    this.loadingService.hide();
-                    this.notify.next([]);
-                }
+                this.runWorker(customerAddresses);
             });
         return this.notify.asObservable();
     }
@@ -46,7 +43,7 @@ export class ComputeRoute implements OnDestroy {
         this.worker.onmessage = (result: any) => {
             this.loadingService.hide();
             const cities = result.data as CustomerAddress[];
-            const indexOfDeparture = cities.findIndex(address => address.city.name == ComputeRoute.DEPARTURE);
+            const indexOfDeparture = cities.findIndex(address => address.city.name == RouteComputer.DEPARTURE);
             const sortedCities = cities.slice(indexOfDeparture).concat(cities.slice(0, indexOfDeparture));
             this.openMap(sortedCities);
         };
@@ -54,13 +51,13 @@ export class ComputeRoute implements OnDestroy {
     }
 
     openMap(cities: CustomerAddress[]): void {
-        const dialogRef = this.dialog.open(MapDialog, {
+        this.dialogRef = this.dialog.open(MapDialog, {
             minWidth: '100%',
             minHeight: '100%',
             data: cities
         });
-
-        dialogRef.afterClosed().subscribe((result) => {
+        console.info(this.dialogRef);
+        this.dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.notify.next(cities.slice(1));
             }

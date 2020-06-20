@@ -3,7 +3,7 @@ import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {RestService} from "../../services/rest.service";
 import {SnackBarService} from "../../services/snack-bar.service";
 import {DeliveryInformation, Order} from "./DeliveryInformation";
-import {ComputeRoute} from "./compute-route/compute-route.component";
+import {RouteComputer} from "./compute-route/route-computer.service";
 import {CustomerAddress} from "./compute-route/CustomerAddress";
 
 @Component({
@@ -18,10 +18,11 @@ export class RoutesComponent implements OnInit {
 
     constructor(private restService: RestService,
                 private snackBarService: SnackBarService,
-                private computeRoute: ComputeRoute) {
+                private routeComputer: RouteComputer) {
     }
 
     ngOnInit() {
+        this.routeDetails = testData();
     }
 
     search(): void {
@@ -79,7 +80,7 @@ export class RoutesComponent implements OnInit {
 
     setRouteClicked(): void {
         let addresses = this.routeDetails.map(detail => new CustomerAddress(detail.customer, detail.address));
-        this.computeRoute.compute(addresses).subscribe(addresses => {
+        this.routeComputer.compute(addresses).subscribe(addresses => {
             if (addresses.length == 0) {
                 this.snackBarService.failure("Wystąpił błąd podczas wyszukiwania trasy");
                 return;

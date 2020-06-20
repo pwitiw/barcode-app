@@ -1,5 +1,5 @@
-<div class="map-dialog">
-    <button class="dialog close" mat-icon-button color="primary" [mat-dialog-close]="false">
+<div class="map-dialog" id="dupa">
+    <button class="dialog close" mat-icon-button color="primary" (click)="close(false)">
         <mat-icon>close</mat-icon>
     </button>
     <h2>Trasa</h2>
@@ -22,7 +22,7 @@
             </agm-info-window>
         </agm-marker>
     </agm-map>
-    <button color="primary" class="approve-btn" [mat-dialog-close]="true" mat-button>
+    <button color="primary" class="approve-btn" (click)="close(true)" mat-button>
         <mat-icon>done</mat-icon>
         Zatwierdź
     </button>
