@@ -74,6 +74,9 @@ export class RoutesComponent implements OnInit {
         if (this.routeDetails.filter(info => info == customer).length == 0) {
             this.routeDetails.push(customer);
         }
+        if (customer.info.orders.filter(o => o.isSelected).length == customer.info.orders.length) {
+            customer.allChecked = true;
+        }
     }
 
     removeFromRoute(customer: DeliveryInfoView, order: Order): void {
