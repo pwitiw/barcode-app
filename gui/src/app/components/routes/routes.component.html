@@ -19,10 +19,10 @@
                             </mat-checkbox>
                         </mat-panel-title>
                         <mat-panel-title class="label customer">
-                            {{customer.customer}}
+                            {{customer.info.customer}}
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <table class="customer-orders-list" *ngFor="let order of customer.orders">
+                    <table class="customer-orders-list" *ngFor="let order of customer.info.orders">
                         <mat-checkbox color="primary"
                                       (change)="$event.checked?addToRoute(customer,order):removeFromRoute(customer,order)"
                                       [checked]="order.isSelected"></mat-checkbox>
@@ -53,13 +53,13 @@
                 <div class="example-box" *ngFor="let routeDetail of routeDetails; let i=index" cdkDrag>
                     <span class="label no">{{i + 1}}</span>
                     <span class="label customer">
-                        {{routeDetail.customer}}
+                        {{routeDetail.info.customer}}
                     </span>
-                    <span [innerHTML]="routeDetail.displayAggregateOrders()" class="label orders"></span>
+                    <span [innerHTML]="routeDetail.info.displayAggregateOrders()" class="label orders"></span>
                     <span class="label payment">
-                        {{routeDetail.paymentType}}
+                        {{routeDetail.info.paymentType}}
                     </span>
-                    <span class="label price">{{routeDetail.calculatePrice()}} zł</span>
+                    <span class="label price">{{routeDetail.info.calculatePrice()}} zł</span>
                 </div>
             </div>
         </div>
