@@ -56,7 +56,6 @@ export class RouteComputer implements OnDestroy {
             minHeight: '100%',
             data: cities
         });
-        console.info(this.dialogRef);
         this.dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.notify.next(cities.slice(1));
