@@ -1,12 +1,17 @@
-export class DeliveryInformation {
+export interface DeliveryInfoView {
+    info: DeliveryInfo;
+    allChecked: boolean;
+}
+
+export class DeliveryInfo {
     customer: string;
     orders: Order[];
     paymentType: string;
     address: string;
     phoneNumber: string;
 
-    static of(customer: string, orders: Order[], paymentType: string, address: string, phoneNumber: string): DeliveryInformation {
-        const deliveryInformation = new DeliveryInformation();
+    static of(customer: string, orders: Order[], paymentType: string, address: string, phoneNumber: string): DeliveryInfo {
+        const deliveryInformation = new DeliveryInfo();
         deliveryInformation.customer = customer;
         deliveryInformation.orders = orders;
         deliveryInformation.paymentType = paymentType;
