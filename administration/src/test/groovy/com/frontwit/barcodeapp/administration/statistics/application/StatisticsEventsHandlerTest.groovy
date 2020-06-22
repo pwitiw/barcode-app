@@ -6,9 +6,7 @@ import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStati
 import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod
 import spock.lang.Specification
 
-import static com.frontwit.barcodeapp.administration.statistics.StatisticsFixtures.ONE_METER
-import static com.frontwit.barcodeapp.administration.statistics.StatisticsFixtures.TODAY
-import static com.frontwit.barcodeapp.administration.statistics.StatisticsFixtures.anOrderPlacedEvent
+import static com.frontwit.barcodeapp.administration.statistics.StatisticsFixtures.*
 
 class StatisticsEventsHandlerTest extends Specification {
 
@@ -18,6 +16,8 @@ class StatisticsEventsHandlerTest extends Specification {
     def "should create statistics for today if not present"() {
         given:
         thereAreNoStatisticsForToday()
+        and:
+
         when:
         statisticsEventsHandler.handle(anOrderPlacedEvent())
         then:
@@ -32,7 +32,7 @@ class StatisticsEventsHandlerTest extends Specification {
         when:
         statisticsEventsHandler.handle(anOrderPlacedEvent())
         then:
-        repository.save(statistics)
+        1 * repository.save(statistics)
     }
 
     void thereAreNoStatisticsForToday() {
@@ -44,6 +44,6 @@ class StatisticsEventsHandlerTest extends Specification {
         def statistics = OrderStatistics.of(period)
         statistics.apply(OrderType.ORDER, ONE_METER)
         repository.findBy(period) >> Optional.of(statistics)
-        return statistics;
+        statistics
     }
 }

@@ -18,8 +18,7 @@ public class StatisticsEventsHandler {
     public void handle(OrderPlaced event) {
         var period = StatisticsPeriod.of(event.getOrderedAt());
         var statistics = orderStatisticsRepository.findBy(period).orElse(OrderStatistics.of(period));
-        var meters = MetersMapper.map(event.getFronts());
-        statistics.apply(event.getOrderType(), meters);
-        orderStatisticsRepository.save(OrderStatistics.of(StatisticsPeriod.of(event.getOrderedAt())));
+        statistics.apply(event.getOrderType(), event.getMeters());
+        orderStatisticsRepository.save(statistics);
     }
 }

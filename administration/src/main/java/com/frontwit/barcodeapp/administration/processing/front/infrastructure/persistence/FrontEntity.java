@@ -34,7 +34,7 @@ public class FrontEntity {
 
     FrontEntity(TargetFront targetFront) {
         this.barcode = targetFront.getBarcode().getBarcode();
-        this.orderId = targetFront.getOrderId().getId();
+        this.orderId = targetFront.getBarcode().getOrderId().getId();
         this.comment = targetFront.getComment();
         this.width = targetFront.getDimensions().getWidth();
         this.height = targetFront.getDimensions().getHeight();

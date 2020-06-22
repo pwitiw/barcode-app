@@ -10,7 +10,6 @@ import lombok.Value;
 public class TargetFront {
 
     private Barcode barcode;
-    private OrderId orderId;
     private Quantity quantity;
     private TargetFront.Dimensions dimensions;
     private String comment;

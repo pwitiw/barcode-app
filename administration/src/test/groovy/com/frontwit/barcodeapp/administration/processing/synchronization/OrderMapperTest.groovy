@@ -20,7 +20,7 @@ class OrderMapperTest extends Specification implements SampleOrder {
         sss(result)
         result.getFronts().size() == 1
         result.getFronts().get(0) ==
-                new TargetFront(Barcode.valueOf(new OrderId(ID), 1), new OrderId(ID), new Quantity(QUANTITY), new TargetFront.Dimensions(WIDTH, LENGTH), COMMENT)
+                new TargetFront(Barcode.valueOf(new OrderId(ID), 1), new Quantity(QUANTITY), new TargetFront.Dimensions(WIDTH, LENGTH), COMMENT)
     }
 
     private void sss(result) {

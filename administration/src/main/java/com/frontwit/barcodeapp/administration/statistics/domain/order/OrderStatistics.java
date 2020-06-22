@@ -5,7 +5,7 @@ import com.frontwit.barcodeapp.administration.statistics.domain.shared.Statistic
 import lombok.Getter;
 
 @Getter
-public class OrderStatistics {
+public final class OrderStatistics {
     private final StatisticsPeriod period;
     private Meters orders = Meters.ZERO;
     private Meters complainments = Meters.ZERO;

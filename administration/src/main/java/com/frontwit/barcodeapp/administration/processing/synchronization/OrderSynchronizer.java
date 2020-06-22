@@ -7,14 +7,12 @@ import com.frontwit.barcodeapp.administration.processing.shared.CustomerId;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents;
 import com.frontwit.barcodeapp.administration.statistics.domain.OrderPlaced;
-import com.frontwit.barcodeapp.administration.statistics.domain.order.Meters;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
 import java.time.Instant;
-import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
@@ -37,9 +35,10 @@ public class OrderSynchronizer {
                             order -> {
                                 var dictionary = sourceRepository.getDictionary();
                                 var result = saveOrderWithFronts(order, dictionary);
+                                var meters = MetersCalculator.calculate(result.getFronts());
                                 domainEvents.publish(
                                         new FrontSynchronized(event.getBarcode(), event.getStage(), event.getDateTime()),
-                                        new OrderPlaced(new CustomerId(order.getCustomerId()), result.getFronts(), Instant.now(), result.getInfo().getType())
+                                        new OrderPlaced(new CustomerId(order.getCustomerId()), meters, Instant.now(), result.getInfo().getType())
                                 );
                             },
                             () -> LOGGER.warn("Order not found {}", event.getOrderId()));
