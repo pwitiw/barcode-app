@@ -16,4 +16,9 @@ public class StatisticsPeriod {
         ZonedDateTime zdt = instant.atZone(systemDefault());
         return new StatisticsPeriod(zdt.getDayOfMonth(), Month.from(zdt), Year.from(zdt));
     }
+
+    public Instant toInstant() {
+        LocalDate zonedDateTime = LocalDate.of(year.getValue(), month, day);
+        return zonedDateTime.atStartOfDay().atZone(systemDefault()).toInstant();
+    }
 }

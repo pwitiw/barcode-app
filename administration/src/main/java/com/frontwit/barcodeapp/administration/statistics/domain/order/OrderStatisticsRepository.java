@@ -1,6 +1,5 @@
 package com.frontwit.barcodeapp.administration.statistics.domain.order;
 
-import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStatistics;
 import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod;
 
 import java.util.Optional;
