@@ -8,7 +8,7 @@ import lombok.Getter;
 public final class OrderStatistics {
     private final StatisticsPeriod period;
     private Meters orders = Meters.ZERO;
-    private Meters complainments = Meters.ZERO;
+    private Meters complaints = Meters.ZERO;
 
     private OrderStatistics(StatisticsPeriod period) {
         this.period = period;
@@ -18,11 +18,11 @@ public final class OrderStatistics {
         return new OrderStatistics(period);
     }
 
-    public void apply(OrderType type, Meters arg) {
+    public void apply(OrderType type, Meters meters) {
         if (type == OrderType.ORDER) {
-            orders = orders.plus(arg);
+            orders = orders.plus(meters);
         } else {
-            complainments = complainments.plus(arg);
+            complaints = complaints.plus(meters);
         }
     }
 }

@@ -24,7 +24,7 @@ public class OrderStatisticsEntity {
     static OrderStatisticsEntity of(OrderStatistics orderStatistics) {
         var entity = new OrderStatisticsEntity();
         entity.setOrders(orderStatistics.getOrders());
-        entity.setComplainments(orderStatistics.getComplainments());
+        entity.setComplainments(orderStatistics.getComplaints());
         entity.setPeriod(orderStatistics.getPeriod().toInstant());
         return entity;
     }

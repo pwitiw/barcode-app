@@ -23,6 +23,6 @@ class OrderStatisticsTest extends Specification {
         when:
         statistics.apply(OrderType.COMPLAINT, ONE_METER)
         then:
-        statistics.getComplainments() == ONE_METER
+        statistics.getComplaints() == ONE_METER
     }
 }
