@@ -11,9 +11,4 @@ public class FrontSynchronized implements DomainEvent {
     private Barcode barcode;
     private Integer stage;
     private LocalDateTime dateTime;
-
-    @Override
-    public Long getId() {
-        return barcode.getBarcode();
-    }
 }

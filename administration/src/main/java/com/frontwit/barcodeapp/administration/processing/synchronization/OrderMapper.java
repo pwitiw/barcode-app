@@ -68,7 +68,7 @@ public class OrderMapper {
         var barcode = Barcode.valueOf(orderId, element.getNumber());
         var dimensions = new TargetFront.Dimensions(element.getLength(), element.getWidth());
         var quantity = new Quantity(element.getQuantity());
-        return new TargetFront(barcode, orderId, quantity, dimensions, element.getComment());
+        return new TargetFront(barcode, quantity, dimensions, element.getComment());
     }
 
     @Data
