@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {RestService} from "../../../services/rest.service";
 
 interface CustomerStatistics {
     name: string;
@@ -24,7 +25,7 @@ export class StatisticsComponent implements OnInit {
     orders: OrderStatistics[];
     orderColumns: string[];
 
-    constructor() {
+    constructor(private restService: RestService) {
         this.customerColumns = ['index', 'name', 'quantity', 'meters'];
         this.customers = [
             {name: "Kowalski Andrzej", quantity: 12, meters: 232.0},
@@ -43,5 +44,15 @@ export class StatisticsComponent implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    loadOrderStatistics(): void {
+        this.restService.get<OrderStatistics[]>(`/api/home/statistics/orders}`)
+            .subscribe(response => {
+                const result = response.body;
+                if (result) {
+                    this.orders = result;
+                }
+            });
     }
 }
