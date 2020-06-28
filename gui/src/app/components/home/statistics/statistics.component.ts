@@ -7,9 +7,9 @@ interface CustomerStatistics {
 }
 
 interface OrderStatistics {
-    month: string;
-    quantity: number;
-    meters: number;
+    period: string;
+    orders: number;
+    complaints: number;
 }
 
 @Component({
@@ -31,13 +31,15 @@ export class StatisticsComponent implements OnInit {
             {name: "Paweł Jankowsczykiewicz", quantity: 12, meters: 232.0},
             {name: "Paź", quantity: 12, meters: 232.0},
         ];
-
-        this.orderColumns = ['index', 'month', 'quantity', 'meters'];
+        this.orderColumns = ['period', 'orders', 'complaints'];
         this.orders = [
-            {month: "Styczeń", quantity: 12, meters: 232.0},
-            {month: "Luty", quantity: 12, meters: 232.0},
-            {month: "Marzec", quantity: 12, meters: 232.0},
-        ]
+            {period: 'dzień', orders: 120, complaints: 0},
+            {period: 'tydzień', orders: 120, complaints: 0},
+            {period: 'miesiąc', orders: 120, complaints: 0},
+            {period: 'kwartał', orders: 120, complaints: 0},
+            {period: 'rok', orders: 120, complaints: 0},
+            {period: 'suma', orders: 120, complaints: 0}
+        ];
     }
 
     ngOnInit() {
