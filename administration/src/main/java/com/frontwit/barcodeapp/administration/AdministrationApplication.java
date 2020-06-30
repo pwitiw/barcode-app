@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-
 @SpringBootApplication
 @EnableSpringDataWebSupport
 @EnableScheduling
+@SuppressWarnings({"HideUtilityClassConstructor", "PMD.UseUtilityClass"})
 public class AdministrationApplication {
 
     public static void main(String[] args) {

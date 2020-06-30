@@ -6,17 +6,17 @@ import lombok.Value;
 public final class Meters {
     public static final Meters ZERO = Meters.of(0);
 
-    private final double meters;
+    private final double value;
 
-    private Meters(double meters) {
-        this.meters = meters;
+    private Meters(double value) {
+        this.value = value;
     }
 
-    public static Meters of(double val) {
-        return new Meters(val);
+    public static Meters of(double value) {
+        return new Meters(value);
     }
 
     public Meters plus(Meters arg) {
-        return new Meters(this.meters + arg.meters);
+        return new Meters(this.value + arg.value);
     }
 }

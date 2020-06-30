@@ -72,7 +72,7 @@ public class OrderMapper {
     }
 
     @Data
-    @JsonIgnoreProperties(value = "do")
+    @JsonIgnoreProperties("do")
     private static class Features {
         @JsonProperty("cu")
         private long cutter;
@@ -83,7 +83,7 @@ public class OrderMapper {
     }
 
     @Data
-    @JsonIgnoreProperties(value = {"el", "a", "cu", "si", "do", "co"})
+    @JsonIgnoreProperties({"el", "a", "cu", "si", "do", "co"})
     private static class Element {
         @JsonProperty("nr")
         private long number;

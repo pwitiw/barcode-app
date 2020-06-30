@@ -9,8 +9,10 @@ import java.time.temporal.ChronoUnit;
 
 @Value
 public class ProcessingDetails {
-    @NonNull Stage stage;
-    @NonNull LocalDateTime dateTime;
+    @NonNull
+    private final Stage stage;
+    @NonNull
+    private final LocalDateTime dateTime;
 
     boolean equalsWithTimeAccuracy(ProcessingDetails details, long seconds) {
         return stage.equals(details.stage)

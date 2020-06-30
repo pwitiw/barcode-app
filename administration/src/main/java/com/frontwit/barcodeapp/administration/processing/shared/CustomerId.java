@@ -3,6 +3,6 @@ package com.frontwit.barcodeapp.administration.processing.shared;
 import lombok.Value;
 
 @Value
-public class CustomerId {
-    private Long customerId;
+public final class CustomerId {
+    private final Long value;
 }

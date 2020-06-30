@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Configuration(value = "synchronization")
+@Configuration("synchronization")
 public class BeanConfig {
 
     @Bean
@@ -30,7 +30,14 @@ public class BeanConfig {
                                    OrderMapper orderMapper,
                                    DomainEvents domainEvents,
                                    SynchronizationRepository synchronizationRepository) {
-        return new OrderSynchronizer(sourceRepository, frontRepository, orderRepository, orderMapper, domainEvents, synchronizationRepository);
+        return new OrderSynchronizer(
+                sourceRepository,
+                frontRepository,
+                orderRepository,
+                orderMapper,
+                domainEvents,
+                synchronizationRepository
+        );
     }
 
     @Bean

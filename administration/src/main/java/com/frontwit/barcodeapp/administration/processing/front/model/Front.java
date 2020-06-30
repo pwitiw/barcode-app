@@ -4,18 +4,17 @@ import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
 import com.frontwit.barcodeapp.administration.processing.shared.Quantity;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvent;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
-import static lombok.AccessLevel.PROTECTED;
 
 public class Front {
     private static final Logger LOGGER = LoggerFactory.getLogger(Front.class);
@@ -32,7 +31,7 @@ public class Front {
 
     @Getter
     private Stage currentStage = Stage.INIT;
-    private List<DomainEvent> eventsToProcess = new ArrayList<>();
+    private final List<DomainEvent> eventsToProcess = new ArrayList<>();
 
     Front(Barcode barcode, Quantity quantity, FrontProcessingPolicy policy) {
         this.barcode = barcode;
@@ -42,7 +41,14 @@ public class Front {
         this.policy = policy;
     }
 
-    public Front(Barcode barcode, Quantity quantity, Stage currentStage, Set<ProcessingDetails> processings, Set<ProcessingDetails> amendments, FrontProcessingPolicy policy) {
+    public Front(
+            Barcode barcode,
+            Quantity quantity,
+            Stage currentStage,
+            Set<ProcessingDetails> processings,
+            Set<ProcessingDetails> amendments,
+            FrontProcessingPolicy policy
+    ) {
         this.barcode = barcode;
         this.quantity = quantity;
         this.processings = processings;

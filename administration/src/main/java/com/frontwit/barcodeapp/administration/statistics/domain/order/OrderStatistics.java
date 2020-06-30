@@ -18,7 +18,7 @@ public final class OrderStatistics {
         return new OrderStatistics(period);
     }
 
-    public void apply(OrderType type, Meters meters) {
+    public void apply(final OrderType type, final Meters meters) {
         if (type == OrderType.ORDER) {
             orders = orders.plus(meters);
         } else {

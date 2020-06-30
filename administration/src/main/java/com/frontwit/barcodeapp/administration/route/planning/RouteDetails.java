@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @ToString
-class RouteDetails {
+final class RouteDetails {
 
     private final List<Report> reports;
     @Getter
@@ -37,6 +37,7 @@ class RouteDetails {
     @ToString
     @AllArgsConstructor
     static class Report {
+        private static final String NEW_LINE = "\n";
         @Getter
         private final String customer;
         @Getter
@@ -47,11 +48,10 @@ class RouteDetails {
         @Getter
         private final SettlementType settlementType;
 
-
         String displayOrders() {
             return orders.stream()
                     .map(Order::displayOrder)
-                    .reduce((order1, order2) -> order1 + "\n" + order2)
+                    .reduce((order1, order2) -> order1 + NEW_LINE + order2)
                     .orElse("");
         }
 
@@ -79,11 +79,11 @@ class RouteDetails {
         }
 
         private Object displayContactInfo() {
-            return phoneNumber == null ? "" : "\n" + "tel. " + phoneNumber;
+            return phoneNumber == null ? "" : NEW_LINE + "tel. " + phoneNumber;
         }
 
         private String displayAddress() {
-            return address == null ? "" : "\n" + address;
+            return address == null ? "" : NEW_LINE + address;
         }
     }
 }

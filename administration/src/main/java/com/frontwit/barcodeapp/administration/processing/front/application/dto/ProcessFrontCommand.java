@@ -18,10 +18,10 @@ public class ProcessFrontCommand {
 
     @Override
     public String toString() {
-        return "ProcessFrontCommand{" +
-                "barcode=" + barcode +
-                ", stage=" + stage +
-                ", dateTime=" + dateTime +
-                '}';
+        return "ProcessFrontCommand{"
+                + "barcode=" + barcode
+                + ", stage=" + stage
+                + ", dateTime=" + dateTime
+                + '}';
     }
 }

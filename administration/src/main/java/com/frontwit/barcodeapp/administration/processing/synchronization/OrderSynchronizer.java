@@ -33,13 +33,8 @@ public class OrderSynchronizer {
             sourceRepository.findBy(event.getOrderId())
                     .ifPresentOrElse(
                             order -> {
-                                var dictionary = sourceRepository.getDictionary();
-                                var result = saveOrderWithFronts(order, dictionary);
-                                var meters = MetersCalculator.calculate(result.getFronts());
-                                domainEvents.publish(
-                                        new FrontSynchronized(event.getBarcode(), event.getStage(), event.getDateTime()),
-                                        new OrderPlaced(new CustomerId(order.getCustomerId()), meters, Instant.now(), result.getInfo().getType())
-                                );
+                                var savedOrder = saveOrderWithFronts(order, sourceRepository.getDictionary());
+                                domainEvents.publish(frontSynchronized(event), orderPlaced(savedOrder));
                             },
                             () -> LOGGER.warn("Order not found {}", event.getOrderId()));
         }
@@ -58,11 +53,24 @@ public class OrderSynchronizer {
         return count;
     }
 
+    private static FrontSynchronized frontSynchronized(FrontNotFound event) {
+        return new FrontSynchronized(event.getBarcode(), event.getStage(), event.getDateTime());
+    }
+
+    private static OrderPlaced orderPlaced(TargetOrder order) {
+        var meters = MetersCalculator.calculate(order.getFronts());
+        return new OrderPlaced(new CustomerId(order.getCustomerId()), meters, Instant.now(), order.getInfo().getType());
+    }
+
     private TargetOrder saveOrderWithFronts(SourceOrder sourceOrder, Dictionary dictionary) {
         var targetOrder = orderMapper.map(sourceOrder, dictionary);
         orderRepository.save(targetOrder);
         frontRepository.save(targetOrder.getFronts());
-        LOGGER.info("OrderSynchronized {id={}, customer={}, frontsNr={}}", targetOrder.getOrderId().getId(), targetOrder.getCustomerId(), targetOrder.getFronts().size());
+        LOGGER.info("OrderSynchronized {id={}, customer={}, frontsNr={}}",
+                targetOrder.getOrderId().getId(),
+                targetOrder.getCustomerId(),
+                targetOrder.getFronts().size()
+        );
         return targetOrder;
     }
 }

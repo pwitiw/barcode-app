@@ -5,8 +5,6 @@ import com.frontwit.barcodeapp.administration.processing.front.model.Front;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontNotFound;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
 import com.frontwit.barcodeapp.administration.processing.front.model.ProcessingDetails;
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents;
 import com.frontwit.barcodeapp.administration.processing.synchronization.FrontSynchronized;
@@ -14,8 +12,6 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
-
-import static java.lang.String.format;
 
 @AllArgsConstructor
 public class FrontProcessor {
@@ -38,7 +34,7 @@ public class FrontProcessor {
         frontRepository.findBy(event.getBarcode())
                 .ifPresentOrElse(
                         front -> process(front, command),
-                        () -> LOGGER.warn("No front for barcode {}", event.getBarcode().getBarcode()));
+                        () -> LOGGER.warn("No front for barcode {}", event.getBarcode().getValue()));
     }
 
     private void process(Front front, ProcessFrontCommand command) {

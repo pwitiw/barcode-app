@@ -7,9 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 public class Dictionary {
-
     private final Map<Long, String> entries;
 
     public Dictionary(List<Entry> entries) {
@@ -22,7 +20,7 @@ public class Dictionary {
 
     @Value
     public static class Entry {
-        Long id;
-        String value;
+        private final Long id;
+        private final String value;
     }
 }

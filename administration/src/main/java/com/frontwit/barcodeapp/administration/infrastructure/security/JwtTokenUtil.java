@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
@@ -49,6 +50,6 @@ public class JwtTokenUtil {
     }
 
     private Algorithm getAlgorithm() {
-        return HMAC512(secret.getBytes());
+        return HMAC512(secret.getBytes(StandardCharsets.UTF_8));
     }
 }

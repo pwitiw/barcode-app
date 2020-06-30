@@ -12,7 +12,7 @@ public enum Stage {
     PAINTING(5),    /* Lakierowanie */
     PACKING(6),     /* Pakowanie */
     IN_DELIVERY(7); /* W dostarczeniu */
-//    DELIVERD(8);    /* Dostarczone */
+    //DELIVERD(8);    /* Dostarczone */
 
     private int id;
 
@@ -39,4 +39,3 @@ public enum Stage {
                 .orElseThrow(IllegalStateException::new);
     }
 }
-

@@ -3,25 +3,25 @@ package com.frontwit.barcodeapp.administration.catalogue.dto;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 
-import static org.springframework.util.StringUtils.*;
+import static org.springframework.util.StringUtils.isEmpty;
 
 
 @Getter
 @ToString
 public class OrderSearchCriteria {
-    String name;
-    Boolean completed;
-    Boolean packed;
-    Stage stage;
-    String customer;
-    String route;
-    LocalDate processingDate;
-    LocalDate orderedAt;
+    private String name;
+    private Boolean completed;
+    private Boolean packed;
+    private Stage stage;
+    private String customer;
+    private String route;
+    private LocalDate processingDate;
+    private LocalDate orderedAt;
 
+    @SuppressWarnings("BooleanExpressionComplexity")
     public boolean empty() {
         return isEmpty(this.name)
                 && isEmpty(this.customer)

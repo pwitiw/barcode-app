@@ -7,5 +7,6 @@ import lombok.Value;
 
 @Value
 public class FrontPacked implements DomainEvent {
-    @NonNull Barcode barcode;
+    @NonNull
+    private Barcode barcode;
 }

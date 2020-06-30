@@ -4,7 +4,10 @@ import com.frontwit.barcodeapp.administration.statistics.domain.order.Meters;
 
 import java.util.List;
 
-public class MetersCalculator {
+final class MetersCalculator {
+    private MetersCalculator() {
+    }
+
     public static Meters calculate(List<TargetFront> fronts) {
         var result = fronts.stream()
                 .map(MetersCalculator::computeFrontArea)

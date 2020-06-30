@@ -9,7 +9,7 @@ import java.time.Instant;
 class UpdateOrder {
     private Long orderId;
     private Instant deadline;
-        private BigDecimal valuation;
+    private BigDecimal valuation;
 
     static UpdateOrder of(long orderId, long deadline, BigDecimal valuation) {
         return new UpdateOrder(orderId, Instant.ofEpochMilli(deadline), valuation);

@@ -13,9 +13,11 @@ import static org.springframework.util.StringUtils.isEmpty;
 
 @Service
 public class CriteriaBuilder {
+    static final String COMPLETED_FIELD = "completed";
+    static final String DEADLINE_FIELD = "deadline";
 
     Criteria build(OrderSearchCriteria searchCriteria) {
-        var result = new Criteria();
+        final var result = new Criteria();
         name(searchCriteria, result);
         customer(searchCriteria, result);
         completed(searchCriteria, result);
@@ -41,9 +43,9 @@ public class CriteriaBuilder {
 
     private void completed(OrderSearchCriteria searchCriteria, Criteria result) {
         if (TRUE.equals(searchCriteria.getCompleted())) {
-            result.and("completed").is(true);
+            result.and(COMPLETED_FIELD).is(true);
         } else {
-            result.and("completed").is(false);
+            result.and(DEADLINE_FIELD).is(false);
         }
     }
 

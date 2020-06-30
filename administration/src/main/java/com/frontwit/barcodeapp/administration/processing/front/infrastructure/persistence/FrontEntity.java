@@ -33,7 +33,7 @@ public class FrontEntity {
     private Set<ProcessingDetails> amendments = new HashSet<>();
 
     FrontEntity(TargetFront targetFront) {
-        this.barcode = targetFront.getBarcode().getBarcode();
+        this.barcode = targetFront.getBarcode().getValue();
         this.orderId = targetFront.getBarcode().getOrderId().getId();
         this.comment = targetFront.getComment();
         this.width = targetFront.getDimensions().getWidth();

@@ -17,6 +17,7 @@ public class MongoConfig {
     private String uri;
 
     @Bean
+    @SuppressWarnings("deprecation")
     public MongoDbFactory mongoDbFactory() {
         MongoClientURI mongoClientURI = new MongoClientURI(uri);
         return new SimpleMongoDbFactory(mongoClientURI);

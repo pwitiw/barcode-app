@@ -8,14 +8,16 @@ import lombok.Value;
 
 @Value
 public class StageChanged implements DomainEvent {
-    @NonNull Barcode barcode;
-    @NonNull Stage stage;
+    @NonNull
+    private final Barcode barcode;
+    @NonNull
+    private final Stage stage;
 
     @Override
     public String toString() {
-        return "StageChanged{" +
-                "barcode=" + barcode +
-                ", stage=" + stage +
-                '}';
+        return "StageChanged{"
+                + "barcode=" + barcode
+                + ", stage=" + stage
+                + '}';
     }
 }

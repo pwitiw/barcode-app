@@ -19,10 +19,16 @@ public interface FrontProcessingPolicy {
 
 class TimeGapeBetweenProcessesIsPreserved implements FrontProcessingPolicy {
 
+
     @Override
     public void verify(Front front, ProcessingDetails details) {
         if (front.containsDuplicates(details)) {
-            throw new ProcessingPolicyViolationException(format("Duplicated process: {barcode=%s, stage=%s, timestamp=%s}", front.getBarcode().getBarcode(), details.getStage(), details.getDateTime()));
+            throw new ProcessingPolicyViolationException(
+                    format(
+                            "Duplicated process: {barcode=%s, stage=%s, timestamp=%s}",
+                            front.getBarcode().getValue(), details.getStage(), details.getDateTime()
+                    )
+            );
         }
     }
 }
