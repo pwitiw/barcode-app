@@ -23,4 +23,20 @@ public class SourceOrder {
     private String customerName;
     private String customerAddress;
     private String phoneNumber;
+
+    public Date getOrderedAt() {
+        return Date.from(orderedAt.toInstant());
+    }
+
+    public Date getDeadline() {
+        return Date.from(deadline.toInstant());
+    }
+
+    public void setOrderedAt(Date orderedAt) {
+        this.orderedAt = Date.from(orderedAt.toInstant());
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = Date.from(deadline.toInstant());
+    }
 }

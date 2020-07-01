@@ -31,8 +31,9 @@ import static java.time.ZoneId.of;
 @Document(collection = "order")
 @Data
 @NoArgsConstructor
+@SuppressWarnings({"ClassFanOutComplexity", "PMD.TooManyFields"})
 public class OrderEntity {
-    private final static ZoneId CLIENT_ZONE_ID = of("Europe/Paris");
+    private static final ZoneId CLIENT_ZONE_ID = of("Europe/Paris");
 
     @Id
     private Long id;
@@ -53,8 +54,9 @@ public class OrderEntity {
     private Set<Barcode> notPackedFronts;
     private BigDecimal valuation;
     private OrderType type;
+
     @Deprecated(forRemoval = true)
-    private String customer;// todo remove after release
+    private String customer; // todo remove after release
 
     OrderEntity(TargetOrder targetOrder) {
         this.id = targetOrder.getOrderId().getId();
@@ -95,13 +97,28 @@ public class OrderEntity {
         var deadline = this.deadline != null ? this.deadline.toEpochMilli() : null;
         var customerName = customer.getName();
         var route = customer.getRoute();
-        return new OrderDetailDto(id, name, color, size, cutter, comment, customerName, route, stage, LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline, valuation, type);
+        return new OrderDetailDto(id, name, color, size, cutter, comment, customerName, route, stage,
+                LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline, valuation, type);
     }
 
     public OrderDto dto(CustomerEntity customer) {
-        LocalDate zonedProcessedOnDate = this.lastProcessedOn != null ? LocalDate.ofInstant(this.lastProcessedOn, CLIENT_ZONE_ID) : null;
+        LocalDate zonedProcessedOnDate = this.lastProcessedOn != null
+                ? LocalDate.ofInstant(this.lastProcessedOn, CLIENT_ZONE_ID)
+                : null;
         LocalDate zonedOrderedAt = this.orderedAt != null ? LocalDate.ofInstant(this.orderedAt, CLIENT_ZONE_ID) : null;
-        return new OrderDto(id, name, zonedOrderedAt, zonedProcessedOnDate, stage, quantity, customer.getName(), customer.getRoute(), packed, completed, type);
+        return new OrderDto(
+                id,
+                name,
+                zonedOrderedAt,
+                zonedProcessedOnDate,
+                stage,
+                quantity,
+                customer.getName(),
+                customer.getRoute(),
+                packed,
+                completed,
+                type
+        );
     }
 
     public ReminderDto reminderDto(CustomerEntity customer) {

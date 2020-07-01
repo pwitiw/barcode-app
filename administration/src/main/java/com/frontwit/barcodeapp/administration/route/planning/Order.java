@@ -6,7 +6,7 @@ import lombok.Value;
 import java.math.BigDecimal;
 
 @Value
-class Order {
+final class Order {
     private final String name;
     private final int quantity;
     private final BigDecimal valuation;
@@ -25,7 +25,7 @@ class Order {
     static Order of(DeliveryOrderDto dto) {
         String name = dto.getName();
         int quantity = dto.getQuantity();
-        BigDecimal valuation = new BigDecimal(dto.getValuation());
+        BigDecimal valuation = new BigDecimal(String.valueOf(dto.getValuation()));
 
         return new Order(name, quantity, valuation);
     }

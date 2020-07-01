@@ -36,13 +36,16 @@ class RouteTable {
 
     void addTable(Document document, List<RouteDetails.Report> reports) throws DocumentException {
         PdfPTable table = new PdfPTable(COLUMNS_NR);
-        table.setTotalWidth(new float[]{
-                NR_COL_WIDTH,
-                CUSTOMER_COL_WIDTH,
-                ORDERS_COL_WIDTH,
-                SETTLEMENT_COL_WIDTH,
-                AMOUNT_COL_WIDTH,
-                COMMENT_COL_WIDTH});
+        table.setTotalWidth(
+                new float[]{
+                        NR_COL_WIDTH,
+                        CUSTOMER_COL_WIDTH,
+                        ORDERS_COL_WIDTH,
+                        SETTLEMENT_COL_WIDTH,
+                        AMOUNT_COL_WIDTH,
+                        COMMENT_COL_WIDTH
+                }
+        );
         table.setWidthPercentage(FULL_WIDTH);
         addHeaders(table);
         addBody(reports, table);
@@ -55,7 +58,7 @@ class RouteTable {
             table.addCell(pdfParts.createParagraph(report.getCustomerInfo(), BODY_SIZE));
             table.addCell(report.displayOrders());
             table.addCell(EMPTY_STRING);
-// TODO wating for working settlement type           table.addCell(report.getSettlementType().getDisplayValue());
+            // TODO wating for working settlement type           table.addCell(report.getSettlementType().getDisplayValue());
             table.addCell(report.getAmount().setScale(2, RoundingMode.HALF_EVEN).toString());
             table.addCell(EMPTY_STRING);
         });

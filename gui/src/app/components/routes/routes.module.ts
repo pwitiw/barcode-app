@@ -18,7 +18,7 @@ import {FormsModule} from "@angular/forms";
 import {MapDialog} from "./compute-route/map-dialog/map.dialog";
 import {AgmCoreModule} from "@agm/core";
 import {GoogleApi} from "./compute-route/GoogleApi";
-import {ComputeRoute} from './compute-route/compute-route.component';
+import {RouteComputer} from './compute-route/route-computer.service';
 import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
@@ -49,7 +49,7 @@ import {MatDialogModule} from "@angular/material/dialog";
         StageService,
         RestService,
         GoogleApi,
-        ComputeRoute,
+        RouteComputer,
         {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}
     ]
 })

@@ -4,7 +4,6 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +13,6 @@ import java.math.RoundingMode;
 import java.util.List;
 
 import static java.lang.String.format;
-
 
 public class RouteGenerator {
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(RouteGenerator.class.getName());
@@ -46,14 +44,12 @@ public class RouteGenerator {
             document.close();
         } catch (DocumentException e) {
             LOG.warn("Problem with pdfParts document creation occurred {}", reportDetails);
-            throw new RouteGenerationException();
+            throw new RouteGenerationException(e);
         }
         return out.toByteArray();
     }
 
     private void createPdf(Document document, RouteDetails details) throws DocumentException {
-        PdfName name = new PdfName(ROUTE + details.getRoute());
-        document.getAccessibleAttribute(name);
         addTitle(document, details);
         routeTable.addTable(document, details.getReports());
         addSummary(document, details.getReports());
@@ -61,7 +57,7 @@ public class RouteGenerator {
 
     private void addTitle(Document document, RouteDetails reportDetails) throws DocumentException {
         String name = reportDetails.getRoute() == null ? EMPTY_STRING : reportDetails.getRoute();
-        Paragraph title = pdfParts.createParagraph(ROUTE + name, TITLE_SIZE);
+        final Paragraph title = pdfParts.createParagraph(ROUTE + name, TITLE_SIZE);
         document.add(title);
         document.add(pdfParts.createSpace(SPACE_SMALL));
     }

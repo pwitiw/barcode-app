@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.frontwit.barcodeapp.administration.catalogue.CriteriaBuilder.COMPLETED_FIELD;
+import static com.frontwit.barcodeapp.administration.catalogue.CriteriaBuilder.DEADLINE_FIELD;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.data.domain.Sort.Direction.ASC;
@@ -36,11 +38,20 @@ public class OrderQuery {
     private CriteriaBuilder criteriaBuilder;
     private CustomerRepository customerRepository;
 
-    public OrderDetailDto find(long id) {
+    public OrderDetailDto getDetails(long id) {
         var frontDtos = findFrontsForOrderId(id);
         return Optional.ofNullable(mongoTemplate.findById(id, OrderEntity.class))
                 .map(entity -> entity.detailsDto(frontDtos, findCustomerBy(entity.getCustomerId())))
                 .orElseThrow(() -> new IllegalArgumentException(format("No order for id %s", id)));
+    }
+
+    Page<OrderDto> getDetails(Pageable pageable, OrderSearchCriteria searchCriteria) {
+        var criteria = criteriaBuilder.build(searchCriteria);
+        var query = new Query(criteria).with(pageable).with(Sort.by(DESC, "lastProcessedOn"));
+        var orders = mongoTemplate.find(query, OrderEntity.class);
+        return PageableExecutionUtils
+                .getPage(orders, pageable, () -> mongoTemplate.count(new Query(criteria), OrderEntity.class))
+                .map(o -> o.dto(findCustomerBy(o.getCustomerId())));
     }
 
     List<CustomerOrdersDto> findCustomersWithOrdersForRoute(String route) {
@@ -56,12 +67,22 @@ public class OrderQuery {
                 .map(e -> {
                     var customer = e.getKey();
                     var orders = e.getValue();
-                    return new CustomerOrdersDto(customer.getName(), customer.getAddress(), customer.getPhoneNumber(), mapToOrderInfoDto(orders), "");
+                    return new CustomerOrdersDto(
+                            customer.getName(),
+                            customer.getAddress(),
+                            customer.getPhoneNumber(),
+                            mapToOrderInfoDto(orders),
+                            ""
+                    );
                 })
                 .collect(toList());
     }
+    // todo optional here
 
-    private CustomerEntity findCustomerBy(long id) {
+    private CustomerEntity findCustomerBy(Long id) {
+        if (id == null) {
+            return new CustomerEntity();
+        }
         return customerRepository.findBy(id).orElseGet(() -> {
             LOGGER.warn("No customer for id {}", id);
             return new CustomerEntity();
@@ -85,7 +106,7 @@ public class OrderQuery {
     private Query routeQuery(String route) {
         return new Query(new Criteria()
                 .and("route").regex(format("%s", route), "i")
-                .and("completed").is(false)
+                .and(COMPLETED_FIELD).is(false)
                 .and("packed").is(true));
     }
 
@@ -107,18 +128,9 @@ public class OrderQuery {
                 .collect(toList());
     }
 
-    Page<OrderDto> find(Pageable pageable, OrderSearchCriteria searchCriteria) {
-        var criteria = criteriaBuilder.build(searchCriteria);
-        var query = new Query(criteria).with(pageable).with(Sort.by(DESC, "lastProcessedOn"));
-        var orders = mongoTemplate.find(query, OrderEntity.class);
-        return PageableExecutionUtils
-                .getPage(orders, pageable, () -> mongoTemplate.count(new Query(criteria), OrderEntity.class))
-                .map(o -> o.dto(findCustomerBy(o.getCustomerId())));
-    }
-
     Page<ReminderDto> findDeadlines(Pageable pageable) {
-        var criteria = Criteria.where("deadline").ne(null).and("completed").is(false);
-        var query = new Query(criteria).with(pageable).with(Sort.by(ASC, "deadline"));
+        var criteria = Criteria.where(DEADLINE_FIELD).ne(null).and(COMPLETED_FIELD).is(false);
+        var query = new Query(criteria).with(pageable).with(Sort.by(ASC, DEADLINE_FIELD));
         var orders = mongoTemplate.find(query, OrderEntity.class);
 
         return PageableExecutionUtils

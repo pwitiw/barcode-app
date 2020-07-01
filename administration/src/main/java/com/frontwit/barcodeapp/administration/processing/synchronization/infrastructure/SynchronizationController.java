@@ -15,7 +15,7 @@ public class SynchronizationController {
     private OrderSynchronizer orderSynchronizer;
     private CustomerSynchronizer customerSynchronizer;
 
-    @PostMapping(value = "/orders/synchronize")
+    @PostMapping("/orders/synchronize")
     public long synchronize() {
         customerSynchronizer.synchronize();
         return orderSynchronizer.synchronize();

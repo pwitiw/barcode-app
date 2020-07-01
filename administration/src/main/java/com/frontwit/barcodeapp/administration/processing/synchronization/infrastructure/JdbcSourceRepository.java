@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
+@SuppressWarnings("MultipleStringLiterals")
 public class JdbcSourceRepository implements SourceRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -39,7 +40,10 @@ public class JdbcSourceRepository implements SourceRepository {
 
     @Override
     public List<SourceOrder> findByDateBetween(Instant from) {
-        return jdbcTemplate.query(findOrdersByDateGteQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), LocalDate.ofInstant(from, ZoneId.of("Europe/Paris")));
+        return jdbcTemplate.query(findOrdersByDateGteQuery(),
+                new BeanPropertyRowMapper<>(SourceOrder.class),
+                LocalDate.ofInstant(from, ZoneId.of("Europe/Paris"))
+        );
     }
 
     @Override
@@ -48,50 +52,45 @@ public class JdbcSourceRepository implements SourceRepository {
     }
 
     private String findCustomersQuery() {
-        return "SELECT " +
-                "k.id as id, " +
-                "k.nazwa as name, " +
-                "k.trasa as route, " +
-                "k.adres as address, " +
-                "k.telefon as phoneNumber " +
-                "FROM tklienci k ";
+        return "SELECT "
+                + "k.id as id, "
+                + "k.nazwa as name, "
+                + "k.trasa as route, "
+                + "k.adres as address, "
+                + "k.telefon as phoneNumber "
+                + "FROM tklienci k ";
     }
 
     private String findOrdersQuery() {
-        return "SELECT " +
-                "z.id as id, " +
-                "z.numer as nr, " +
-                "z.pozycje as fronts, " +
-                "data_z as orderedAt, " +
-                "data_r as deadline, " +
-                "valuation as valuation, " +
-                "rodzaj as type, " +
-                "z.nr_zam_kl as additionalInfo, " +
-                "z.opis as description, " +
-                "z.cechy as features, " +
-                "k.nazwa as customerName, " +
-                "k.trasa as route, " +
-                "k.adres as customerAddress, " +
-                "k.id as customerId, " +
-                "k.telefon as phoneNumber " +
-                "FROM tzamowienia z JOIN tklienci k " +
-                "ON z.tklienci_id = k.id ";
+        return "SELECT "
+                + "z.id as id, "
+                + "z.numer as nr, "
+                + "z.pozycje as fronts, "
+                + "data_z as orderedAt, "
+                + "data_r as deadline, "
+                + "valuation as valuation, "
+                + "rodzaj as type, "
+                + "z.nr_zam_kl as additionalInfo, "
+                + "z.opis as description, "
+                + "z.cechy as features, "
+                + "k.nazwa as customerName, "
+                + "k.trasa as route, "
+                + "k.adres as customerAddress, "
+                + "k.id as customerId, "
+                + "k.telefon as phoneNumber "
+                + "FROM tzamowienia z JOIN tklienci k "
+                + "ON z.tklienci_id = k.id ";
     }
 
     private String findOrderByIdQuery() {
-        return findOrdersQuery() +
-                "WHERE z.id=?";
+        return findOrdersQuery() + "WHERE z.id=?";
     }
 
     private String findOrdersByDateGteQuery() {
-        return findOrdersQuery() +
-                "WHERE data_z >= ?";
+        return findOrdersQuery() + "WHERE data_z >= ?";
     }
 
     private String getDictionaryQuery() {
-        return "SELECT " +
-                "id, " +
-                "name as value " +
-                "FROM tdictionary";
+        return "SELECT id, name as value FROM tdictionary";
     }
 }

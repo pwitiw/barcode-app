@@ -22,18 +22,18 @@ public class MongoOrderRepository implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> findBy(OrderId orderId) {
-        return findById(orderId.getId())
-                .map(entity -> entity.toDomainModel(updateStagePolicy));
-    }
-
-    @Override
     public void save(Order order) {
         Optional.ofNullable(mongoTemplate.findById(order.getOrderId().getId(), OrderEntity.class))
                 .ifPresent(entity -> {
                     entity.update(order);
                     mongoTemplate.save(entity);
                 });
+    }
+
+    @Override
+    public Optional<Order> findBy(OrderId orderId) {
+        return findById(orderId.getId())
+                .map(entity -> entity.toDomainModel(updateStagePolicy));
     }
 
     @Override

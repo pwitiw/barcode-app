@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface OrderRepository {
     void save(TargetOrder targetOrder);
 
-    Optional<Order> findBy(OrderId orderId);
-
     void save(Order order);
+
+    Optional<Order> findBy(OrderId orderId);
 
     boolean isNotSynchronized(OrderId orderId);
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface FrontRepository {
     void save(Front front);
 
-    Optional<Front> findBy(Barcode barcode);
-
     void save(List<TargetFront> fronts);
+
+    Optional<Front> findBy(Barcode barcode);
 }

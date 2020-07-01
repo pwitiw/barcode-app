@@ -3,8 +3,8 @@ import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {RestService} from "../../services/rest.service";
 import {SnackBarService} from "../../services/snack-bar.service";
 import {DeliveryInfo, DeliveryInfoView, Order} from "./DeliveryInfoView";
-import {ComputeRoute} from "./compute-route/compute-route.component";
 import {CustomerAddress} from "./compute-route/CustomerAddress";
+import {RouteComputer} from "./compute-route/route-computer.service";
 
 @Component({
     selector: 'app-routes',
@@ -18,7 +18,7 @@ export class RoutesComponent implements OnInit {
 
     constructor(private restService: RestService,
                 private snackBarService: SnackBarService,
-                private computeRoute: ComputeRoute) {
+                private routeComputer: RouteComputer) {
     }
 
     ngOnInit() {
@@ -87,7 +87,7 @@ export class RoutesComponent implements OnInit {
 
     setRouteClicked(): void {
         let addresses = this.selectedDeliveryInfos.map(detail => new CustomerAddress(detail.info.customer, detail.info.address));
-        this.computeRoute.compute(addresses).subscribe(addresses => {
+        this.routeComputer.compute(addresses).subscribe(addresses => {
             if (addresses.length == 0) {
                 this.snackBarService.failure("Wystąpił błąd podczas wyszukiwania trasy");
                 return;
@@ -105,4 +105,30 @@ export class RoutesComponent implements OnInit {
         this.selectedDeliveryInfos = orderedCustomers.map(c => this.selectedDeliveryInfos.filter(details => details.info.customer == c)[0])
             .concat(this.selectedDeliveryInfos.filter(details => orderedCustomers.indexOf(details.info.customer) < 0));
     }
+}
+
+function testData(): DeliveryInfoView[] {
+    const infos = [
+        DeliveryInfo.of("Ostatek", [
+            {name: 'TW501', valuation: 222, quantity: 33, isSelected: true},
+        ], "FV", "ascjaiucbajkvhalkwvabjlk", "12346789"),
+        DeliveryInfo.of("Kowalczyk", [
+            {name: 'TW101', valuation: 222, quantity: 11, isSelected: true},
+        ], "FV", "Wrocław", "789456123"),
+        DeliveryInfo.of("Krawczyk", [
+            {name: 'TW201', valuation: 222, quantity: 23, isSelected: true},
+        ], "FV", "Lubin", "456321963"),
+        DeliveryInfo.of("Ambrozy", [
+            {name: 'TW301', valuation: 222, quantity: 101, isSelected: true},
+        ], "FV", "Karpacz", "963852741"),
+        DeliveryInfo.of("Wilczak", [
+            {name: 'TW401', valuation: 222, quantity: 1, isSelected: true},
+        ], "FV", "Drezno", "852147963"),
+    ];
+    return infos.map(info => {
+        return {
+            info: info,
+            allChecked: false
+        }
+    });
 }

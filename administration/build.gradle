@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'groovy'
 }
 
@@ -12,7 +12,8 @@ test {
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation "com.auth0:java-jwt:${jwtVersion}"
         implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
-        implementation "org.javassist:javassist:${javassistVersion}" // workaround for ${javassist.version} placeholder issue
+        implementation "org.javassist:javassist:${javassistVersion}"
+        // workaround for ${javassist.version} placeholder issue
         implementation 'mysql:mysql-connector-java'
         implementation "org.hibernate:hibernate-validator:${hibernateValidatorVersion}"
         implementation 'log4j:log4j'
@@ -29,12 +30,15 @@ test {
         testImplementation 'org.spockframework:spock-core'
         testImplementation "com.h2database:h2:${h2Version}"
         testImplementation "org.spockframework:spock-spring:${spockVersion}"
+        testImplementation "org.testcontainers:spock:${testContainerVersion}"
+        testImplementation "org.testcontainers:mongodb:${testContainerVersion}"
+        testImplementation "org.testcontainers:mysql:${testContainerVersion}"
     }
     useJUnitPlatform()
 }
 
 test {
-    filter{
+    filter {
         excludeTestsMatching "*IT"
     }
 }

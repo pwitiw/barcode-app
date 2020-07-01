@@ -16,7 +16,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private AuthService authService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         if (!request.getRequestURI().contains("/login")) {
             var token = request.getHeader(HttpHeaders.AUTHORIZATION);
             if (token != null && !token.isEmpty()) {

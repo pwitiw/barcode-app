@@ -16,26 +16,26 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderResource {
 
-    OrderQuery orderQuery;
-    OrderCommand orderCommand;
-    FrontProcessor frontProcessor;
+    private final OrderQuery orderQuery;
+    private final OrderCommand orderCommand;
+    private final FrontProcessor frontProcessor;
 
     @GetMapping("/orders/{id}")
     OrderDetailDto getOrder(@PathVariable Long id) {
-        return orderQuery.find(id);
+        return orderQuery.getDetails(id);
     }
 
-    @PostMapping(value = "/orders")
+    @PostMapping("/orders")
     Page<OrderDto> getOrdersForSearchCriteria(Pageable pageable, @RequestBody(required = false) OrderSearchCriteria searchCriteria) {
-        return orderQuery.find(pageable, searchCriteria);
+        return orderQuery.getDetails(pageable, searchCriteria);
     }
 
-    @PutMapping(value = "/orders/status")
+    @PutMapping("/orders/status")
     void changeStatus(@RequestBody OrderStatusesDto dto) {
         orderCommand.updateStatuses(dto.getIds(), dto.isCompleted());
     }
 
-    @PutMapping(value = "/orders/{orderId}/deadline")
+    @PutMapping("/orders/{orderId}/deadline")
     void updateOrder(@PathVariable Long orderId, @RequestBody UpdateOrderDto dto) {
         orderCommand.updateOrder(UpdateOrder.of(orderId, dto.getDeadline(), dto.getValuation()));
     }
@@ -45,7 +45,7 @@ public class OrderResource {
         return orderQuery.findDeadlines(PageRequest.of(page, size));
     }
 
-    @GetMapping(value = "/routes")
+    @GetMapping("/routes")
     List<CustomerOrdersDto> getOrdersForRoute(@RequestParam String routes) {
         return orderQuery.findCustomersWithOrdersForRoute(routes);
     }

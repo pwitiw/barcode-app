@@ -8,6 +8,6 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 public class UpdateOrderDto {
-    long deadline;
-    BigDecimal valuation;
+    private long deadline;
+    private BigDecimal valuation;
 }

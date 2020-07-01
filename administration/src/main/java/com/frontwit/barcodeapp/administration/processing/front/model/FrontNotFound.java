@@ -16,11 +16,6 @@ public class FrontNotFound implements DomainEvent {
     private Integer stage;
     private LocalDateTime dateTime;
 
-    @Override
-    public Long getId() {
-        return barcode.getBarcode();
-    }
-
     public OrderId getOrderId() {
         return barcode.getOrderId();
     }

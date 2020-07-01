@@ -68,11 +68,11 @@ public class OrderMapper {
         var barcode = Barcode.valueOf(orderId, element.getNumber());
         var dimensions = new TargetFront.Dimensions(element.getLength(), element.getWidth());
         var quantity = new Quantity(element.getQuantity());
-        return new TargetFront(barcode, orderId, quantity, dimensions, element.getComment());
+        return new TargetFront(barcode, quantity, dimensions, element.getComment());
     }
 
     @Data
-    @JsonIgnoreProperties(value = "do")
+    @JsonIgnoreProperties("do")
     private static class Features {
         @JsonProperty("cu")
         private long cutter;
@@ -83,7 +83,7 @@ public class OrderMapper {
     }
 
     @Data
-    @JsonIgnoreProperties(value = {"el", "a", "cu", "si", "do", "co"})
+    @JsonIgnoreProperties({"el", "a", "cu", "si", "do", "co"})
     private static class Element {
         @JsonProperty("nr")
         private long number;

@@ -8,17 +8,17 @@ import static java.lang.String.format;
 public class Barcode {
     private static final long LIMIT = 100;
 
-    private Long barcode;
+    private Long value;
 
-    public Barcode(Long barcode) {
-        if (barcode < LIMIT) {
-            throw new IllegalStateException(format("Illegal barcode: %s, max value: %s", barcode, LIMIT));
+    public Barcode(Long value) {
+        if (value < LIMIT) {
+            throw new IllegalStateException(format("Illegal barcode: %s, max value: %s", value, LIMIT));
         }
-        this.barcode = barcode;
+        this.value = value;
     }
 
     public OrderId getOrderId() {
-        return new OrderId(Math.floorDiv(barcode, LIMIT));
+        return new OrderId(Math.floorDiv(value, LIMIT));
     }
 
     public static Barcode valueOf(OrderId orderId, long frontId) {
@@ -27,6 +27,6 @@ public class Barcode {
 
     @Override
     public String toString() {
-        return String.valueOf(barcode);
+        return String.valueOf(value);
     }
 }

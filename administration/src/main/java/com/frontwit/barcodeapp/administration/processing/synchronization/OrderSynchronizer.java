@@ -3,12 +3,16 @@ package com.frontwit.barcodeapp.administration.processing.synchronization;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontNotFound;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderRepository;
+import com.frontwit.barcodeapp.administration.processing.shared.CustomerId;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents;
+import com.frontwit.barcodeapp.administration.statistics.domain.OrderPlaced;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
+
+import java.time.Instant;
 
 import static java.lang.String.format;
 
@@ -26,13 +30,13 @@ public class OrderSynchronizer {
     @EventListener
     public void synchronize(FrontNotFound event) {
         if (orderRepository.isNotSynchronized(event.getOrderId())) {
-            sourceRepository.findBy(event.getOrderId()).ifPresentOrElse(
-                    order -> {
-                        var dictionary = sourceRepository.getDictionary();
-                        saveOrderWithFronts(order, dictionary);
-                        domainEvents.publish(new FrontSynchronized(event.getBarcode(), event.getStage(), event.getDateTime()));
-                    },
-                    () -> LOGGER.warn("Order not found {}", event.getOrderId()));
+            sourceRepository.findBy(event.getOrderId())
+                    .ifPresentOrElse(
+                            order -> {
+                                var savedOrder = saveOrderWithFronts(order, sourceRepository.getDictionary());
+                                domainEvents.publish(frontSynchronized(event), orderPlaced(savedOrder));
+                            },
+                            () -> LOGGER.warn("Order not found {}", event.getOrderId()));
         }
     }
 
@@ -49,10 +53,24 @@ public class OrderSynchronizer {
         return count;
     }
 
-    private void saveOrderWithFronts(SourceOrder sourceOrder, Dictionary dictionary) {
+    private static FrontSynchronized frontSynchronized(FrontNotFound event) {
+        return new FrontSynchronized(event.getBarcode(), event.getStage(), event.getDateTime());
+    }
+
+    private static OrderPlaced orderPlaced(TargetOrder order) {
+        var meters = MetersCalculator.calculate(order.getFronts());
+        return new OrderPlaced(new CustomerId(order.getCustomerId()), meters, Instant.now(), order.getInfo().getType());
+    }
+
+    private TargetOrder saveOrderWithFronts(SourceOrder sourceOrder, Dictionary dictionary) {
         var targetOrder = orderMapper.map(sourceOrder, dictionary);
         orderRepository.save(targetOrder);
         frontRepository.save(targetOrder.getFronts());
-        LOGGER.info("OrderSynchronized {id={}, customer={}, frontsNr={}}", targetOrder.getOrderId().getId(), targetOrder.getCustomerId(), targetOrder.getFronts().size());
+        LOGGER.info("OrderSynchronized {id={}, customer={}, frontsNr={}}",
+                targetOrder.getOrderId().getId(),
+                targetOrder.getCustomerId(),
+                targetOrder.getFronts().size()
+        );
+        return targetOrder;
     }
 }

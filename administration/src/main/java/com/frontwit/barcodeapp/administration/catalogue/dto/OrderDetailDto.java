@@ -11,6 +11,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
+@SuppressWarnings("PMD.TooManyFields")
 public class OrderDetailDto {
 
     private Long id;

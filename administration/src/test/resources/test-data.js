@@ -30,7 +30,6 @@ db.order.insertMany([
         "stage": "BASE",
         "cutter": "PŁYTA",
         "comment": "express",
-        "customerId": 1,
         "route": "Śląsk",
         "completed": false,
         "quantity": 2,

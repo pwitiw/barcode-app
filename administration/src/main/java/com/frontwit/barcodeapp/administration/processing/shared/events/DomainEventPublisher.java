@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 
-import static java.lang.String.format;
+import java.util.stream.Stream;
 
 @AllArgsConstructor
 public class DomainEventPublisher implements DomainEvents {
@@ -13,8 +13,11 @@ public class DomainEventPublisher implements DomainEvents {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
-    public void publish(DomainEvent event) {
-        LOGGER.info(event.toString());
-        applicationEventPublisher.publishEvent(event);
+    public void publish(DomainEvent... events) {
+        Stream.of(events)
+                .forEach(event -> {
+                    applicationEventPublisher.publishEvent(event);
+                    LOGGER.info(event.toString());
+                });
     }
 }
