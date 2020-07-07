@@ -77,7 +77,6 @@ public class OrderQuery {
                 })
                 .collect(toList());
     }
-    // todo optional here
 
     private CustomerEntity findCustomerBy(Long id) {
         if (id == null) {

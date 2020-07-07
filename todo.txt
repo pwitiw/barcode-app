@@ -13,7 +13,6 @@ Pytania:
 - logi nie zapisuje sie tam gdzie trzeba
 
 Features:
-- checkstyle
 -  jest zamowienie i jest juz spakowane i jest niekompletne i wiemy ze brakuje jednej witryny bo jest na docieciu
 i robi beata trase i w jakims zamowieniu brakuje jakiegos elementu i ktos dopisze to bedzie wiadomo, ze niekompletne
 i na cos trzeba czekac
