@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import static com.amazonaws.regions.Regions.EU_CENTRAL_1;
 
 @Service
-@Profile(value = "prod")
+@Profile("prod")
 public class SqsCommandHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(SqsCommandHandler.class);
     private static final int LONG_POLL_TIME = 20;
