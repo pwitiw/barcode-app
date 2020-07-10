@@ -24,43 +24,49 @@ public class OrderStatisticsCreator {
     public OrderStatisticsDto statisticsFor(StatisticsPeriod today) {
         OrderStatisticsDto dto = new OrderStatisticsDto();
         var orderStatistics = orderStatisticsRepository.findForYearUntil(today);
-        dto.setPeriods(Arrays.asList
-                (new OrderStatisticsDto.PeriodDto(PeriodType.TODAY, calculateOrdersMetersToday(orderStatistics, today), calculateComplaintsMetersToday(orderStatistics, today)),
-                        (new OrderStatisticsDto.PeriodDto(PeriodType.WEEK, calculateOrdersWeekly(orderStatistics, today), calculateComplaintsWeekly(orderStatistics, today))),
-                        (new OrderStatisticsDto.PeriodDto(PeriodType.MONTH, calculateOrdersMonthly(orderStatistics, today), calculateComplaintsMonthly(orderStatistics, today))),
-                        (new OrderStatisticsDto.PeriodDto(PeriodType.QUARTER, calculateOrdersQuarter(orderStatistics, today), calculateComplaintsQuarter(orderStatistics, today))),
-                        (new OrderStatisticsDto.PeriodDto(PeriodType.YEAR, calculateOrdersYear(orderStatistics, today), calculateComplaintsYear(orderStatistics, today)))));
+        dto.setPeriods(
+                Arrays.asList(
+                        OrderStatisticsDto.PeriodDto.of(PeriodType.TODAY, calculateOrdersMetersToday(orderStatistics, today), calculateComplaintsMetersToday(orderStatistics, today)),
+                        OrderStatisticsDto.PeriodDto.of(PeriodType.WEEK, calculateOrdersWeekly(orderStatistics, today), calculateComplaintsWeekly(orderStatistics, today)),
+                        OrderStatisticsDto.PeriodDto.of(PeriodType.MONTH, calculateOrdersMonthly(orderStatistics, today), calculateComplaintsMonthly(orderStatistics, today)),
+                        OrderStatisticsDto.PeriodDto.of(PeriodType.QUARTER, calculateOrdersQuarter(orderStatistics, today), calculateComplaintsQuarter(orderStatistics, today)),
+                        OrderStatisticsDto.PeriodDto.of(PeriodType.YEAR, calculateOrdersYear(orderStatistics, today), calculateComplaintsYear(orderStatistics, today))
+                )
+        );
         return dto;
     }
 
-    private Double calculateOrdersMetersToday(List<OrderStatistics> orderStatistics, StatisticsPeriod period) {
+    private Meters calculateOrdersMetersToday(List<OrderStatistics> orderStatistics, StatisticsPeriod period) {
         return orderStatistics.stream().map(statistics -> {
             if (statistics.isInPeriod(period)) {
                 return statistics.getOrders();
             }
             return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO).getValue();
+        }).reduce(Meters::plus)
+                .orElse(Meters.ZERO);
     }
 
-    private Double calculateComplaintsMetersToday(List<OrderStatistics> orderStatistics, StatisticsPeriod period) {
+    private Meters calculateComplaintsMetersToday(List<OrderStatistics> orderStatistics, StatisticsPeriod period) {
         return orderStatistics.stream().map(statistics -> {
             if (statistics.isInPeriod(period)) {
                 return statistics.getComplaints();
             }
             return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO).getValue();
+        }).reduce(Meters::plus).orElse(Meters.ZERO);
     }
 
-    private Double calculateOrdersWeekly(List<OrderStatistics> statistics, StatisticsPeriod date) {
-        return filterStatistics(statistics, date).stream().map(OrderStatistics::getOrders)
+    private Meters calculateOrdersWeekly(List<OrderStatistics> statistics, StatisticsPeriod date) {
+        return filterStatistics(statistics, date).stream()
+                .map(OrderStatistics::getOrders)
                 .reduce(Meters::plus)
-                .orElse(Meters.ZERO).getValue();
+                .orElse(Meters.ZERO);
     }
 
-    private Double calculateComplaintsWeekly(List<OrderStatistics> statistics, StatisticsPeriod date) {
-        return filterStatistics(statistics, date).stream().map(OrderStatistics::getComplaints)
+    private Meters calculateComplaintsWeekly(List<OrderStatistics> statistics, StatisticsPeriod date) {
+        return filterStatistics(statistics, date).stream()
+                .map(OrderStatistics::getComplaints)
                 .reduce(Meters::plus)
-                .orElse(Meters.ZERO).getValue();
+                .orElse(Meters.ZERO);
     }
 
     private List<OrderStatistics> filterStatistics(List<OrderStatistics> statistics, StatisticsPeriod date) {
@@ -91,25 +97,25 @@ public class OrderStatisticsCreator {
         return foundPeriod;
     }
 
-    private Double calculateComplaintsMonthly(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
+    private Meters calculateComplaintsMonthly(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
         return orderStatistics.stream().map(statistics -> {
             if (statistics.getPeriod().getMonth().equals(today.getMonth())) {
                 return statistics.getComplaints();
             }
             return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO).getValue();
+        }).reduce(Meters::plus).orElse(Meters.ZERO);
     }
 
-    private Double calculateOrdersMonthly(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
+    private Meters calculateOrdersMonthly(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
         return orderStatistics.stream().map(statistics -> {
             if (statistics.getPeriod().getMonth().equals(today.getMonth())) {
                 return statistics.getOrders();
             }
             return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO).getValue();
+        }).reduce(Meters::plus).orElse(Meters.ZERO);
     }
 
-    private Double calculateComplaintsQuarter(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
+    private Meters calculateComplaintsQuarter(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
         var firstMonthOfQuarter = today.getMonth().firstMonthOfQuarter();
         var secondMonthOfQuarter = Month.of(firstMonthOfQuarter.getValue() + 1);
         var thirdMonthOfQuarter = Month.of(firstMonthOfQuarter.getValue() + 2);
@@ -118,10 +124,10 @@ public class OrderStatisticsCreator {
                 return statistics.getComplaints();
             }
             return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO).getValue();
+        }).reduce(Meters::plus).orElse(Meters.ZERO);
     }
 
-    private Double calculateOrdersQuarter(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
+    private Meters calculateOrdersQuarter(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
         var firstMonthOfQuarter = today.getMonth().firstMonthOfQuarter();
         var secondMonthOfQuarter = Month.of(firstMonthOfQuarter.getValue() + 1);
         var thirdMonthOfQuarter = Month.of(firstMonthOfQuarter.getValue() + 2);
@@ -130,24 +136,24 @@ public class OrderStatisticsCreator {
                 return statistics.getOrders();
             }
             return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO).getValue();
+        }).reduce(Meters::plus).orElse(Meters.ZERO);
     }
 
-    private Double calculateComplaintsYear(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
+    private Meters calculateComplaintsYear(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
         return orderStatistics.stream().map(statistics -> {
             if (statistics.getPeriod().getYear().equals(today.getYear())) {
                 return statistics.getComplaints();
             }
             return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO).getValue();
+        }).reduce(Meters::plus).orElse(Meters.ZERO);
     }
 
-    private Double calculateOrdersYear(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
+    private Meters calculateOrdersYear(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
         return orderStatistics.stream().map(statistics -> {
             if (statistics.getPeriod().getYear().equals(today.getYear())) {
                 return statistics.getOrders();
             }
             return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO).getValue();
+        }).reduce(Meters::plus).orElse(Meters.ZERO);
     }
 }
