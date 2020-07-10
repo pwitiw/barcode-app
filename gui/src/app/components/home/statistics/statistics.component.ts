@@ -44,10 +44,11 @@ export class StatisticsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.loadOrderStatistics();
     }
 
     loadOrderStatistics(): void {
-        this.restService.get<OrderStatistics[]>(`/api/home/statistics/orders}`)
+        this.restService.get<OrderStatistics[]>(`/api/statistics/orders}`)
             .subscribe(response => {
                 const result = response.body;
                 if (result) {
