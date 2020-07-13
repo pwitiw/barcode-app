@@ -4,7 +4,6 @@ import com.frontwit.barcodeapp.administration.statistics.domain.order.Meters
 import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStatistics
 import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStatisticsRepository
 import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod
-import org.hamcrest.Matchers
 import spock.lang.Specification
 
 import java.time.Month
@@ -19,22 +18,22 @@ class OrderStatisticsCreatorTest extends Specification {
 
     def "should create all statistics for given day"() {
         given:
-        def thursday = new StatisticsPeriod(19, Month.JUNE as Month, Year.of(2020))
-        def monday = new StatisticsPeriod(16, Month.JUNE as Month, Year.of(2020))
-        def wednesday = new StatisticsPeriod(10, Month.JUNE as Month, Year.of(2020))
-        def friday = new StatisticsPeriod(2, Month.MAY as Month, Year.of(2020))
-        def tuesday = new StatisticsPeriod(7, Month.FEBRUARY as Month, Year.of(2020))
+        def statisticsPeriod1 = new StatisticsPeriod(19, Month.JUNE as Month, Year.of(2020))
+        def statisticsPeriod2 = new StatisticsPeriod(16, Month.JUNE as Month, Year.of(2020))
+        def statisticsPeriod3 = new StatisticsPeriod(10, Month.JUNE as Month, Year.of(2020))
+        def statisticsPeriod4 = new StatisticsPeriod(2, Month.MAY as Month, Year.of(2020))
+        def statisticsPeriod5 = new StatisticsPeriod(7, Month.FEBRUARY as Month, Year.of(2020))
 
         def statistics = [
-                OrderStatistics.of(thursday, Meters.of(1), Meters.of(1)),
-                OrderStatistics.of(monday, Meters.of(1), Meters.of(1)),
-                OrderStatistics.of(wednesday, Meters.of(1), Meters.of(1)),
-                OrderStatistics.of(friday, Meters.of(1), Meters.of(1)),
-                OrderStatistics.of(tuesday, Meters.of(1), Meters.of(1)),
+                OrderStatistics.of(statisticsPeriod1, Meters.of(1), Meters.of(1)),
+                OrderStatistics.of(statisticsPeriod2, Meters.of(1), Meters.of(1)),
+                OrderStatistics.of(statisticsPeriod3, Meters.of(1), Meters.of(1)),
+                OrderStatistics.of(statisticsPeriod4, Meters.of(1), Meters.of(1)),
+                OrderStatistics.of(statisticsPeriod5, Meters.of(1), Meters.of(1)),
         ]
-        repository.findForYearUntil(thursday) >> statistics
+        repository.findForYearUntil(statisticsPeriod1) >> statistics
         when:
-        def result = orderStatisticsCreator.statisticsFor(thursday)
+        def result = orderStatisticsCreator.statisticsFor(statisticsPeriod1)
 
         then:
         expect result.getPeriods(), containsInAnyOrder(
@@ -43,27 +42,6 @@ class OrderStatisticsCreatorTest extends Specification {
                 periodDto(PeriodType.MONTH, 3, 3),
                 periodDto(PeriodType.QUARTER, 4, 4),
                 periodDto(PeriodType.YEAR, 5, 5)
-        )
-    }
-
-    def "should successfully calculate meters weekly"() {
-        given:
-        def monday = new StatisticsPeriod(22, Month.JUNE as Month, Year.of(2020))
-        def sunday = new StatisticsPeriod(21, Month.JUNE as Month, Year.of(2020))
-
-        def statistics = [
-                OrderStatistics.of(monday, Meters.of(1), Meters.of(2)),
-                OrderStatistics.of(sunday, Meters.of(3), Meters.of(4)),
-        ]
-        repository.findForYearUntil(monday) >> statistics
-        when:
-        def result = orderStatisticsCreator.statisticsFor(monday)
-
-        then:
-        Matchers.arrayContaining()
-        expect result.getPeriods(), containsInAnyOrder(
-                periodDto(PeriodType.TODAY,1,2),
-                periodDto(PeriodType.WEEK, 1, 2)
         )
     }
 
