@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Component
 public class MongoOrderStatisticsRepository implements OrderStatisticsRepository {
 
+    private static final String PERIOD_FIELD = "period";
     private final MongoTemplate mongoTemplate;
 
     @Override
@@ -34,7 +35,8 @@ public class MongoOrderStatisticsRepository implements OrderStatisticsRepository
     @Override
     public List<OrderStatistics> findForYearUntil(StatisticsPeriod period) {
         var beginningOfYear = Instant.parse("01-01-" + period.getYear().toString());
-        Query forGivenYear = new Query(new Criteria("period").lte(period.toInstant()).and("period").gte(beginningOfYear));
+
+        Query forGivenYear = new Query(new Criteria(PERIOD_FIELD).lte(period.toInstant()).and(PERIOD_FIELD).gte(beginningOfYear));
         var statisticsEntity = mongoTemplate.find(forGivenYear, OrderStatisticsEntity.class);
         return statisticsEntity.stream()
                 .map(entity -> OrderStatistics.of(StatisticsPeriod.of(entity.getPeriod()), entity.getOrders(), entity.getComplainments()))
