@@ -4,6 +4,7 @@ import com.frontwit.barcodeapp.administration.statistics.domain.order.Meters
 import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStatistics
 import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStatisticsRepository
 import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod
+import org.hamcrest.Matchers
 import spock.lang.Specification
 
 import java.time.Month
@@ -16,7 +17,7 @@ class OrderStatisticsCreatorTest extends Specification {
     OrderStatisticsRepository repository = Mock()
     OrderStatisticsCreator orderStatisticsCreator = new OrderStatisticsCreator(repository)
 
-    def "should create statistics for today"() {
+    def "should create all statistics for given day"() {
         given:
         def thursday = new StatisticsPeriod(19, Month.JUNE as Month, Year.of(2020))
         def monday = new StatisticsPeriod(16, Month.JUNE as Month, Year.of(2020))
@@ -42,6 +43,27 @@ class OrderStatisticsCreatorTest extends Specification {
                 periodDto(PeriodType.MONTH, 3, 3),
                 periodDto(PeriodType.QUARTER, 4, 4),
                 periodDto(PeriodType.YEAR, 5, 5)
+        )
+    }
+
+    def "should successfully calculate meters weekly"() {
+        given:
+        def monday = new StatisticsPeriod(22, Month.JUNE as Month, Year.of(2020))
+        def sunday = new StatisticsPeriod(21, Month.JUNE as Month, Year.of(2020))
+
+        def statistics = [
+                OrderStatistics.of(monday, Meters.of(1), Meters.of(2)),
+                OrderStatistics.of(sunday, Meters.of(3), Meters.of(4)),
+        ]
+        repository.findForYearUntil(monday) >> statistics
+        when:
+        def result = orderStatisticsCreator.statisticsFor(monday)
+
+        then:
+        Matchers.arrayContaining()
+        expect result.getPeriods(), containsInAnyOrder(
+                periodDto(PeriodType.TODAY,1,2),
+                periodDto(PeriodType.WEEK, 1, 2)
         )
     }
 

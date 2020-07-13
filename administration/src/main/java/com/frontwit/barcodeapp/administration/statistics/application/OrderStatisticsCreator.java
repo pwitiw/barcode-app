@@ -13,6 +13,7 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -26,45 +27,31 @@ public class OrderStatisticsCreator {
         var orderStatistics = orderStatisticsRepository.findForYearUntil(today);
         dto.setPeriods(
                 Arrays.asList(
-                        OrderStatisticsDto.PeriodDto.of(PeriodType.TODAY, calculateOrdersMetersToday(orderStatistics, today), calculateComplaintsMetersToday(orderStatistics, today)),
-                        OrderStatisticsDto.PeriodDto.of(PeriodType.WEEK, calculateOrdersWeekly(orderStatistics, today), calculateComplaintsWeekly(orderStatistics, today)),
-                        OrderStatisticsDto.PeriodDto.of(PeriodType.MONTH, calculateOrdersMonthly(orderStatistics, today), calculateComplaintsMonthly(orderStatistics, today)),
-                        OrderStatisticsDto.PeriodDto.of(PeriodType.QUARTER, calculateOrdersQuarter(orderStatistics, today), calculateComplaintsQuarter(orderStatistics, today)),
-                        OrderStatisticsDto.PeriodDto.of(PeriodType.YEAR, calculateOrdersYear(orderStatistics, today), calculateComplaintsYear(orderStatistics, today))
+                        OrderStatisticsDto.PeriodDto.of(PeriodType.TODAY, aggregateMetersForToday(orderStatistics, today, OrderStatistics::getOrders), aggregateMetersForToday(orderStatistics, today, OrderStatistics::getComplaints)),
+                        OrderStatisticsDto.PeriodDto.of(PeriodType.WEEK, aggregateMetersForWeek(orderStatistics, today, OrderStatistics::getOrders), aggregateMetersForWeek(orderStatistics, today, OrderStatistics::getComplaints)),
+                        OrderStatisticsDto.PeriodDto.of(PeriodType.MONTH, aggregateMetersForMonth(orderStatistics, today, OrderStatistics::getOrders), aggregateMetersForMonth(orderStatistics, today, OrderStatistics::getComplaints)),
+                        OrderStatisticsDto.PeriodDto.of(PeriodType.QUARTER, aggregateMetersForQuarter(orderStatistics, today, OrderStatistics::getOrders), aggregateMetersForQuarter(orderStatistics, today, OrderStatistics::getComplaints)),
+                        OrderStatisticsDto.PeriodDto.of(PeriodType.YEAR, aggregateMetersForYear(orderStatistics, today, OrderStatistics::getOrders), aggregateMetersForYear(orderStatistics, today, OrderStatistics::getComplaints))
                 )
         );
         return dto;
     }
 
-    private Meters calculateOrdersMetersToday(List<OrderStatistics> orderStatistics, StatisticsPeriod period) {
-        return orderStatistics.stream().map(statistics -> {
-            if (statistics.isInPeriod(period)) {
-                return statistics.getOrders();
-            }
-            return Meters.ZERO;
-        }).reduce(Meters::plus)
-                .orElse(Meters.ZERO);
-    }
-
-    private Meters calculateComplaintsMetersToday(List<OrderStatistics> orderStatistics, StatisticsPeriod period) {
-        return orderStatistics.stream().map(statistics -> {
-            if (statistics.isInPeriod(period)) {
-                return statistics.getComplaints();
-            }
-            return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO);
-    }
-
-    private Meters calculateOrdersWeekly(List<OrderStatistics> statistics, StatisticsPeriod date) {
-        return filterStatistics(statistics, date).stream()
-                .map(OrderStatistics::getOrders)
+    private Meters aggregateMetersForToday(List<OrderStatistics> orderStatistics, StatisticsPeriod period, Function<OrderStatistics, Meters> orderTypeMapper) {
+        return orderStatistics.stream()
+                .map(statistics -> {
+                    if (statistics.isInPeriod(period)) {
+                        return orderTypeMapper.apply(statistics);
+                    }
+                    return Meters.ZERO;
+                })
                 .reduce(Meters::plus)
                 .orElse(Meters.ZERO);
     }
 
-    private Meters calculateComplaintsWeekly(List<OrderStatistics> statistics, StatisticsPeriod date) {
+    private Meters aggregateMetersForWeek(List<OrderStatistics> statistics, StatisticsPeriod date, Function<OrderStatistics, Meters> orderTypeMapper) {
         return filterStatistics(statistics, date).stream()
-                .map(OrderStatistics::getComplaints)
+                .map(orderTypeMapper)
                 .reduce(Meters::plus)
                 .orElse(Meters.ZERO);
     }
@@ -97,61 +84,34 @@ public class OrderStatisticsCreator {
         return foundPeriod;
     }
 
-    private Meters calculateComplaintsMonthly(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
-        return orderStatistics.stream().map(statistics -> {
-            if (statistics.getPeriod().getMonth().equals(today.getMonth())) {
-                return statistics.getComplaints();
-            }
-            return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO);
+    private Meters aggregateMetersForMonth(List<OrderStatistics> orderStatistics, StatisticsPeriod today, Function<OrderStatistics, Meters> orderTypeMapper) {
+        return orderStatistics.stream()
+                .map(statistics -> {
+                    if (statistics.getPeriod().getMonth().equals(today.getMonth())) {
+                        return orderTypeMapper.apply(statistics);
+                    }
+                    return Meters.ZERO;
+                })
+                .reduce(Meters::plus)
+                .orElse(Meters.ZERO);
     }
 
-    private Meters calculateOrdersMonthly(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
-        return orderStatistics.stream().map(statistics -> {
-            if (statistics.getPeriod().getMonth().equals(today.getMonth())) {
-                return statistics.getOrders();
-            }
-            return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO);
-    }
-
-    private Meters calculateComplaintsQuarter(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
+    private Meters aggregateMetersForQuarter(List<OrderStatistics> orderStatistics, StatisticsPeriod today, Function<OrderStatistics, Meters> orderTypeMapper) {
         var firstMonthOfQuarter = today.getMonth().firstMonthOfQuarter();
         var secondMonthOfQuarter = Month.of(firstMonthOfQuarter.getValue() + 1);
         var thirdMonthOfQuarter = Month.of(firstMonthOfQuarter.getValue() + 2);
         return orderStatistics.stream().map(statistics -> {
             if (statistics.isInMonth(firstMonthOfQuarter) || statistics.isInMonth(secondMonthOfQuarter) || statistics.isInMonth(thirdMonthOfQuarter)) {
-                return statistics.getComplaints();
+                return orderTypeMapper.apply(statistics);
             }
             return Meters.ZERO;
         }).reduce(Meters::plus).orElse(Meters.ZERO);
     }
 
-    private Meters calculateOrdersQuarter(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
-        var firstMonthOfQuarter = today.getMonth().firstMonthOfQuarter();
-        var secondMonthOfQuarter = Month.of(firstMonthOfQuarter.getValue() + 1);
-        var thirdMonthOfQuarter = Month.of(firstMonthOfQuarter.getValue() + 2);
-        return orderStatistics.stream().map(statistics -> {
-            if (statistics.isInMonth(firstMonthOfQuarter) || statistics.isInMonth(secondMonthOfQuarter) || statistics.isInMonth(thirdMonthOfQuarter)) {
-                return statistics.getOrders();
-            }
-            return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO);
-    }
-
-    private Meters calculateComplaintsYear(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
+    private Meters aggregateMetersForYear(List<OrderStatistics> orderStatistics, StatisticsPeriod today, Function<OrderStatistics, Meters> orderTypeMapper) {
         return orderStatistics.stream().map(statistics -> {
             if (statistics.getPeriod().getYear().equals(today.getYear())) {
-                return statistics.getComplaints();
-            }
-            return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO);
-    }
-
-    private Meters calculateOrdersYear(List<OrderStatistics> orderStatistics, StatisticsPeriod today) {
-        return orderStatistics.stream().map(statistics -> {
-            if (statistics.getPeriod().getYear().equals(today.getYear())) {
-                return statistics.getOrders();
+                return orderTypeMapper.apply(statistics);
             }
             return Meters.ZERO;
         }).reduce(Meters::plus).orElse(Meters.ZERO);
