@@ -17,15 +17,15 @@ import static com.frontwit.barcode.reader.usb.BarcodeScanner.VENDOR_ID;
 public class HidRegister implements HidServicesListener {
     private static final Logger LOG = LoggerFactory.getLogger(ReaderApplication.class);
 
-    private HidServicesSpecification hidServicesSpecification;
-    private ConcurrentTaskExecutor concurrentTaskExecutor;
-    private ApplicationEventPublisher eventPublisher;
-    private AttachedScanners attachedScanners = new AttachedScanners();
+    private final ConcurrentTaskExecutor concurrentTaskExecutor;
+    private final ApplicationEventPublisher eventPublisher;
+    private final HidServicesSpecification hidServicesSpecification;
+    private final AttachedScanners attachedScanners = new AttachedScanners();
 
     public HidRegister(ConcurrentTaskExecutor concurrentTaskExecutor, ApplicationEventPublisher eventPublisher) {
         this.concurrentTaskExecutor = concurrentTaskExecutor;
         this.eventPublisher = eventPublisher;
-        initServicesSpecification();
+        this.hidServicesSpecification = initServicesSpecification();
     }
 
     @PostConstruct
@@ -42,20 +42,12 @@ public class HidRegister implements HidServicesListener {
         attachedScanners.closeAll();
     }
 
-    private void initServicesSpecification() {
-        hidServicesSpecification = new HidServicesSpecification();
-        hidServicesSpecification.setAutoShutdown(true);
-        hidServicesSpecification.setScanInterval(500);
-        hidServicesSpecification.setPauseInterval(5000);
-        hidServicesSpecification.setScanMode(ScanMode.SCAN_AT_FIXED_INTERVAL_WITH_PAUSE_AFTER_WRITE);
-    }
-
     @Override
     public void hidDeviceAttached(HidServicesEvent event) {
         var device = event.getHidDevice();
         if (device.getVendorId() == VENDOR_ID && device.getProductId() == PRODUCT_ID) {
             addScanner(device);
-        }else{
+        } else {
             LOG.info("Attached {}", device);
         }
     }
@@ -72,7 +64,7 @@ public class HidRegister implements HidServicesListener {
 
     @Override
     public void hidFailure(HidServicesEvent event) {
-
+        LOG.warn("Hid failure, {}", event);
     }
 
     private void addScanner(HidDevice device) {
@@ -85,6 +77,15 @@ public class HidRegister implements HidServicesListener {
         } else {
             LOG.info("Couldn't open device {}", device);
         }
+    }
+
+    private static HidServicesSpecification initServicesSpecification() {
+        HidServicesSpecification hidServicesSpecification = new HidServicesSpecification();
+        hidServicesSpecification.setAutoShutdown(true);
+        hidServicesSpecification.setScanInterval(500);
+        hidServicesSpecification.setPauseInterval(5000);
+        hidServicesSpecification.setScanMode(ScanMode.SCAN_AT_FIXED_INTERVAL_WITH_PAUSE_AFTER_WRITE);
+        return hidServicesSpecification;
     }
 }
 

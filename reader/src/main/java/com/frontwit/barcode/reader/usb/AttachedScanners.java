@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AttachedScanners {
-    private List<BarcodeScanner> registeredScanners = new ArrayList<>();
-
+    private final List<BarcodeScanner> registeredScanners = new ArrayList<>();
 
     void attach(BarcodeScanner scanner) {
         registeredScanners.add(scanner);

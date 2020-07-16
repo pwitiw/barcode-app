@@ -18,6 +18,7 @@ Features:
 i robi beata trase i w jakims zamowieniu brakuje jakiegos elementu i ktos dopisze to bedzie wiadomo, ze niekompletne
 i na cos trzeba czekac
 - feature switch dla amazona zeby nie ssal
+- wydzielic common package
 
 statystyki:
 - Zamówienia: to jako tabela na stronie głównej
