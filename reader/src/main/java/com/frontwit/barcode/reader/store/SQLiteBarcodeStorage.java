@@ -10,8 +10,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
-import static java.lang.String.format;
-
 @AllArgsConstructor
 public class SQLiteBarcodeStorage implements BarcodeStorage {
     private static final Logger LOG = LoggerFactory.getLogger(SQLiteBarcodeStorage.class.getName());
@@ -24,7 +22,7 @@ public class SQLiteBarcodeStorage implements BarcodeStorage {
         var barcode = processFrontCommand.getBarcode();
         var dateTime = processFrontCommand.getDateTime();
         sqLiteRepository.persist(readerId, barcode, dateTime);
-        LOG.info(format("[SQLite] Stored barcode %s", processFrontCommand));
+        LOG.info("Stored: {}", processFrontCommand);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class SQLiteRepository {
     }
 
     boolean persist(Integer readerId, Long barcode, LocalDateTime dateTime) {
-        String sql = "INSERT INTO " + TABLE_NAME + " (" + READER_ID + ", " + BARCODE + ", " + DATE + ", date) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO " + TABLE_NAME + " (" + ID + "," + BARCODE + ", " + READER_ID + ", " + DATE + ") VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, UUID.randomUUID().toString());
             statement.setLong(2, barcode);

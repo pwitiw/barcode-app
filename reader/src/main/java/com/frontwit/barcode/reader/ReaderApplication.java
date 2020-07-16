@@ -5,11 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-@SuppressWarnings("FinalClass")
+@SuppressWarnings("HideUtilityClassConstructor")
 public class ReaderApplication {
-    private ReaderApplication() {
-    }
-
     public static void main(final String[] args) {
         SpringApplication.run(ReaderApplication.class, args);
     }
