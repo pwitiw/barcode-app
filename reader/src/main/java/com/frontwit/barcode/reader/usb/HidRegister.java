@@ -11,20 +11,21 @@ import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import static com.frontwit.barcode.reader.usb.BarcodeScanner.PRODUCT_ID;
-import static com.frontwit.barcode.reader.usb.BarcodeScanner.VENDOR_ID;
-
 public class HidRegister implements HidServicesListener {
     private static final Logger LOG = LoggerFactory.getLogger(ReaderApplication.class);
 
     private final ConcurrentTaskExecutor concurrentTaskExecutor;
     private final ApplicationEventPublisher eventPublisher;
     private final HidServicesSpecification hidServicesSpecification;
+    private final SupportedDevices supportedDevices;
     private final AttachedScanners attachedScanners = new AttachedScanners();
 
-    public HidRegister(ConcurrentTaskExecutor concurrentTaskExecutor, ApplicationEventPublisher eventPublisher) {
+    public HidRegister(ConcurrentTaskExecutor concurrentTaskExecutor,
+                       ApplicationEventPublisher eventPublisher,
+                       SupportedDevices supportedDevices) {
         this.concurrentTaskExecutor = concurrentTaskExecutor;
         this.eventPublisher = eventPublisher;
+        this.supportedDevices = supportedDevices;
         this.hidServicesSpecification = initServicesSpecification();
     }
 
@@ -33,7 +34,7 @@ public class HidRegister implements HidServicesListener {
         var hidServices = HidManager.getHidServices(hidServicesSpecification);
         hidServices.addHidServicesListener(this);
         hidServices.getAttachedHidDevices().stream()
-                .filter(BarcodeScanner::isBarcodeScanner)
+                .filter(supportedDevices::isSupported)
                 .forEach(this::addScanner);
     }
 
@@ -45,10 +46,11 @@ public class HidRegister implements HidServicesListener {
     @Override
     public void hidDeviceAttached(HidServicesEvent event) {
         var device = event.getHidDevice();
-        if (device.getVendorId() == VENDOR_ID && device.getProductId() == PRODUCT_ID) {
-            addScanner(device);
+        if (this.supportedDevices.isSupported(device)) {
+            this.addScanner(device);
+            LOG.info("Attached device: {}", device);
         } else {
-            LOG.info("Attached {}", device);
+            LOG.info("Attached not supported device: {}", device);
         }
     }
 

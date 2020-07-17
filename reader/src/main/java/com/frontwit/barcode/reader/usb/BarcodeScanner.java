@@ -19,9 +19,6 @@ class BarcodeScanner {
     private static final int ENTER = 40;
     private static final int ZERO = 39;
 
-    static final short VENDOR_ID = 0x581;
-    static final short PRODUCT_ID = 0x103;
-
     @NonNull
     private HidDevice device;
     @NonNull
@@ -73,7 +70,4 @@ class BarcodeScanner {
         return this.device.getPath().equals(device.getPath());
     }
 
-    static boolean isBarcodeScanner(HidDevice device) {
-        return device.getVendorId() == VENDOR_ID && device.getProductId() == PRODUCT_ID;
-    }
 }
