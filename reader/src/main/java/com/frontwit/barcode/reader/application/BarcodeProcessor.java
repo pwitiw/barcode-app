@@ -26,7 +26,7 @@ public class BarcodeProcessor {
         createProcessBarcodeCommand(event).ifPresent(this::publishOrStore);
     }
 
-    @Scheduled(fixedRate = 10_000)
+    @Scheduled(fixedRate = 120_000)
     public void publishAllStoredEvents() {
         var published = new HashSet<UUID>();
         var storedBarcodes = storage.findAll();
