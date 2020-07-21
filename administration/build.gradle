@@ -3,7 +3,6 @@ plugins {
     id 'groovy'
 }
 
-
 test {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
@@ -17,7 +16,10 @@ test {
         implementation 'mysql:mysql-connector-java'
         implementation "org.hibernate:hibernate-validator:${hibernateValidatorVersion}"
         implementation 'log4j:log4j'
-        implementation "com.amazonaws:aws-java-sdk:${awsSqsVersion}"
+
+        implementation platform("com.amazonaws:aws-java-sdk-bom:${awsSqsVersion}")
+        implementation "com.amazonaws:aws-java-sdk-sqs"
+
         implementation "com.itextpdf:itextpdf:${itextVersion}"
 
         annotationProcessor 'org.projectlombok:lombok'

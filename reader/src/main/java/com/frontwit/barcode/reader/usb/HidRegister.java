@@ -71,7 +71,7 @@ public class HidRegister implements HidServicesListener {
 
     private void addScanner(HidDevice device) {
         if (device.open()) {
-            var scanner = new BarcodeScanner(device, eventPublisher::publishEvent);
+            var scanner = new BarcodeScanner(device, eventPublisher::publishEvent, supportedDevices.prefixFor(device));
             attachedScanners.attach(scanner);
             //co w przypadku kilku readerow?
             concurrentTaskExecutor.execute(scanner::listen);

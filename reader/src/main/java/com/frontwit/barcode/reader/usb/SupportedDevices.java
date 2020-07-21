@@ -5,17 +5,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Objects;
 
 @Component
 public class SupportedDevices {
-    private final Map<Short, Short> devices;
+    private final Map<Short, Integer> devices;
 
-    public SupportedDevices(@Value("#{${devices}}") Map<Short, Short> devices) {
+    public SupportedDevices(@Value("#{${devices}}") Map<Short, Integer> devices) {
         this.devices = devices;
     }
 
     boolean isSupported(HidDevice device) {
-        return Objects.equals(this.devices.get(device.getVendorId()), device.getProductId());
+        return this.devices.containsKey(device.getVendorId());
+    }
+
+    public Integer prefixFor(HidDevice device) {
+        return this.devices.get(device.getVendorId());
     }
 }

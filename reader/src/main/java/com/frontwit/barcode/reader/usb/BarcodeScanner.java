@@ -1,7 +1,6 @@
 package com.frontwit.barcode.reader.usb;
 
 import com.frontwit.barcode.reader.application.BarcodeScanned;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.hid4java.HidDevice;
 import org.slf4j.Logger;
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import java.util.function.Consumer;
 
 
-@AllArgsConstructor
 @SuppressWarnings({"DeclarationOrder", "PMD.AvoidUsingShortType"})
 class BarcodeScanner {
     private static final Logger LOGGER = LoggerFactory.getLogger(BarcodeScanner.class);
@@ -19,10 +17,15 @@ class BarcodeScanner {
     private static final int ENTER = 40;
     private static final int ZERO = 39;
 
-    @NonNull
-    private HidDevice device;
-    @NonNull
-    private Consumer<BarcodeScanned> barcodeScannedPublisher;
+    private final HidDevice device;
+    private final Consumer<BarcodeScanned> barcodeScannedPublisher;
+    private final Integer prefix;
+
+    BarcodeScanner(@NonNull HidDevice device, @NonNull Consumer<BarcodeScanned> barcodeScannedPublisher, Integer prefix) {
+        this.device = device;
+        this.barcodeScannedPublisher = barcodeScannedPublisher;
+        this.prefix = prefix;
+    }
 
     void close() {
         if (device.isOpen()) {
@@ -57,7 +60,7 @@ class BarcodeScanner {
             builder.append(0);
         } else if (data[2] == ENTER) {
             LOGGER.info("Scanned {}", builder.toString());
-            barcodeScannedPublisher.accept(new BarcodeScanned(builder.toString()));
+            barcodeScannedPublisher.accept(new BarcodeScanned(prefix, builder.toString()));
             builder.setLength(0);
         }
     }

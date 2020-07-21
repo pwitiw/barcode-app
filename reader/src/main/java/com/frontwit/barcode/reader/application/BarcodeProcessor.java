@@ -26,31 +26,52 @@ public class BarcodeProcessor {
         createProcessBarcodeCommand(event).ifPresent(this::publishOrStore);
     }
 
-    @Scheduled(fixedRate = 30_000)
+    @Scheduled(fixedRate = 10_000)
     public void publishAllStoredEvents() {
         var published = new HashSet<UUID>();
+        var storedBarcodes = storage.findAll();
         try {
-            storage.findAll().forEach((id, command) -> {
+            storedBarcodes.forEach((id, command) -> {
                 publishBarcode.publish(command);
                 published.add(id);
             });
         } catch (PublishingException ignore) {
-            LOG.debug("Publish attempt failed");
+            LOG.info("Publish attempt failed. Stored barcodes: {}", storedBarcodes.size());
         }
         if (!published.isEmpty()) {
             storage.delete(published);
+            LOG.info("Publish attempt succeded. Published barcodes: {}", published.size());
         }
     }
 
     private Optional<ProcessFrontCommand> createProcessBarcodeCommand(BarcodeScanned event) {
         try {
-            var stageId = Integer.valueOf(event.getValue().substring(0, 1));
-            var barcode = Long.valueOf(event.getValue().substring(1));
+            var stageId = getStageId(event);
+            var barcode = getBarcode(event);
             var command = new ProcessFrontCommand(stageId, barcode, LocalDateTime.now());
             return Optional.of(command);
         } catch (NumberFormatException ex) {
             LOG.warn(format("Barcode contains letters %s", event.getValue()));
             return Optional.empty();
+        }
+    }
+
+    private Long getBarcode(BarcodeScanned event) {
+        String barcode;
+        if (event.getStageId() != null) {
+            barcode = event.getValue();
+        } else {
+            barcode = event.getValue().substring(1);
+        }
+        return Long.valueOf(barcode);
+    }
+
+    private Integer getStageId(BarcodeScanned event) {
+        var stageId = event.getStageId();
+        if (stageId != null) {
+            return stageId;
+        } else {
+            return Integer.valueOf(event.getValue().substring(0, 1));
         }
     }
 

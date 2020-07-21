@@ -29,7 +29,10 @@ public class SourceOrder {
     }
 
     public Date getDeadline() {
-        return Date.from(deadline.toInstant());
+        if (deadline != null) {
+            return Date.from(deadline.toInstant());
+        }
+        return null;
     }
 
     public void setOrderedAt(Date orderedAt) {

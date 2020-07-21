@@ -4,5 +4,6 @@ import lombok.Value;
 
 @Value
 public class BarcodeScanned {
-    private String value;
+    private final Integer stageId;
+    private final String value;
 }

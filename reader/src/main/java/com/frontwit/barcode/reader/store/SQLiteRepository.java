@@ -76,7 +76,7 @@ public class SQLiteRepository {
         String sql = format("DELETE FROM " + TABLE_NAME + " WHERE id IN (%s)", values);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.execute();
-            LOG.info(format("[SQLite] Deleted entries with ids: [%s]", values));
+            LOG.debug(format("[SQLite] Deleted entries with ids: [%s]", values));
         } catch (SQLException e) {
             LOG.warn("Failed during clearing database", e);
         }
