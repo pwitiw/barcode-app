@@ -22,12 +22,12 @@ public class OrderResource {
 
     @GetMapping("/orders/{id}")
     OrderDetailDto getOrder(@PathVariable Long id) {
-        return orderQuery.getDetails(id);
+        return orderQuery.getOrderDetails(id);
     }
 
     @PostMapping("/orders")
     Page<OrderDto> getOrdersForSearchCriteria(Pageable pageable, @RequestBody(required = false) OrderSearchCriteria searchCriteria) {
-        return orderQuery.getDetails(pageable, searchCriteria);
+        return orderQuery.getOrders(pageable, searchCriteria);
     }
 
     @PutMapping("/orders/status")

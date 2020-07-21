@@ -1,5 +1,10 @@
+-poprawic testy na adminie
+- testy !!!!
+- zamknac hook on exit - zeby bledy nie lecialy
+
+
 BUGS:
-- brak favicon
+- jak modal duzy to nie scrolluje
 
 Pytania:
 - obgadac etapy produkcji
@@ -18,12 +23,16 @@ Features:
 i robi beata trase i w jakims zamowieniu brakuje jakiegos elementu i ktos dopisze to bedzie wiadomo, ze niekompletne
 i na cos trzeba czekac
 - feature switch dla amazona zeby nie ssal
+- wydzielic common package
+- brak favicon
 
 statystyki:
 - Zamówienia: to jako tabela na stronie głównej
  * ilość, metry / dzień, tydzień, miesiąć, kwartał, rok?
  * Osobno poprawki
  ?? - poprawki doliczane do zamówień czy trakowane oddzielnie?
+- niektore zamowienia w ogole nie beda wziete pod uwage,
+trzeba do aktualnej daty synchronizacji z bazy pobrac za ostatni rok
 
 kompletne/ niekompletne
 

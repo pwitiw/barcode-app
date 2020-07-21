@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
 
 @Value
 public class ProcessFrontCommand {
-
-    private  Integer stage;
-    private  Long barcode;
-    private  LocalDateTime dateTime;
+    private Integer stage;
+    private Long barcode;
+    private LocalDateTime dateTime;
 }

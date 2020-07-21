@@ -45,7 +45,9 @@ public class SqsCommandPublisher implements PublishBarcode {
             sqs.sendMessage(request);
             LOGGER.info("SQS Published " + command.toString());
         } catch (JsonProcessingException e) {
-            LOGGER.error("Error while JSON processing {}", command);
+            LOGGER.error("Error while JSON processing {}", command, e);
+        } catch (Exception e) {
+            throw new PublishingException("Error while publishing", e);
         }
     }
 }

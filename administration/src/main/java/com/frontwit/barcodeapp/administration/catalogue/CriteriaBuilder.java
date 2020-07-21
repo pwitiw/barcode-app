@@ -45,7 +45,7 @@ public class CriteriaBuilder {
         if (TRUE.equals(searchCriteria.getCompleted())) {
             result.and(COMPLETED_FIELD).is(true);
         } else {
-            result.and(DEADLINE_FIELD).is(false);
+            result.and(COMPLETED_FIELD).is(false);
         }
     }
 

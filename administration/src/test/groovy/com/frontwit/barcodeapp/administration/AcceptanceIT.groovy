@@ -67,14 +67,14 @@ class AcceptanceIT extends IntegrationSpec {
     }
 
     void orderIsUpdated(Stage stage) {
-        def details = orderQuery.getDetails(ORDER_ID)
+        def details = orderQuery.getOrderDetails(ORDER_ID)
         assert details.getStage() == stage
         assert details.getFronts().get(0).getAmendments().size() == 0
         assert details.getFronts().get(0).getProcessings().size() == stage.getId()
     }
 
     void orderIsPacked() {
-        def details = orderQuery.getDetails(ORDER_ID)
+        def details = orderQuery.getOrderDetails(ORDER_ID)
         assert details.getStage() == PACKING
         assert details.getFronts().get(0).getAmendments().size() == 0
         assert details.getFronts().get(0).getProcessings().size() == PACKING.getId()

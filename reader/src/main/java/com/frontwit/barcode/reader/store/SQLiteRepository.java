@@ -1,6 +1,8 @@
 package com.frontwit.barcode.reader.store;
 
 import com.frontwit.barcode.reader.application.ProcessFrontCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
@@ -11,13 +13,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import static java.lang.String.format;
 
+@SuppressWarnings("MultipleStringLiterals")
 public class SQLiteRepository {
-
-    private static final Logger LOGGER = Logger.getLogger(SQLiteRepository.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(SQLiteRepository.class.getName());
     private static final String TABLE_NAME = "barcode";
     private static final String ID = "id";
     private static final String BARCODE = "barcode";
@@ -25,19 +26,19 @@ public class SQLiteRepository {
     private static final String DATE = "date";
 
     @Value("${sqlite-url}")
-    String url;
+    private String url;
 
     private Connection connection;
 
     @PostConstruct
-    private void initDb() throws SQLException {
+    void initDb() throws SQLException {
         connection = DriverManager.getConnection(url);
-        LOGGER.info("[SQLite] Connection to SQLite has been established.");
+        LOG.info("[SQLite] Connection to SQLite has been established.");
         createTableIfNotExists();
     }
 
     boolean persist(Integer readerId, Long barcode, LocalDateTime dateTime) {
-        String sql = "INSERT INTO barcode (id, barcode, reader_id, date) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO " + TABLE_NAME + " (" + ID + "," + BARCODE + ", " + READER_ID + ", " + DATE + ") VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, UUID.randomUUID().toString());
             statement.setLong(2, barcode);
@@ -45,22 +46,23 @@ public class SQLiteRepository {
             statement.setString(4, dateTime.toString());
             return statement.execute();
         } catch (SQLException e) {
-            LOGGER.warning(e.getMessage());
+            LOG.warn("Insertion into database failed", e);
         }
         return false;
     }
 
     Map<UUID, ProcessFrontCommand> findAll() {
-        String sql = "SELECT * FROM barcode";
+        String sql = "SELECT * FROM " + TABLE_NAME;
         var results = new HashMap<UUID, ProcessFrontCommand>();
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (var statement = connection.prepareStatement(sql)) {
             var resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 var uuid = UUID.fromString(resultSet.getString(ID));
                 results.put(uuid, mapBarcode(resultSet));
             }
+            resultSet.close();
         } catch (SQLException e) {
-            LOGGER.warning(e.getMessage());
+            LOG.warn("Failed during database command execution", e);
         }
 
         return results;
@@ -71,25 +73,29 @@ public class SQLiteRepository {
                 .map(id -> "'" + id + "'")
                 .reduce((id1, id2) -> id1 + "," + id2)
                 .orElse("");
-        String sql = format("DELETE FROM barcode WHERE id IN (%s)", values);
+        String sql = format("DELETE FROM " + TABLE_NAME + " WHERE id IN (%s)", values);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.execute();
-            LOGGER.info(format("[SQLite] Deleted entries with ids: [%s]", values));
+            LOG.info(format("[SQLite] Deleted entries with ids: [%s]", values));
         } catch (SQLException e) {
-            LOGGER.warning(e.getMessage());
+            LOG.warn("Failed during clearing database", e);
         }
-
     }
 
-    private void createTableIfNotExists() throws SQLException {
-        final var sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(\n"
-                + ID + " text PRIMARY KEY,\n"
-                + READER_ID + "	integer NOT NULL,\n"
-                + BARCODE + "	integer NOT NULL,\n"
-                + DATE + "  	text\n"
+    @SuppressWarnings("FileTabCharacter")
+    private void createTableIfNotExists() {
+        final var sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "( "
+                + ID + " text PRIMARY KEY, "
+                + READER_ID + "	integer NOT NULL, "
+                + BARCODE + " integer NOT NULL, "
+                + DATE + " text "
                 + ");";
-        var result = connection.prepareStatement(sql).execute();
-        LOGGER.info(format("[SQLite] Creation script ended with result: %s", result));
+        try (var statement = connection.prepareStatement(sql)) {
+            var result = statement.execute();
+            LOG.info(format("[SQLite] Creation script ended with result: %s", result));
+        } catch (SQLException e) {
+            LOG.warn("Failed during db schema creation");
+        }
     }
 
     ProcessFrontCommand mapBarcode(ResultSet resultSet) throws SQLException {
@@ -100,12 +106,12 @@ public class SQLiteRepository {
     }
 
     @PreDestroy
-    private void tearDown() {
+    void tearDown() {
         if (connection != null) {
             try {
                 connection.close();
             } catch (SQLException e) {
-                LOGGER.warning(e.getMessage());
+                LOG.warn("Failed during closing db", e);
             }
         }
     }

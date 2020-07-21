@@ -26,7 +26,7 @@ public class BarcodeProcessor {
         createProcessBarcodeCommand(event).ifPresent(this::publishOrStore);
     }
 
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = 30_000)
     public void publishAllStoredEvents() {
         var published = new HashSet<UUID>();
         try {
@@ -35,6 +35,7 @@ public class BarcodeProcessor {
                 published.add(id);
             });
         } catch (PublishingException ignore) {
+            LOG.debug("Publish attempt failed");
         }
         if (!published.isEmpty()) {
             storage.delete(published);

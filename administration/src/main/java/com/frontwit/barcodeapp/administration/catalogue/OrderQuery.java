@@ -38,14 +38,14 @@ public class OrderQuery {
     private CriteriaBuilder criteriaBuilder;
     private CustomerRepository customerRepository;
 
-    public OrderDetailDto getDetails(long id) {
+    public OrderDetailDto getOrderDetails(long id) {
         var frontDtos = findFrontsForOrderId(id);
         return Optional.ofNullable(mongoTemplate.findById(id, OrderEntity.class))
                 .map(entity -> entity.detailsDto(frontDtos, findCustomerBy(entity.getCustomerId())))
                 .orElseThrow(() -> new IllegalArgumentException(format("No order for id %s", id)));
     }
 
-    Page<OrderDto> getDetails(Pageable pageable, OrderSearchCriteria searchCriteria) {
+    Page<OrderDto> getOrders(Pageable pageable, OrderSearchCriteria searchCriteria) {
         var criteria = criteriaBuilder.build(searchCriteria);
         var query = new Query(criteria).with(pageable).with(Sort.by(DESC, "lastProcessedOn"));
         var orders = mongoTemplate.find(query, OrderEntity.class);

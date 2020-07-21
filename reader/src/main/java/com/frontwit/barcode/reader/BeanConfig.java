@@ -6,6 +6,7 @@ import com.frontwit.barcode.reader.application.PublishBarcode;
 import com.frontwit.barcode.reader.store.SQLiteBarcodeStorage;
 import com.frontwit.barcode.reader.store.SQLiteRepository;
 import com.frontwit.barcode.reader.usb.HidRegister;
+import com.frontwit.barcode.reader.usb.SupportedDevices;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +40,9 @@ public class BeanConfig {
     }
 
     @Bean
-    HidRegister hidRegister(ConcurrentTaskExecutor taskExecutor, ApplicationEventPublisher eventPublisher) {
-        return new HidRegister(taskExecutor, eventPublisher);
+    HidRegister hidRegister(ConcurrentTaskExecutor taskExecutor,
+                            ApplicationEventPublisher eventPublisher,
+                            SupportedDevices supportedDevices) {
+        return new HidRegister(taskExecutor, eventPublisher, supportedDevices);
     }
 }
