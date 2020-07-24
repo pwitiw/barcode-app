@@ -36,6 +36,8 @@ public class HidRegister implements HidServicesListener {
         hidServices.getAttachedHidDevices().stream()
                 .filter(supportedDevices::isSupported)
                 .forEach(this::addScanner);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(this::tearDown));
     }
 
     @PreDestroy
