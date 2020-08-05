@@ -13,6 +13,7 @@ public class StatisticsPeriod {
     private final Year year;
 
     public static StatisticsPeriod of(Instant instant) {
+        //TODO tutaj cos zle date zmienia np instant jest 12-06 a zmienia na 13-06
         ZonedDateTime zdt = instant.atZone(systemDefault());
         return new StatisticsPeriod(zdt.getDayOfMonth(), Month.from(zdt), Year.from(zdt));
     }

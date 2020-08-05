@@ -8,7 +8,7 @@ interface CustomerStatistics {
 }
 
 interface OrderStatistics {
-    period: string;
+    type: string;
     orders: number;
     complaints: number;
 }
@@ -32,15 +32,7 @@ export class StatisticsComponent implements OnInit {
             {name: "Paweł Jankowsczykiewicz", quantity: 12, meters: 232.0},
             {name: "Paź", quantity: 12, meters: 232.0},
         ];
-        this.orderColumns = ['period', 'orders', 'complaints'];
-        this.orders = [
-            {period: 'dzień', orders: 120, complaints: 0},
-            {period: 'tydzień', orders: 120, complaints: 0},
-            {period: 'miesiąc', orders: 120, complaints: 0},
-            {period: 'kwartał', orders: 120, complaints: 0},
-            {period: 'rok', orders: 120, complaints: 0},
-            {period: 'suma', orders: 120, complaints: 0}
-        ];
+        this.orderColumns = ['type', 'orders', 'complaints'];
     }
 
     ngOnInit() {
@@ -48,12 +40,26 @@ export class StatisticsComponent implements OnInit {
     }
 
     loadOrderStatistics(): void {
-        this.restService.get<OrderStatistics[]>(`/api/statistics/orders}`)
+        this.restService.get<any>(`/api/statistics/orders`)
             .subscribe(response => {
-                const result = response.body;
+                const result = response.body.periods;
                 if (result) {
+                    result.map(r => r.type = StatisticsComponent.translate(r.type));
                     this.orders = result;
                 }
             });
+    }
+
+    private static translate(type: string): string {
+        if (type == 'TODAY')
+            return 'Dzisiaj';
+        if (type == 'WEEK')
+            return 'Tydzień';
+        if (type == 'MONTH')
+            return 'Miesiąc';
+        if (type == 'QUARTER')
+            return 'Kwartał';
+        if (type == 'YEAR')
+            return 'Rok';
     }
 }
