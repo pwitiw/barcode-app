@@ -26,11 +26,13 @@
             <tr mat-header-row *matHeaderRowDef="remindersColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: remindersColumns"></tr>
         </table>
-
         <mat-paginator [length]="totalElements"
                        [pageSize]="size"
                        [pageSizeOptions]="sizeOptions"
                        (page)="paginationChanged($event)">
         </mat-paginator>
+    </div>
+    <div class="statistics-view">
+        <app-statistics></app-statistics>
     </div>
 </div>

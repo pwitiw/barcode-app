@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class SynchronizationController {
 
-    private OrderSynchronizer orderSynchronizer;
-    private CustomerSynchronizer customerSynchronizer;
+    private final OrderSynchronizer orderSynchronizer;
+    private final CustomerSynchronizer customerSynchronizer;
 
     @PostMapping("/orders/synchronize")
     public long synchronize() {

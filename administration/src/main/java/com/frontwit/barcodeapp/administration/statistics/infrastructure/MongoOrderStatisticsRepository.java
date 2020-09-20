@@ -5,15 +5,21 @@ import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStati
 import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
 public class MongoOrderStatisticsRepository implements OrderStatisticsRepository {
 
-    private MongoTemplate mongoTemplate;
+    private static final String PERIOD_FIELD = "period";
+    private final MongoTemplate mongoTemplate;
 
     @Override
     public void save(OrderStatistics orderStatistics) {
@@ -24,5 +30,20 @@ public class MongoOrderStatisticsRepository implements OrderStatisticsRepository
     @Override
     public Optional<OrderStatistics> findBy(StatisticsPeriod statisticsPeriod) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<OrderStatistics> findForYearUntil(StatisticsPeriod period) {
+        var beginningOfYear = StatisticsPeriod.beginningOfYear(period.getYear()).toInstant();
+        var statisticsEntity = mongoTemplate.find(forGivenYear(period, beginningOfYear), OrderStatisticsEntity.class);
+        return statisticsEntity.stream()
+                .map(OrderStatisticsEntity::toOrderStatics)
+                .collect(Collectors.toList());
+    }
+
+    private Query forGivenYear(StatisticsPeriod period, Instant beginningOfYear) {
+        Criteria c = new Criteria().andOperator(Criteria.where(PERIOD_FIELD).lte(period.toInstant()),
+                Criteria.where(PERIOD_FIELD).gte(beginningOfYear));
+        return new Query(c);
     }
 }

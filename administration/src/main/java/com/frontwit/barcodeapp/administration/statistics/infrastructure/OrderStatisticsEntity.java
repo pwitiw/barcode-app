@@ -3,6 +3,7 @@ package com.frontwit.barcodeapp.administration.statistics.infrastructure;
 
 import com.frontwit.barcodeapp.administration.statistics.domain.order.Meters;
 import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStatistics;
+import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -27,6 +28,10 @@ public class OrderStatisticsEntity {
         entity.setComplainments(orderStatistics.getComplaints());
         entity.setPeriod(orderStatistics.getPeriod().toInstant());
         return entity;
+    }
+
+    public OrderStatistics toOrderStatics() {
+        return OrderStatistics.of(StatisticsPeriod.of(period), orders, complainments);
     }
 }
 

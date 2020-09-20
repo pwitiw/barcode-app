@@ -4,18 +4,26 @@ import com.frontwit.barcodeapp.administration.processing.order.model.OrderType;
 import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod;
 import lombok.Getter;
 
+import java.time.Month;
+
 @Getter
 public final class OrderStatistics {
     private final StatisticsPeriod period;
-    private Meters orders = Meters.ZERO;
-    private Meters complaints = Meters.ZERO;
+    private Meters orders;
+    private Meters complaints;
 
-    private OrderStatistics(StatisticsPeriod period) {
+    private OrderStatistics(StatisticsPeriod period, Meters orders, Meters complaints) {
         this.period = period;
+        this.orders = orders;
+        this.complaints = complaints;
     }
 
     public static OrderStatistics of(StatisticsPeriod period) {
-        return new OrderStatistics(period);
+        return OrderStatistics.of(period, Meters.ZERO, Meters.ZERO);
+    }
+
+    public static OrderStatistics of(StatisticsPeriod period, Meters orders, Meters complaints) {
+        return new OrderStatistics(period, orders, complaints);
     }
 
     public void apply(final OrderType type, final Meters meters) {
@@ -24,5 +32,13 @@ public final class OrderStatistics {
         } else {
             complaints = complaints.plus(meters);
         }
+    }
+
+    public boolean isFrom(StatisticsPeriod period) {
+        return this.period.equals(period);
+    }
+
+    public boolean isFrom(Month month) {
+        return this.period.getMonth().equals(month);
     }
 }

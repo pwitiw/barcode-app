@@ -12,8 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
-import java.time.Instant;
-
 import static java.lang.String.format;
 
 @AllArgsConstructor
@@ -57,20 +55,21 @@ public class OrderSynchronizer {
         return new FrontSynchronized(event.getBarcode(), event.getStage(), event.getDateTime());
     }
 
-    private static OrderPlaced orderPlaced(TargetOrder order) {
-        var meters = MetersCalculator.calculate(order.getFronts());
-        return new OrderPlaced(new CustomerId(order.getCustomerId()), meters, Instant.now(), order.getInfo().getType());
-    }
-
     private TargetOrder saveOrderWithFronts(SourceOrder sourceOrder, Dictionary dictionary) {
         var targetOrder = orderMapper.map(sourceOrder, dictionary);
         orderRepository.save(targetOrder);
         frontRepository.save(targetOrder.getFronts());
+        domainEvents.publish(orderPlaced(targetOrder));
         LOGGER.info("OrderSynchronized {id={}, customer={}, frontsNr={}}",
                 targetOrder.getOrderId().getId(),
                 targetOrder.getCustomerId(),
                 targetOrder.getFronts().size()
         );
         return targetOrder;
+    }
+
+    private static OrderPlaced orderPlaced(TargetOrder order) {
+        var meters = MetersCalculator.calculate(order.getFronts());
+        return new OrderPlaced(new CustomerId(order.getCustomerId()), meters, order.getInfo().getOrderedAt(), order.getInfo().getType());
     }
 }

@@ -1,12 +1,12 @@
 .home {
   display: flex;
   padding: $padding-lg;
-  justify-content: center;
+  justify-content: space-between;
 
   .reminders {
     display: flex;
     flex-direction: column;
-    flex-basis: 50%;
+    flex-basis: 40%;
 
     .column {
       flex-basis: 10%;
@@ -19,5 +19,8 @@
         flex-basis: 50%;
       }
     }
+  }
+  .statistics-view {
+    flex-basis: 55%;
   }
 }
