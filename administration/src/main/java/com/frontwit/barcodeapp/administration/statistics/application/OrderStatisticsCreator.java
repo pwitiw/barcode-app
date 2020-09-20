@@ -5,7 +5,6 @@ import com.frontwit.barcodeapp.administration.statistics.domain.order.*;
 import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,33 +15,33 @@ import static com.frontwit.barcodeapp.administration.statistics.application.Peri
 public class OrderStatisticsCreator {
 
     private final OrderStatisticsRepository orderStatisticsRepository;
-    private final Map<PeriodType, StatisticsCalculator> calculators = new HashMap<>();
+    private final Map<PeriodType, StatisticsCalculator> calculators = Map.of(
+            TODAY, new DailyStatisticsCalculator(),
+            WEEK, new WeeklyStatisticsCalculator(),
+            MONTH, new MonthlyStatisticsCalculator(),
+            QUARTER, new QuarterlyStatisticsCalculator(),
+            YEAR, new YearlyStatisticsCalculator());
 
     public OrderStatisticsCreator(OrderStatisticsRepository orderStatisticsRepository) {
         this.orderStatisticsRepository = orderStatisticsRepository;
-        calculators.put(TODAY, new DailyStatisticsCalculator());
-        calculators.put(WEEK, new WeeklyStatisticsCalculator());
-        calculators.put(MONTH, new MonthlyStatisticsCalculator());
-        calculators.put(QUARTER, new QuarterlyStatisticsCalculator());
-        calculators.put(YEAR, new YearlyStatisticsCalculator());
     }
 
     public OrderStatisticsDto statisticsFor(StatisticsPeriod today) {
-
-        OrderStatisticsDto dto = new OrderStatisticsDto();
         var orderStatistics = orderStatisticsRepository.findForYearUntil(today);
         List<PeriodDto> periods = calculators.entrySet().stream()
-                .map(entry -> {
-                    var type = entry.getKey();
-                    var calculator = entry.getValue();
-                    return PeriodDto.of(
-                            type,
-                            calculator.calculate(orderStatistics, today, OrderStatistics::getOrders),
-                            calculator.calculate(orderStatistics, today, OrderStatistics::getComplaints));
-                })
+                .map(entry -> createPeriodDto(today, orderStatistics, entry))
                 .collect(Collectors.toList());
-        dto.setPeriods(periods);
-        return dto;
+        return new OrderStatisticsDto(periods);
     }
 
+    private PeriodDto createPeriodDto(StatisticsPeriod today,
+                                      List<OrderStatistics> orderStatistics,
+                                      Map.Entry<PeriodType, StatisticsCalculator> entry) {
+        var type = entry.getKey();
+        var calculator = entry.getValue();
+        return PeriodDto.of(
+                type,
+                calculator.calculate(orderStatistics, today, OrderStatistics::getOrders),
+                calculator.calculate(orderStatistics, today, OrderStatistics::getComplaints));
+    }
 }

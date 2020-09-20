@@ -11,7 +11,7 @@ class WeeklyStatisticsCalculatorTest extends Specification {
 
     WeeklyStatisticsCalculator calculator = new WeeklyStatisticsCalculator()
 
-    def "should successfully calculate orders meters weekly for 1 statistics"() {
+    def "should successfully calculate weekly meters for 1 statistics"() {
         given:
         def statisticsPeriod1 = new StatisticsPeriod(12, Month.JULY as Month, Year.of(2020))
         def statisticsPeriod2 = new StatisticsPeriod(13, Month.JULY as Month, Year.of(2020))
@@ -29,7 +29,7 @@ class WeeklyStatisticsCalculatorTest extends Specification {
         assert complaintsResult.value == 2.0
     }
 
-    def "should successfully calculate orders meters weekly for 2 statistics"() {
+    def "should successfully calculate weekly meters for 2 statistics"() {
         given:
         def statisticsPeriod1 = new StatisticsPeriod(22, Month.JUNE as Month, Year.of(2020))
         def statisticsPeriod2 = new StatisticsPeriod(26, Month.JUNE as Month, Year.of(2020))
@@ -47,7 +47,7 @@ class WeeklyStatisticsCalculatorTest extends Specification {
         assert complaintsResult.value == 6.0
     }
 
-    def "should successfully calculate orders meters weekly for 3 statistics "() {
+    def "should successfully calculate weekly meters for 3 statistics "() {
         given:
         def statisticsPeriod1 = new StatisticsPeriod(21, Month.JUNE as Month, Year.of(2020))
         def statisticsPeriod2 = new StatisticsPeriod(22, Month.JUNE as Month, Year.of(2020))
@@ -67,5 +67,27 @@ class WeeklyStatisticsCalculatorTest extends Specification {
         then:
         assert ordersResult.value == 10.0
         assert complaintsResult.value == 10.0
+    }
+
+    def "should successfully calculate weekly meters for 4 statistics "() {
+        given:
+        def statisticsPeriod1 = new StatisticsPeriod(1, Month.AUGUST as Month, Year.of(2020))
+        def statisticsPeriod2 = new StatisticsPeriod(2, Month.AUGUST as Month, Year.of(2020))
+        def statisticsPeriod3 = new StatisticsPeriod(3, Month.AUGUST as Month, Year.of(2020))
+        def statisticsPeriod4 = new StatisticsPeriod(4, Month.AUGUST as Month, Year.of(2020))
+
+        def statistics = [
+                OrderStatistics.of(statisticsPeriod1, Meters.of(1), Meters.of(2)),
+                OrderStatistics.of(statisticsPeriod2, Meters.of(1), Meters.of(2)),
+                OrderStatistics.of(statisticsPeriod3, Meters.of(1), Meters.of(2)),
+                OrderStatistics.of(statisticsPeriod4, Meters.of(1), Meters.of(2)),
+        ]
+        when:
+        def ordersResult = calculator.calculate(statistics, statisticsPeriod2, { it.getOrders() })
+        def complaintsResult = calculator.calculate(statistics, statisticsPeriod2, { it.getComplaints() })
+
+        then:
+        assert ordersResult.value == 2.0
+        assert complaintsResult.value == 4.0
     }
 }

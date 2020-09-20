@@ -10,11 +10,13 @@ public class YearlyStatisticsCalculator implements StatisticsCalculator {
     public Meters calculate(List<OrderStatistics> orderStatistics,
                             StatisticsPeriod period,
                             Function<OrderStatistics, Meters> orderTypeMapper) {
-        return orderStatistics.stream().map(statistics -> {
-            if (statistics.getPeriod().getYear().equals(period.getYear())) {
-                return orderTypeMapper.apply(statistics);
-            }
-            return Meters.ZERO;
-        }).reduce(Meters::plus).orElse(Meters.ZERO);
+        return orderStatistics.stream()
+                .filter(statistics -> isSameYear(period, statistics))
+                .map(orderTypeMapper)
+                .reduce(Meters::plus).orElse(Meters.ZERO);
+    }
+
+    private boolean isSameYear(StatisticsPeriod period, OrderStatistics statistics) {
+        return statistics.getPeriod().getYear().equals(period.getYear());
     }
 }

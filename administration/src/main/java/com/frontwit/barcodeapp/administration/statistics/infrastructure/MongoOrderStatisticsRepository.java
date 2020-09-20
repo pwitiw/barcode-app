@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import java.time.Month;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,13 +34,16 @@ public class MongoOrderStatisticsRepository implements OrderStatisticsRepository
 
     @Override
     public List<OrderStatistics> findForYearUntil(StatisticsPeriod period) {
-        var beginningOfYear = new StatisticsPeriod(2, Month.JANUARY, period.getYear()).toInstant();
+        var beginningOfYear = StatisticsPeriod.beginningOfYear(period.getYear()).toInstant();
+        var statisticsEntity = mongoTemplate.find(forGivenYear(period, beginningOfYear), OrderStatisticsEntity.class);
+        return statisticsEntity.stream()
+                .map(OrderStatisticsEntity::toOrderStatics)
+                .collect(Collectors.toList());
+    }
+
+    private Query forGivenYear(StatisticsPeriod period, Instant beginningOfYear) {
         Criteria c = new Criteria().andOperator(Criteria.where(PERIOD_FIELD).lte(period.toInstant()),
                 Criteria.where(PERIOD_FIELD).gte(beginningOfYear));
-        Query forGivenYear = new Query(c);
-        var statisticsEntity = mongoTemplate.find(forGivenYear, OrderStatisticsEntity.class);
-        return statisticsEntity.stream()
-                .map(entity -> OrderStatistics.of(StatisticsPeriod.of(entity.getPeriod()), entity.getOrders(), entity.getComplainments()))
-                .collect(Collectors.toList());
+        return new Query(c);
     }
 }

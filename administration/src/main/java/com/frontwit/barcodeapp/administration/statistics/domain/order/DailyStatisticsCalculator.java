@@ -12,12 +12,8 @@ public class DailyStatisticsCalculator implements StatisticsCalculator {
                             StatisticsPeriod period,
                             Function<OrderStatistics, Meters> orderTypeMapper) {
         return orderStatistics.stream()
-                .map(statistics -> {
-                    if (statistics.isInPeriod(period)) {
-                        return orderTypeMapper.apply(statistics);
-                    }
-                    return Meters.ZERO;
-                })
+                .filter(o -> o.isFrom(period))
+                .map(orderTypeMapper)
                 .reduce(Meters::plus)
                 .orElse(Meters.ZERO);
     }

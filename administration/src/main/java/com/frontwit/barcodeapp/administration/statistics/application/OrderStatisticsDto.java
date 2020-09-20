@@ -8,6 +8,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class OrderStatisticsDto {
     private List<PeriodDto> periods;
 

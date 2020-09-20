@@ -10,7 +10,7 @@ class YearlyStatisticsCalculatorTest extends Specification {
 
     YearlyStatisticsCalculator calculator = new YearlyStatisticsCalculator()
 
-    def "should successfully calculate orders meters yearly for 2 statistics"() {
+    def "should successfully calculate yearly meters for 2 statistics"() {
         given:
         def statisticsPeriod1 = new StatisticsPeriod(12, Month.AUGUST as Month, Year.of(2020))
         def statisticsPeriod2 = new StatisticsPeriod(12, Month.DECEMBER as Month, Year.of(2020))
@@ -28,7 +28,7 @@ class YearlyStatisticsCalculatorTest extends Specification {
         assert complaintsResult.value == 6.0
     }
 
-    def "should successfully calculate orders meters yearly for 1 statistics"() {
+    def "should successfully calculate yearly meters for 1 statistics"() {
         given:
         def statisticsPeriod1 = new StatisticsPeriod(12, Month.AUGUST as Month, Year.of(2019))
         def statisticsPeriod2 = new StatisticsPeriod(12, Month.DECEMBER as Month, Year.of(2020))

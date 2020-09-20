@@ -16,7 +16,7 @@ class OrderStatisticsCreatorTest extends Specification {
     OrderStatisticsRepository repository = Mock()
     OrderStatisticsCreator orderStatisticsCreator = new OrderStatisticsCreator(repository)
 
-    def "should create all statistics for given day"() {
+    def "calculate statistics at given day"() {
         given:
         def statisticsPeriod1 = new StatisticsPeriod(19, Month.JUNE as Month, Year.of(2020))
         def statisticsPeriod2 = new StatisticsPeriod(16, Month.JUNE as Month, Year.of(2020))

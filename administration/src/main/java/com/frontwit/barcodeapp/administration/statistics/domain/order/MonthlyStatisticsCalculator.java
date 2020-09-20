@@ -11,12 +11,8 @@ public class MonthlyStatisticsCalculator implements StatisticsCalculator {
                             StatisticsPeriod period,
                             Function<OrderStatistics, Meters> orderTypeMapper) {
         return orderStatistics.stream()
-                .map(statistics -> {
-                    if (statistics.getPeriod().getMonth().equals(period.getMonth())) {
-                        return orderTypeMapper.apply(statistics);
-                    }
-                    return Meters.ZERO;
-                })
+                .filter(o -> o.getPeriod().getMonth().equals(period.getMonth()))
+                .map(orderTypeMapper)
                 .reduce(Meters::plus)
                 .orElse(Meters.ZERO);
     }

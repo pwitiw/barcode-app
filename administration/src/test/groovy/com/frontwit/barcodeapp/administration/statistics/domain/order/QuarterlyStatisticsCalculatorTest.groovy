@@ -10,7 +10,7 @@ class QuarterlyStatisticsCalculatorTest extends Specification {
 
     QuarterlyStatisticsCalculator calculator = new QuarterlyStatisticsCalculator()
 
-    def "should successfully calculate orders meters quarterly for 2 statistics"() {
+    def "should successfully calculate quarterly meters for 2 statistics"() {
         given:
         def statisticsPeriod1 = new StatisticsPeriod(12, Month.JANUARY as Month, Year.of(2020))
         def statisticsPeriod2 = new StatisticsPeriod(12, Month.FEBRUARY as Month, Year.of(2020))
@@ -28,7 +28,7 @@ class QuarterlyStatisticsCalculatorTest extends Specification {
         assert complaintsResult.value == 6.0
     }
 
-    def "should successfully calculate orders meters quarterly for 1 statistics"() {
+    def "should successfully calculate quarterly meters for 1 statistics"() {
         given:
         def statisticsPeriod1 = new StatisticsPeriod(12, Month.MARCH as Month, Year.of(2020))
         def statisticsPeriod2 = new StatisticsPeriod(13, Month.APRIL as Month, Year.of(2020))
@@ -46,7 +46,7 @@ class QuarterlyStatisticsCalculatorTest extends Specification {
         assert complaintsResult.value == 2.0
     }
 
-    def "should successfully calculate orders meters quarterly for 3 statistics"() {
+    def "should successfully calculate quarterly meters for 3 statistics"() {
         given:
         def statisticsPeriod1 = new StatisticsPeriod(12, Month.SEPTEMBER as Month, Year.of(2020))
         def statisticsPeriod2 = new StatisticsPeriod(13, Month.JULY as Month, Year.of(2020))

@@ -34,11 +34,11 @@ public final class OrderStatistics {
         }
     }
 
-    public boolean isInPeriod(StatisticsPeriod period) {
+    public boolean isFrom(StatisticsPeriod period) {
         return this.period.equals(period);
     }
 
-    public boolean isInMonth(Month month) {
+    public boolean isFrom(Month month) {
         return this.period.getMonth().equals(month);
     }
 }
