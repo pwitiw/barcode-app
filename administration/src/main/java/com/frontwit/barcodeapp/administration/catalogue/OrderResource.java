@@ -1,13 +1,21 @@
 package com.frontwit.barcodeapp.administration.catalogue;
 
+import com.amazonaws.util.IOUtils;
+import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodePdf;
+import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodePdfGenerator;
 import com.frontwit.barcodeapp.administration.catalogue.dto.*;
-import com.frontwit.barcodeapp.administration.processing.front.application.FrontProcessor;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 
@@ -18,7 +26,7 @@ public class OrderResource {
 
     private final OrderQuery orderQuery;
     private final OrderCommand orderCommand;
-    private final FrontProcessor frontProcessor;
+    private final BarcodePdfGenerator barcodeFacade;
 
     @GetMapping("/orders/{id}")
     OrderDetailDto getOrder(@PathVariable Long id) {
@@ -48,5 +56,18 @@ public class OrderResource {
     @GetMapping("/routes")
     List<CustomerOrdersDto> getOrdersForRoute(@RequestParam String routes) {
         return orderQuery.findCustomersWithOrdersForRoute(routes);
+    }
+
+    @GetMapping(value = "/orders/{orderId}/barcodes")
+    public void getBarcodesForOrder(@PathVariable Long orderId, HttpServletResponse response) throws IOException {
+        var orderDetails = orderQuery.getOrderDetails(orderId);
+        BarcodePdf pdf = barcodeFacade.createBarcodesFor(orderDetails);
+        ByteArrayOutputStream bytes = pdf.asStream();
+        response.setContentLength(bytes.size());
+        response.setContentType("application/pdf");
+        BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+        bytes.writeTo(bos);
+        bos.flush();
+        bos.close();
     }
 }

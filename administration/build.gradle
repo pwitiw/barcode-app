@@ -3,43 +3,42 @@ plugins {
     id 'groovy'
 }
 
-test {
-    dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-        implementation 'org.springframework.boot:spring-boot-starter-security'
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-        implementation "com.auth0:java-jwt:${jwtVersion}"
-        implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
-        implementation "org.javassist:javassist:${javassistVersion}"
-        // workaround for ${javassist.version} placeholder issue
-        implementation 'mysql:mysql-connector-java'
-        implementation "org.hibernate:hibernate-validator:${hibernateValidatorVersion}"
-        implementation 'log4j:log4j'
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "com.auth0:java-jwt:${jwtVersion}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
+    implementation "org.javassist:javassist:${javassistVersion}"
+    // workaround for ${javassist.version} placeholder issue
+    implementation 'mysql:mysql-connector-java'
+    implementation "org.hibernate:hibernate-validator:${hibernateValidatorVersion}"
+    implementation 'log4j:log4j'
 
-        implementation platform("com.amazonaws:aws-java-sdk-bom:${awsSqsVersion}")
-        implementation "com.amazonaws:aws-java-sdk-sqs"
+    implementation platform("com.amazonaws:aws-java-sdk-bom:${awsSqsVersion}")
+    implementation "com.amazonaws:aws-java-sdk-sqs"
 
-        implementation "com.itextpdf:itextpdf:${itextVersion}"
+    implementation "com.itextpdf:itextpdf:${itextVersion}"
+    implementation "com.google.zxing:zxing-parent:${zxingVersion}"
 
-        annotationProcessor 'org.projectlombok:lombok'
-        compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
 
-        testImplementation "com.tngtech.archunit:archunit-junit4:${archUnitVersion}"
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
-        testImplementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
-        testImplementation platform("org.spockframework:spock-bom:${spockVersion}")
-        testImplementation 'org.spockframework:spock-core'
-        testImplementation "com.h2database:h2:${h2Version}"
-        testImplementation "org.spockframework:spock-spring:${spockVersion}"
-        testImplementation "org.testcontainers:spock:${testContainerVersion}"
-        testImplementation "org.testcontainers:mongodb:${testContainerVersion}"
-        testImplementation "org.testcontainers:mysql:${testContainerVersion}"
-    }
-    useJUnitPlatform()
+    testImplementation "com.tngtech.archunit:archunit-junit4:${archUnitVersion}"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    testImplementation platform("org.spockframework:spock-bom:${spockVersion}")
+    testImplementation 'org.spockframework:spock-core'
+    testImplementation "com.h2database:h2:${h2Version}"
+    testImplementation "org.spockframework:spock-spring:${spockVersion}"
+    testImplementation "org.testcontainers:spock:${testContainerVersion}"
+    testImplementation "org.testcontainers:mongodb:${testContainerVersion}"
+    testImplementation "org.testcontainers:mysql:${testContainerVersion}"
 }
 
 test {
+    useJUnitPlatform()
     filter {
         excludeTestsMatching "*IT"
     }
