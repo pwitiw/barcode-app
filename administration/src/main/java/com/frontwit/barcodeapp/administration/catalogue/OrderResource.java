@@ -61,7 +61,7 @@ public class OrderResource {
     @GetMapping(value = "/orders/{orderId}/barcodes")
     public void getBarcodesForOrder(@PathVariable Long orderId, HttpServletResponse response) throws IOException {
         var orderDetails = orderQuery.getOrderDetails(orderId);
-        BarcodePdf pdf = barcodeFacade.createBarcodesFor(orderDetails);
+        BarcodePdf pdf = barcodeFacade. createBarcodesFor(orderDetails);
         ByteArrayOutputStream bytes = pdf.asStream();
         response.setContentLength(bytes.size());
         response.setContentType("application/pdf");

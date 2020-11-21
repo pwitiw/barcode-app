@@ -42,7 +42,7 @@
             <ng-container matColumnDef="barcode">
                 <th mat-header-cell *matHeaderCellDef>Kody kreskowe</th>
                 <td mat-cell *matCellDef="let i = index;let order">
-                    <mat-icon title="Kody kreskowe" (click)="$event.stopPropagation();handlePrintBarcodes(order.id)">straighten</mat-icon>
+                    <mat-icon title="Wydrukuj kody" (click)="$event.stopPropagation();handlePrintBarcodes(order.id)">print</mat-icon>
                 </td>
             </ng-container>
 

@@ -1,4 +1,4 @@
-- testy !!!!
+- data zlecenia mniejsza
 
 BUGS:
 - jak modal duzy to nie scrolluje

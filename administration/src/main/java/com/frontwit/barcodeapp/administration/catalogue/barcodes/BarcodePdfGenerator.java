@@ -7,47 +7,39 @@ import com.itextpdf.text.pdf.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.util.Collections;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
 
 import static com.itextpdf.text.Element.ALIGN_CENTER;
-import static java.awt.Font.BOLD;
+import static java.awt.Font.PLAIN;
 import static java.lang.String.format;
 
 @AllArgsConstructor
 @Service
 public class BarcodePdfGenerator {
-    public static void main(String[] args) throws IOException {
-        var pdfGenerator = new BarcodePdfGenerator();
-        var file = new File("test.pdf");
-        var outputStream = new FileOutputStream(file);
-
-        BarcodePdf barcodesFor = pdfGenerator.createBarcodesFor(
-                new OrderDetailDto(
-                        1L, "TW202", "", "",
-                        "", "", "", "", null, null,
-                        Collections.singletonList(
-                                new FrontDto(100034123L, 1230, 1300, 409, null, "", null, null)
-                        ),
-                        true, true, 1L, null, null)
-        );
-        barcodesFor.asStream().writeTo(outputStream);
-    }
+    private static final float MARGIN_BASE = 28.3f;
+    private static final float MARGIN_BIGGER = MARGIN_BASE * 1.1f;
+    private static final float MARGIN_SMALLER = MARGIN_BASE * 0.9f;
+    private static final int COLUMN_AMOUNT = 5;
 
     public BarcodePdf createBarcodesFor(OrderDetailDto orderDetails) {
-        Document document = new Document(PageSize.A4, 0, 0, 0, 0);
+        Document document = new Document(PageSize.A4, MARGIN_BIGGER, MARGIN_BIGGER, MARGIN_SMALLER, MARGIN_SMALLER);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             var pdfWriter = PdfWriter.getInstance(document, out);
             document.open();
-            var table = new PdfPTable(4);
-            document.add(centeredParagraph(orderDetails.getName()));
+            var table = new PdfPTable(COLUMN_AMOUNT);
             table.setWidthPercentage(100f);
             for (var front : orderDetails.getFronts()) {
                 for (var i = 0; i < front.getQuantity(); i++) {
-                    table.addCell(createFontCell(orderDetails.getName(), front, pdfWriter.getDirectContent()));
+
+                    table.addCell(createFontCell(i + 1, orderDetails, front, pdfWriter.getDirectContent()));
                 }
             }
+            fillTableWithEmptyCells(orderDetails, table);
             document.add(table);
             document.close();
         } catch (DocumentException e) {
@@ -56,27 +48,64 @@ public class BarcodePdfGenerator {
         return new BarcodePdf(out);
     }
 
-    private PdfPCell createFontCell(String orderName, FrontDto front, PdfContentByte cb) {
-        var cell = new PdfPCell();
+    private void fillTableWithEmptyCells(OrderDetailDto orderDetails, PdfPTable table) {
+        for (var i = totalElements(orderDetails) % COLUMN_AMOUNT; i % COLUMN_AMOUNT > 0; i++) {
+            table.addCell(emptyCell());
+        }
+    }
+
+    private Integer totalElements(OrderDetailDto orderDetails) {
+        return orderDetails.getFronts().stream()
+                .map(FrontDto::getQuantity)
+                .reduce(Integer::sum)
+                .orElse(0);
+    }
+
+    private PdfPCell createFontCell(int nr, OrderDetailDto order, FrontDto front, PdfContentByte cb) {
+        var cell = emptyCell();
         cell.setPadding(5f);
-        cell.setBorder(Rectangle.NO_BORDER);
-        cell.addElement(centeredParagraph(orderName));
-        cell.addElement(centeredParagraph(format("%s x %s", front.getHeight(), front.getWidth())));
-        cell.addElement(createBarcode(front, cb));
-        cell.setFixedHeight(PageSize.A4.getHeight() / 10);
+        cell.addElement(centeredParagraph(format("%s", order.getRoute())));
+        cell.addElement(centeredParagraph(format("%s", order.getCustomer())));
+        cell.addElement(nameWithQuantity(order.getName(), totalElements(order)));
+        cell.addElement(dimensionsWithQuantity(nr, front));
+        cell.addElement(centeredParagraph(String.valueOf(front.getBarcode()), 7));
         return cell;
     }
 
-    private Image createBarcode(FrontDto front, PdfContentByte cb) {
-        var barcode = new Barcode39();
-        barcode.setCode(String.valueOf(front.getBarcode()));
-        barcode.setStartStopText(false);
-        return barcode.createImageWithBarcode(cb, null, null);
+    private Paragraph nameWithQuantity(String orderName, int quantity) {
+        return centeredParagraph(format("%s - %s szt.", orderName, quantity));
+    }
+
+    private PdfPCell emptyCell() {
+        var cell = new PdfPCell();
+        cell.setPadding(5f);
+        cell.setFixedHeight((float) Math.floor((PageSize.A4.getHeight() - (MARGIN_BIGGER + MARGIN_SMALLER)) / 13));
+//        cell.setBorder(Rectangle.NO_BORDER);
+        return cell;
     }
 
     private Paragraph centeredParagraph(String content) {
-        var paragraph = new Paragraph(content, new Font(Font.FontFamily.UNDEFINED, 10, BOLD));
+        return centeredParagraph(content, 8);
+    }
+
+    private Paragraph centeredParagraph(String content, int size) {
+        var paragraph = new Paragraph(content, new Font(Font.FontFamily.UNDEFINED, size, PLAIN));
+        paragraph.setMultipliedLeading(1.1f);
         paragraph.setAlignment(ALIGN_CENTER);
         return paragraph;
     }
+
+    private Paragraph dimensionsWithQuantity(int nr, FrontDto front) {
+        String result = format("%s x %s (%s/%s)", front.getHeight(), front.getWidth(), nr, front.getQuantity());
+        return centeredParagraph(result);
+    }
+
+//    private Image createBarcode(FrontDto front, PdfContentByte cb) {
+//        var barcode = new Barcode39();
+//        barcode.setCode(String.valueOf(front.getBarcode()));
+//        barcode.setStartStopText(false);
+//        barcode.setBarHeight(15);
+//        barcode.setFont(null);
+//        return barcode.createImageWithBarcode(cb, null, null);
+//    }
 }
