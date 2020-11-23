@@ -15,7 +15,7 @@ import {StageService} from "./stage.service";
     templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
-    orderColumns = ['index', 'name', 'quantity', 'orderedAt', 'lastProcessedOn', 'stage', 'customer', 'route', 'completed'];
+    orderColumns = ['index', 'route', 'customer', 'name', 'quantity', 'orderedAt', 'stage', 'barcode', 'completed'];
     criteria: SearchCriteria;
     @ViewChild("paginator", {} as any)
     paginator: MatPaginator;
@@ -87,6 +87,10 @@ export class OrdersComponent implements OnInit {
                 });
             }
         });
+    }
+
+    handlePrintBarcodes(orderId: number): void {
+        this.orderRestService.getBarcodes(orderId);
     }
 
     paginationChanged($event: PageEvent): void {

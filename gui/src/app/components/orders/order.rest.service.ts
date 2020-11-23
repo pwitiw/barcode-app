@@ -41,4 +41,16 @@ export class OrderRestService {
         return this.restService.put(OrderRestService.ORDERS_ENDPOINT + '/' + id + '/deadline', updateOrder)
             .pipe(map(response => response == null));
     }
+
+    public getBarcodes(orderId: number): void {
+        this.restService.get(OrderRestService.ORDERS_ENDPOINT + `/${orderId}/barcodes`,
+        {responseType: 'arraybuffer'})
+        .subscribe((response: any) => {
+            if (response.body) {
+                const file = new Blob([response.body], {type: 'application/pdf'});
+                const fileURL = URL.createObjectURL(file);
+                window.open(fileURL);
+            }
+        });
+        }
 }
