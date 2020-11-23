@@ -21,12 +21,10 @@ import static java.lang.String.format;
 @Service
 public class BarcodePdfGenerator {
     private static final float MARGIN_BASE = 28.3f;
-    private static final float MARGIN_BIGGER = MARGIN_BASE * 1.1f;
-    private static final float MARGIN_SMALLER = MARGIN_BASE * 0.9f;
     private static final int COLUMN_AMOUNT = 5;
 
     public BarcodePdf createBarcodesFor(OrderDetailDto orderDetails) {
-        Document document = new Document(PageSize.A4, MARGIN_BIGGER, MARGIN_BIGGER, MARGIN_SMALLER, MARGIN_SMALLER);
+        Document document = new Document(PageSize.A4, MARGIN_BASE, MARGIN_BASE, MARGIN_BASE, MARGIN_BASE);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             var pdfWriter = PdfWriter.getInstance(document, out);
@@ -79,8 +77,8 @@ public class BarcodePdfGenerator {
     private PdfPCell emptyCell() {
         var cell = new PdfPCell();
         cell.setPadding(5f);
-        cell.setFixedHeight((float) Math.floor((PageSize.A4.getHeight() - (MARGIN_BIGGER + MARGIN_SMALLER)) / 13));
-//        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setFixedHeight((float) Math.floor((PageSize.A4.getHeight() - 2 * MARGIN_BASE) / 13));
+        cell.setBorder(Rectangle.NO_BORDER);
         return cell;
     }
 
