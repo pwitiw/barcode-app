@@ -14,7 +14,6 @@ public class StatisticsEventsHandler {
 
     private final OrderStatisticsRepository orderStatisticsRepository;
 
-    @EventListener
     public void handle(OrderPlaced event) {
         var period = StatisticsPeriod.of(event.getOrderedAt());
         var statistics = orderStatisticsRepository.findBy(period).orElse(OrderStatistics.of(period));
