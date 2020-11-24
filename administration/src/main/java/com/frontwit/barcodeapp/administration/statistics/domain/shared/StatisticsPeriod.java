@@ -8,9 +8,9 @@ import static java.time.ZoneId.systemDefault;
 
 @Value
 public class StatisticsPeriod {
-    int day;
-    Month month;
-    Year year;
+    private int day;
+    private Month month;
+    private Year year;
 
     public static StatisticsPeriod of(Instant instant) {
         //TODO tutaj cos zle date zmienia np instant jest 12-06 a zmienia na 13-06

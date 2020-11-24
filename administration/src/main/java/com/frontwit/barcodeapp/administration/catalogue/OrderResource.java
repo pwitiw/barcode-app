@@ -1,6 +1,5 @@
 package com.frontwit.barcodeapp.administration.catalogue;
 
-import com.amazonaws.util.IOUtils;
 import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodePdf;
 import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodePdfGenerator;
 import com.frontwit.barcodeapp.administration.catalogue.dto.*;
@@ -8,20 +7,19 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
+@SuppressWarnings("ClassFanOutComplexity")
 public class OrderResource {
 
     private final OrderQuery orderQuery;
@@ -58,10 +56,10 @@ public class OrderResource {
         return orderQuery.findCustomersWithOrdersForRoute(routes);
     }
 
-    @GetMapping(value = "/orders/{orderId}/barcodes")
-    public void getBarcodesForOrder(@PathVariable Long orderId, HttpServletResponse response) throws IOException {
+    @GetMapping("/orders/{orderId}/barcodes")
+    public void barcodesForOrder(@PathVariable Long orderId, HttpServletResponse response) throws IOException {
         var orderDetails = orderQuery.getOrderDetails(orderId);
-        BarcodePdf pdf = barcodeFacade. createBarcodesFor(orderDetails);
+        BarcodePdf pdf = barcodeFacade.createBarcodesFor(orderDetails);
         ByteArrayOutputStream bytes = pdf.asStream();
         response.setContentLength(bytes.size());
         response.setContentType("application/pdf");

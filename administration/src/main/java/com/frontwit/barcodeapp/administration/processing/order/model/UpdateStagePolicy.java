@@ -22,7 +22,7 @@ class FrontBelongsToOrder implements UpdateStagePolicy {
     public void verify(Order order, Barcode barcode) {
         if (!order.getOrderId().equals(barcode.getOrderId())) {
             throw new UpdateStageException(
-                    format("Barcode %s does not belong to order %s", barcode.getValue(), order.getOrderId().getId())
+                    format("Barcode %s does not belong to order %s", barcode.getBarcode(), order.getOrderId().getId())
             );
         }
     }

@@ -19,7 +19,7 @@ public class MongoFrontRepository implements FrontRepository {
 
     @Override
     public void save(Front front) {
-        findById(front.getBarcode().getValue())
+        findById(front.getBarcode().getBarcode())
                 .ifPresent(entity -> {
                     entity.update(front);
                     mongoTemplate.save(entity);
@@ -35,7 +35,7 @@ public class MongoFrontRepository implements FrontRepository {
 
     @Override
     public Optional<Front> findBy(Barcode barcode) {
-        return findById(barcode.getValue())
+        return findById(barcode.getBarcode())
                 .map(entity -> entity.toDomainModel(processingPolicy));
     }
 

@@ -34,7 +34,7 @@ public class FrontProcessor {
         frontRepository.findBy(event.getBarcode())
                 .ifPresentOrElse(
                         front -> process(front, command),
-                        () -> LOGGER.warn("No front for barcode {}", event.getBarcode().getValue()));
+                        () -> LOGGER.warn("No front for barcode {}", event.getBarcode().getBarcode()));
     }
 
     private void process(Front front, ProcessFrontCommand command) {

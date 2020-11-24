@@ -26,7 +26,7 @@ class TimeGapeBetweenProcessesIsPreserved implements FrontProcessingPolicy {
             throw new ProcessingPolicyViolationException(
                     format(
                             "Duplicated process: {barcode=%s, stage=%s, timestamp=%s}",
-                            front.getBarcode().getValue(), details.getStage(), details.getDateTime()
+                            front.getBarcode().getBarcode(), details.getStage(), details.getDateTime()
                     )
             );
         }

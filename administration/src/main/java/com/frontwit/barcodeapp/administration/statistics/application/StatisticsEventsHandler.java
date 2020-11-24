@@ -5,7 +5,6 @@ import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStati
 import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStatisticsRepository;
 import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod;
 import lombok.AllArgsConstructor;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 @Service
