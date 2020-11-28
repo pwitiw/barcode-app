@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp.administration.sychronization
+package com.frontwit.barcodeapp.administration.processing.synchronization
 
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode
 import com.frontwit.barcodeapp.administration.processing.shared.Quantity

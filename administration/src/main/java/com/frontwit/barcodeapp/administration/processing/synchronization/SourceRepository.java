@@ -12,7 +12,7 @@ public interface SourceRepository {
 
     Dictionary getDictionary();
 
-    List<SourceOrder> findByDateBetween(Instant from);
+    List<SourceOrder> findByDateBetween(Instant from, Instant to);
 
     List<SourceCustomer> findCustomers();
 }

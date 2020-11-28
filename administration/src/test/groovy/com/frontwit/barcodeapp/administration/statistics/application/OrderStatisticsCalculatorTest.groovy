@@ -12,9 +12,9 @@ import java.time.Year
 import static org.hamcrest.Matchers.containsInAnyOrder
 import static spock.util.matcher.HamcrestSupport.expect
 
-class OrderStatisticsCreatorTest extends Specification {
+class OrderStatisticsCalculatorTest extends Specification {
     OrderStatisticsRepository repository = Mock()
-    OrderStatisticsCreator orderStatisticsCreator = new OrderStatisticsCreator(repository)
+    OrderStatisticsCalculator orderStatisticsCreator = new OrderStatisticsCalculator(repository)
 
     def "calculate statistics at given day"() {
         given:

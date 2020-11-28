@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.statistics.infrastructure;
 
-import com.frontwit.barcodeapp.administration.statistics.application.OrderStatisticsCreator;
+import com.frontwit.barcodeapp.administration.statistics.application.OrderStatisticsCalculator;
 import com.frontwit.barcodeapp.administration.statistics.application.OrderStatisticsDto;
 import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class StatisticsController {
 
-    private final OrderStatisticsCreator statisticsCreator;
+    private final OrderStatisticsCalculator statisticsCreator;
 
     @GetMapping("/statistics/orders")
     public OrderStatisticsDto findStatistics() {

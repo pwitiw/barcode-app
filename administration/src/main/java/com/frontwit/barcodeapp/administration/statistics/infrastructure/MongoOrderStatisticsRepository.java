@@ -41,6 +41,11 @@ public class MongoOrderStatisticsRepository implements OrderStatisticsRepository
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public boolean empty() {
+        return mongoTemplate.count(new Query(), OrderStatisticsEntity.class) == 0;
+    }
+
     private Query forGivenYear(StatisticsPeriod period, Instant beginningOfYear) {
         Criteria c = new Criteria().andOperator(Criteria.where(PERIOD_FIELD).lte(period.toInstant()),
                 Criteria.where(PERIOD_FIELD).gte(beginningOfYear));

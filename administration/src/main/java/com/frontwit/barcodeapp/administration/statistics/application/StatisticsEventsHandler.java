@@ -5,6 +5,7 @@ import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStati
 import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStatisticsRepository;
 import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod;
 import lombok.AllArgsConstructor;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,7 @@ public class StatisticsEventsHandler {
 
     private final OrderStatisticsRepository orderStatisticsRepository;
 
+    @EventListener
     public void handle(OrderPlaced event) {
         var period = StatisticsPeriod.of(event.getOrderedAt());
         var statistics = orderStatisticsRepository.findBy(period).orElse(OrderStatistics.of(period));

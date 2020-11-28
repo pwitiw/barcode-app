@@ -14,8 +14,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class MongoFrontRepository implements FrontRepository {
 
-    private MongoTemplate mongoTemplate;
-    private FrontProcessingPolicy processingPolicy;
+    private final MongoTemplate mongoTemplate;
+    private final FrontProcessingPolicy processingPolicy;
 
     @Override
     public void save(Front front) {

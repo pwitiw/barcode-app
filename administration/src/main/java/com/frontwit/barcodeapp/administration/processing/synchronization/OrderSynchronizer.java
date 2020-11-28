@@ -3,7 +3,6 @@ package com.frontwit.barcodeapp.administration.processing.synchronization;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontNotFound;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderRepository;
-import com.frontwit.barcodeapp.administration.processing.shared.CustomerId;
 import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents;
 import com.frontwit.barcodeapp.administration.statistics.domain.OrderPlaced;
@@ -11,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
+
+import java.time.Instant;
 
 import static java.lang.String.format;
 
@@ -32,23 +33,41 @@ public class OrderSynchronizer {
                     .ifPresentOrElse(
                             order -> {
                                 var savedOrder = saveOrderWithFronts(order, sourceRepository.getDictionary());
-                                domainEvents.publish(frontSynchronized(event), orderPlaced(savedOrder));
+                                domainEvents.publish(
+                                        frontSynchronized(event),
+                                        orderPlaced(savedOrder)
+                                );
                             },
                             () -> LOGGER.warn("Order not found {}", event.getOrderId()));
         }
     }
 
     public long synchronize() {
+        Instant now = Instant.now();
         var lastSyncDate = synchronizationRepository.getLastSynchronizationDate();
         var dictionary = sourceRepository.getDictionary();
-        long count = sourceRepository.findByDateBetween(lastSyncDate)
+        long count = sourceRepository.findByDateBetween(lastSyncDate, now)
                 .stream()
                 .filter(sourceOrder -> orderRepository.isNotSynchronized(new OrderId(sourceOrder.getId())))
                 .peek(sourceOrder -> saveOrderWithFronts(sourceOrder, dictionary))
                 .count();
-        synchronizationRepository.updateSyncDate();
+        synchronizationRepository.updateSyncDate(now);
         LOGGER.debug(format("Synchronized {date= %s, orders=%s}", lastSyncDate, count));
         return count;
+    }
+
+    public void synchronizeStatistics() {
+        Instant beginningOf2020 = Instant.ofEpochMilli(1_577_836_800_000L);
+        var lastSyncDate = synchronizationRepository.getLastSynchronizationDate();
+        var dictionary = sourceRepository.getDictionary();
+        sourceRepository.findByDateBetween(beginningOf2020, lastSyncDate)
+                .stream()
+                .filter(sourceOrder -> !orderRepository.isNotSynchronized(new OrderId(sourceOrder.getId())))
+                .forEach(sourceOrder -> {
+                    var targetOrder = orderMapper.map(sourceOrder, dictionary);
+                    domainEvents.publish(orderPlaced(targetOrder));
+                });
+        LOGGER.debug("Synchronized statistics for period {} - {} ", beginningOf2020, lastSyncDate);
     }
 
     private static FrontSynchronized frontSynchronized(FrontNotFound event) {
@@ -70,6 +89,6 @@ public class OrderSynchronizer {
 
     private static OrderPlaced orderPlaced(TargetOrder order) {
         var meters = MetersCalculator.calculate(order.getFronts());
-        return new OrderPlaced(new CustomerId(order.getCustomerId()), meters, order.getInfo().getOrderedAt(), order.getInfo().getType());
+        return new OrderPlaced(meters, order.getInfo().getOrderedAt(), order.getInfo().getType());
     }
 }

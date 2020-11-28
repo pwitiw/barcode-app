@@ -10,6 +10,7 @@
     <!-- Best practices (https://pmd.github.io/pmd-6.0.1/pmd_rules_java_bestpractices.html) -->
     <rule ref="category/java/bestpractices.xml">
         <exclude name="AbstractClassWithoutAbstractMethod"/>
+        <exclude name="DoubleBraceInitialization"/>
         <!-- disabled as it's important for android and doesn't matter for general java (also fixes will
              conflict with checkstyle's VisibilityModifier check -->
         <exclude name="AccessorMethodGeneration"/>

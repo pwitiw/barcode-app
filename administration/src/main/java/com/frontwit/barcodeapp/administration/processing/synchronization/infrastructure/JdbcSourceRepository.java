@@ -10,8 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,11 +38,10 @@ public class JdbcSourceRepository implements SourceRepository {
     }
 
     @Override
-    public List<SourceOrder> findByDateBetween(Instant from) {
-        return jdbcTemplate.query(findOrdersByDateGteQuery(),
-                new BeanPropertyRowMapper<>(SourceOrder.class),
-                LocalDate.ofInstant(from, ZoneId.of("Europe/Paris"))
-        );
+    public List<SourceOrder> findByDateBetween(Instant from, Instant to) {
+        Date fromDate = new Date(from.toEpochMilli());
+        Date toDate = new Date(to.toEpochMilli());
+        return jdbcTemplate.query(findOrdersByDateGteQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), fromDate, toDate);
     }
 
     @Override
@@ -87,7 +85,7 @@ public class JdbcSourceRepository implements SourceRepository {
     }
 
     private String findOrdersByDateGteQuery() {
-        return findOrdersQuery() + "WHERE data_z >= ?";
+        return findOrdersQuery() + "WHERE data_z BETWEEN ? AND ?";
     }
 
     private String getDictionaryQuery() {

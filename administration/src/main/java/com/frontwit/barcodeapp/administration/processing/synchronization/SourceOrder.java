@@ -36,10 +36,14 @@ public class SourceOrder {
     }
 
     public void setOrderedAt(Date orderedAt) {
-        this.orderedAt = Date.from(orderedAt.toInstant());
+        if (orderedAt != null) {
+            this.orderedAt = Date.from(orderedAt.toInstant());
+        }
     }
 
     public void setDeadline(Date deadline) {
-        this.deadline = Date.from(deadline.toInstant());
+        if (deadline != null) {
+            this.deadline = Date.from(deadline.toInstant());
+        }
     }
 }

@@ -23,9 +23,9 @@ public class SynchronizationRepositoryImpl implements SynchronizationRepository 
     }
 
     @Override
-    public void updateSyncDate() {
+    public void updateSyncDate(Instant newDate) {
         var entity = find();
-        entity.setDate(Instant.now());
+        entity.setDate(newDate);
         repository.save(entity);
     }
 

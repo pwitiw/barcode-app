@@ -5,16 +5,13 @@ import lombok.Value;
 import static java.lang.String.format;
 
 @Value
+@SuppressWarnings("PMD.AvoidFieldNameMatchingTypeName")
 public class Barcode {
     private static final long LIMIT = 100;
 
     private Long barcode;
 
     public Barcode(Long barcode) {
-        if (barcode == null) {
-            this.barcode = -1L;
-            return;
-        }
         if (barcode < LIMIT) {
             throw new IllegalStateException(format("Illegal barcode: %s, max value: %s", barcode, LIMIT));
         }

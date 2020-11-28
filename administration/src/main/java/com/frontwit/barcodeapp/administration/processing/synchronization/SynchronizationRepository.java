@@ -6,5 +6,5 @@ import java.time.Instant;
 public interface SynchronizationRepository {
     Instant getLastSynchronizationDate();
 
-    void updateSyncDate();
+    void updateSyncDate(Instant instant);
 }

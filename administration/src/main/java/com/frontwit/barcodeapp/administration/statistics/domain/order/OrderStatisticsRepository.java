@@ -11,4 +11,6 @@ public interface OrderStatisticsRepository {
     Optional<OrderStatistics> findBy(StatisticsPeriod statisticsPeriod);
 
     List<OrderStatistics> findForYearUntil(StatisticsPeriod statisticsPeriod);
+
+    boolean empty();
 }

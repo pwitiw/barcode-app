@@ -1,19 +1,18 @@
-package com.frontwit.barcodeapp.administration.sychronization
+package com.frontwit.barcodeapp.administration.processing.synchronization
 
 
-import com.frontwit.barcodeapp.administration.processing.synchronization.MetersCalculator
 import com.frontwit.barcodeapp.administration.statistics.domain.order.Meters
 import spock.lang.Specification
 
 import static com.frontwit.barcodeapp.administration.CommonFixtures.aBarcode
-import static com.frontwit.barcodeapp.administration.sychronization.SynchronizationFixtures.aTargetFront
+import static SynchronizationFixtures.aTargetFront
 
 class MetersCalculatorTest extends Specification {
     def "should calculate meters out of fronts "() {
         given:
         def fronts = [
-                aTargetFront(aBarcode(), 2, 1, 1),
-                aTargetFront(aBarcode(), 2, 2, 2)
+                aTargetFront(aBarcode(), 2, 1_000, 1_000),
+                aTargetFront(aBarcode(), 2, 2_000, 2_000)
         ]
         when:
         def result = MetersCalculator.calculate(fronts)

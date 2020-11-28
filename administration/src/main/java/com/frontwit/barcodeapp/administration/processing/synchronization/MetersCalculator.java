@@ -12,7 +12,7 @@ final class MetersCalculator {
         var result = fronts.stream()
                 .map(MetersCalculator::computeFrontArea)
                 .reduce(0, Integer::sum)
-                .doubleValue();
+                .doubleValue() / 1_000_000.00;
         return Meters.of(result);
     }
 
