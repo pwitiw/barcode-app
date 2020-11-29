@@ -1,7 +1,10 @@
 plugins {
     id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'groovy'
+    id 'com.bmuschko.docker-remote-api' version '6.6.1'
 }
+version = '1.0.3'
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
@@ -47,3 +50,35 @@ task cleanStatics(type: Delete) {
     delete "src/main/resources/public"
 }
 clean.dependsOn cleanStatics
+
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
+
+docker {
+    registryCredentials {
+        username = 'wacik93'
+        password = 'wpIT4hIpKL'
+    }
+}
+
+task createDockerfile(type: Dockerfile) {
+    destFile = project.file('build/libs/Dockerfile')
+    from 'adoptopenjdk/openjdk11'
+    copyFile jar.archiveFileName.get(), '/app.jar'
+    entryPoint 'java'
+    defaultCommand '-jar', '-Dspring.profiles.active=prod', '/app.jar'
+    exposePort 8888
+    instruction 'HEALTHCHECK CMD curl -f http://localhost:8080/health || exit 1'
+}
+
+task buildImage(type: DockerBuildImage) {
+    inputDir = createDockerfile.destFile.get().asFile.parentFile
+    images = ["wacik93/administration-app:${version}"]
+    dependsOn createDockerfile
+}
+
+task pushImage(type: DockerPushImage) {
+    images = buildImage.images
+    dependsOn buildImage
+}

@@ -25,6 +25,8 @@ services:
       - "./administration/src/test/resources:/docker-entrypoint-initdb.d"
 
   app:
-    build: ./administration
+    image: wacik93/administration-app:1.0.3
+    environment:
+      spring.datasource.url: 'jdbc:mysql://patryk:password@mysql:3306/frontwit?serverTimezone=UTC'
     ports:
       - "8888:8888"
