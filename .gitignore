@@ -33,3 +33,5 @@ hs*.log
 
 ### mqtt ###
 *.lck
+
+test.pdf
