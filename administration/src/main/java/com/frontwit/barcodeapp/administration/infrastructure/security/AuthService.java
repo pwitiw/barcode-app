@@ -26,10 +26,18 @@ public class AuthService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    UserDetails authenticate(String username, String password) {
+        var userDetails = getUserDetails(username);
+        if (!bCryptPasswordEncoder.matches(password, userDetails.getPassword())) {
+            throw new BadCredentialsException("Niepoprawne hasło");
+        }
+        return userDetails;
+    }
+
     String createToken(final UserDetails user) {
         var details = getUserDetails(user.getUsername());
         if (!bCryptPasswordEncoder.matches(user.getPassword(), details.getPassword())) {
-            throw new BadCredentialsException("Provided credentials are incorrect");
+            throw new BadCredentialsException("Niepoprawne hasło");
         }
         return jwtTokenUtil.createToken(details);
     }
@@ -64,6 +72,6 @@ public class AuthService {
 
     private UserDetails getUserDetails(String username) {
         return Optional.ofNullable(userRepository.findByUsername(username))
-                .orElseThrow(() -> new AuthenticationServiceException("User does not exist"));
+                .orElseThrow(() -> new AuthenticationServiceException("Użytkownik nie istnieje"));
     }
 }

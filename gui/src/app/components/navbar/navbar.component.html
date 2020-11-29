@@ -5,25 +5,25 @@
                 <a routerLink="/"><img src="/assets/frontwitlogo.jpg" alt="FRONTWIT"></a>
             </div>
         </nav>
-        <a *ngIf="isAuthenticated()" routerLink="/">
+        <a routerLink="/">
             <button color="primary" class="nav-items" mat-button>
                 <mat-icon>home</mat-icon>
             </button>
         </a>
-        <a *ngIf="isAuthenticated()" routerLink="/orders">
+        <a routerLink="/orders">
             <button class="nav-items" mat-button>
                 Zamówienia
             </button>
         </a>
-        <a *ngIf="isAuthenticated()" routerLink="/routes">
+        <a routerLink="/routes">
             <button class="nav-items" mat-button>
                 Trasy
             </button>
         </a>
     </div>
-    <a *ngIf="isAuthenticated()" routerLink="/login" (click)="logout()">
+    <a href="/logout">
         <button class="nav-items right" mat-button>
-            Wyloguj [ {{loggedUser}} ]
+            Wyloguj
         </button>
     </a>
 </div>

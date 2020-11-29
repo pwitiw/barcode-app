@@ -6,8 +6,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @EnableWebSecurity
-@Profile("local")
-public class LocalSecurityConfig extends WebSecurityConfigurerAdapter {
+@Profile("dev")
+public class DevSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
