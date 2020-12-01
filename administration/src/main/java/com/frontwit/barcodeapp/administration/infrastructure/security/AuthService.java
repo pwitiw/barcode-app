@@ -21,15 +21,16 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 public class AuthService {
+    private static final String INCORRECT_LOGIN_PASSWORD = "Niepoprawny login lub hasło";
 
-    private JwtTokenUtil jwtTokenUtil;
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     UserDetails authenticate(String username, String password) {
         var userDetails = getUserDetails(username);
         if (!bCryptPasswordEncoder.matches(password, userDetails.getPassword())) {
-            throw new BadCredentialsException("Niepoprawne hasło");
+            throw new BadCredentialsException(INCORRECT_LOGIN_PASSWORD);
         }
         return userDetails;
     }
@@ -37,7 +38,7 @@ public class AuthService {
     String createToken(final UserDetails user) {
         var details = getUserDetails(user.getUsername());
         if (!bCryptPasswordEncoder.matches(user.getPassword(), details.getPassword())) {
-            throw new BadCredentialsException("Niepoprawne hasło");
+            throw new BadCredentialsException(INCORRECT_LOGIN_PASSWORD);
         }
         return jwtTokenUtil.createToken(details);
     }

@@ -22,7 +22,7 @@ public class AuthProvider implements AuthenticationProvider {
     }
 
     @Override
-    public boolean supports(Class<? extends Object> authentication) {
-        return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
+    public boolean supports(Class authentication) {
+        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }
