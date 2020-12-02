@@ -17,10 +17,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.frontwit.barcodeapp.administration.catalogue.CriteriaBuilder.COMPLETED_FIELD;
 import static com.frontwit.barcodeapp.administration.catalogue.CriteriaBuilder.DEADLINE_FIELD;
@@ -34,9 +32,9 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 public class OrderQuery {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderQuery.class);
 
-    private MongoTemplate mongoTemplate;
-    private CriteriaBuilder criteriaBuilder;
-    private CustomerRepository customerRepository;
+    private final MongoTemplate mongoTemplate;
+    private final CriteriaBuilder criteriaBuilder;
+    private final CustomerRepository customerRepository;
 
     public OrderDetailDto getOrderDetails(long id) {
         var frontDtos = findFrontsForOrderId(id);
@@ -54,30 +52,6 @@ public class OrderQuery {
                 .map(o -> o.dto(findCustomerBy(o.getCustomerId())));
     }
 
-    List<CustomerOrdersDto> findCustomersWithOrdersForRoute(String route) {
-        List<OrderEntity> orderEntities = getOrderEntities(route);
-        List<CustomerEntity> customerEntities = getCustomerEntities(orderEntities);
-        if (customerEntities.isEmpty()) {
-            return new ArrayList<>();
-        }
-        return orderEntities.stream()
-                .collect(Collectors.groupingBy(o -> getCustomerInfo(customerEntities, o.getId())))
-                .entrySet()
-                .stream()
-                .map(e -> {
-                    var customer = e.getKey();
-                    var orders = e.getValue();
-                    return new CustomerOrdersDto(
-                            customer.getName(),
-                            customer.getAddress(),
-                            customer.getPhoneNumber(),
-                            mapToOrderInfoDto(orders),
-                            ""
-                    );
-                })
-                .collect(toList());
-    }
-    // todo optional here
 
     private CustomerEntity findCustomerBy(Long id) {
         if (id == null) {
@@ -89,36 +63,6 @@ public class OrderQuery {
         });
     }
 
-    private List<CustomerEntity> getCustomerEntities(List<OrderEntity> orderEntities) {
-        var customerQuery = customerQuery(orderEntities.stream().map(OrderEntity::getCustomerId).collect(toList()));
-        return mongoTemplate.find(customerQuery, CustomerEntity.class);
-    }
-
-    private List<OrderEntity> getOrderEntities(String route) {
-        var query = routeQuery(route);
-        return mongoTemplate.find(query, OrderEntity.class);
-    }
-
-    private CustomerEntity getCustomerInfo(List<CustomerEntity> customers, Long id) {
-        return customers.stream().filter(e -> e.getId().equals(id)).collect(toList()).get(0);
-    }
-
-    private Query routeQuery(String route) {
-        return new Query(new Criteria()
-                .and("route").regex(format("%s", route), "i")
-                .and(COMPLETED_FIELD).is(false)
-                .and("packed").is(true));
-    }
-
-    private Query customerQuery(List<Long> ids) {
-        return new Query(new Criteria("id").in(ids));
-    }
-
-    private List<OrderInfoDto> mapToOrderInfoDto(List<OrderEntity> entities) {
-        return entities.stream()
-                .map(OrderEntity::deliveryOrderDto)
-                .collect(toList());
-    }
 
     private List<FrontDto> findFrontsForOrderId(long orderId) {
         var query = new Query(new Criteria("orderId").is(orderId));

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,8 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+
+import static java.util.Collections.emptyList;
 
 
 @RestController
@@ -23,6 +26,7 @@ import java.util.List;
 public class OrderResource {
 
     private final OrderQuery orderQuery;
+    private final RouteQuery routeQuery;
     private final OrderCommand orderCommand;
     private final BarcodePdfGenerator barcodeFacade;
 
@@ -47,17 +51,21 @@ public class OrderResource {
     }
 
     @GetMapping("/orders/reminders")
-    public Page<ReminderDto> getReminders(@RequestParam Integer page, @RequestParam Integer size) {
+    Page<ReminderDto> getReminders(@RequestParam Integer page, @RequestParam Integer size) {
         return orderQuery.findDeadlines(PageRequest.of(page, size));
     }
 
     @GetMapping("/routes")
     List<CustomerOrdersDto> getOrdersForRoute(@RequestParam String routes) {
-        return orderQuery.findCustomersWithOrdersForRoute(routes);
+        if (StringUtils.isEmpty(routes)) {
+            return emptyList();
+        }
+        List<CustomerOrdersDto> customersWithOrdersForRoute = routeQuery.findCustomersWithOrdersForRoute(routes);
+        return customersWithOrdersForRoute;
     }
 
     @GetMapping("/orders/{orderId}/barcodes")
-    public void barcodesForOrder(@PathVariable Long orderId, HttpServletResponse response) throws IOException {
+    void barcodesForOrder(@PathVariable Long orderId, HttpServletResponse response) throws IOException {
         var orderDetails = orderQuery.getOrderDetails(orderId);
         BarcodePdf pdf = barcodeFacade.createBarcodesFor(orderDetails);
         ByteArrayOutputStream bytes = pdf.asStream();

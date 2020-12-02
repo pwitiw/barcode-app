@@ -20,6 +20,26 @@ db.user.insert({
     ],
     "_class": "com.frontwit.barcodeapp.administration.infrastructure.security.User"
 });
+db.customer.insertMany([
+    {
+        "_id": 1,
+        "name": "Kowalski 1",
+        "address": "Warszawa",
+        "route": "Warszawa"
+    },
+    {
+        "_id": 2,
+        "name": "Kowalski 2",
+        "address": "Lodz",
+        "route": "Warszawa"
+    },
+    {
+        "_id": 3,
+        "name": "Nowak",
+        "address": "Kraków",
+        "route": "Kraków"
+    }
+]);
 db.order.insertMany([
     {
         "_id": 1,
@@ -30,7 +50,7 @@ db.order.insertMany([
         "stage": "BASE",
         "cutter": "PŁYTA",
         "comment": "express",
-        "route": "Śląsk",
+        "customerId": 1,
         "completed": false,
         "quantity": 2,
         "lastProcessedOn": ISODate("2019-12-22T23:00:00.000+0000"),
@@ -42,11 +62,10 @@ db.order.insertMany([
         "orderedAt": ISODate("2019-06-07T22:00:00.000+0000"),
         "color": "BIAŁY",
         "size": "18MM",
-        "stage": "BASE",
+        "stage": "PACKING",
         "cutter": "PŁYTA",
         "comment": "express",
         "customerId": 2,
-        "route": "Wrocław",
         "completed": false,
         "packed": true,
         "quantity": 2,
@@ -58,11 +77,10 @@ db.order.insertMany([
         "orderedAt": ISODate("2019-06-07T22:00:00.000+0000"),
         "color": "BIAŁY",
         "size": "18MM",
-        "stage": "BASE",
+        "stage": "PACKING",
         "cutter": "PŁYTA",
         "comment": "express",
         "customerId": 3,
-        "route": "Wrocław",
         "completed": false,
         "packed": true,
         "quantity": 2,

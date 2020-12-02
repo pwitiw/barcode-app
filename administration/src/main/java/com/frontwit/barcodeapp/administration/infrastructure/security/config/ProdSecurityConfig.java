@@ -30,8 +30,7 @@ public class ProdSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
         http
                 .formLogin()
-                .permitAll()
-                .defaultSuccessUrl("/");
+                .permitAll();
         http
                 .logout()
                 .permitAll();
