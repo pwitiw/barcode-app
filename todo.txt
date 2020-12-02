@@ -1,6 +1,7 @@
 - scheduler do oznaczania jako zakonczone - pytanie kiedy? - jak przez np tydzien nie bylo procesowania?
 - mozliwosc zaznaczania i drukowania wielu zamowien
 - data zlecenia mniejsza
+-  pierwsze wyznaczanie trasy sprawia, ze spinner sie kreci (jak gui apka jest w staticu
 
 BUGS:
 - jak modal duzy to nie scrolluje

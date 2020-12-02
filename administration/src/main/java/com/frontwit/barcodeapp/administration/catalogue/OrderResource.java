@@ -60,8 +60,7 @@ public class OrderResource {
         if (StringUtils.isEmpty(routes)) {
             return emptyList();
         }
-        List<CustomerOrdersDto> customersWithOrdersForRoute = routeQuery.findCustomersWithOrdersForRoute(routes);
-        return customersWithOrdersForRoute;
+        return routeQuery.findCustomersWithOrdersForRoute(routes);
     }
 
     @GetMapping("/orders/{orderId}/barcodes")

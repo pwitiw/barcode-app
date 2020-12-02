@@ -38,7 +38,7 @@ import {MatDialogModule} from "@angular/material/dialog";
         MatExpansionModule,
         FormsModule,
         AgmCoreModule.forRoot({
-            apiKey: '',
+            apiKey: 'AIzaSyApN1V5vUx2gnsPYgEbTby6D9YUgtDUe5c',
             region: 'pl',
             libraries: ['places', 'drawing', 'geometry', 'geocoder']
         }),

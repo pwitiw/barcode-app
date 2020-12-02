@@ -86,6 +86,10 @@ export class RoutesComponent implements OnInit {
     }
 
     setRouteClicked(): void {
+        if (this.selectedCustomersWithEmptyAddresses()) {
+            this.notifyAboutEmptyCustomersWithAddress();
+            return;
+        }
         let addresses = this.selectedDeliveryInfos.map(detail => new CustomerAddress(detail.info.customer, detail.info.address));
         this.routeComputer.compute(addresses).subscribe(addresses => {
             if (addresses.length == 0) {
@@ -98,6 +102,17 @@ export class RoutesComponent implements OnInit {
             }
             this.reorderRouteDetails(addresses);
         });
+    }
+
+    selectedCustomersWithEmptyAddresses(): boolean {
+        return this.selectedDeliveryInfos.filter(deliveryInfo=> !deliveryInfo.info.address).length != 0;
+    }
+
+    notifyAboutEmptyCustomersWithAddress(): void {
+        const customers = this.selectedDeliveryInfos.filter(deliveryInfo => !deliveryInfo.info.address)
+        .map(deliveryInfo => deliveryInfo.info.customer)
+        .reduce((allCustomers, customer)=> allCustomers + ", " + customer);
+        this.snackBarService.failure(`Nie można wykonać operacji. Brak adresu dla: ${customers}`)
     }
 
     reorderRouteDetails(sortedAddresses: CustomerAddress[]): void {
