@@ -1,8 +1,8 @@
 import {CustomerAddress} from "./CustomerAddress";
-import {forkJoin, Observable, of} from "rxjs";
+import {combineLatest, forkJoin, Observable, of} from "rxjs";
 import {Injectable} from "@angular/core";
 import {AgmGeocoder, GeocoderResult} from "@agm/core";
-import {catchError, map} from "rxjs/operators";
+import {catchError, map, take} from "rxjs/operators";
 import {LocalStorageService} from "../../../services/local-storage.service";
 import {City} from "./City";
 
@@ -14,23 +14,29 @@ export class GoogleApi {
 
     getDetails(addresses: CustomerAddress[]): Observable<CustomerAddress[]> {
         const $addresses = addresses.map((address) => this.getCity(address));
-        return forkJoin($addresses)
-            .pipe(map(addresses => addresses.filter(address => address.city != null)));
-    }
-
-    private getCity(customerAdress: CustomerAddress): Observable<CustomerAddress> {
-        const cached = this.localStorage.getCity(customerAdress);
-        const city = cached ?
-            of(cached) :
-            this.callGoogleApi(customerAdress)
-
-        return city.pipe(map(city => {
-            customerAdress.city = city;
-            return customerAdress;
+                return combineLatest($addresses).pipe(
+            map(addresses=> addresses.filter(a=>a.city)),
+            catchError(e=> {
+            console.info(e);
+         return of([]);
         }));
     }
 
-    private callGoogleApi(customer: CustomerAddress) {
+    private getCity(customerAddress: CustomerAddress): Observable<CustomerAddress> {
+        const cached = this.localStorage.getCity(customerAddress);
+        const city = cached ? of(cached) : this.callGoogleApi(customerAddress);
+        
+        return city.pipe(
+            map((c:City) => {
+                return {
+                    ...customerAddress,
+                    city: c
+                } as CustomerAddress;
+            }), 
+        );
+    }
+
+    private callGoogleApi(customer: CustomerAddress): Observable<City> {
         return this.geocoder.geocode({address: customer.address})
             .pipe(
                 map((results: GeocoderResult[]) => {
@@ -38,7 +44,7 @@ export class GoogleApi {
                     const name = results[0].formatted_address.split(",")[0];
                     const city: City = {name, lat: lat(), lng: lng()};
                     this.localStorage.storeCity(customer, city);
-                    return city
+                    return city;
                 }),
                 catchError((response) => {
                     this.localStorage.storeCity(customer, null);

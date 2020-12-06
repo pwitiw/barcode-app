@@ -1,7 +1,6 @@
 - scheduler do oznaczania jako zakonczone - pytanie kiedy? - jak przez np tydzien nie bylo procesowania?
 - mozliwosc zaznaczania i drukowania wielu zamowien
 - data zlecenia mniejsza
--  pierwsze wyznaczanie trasy sprawia, ze spinner sie kreci (jak gui apka jest w staticu
 
 BUGS:
 - jak modal duzy to nie scrolluje
@@ -10,17 +9,12 @@ Pytania:
 - obgadac etapy produkcji
 
 !!!BARDZO WAŻNE:
-- poprawić proces deploymentu (4) (wrzucanie do dockerhuba -> budowanie image etc)
-- security improvement
--- logowanie przy uzyciu cookies
 -- logowanie kontekstu uzytkownika
 
 Features:
 -  jest zamowienie i jest juz spakowane i jest niekompletne i wiemy ze brakuje jednej witryny bo jest na docieciu
 i robi beata trase i w jakims zamowieniu brakuje jakiegos elementu i ktos dopisze to bedzie wiadomo, ze niekompletne
-i na cos trzeba czekac
-- feature switch dla amazona zeby nie ssal
-- wydzielic common package
+i na cos trzeba czekac- wydzielic common package
 - brak favicon
 
 statystyki:
