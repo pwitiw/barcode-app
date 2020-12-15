@@ -1,10 +1,16 @@
 package com.frontwit.barcodeapp.administration.catalogue;
 
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderSearchCriteria;
+import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
+import lombok.AllArgsConstructor;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
@@ -12,9 +18,12 @@ import static java.util.Objects.nonNull;
 import static org.springframework.util.StringUtils.isEmpty;
 
 @Service
+@AllArgsConstructor
 public class CriteriaBuilder {
     static final String COMPLETED_FIELD = "completed";
     static final String DEADLINE_FIELD = "deadline";
+
+    private final MongoTemplate mongoTemplate;
 
     Criteria build(OrderSearchCriteria searchCriteria) {
         final var result = new Criteria();
@@ -37,7 +46,12 @@ public class CriteriaBuilder {
 
     private void customer(OrderSearchCriteria searchCriteria, Criteria result) {
         if (isNotEmpty(searchCriteria.getCustomer())) {
-            addRegex("customerName", searchCriteria.getCustomer(), result);
+            Criteria criteria = new Criteria();
+            addRegex("name", searchCriteria.getCustomer(), criteria);
+            Set<Long> ids = mongoTemplate.find(new Query(criteria), CustomerEntity.class).stream()
+                    .map(CustomerEntity::getId)
+                    .collect(Collectors.toSet());
+            result.and("customerId").in(ids);
         }
     }
 

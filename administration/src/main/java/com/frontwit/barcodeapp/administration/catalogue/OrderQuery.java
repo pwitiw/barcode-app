@@ -52,7 +52,6 @@ public class OrderQuery {
                 .map(o -> o.dto(findCustomerBy(o.getCustomerId())));
     }
 
-
     private CustomerEntity findCustomerBy(Long id) {
         if (id == null) {
             return new CustomerEntity();

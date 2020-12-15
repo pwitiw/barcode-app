@@ -67,7 +67,7 @@ public class OrderSynchronizer {
                     var targetOrder = orderMapper.map(sourceOrder, dictionary);
                     domainEvents.publish(orderPlaced(targetOrder));
                 });
-        LOGGER.debug("Synchronized statistics for period {} - {} ", beginningOf2020, lastSyncDate);
+        LOGGER.info("Synchronized statistics for period {} - {} ", beginningOf2020, lastSyncDate);
     }
 
     private static FrontSynchronized frontSynchronized(FrontNotFound event) {
