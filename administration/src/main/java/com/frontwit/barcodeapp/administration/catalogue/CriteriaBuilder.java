@@ -22,6 +22,7 @@ import static org.springframework.util.StringUtils.isEmpty;
 public class CriteriaBuilder {
     static final String COMPLETED_FIELD = "completed";
     static final String DEADLINE_FIELD = "deadline";
+    static final String NAME_FIELD = "name";
 
     private final MongoTemplate mongoTemplate;
 
@@ -40,14 +41,14 @@ public class CriteriaBuilder {
 
     private void name(OrderSearchCriteria searchCriteria, Criteria result) {
         if (isNotEmpty(searchCriteria.getName())) {
-            addRegex("name", searchCriteria.getName(), result);
+            addRegex(NAME_FIELD, searchCriteria.getName(), result);
         }
     }
 
     private void customer(OrderSearchCriteria searchCriteria, Criteria result) {
         if (isNotEmpty(searchCriteria.getCustomer())) {
             Criteria criteria = new Criteria();
-            addRegex("name", searchCriteria.getCustomer(), criteria);
+            addRegex(NAME_FIELD, searchCriteria.getCustomer(), criteria);
             Set<Long> ids = mongoTemplate.find(new Query(criteria), CustomerEntity.class).stream()
                     .map(CustomerEntity::getId)
                     .collect(Collectors.toSet());
