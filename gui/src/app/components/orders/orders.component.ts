@@ -15,7 +15,7 @@ import {StageService} from "./stage.service";
     templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
-    orderColumns = ['index', 'route', 'customer', 'name', 'quantity', 'orderedAt', 'stage', 'barcode', 'completed'];
+    orderColumns = ['index', 'route', 'customer', 'name', 'quantity', 'orderedAt', 'lastProcessedOn', 'stage', 'barcode', 'completed'];
     criteria: SearchCriteria;
     @ViewChild("paginator", {} as any)
     paginator: MatPaginator;
