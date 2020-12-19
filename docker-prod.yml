@@ -31,3 +31,4 @@ services:
       - "8888:8888"
     volumes:
       - "/home/patryk/dev/logs:/home/logs"
+      - "/path/to/aws/credentials:/root/.aws/credentials:ro"

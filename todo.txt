@@ -1,6 +1,6 @@
-- scheduler do oznaczania jako zakonczone - pytanie kiedy? - jak przez np tydzien nie bylo procesowania?
 - mozliwosc zaznaczania i drukowania wielu zamowien
 - data zlecenia mniejsza
+- deadline - pokazuje date 1970
 
 BUGS:
 - jak modal duzy to nie scrolluje

@@ -5,7 +5,6 @@ plugins {
 
 allprojects {
     group = 'com.frontwit.barcode'
-    version = '1.0.3'
 
     apply plugin: 'idea'
     apply plugin: 'java'
