@@ -15,17 +15,18 @@ import {StageService} from "./stage.service";
     templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
-    orderColumns = ['index', 'route', 'customer', 'name', 'quantity', 'orderedAt', 'lastProcessedOn', 'stage', 'barcode', 'completed'];
+    orderColumns = ['index', 'route', 'customer', 'name', 'quantity', 'orderedAt', 'lastProcessedOn', 'stage', 'selected', 'action'];
     criteria: SearchCriteria;
     @ViewChild("paginator", {} as any)
     paginator: MatPaginator;
     page: number;
     sizeOptions = PolishPaginator.PAGE_SIZE_OPTIONS;
-    size;
+    size: number;
     totalElements: number;
     orders: SimpleOrder[];
-    allCompleted: boolean;
-    getIndex = (i) => getIndex(i, this.page, this.size);
+    allSelected: boolean;
+    getIndex = (i: number) => getIndex(i, this.page, this.size);
+    selectedIds = [];
 
     constructor(private orderRestService: OrderRestService,
                 private snackBarService: SnackBarService,
@@ -63,7 +64,9 @@ export class OrdersComponent implements OnInit {
                 this.totalElements = result.totalElements;
                 this.orders = result.content;
                 consumer && consumer();
-                this.allCompleted = false;
+                this.selectedIds = [];
+                this.allSelected = false;
+                this.orders.forEach(o => this.selectedIds[o.id]= false);
             }
         });
     }
@@ -89,8 +92,16 @@ export class OrdersComponent implements OnInit {
         });
     }
 
-    handlePrintBarcodes(orderId: number): void {
-        this.orderRestService.getBarcodes(orderId);
+    handleGetBarcodes(): void {
+        this.orderRestService.getBarcodes(this.getSelectedIds());
+    }
+
+    handleChangeToInProgress(): void {
+        this.orderRestService.changeToInProgress(this.getSelectedIds()).subscribe((result) => this.showSnackBarResponse(result))
+    }
+
+    handleChangeToCompleted(): void {
+        this.orderRestService.changeToCompleted(this.getSelectedIds()).subscribe((result) => this.showSnackBarResponse(result))
     }
 
     paginationChanged($event: PageEvent): void {
@@ -99,29 +110,30 @@ export class OrdersComponent implements OnInit {
         this.getOrders();
     }
 
-    allCompletedChecked(): void {
-        const completedIds = this.orders.map(o => o.id);
-        this.orderRestService.changeStatus(completedIds, this.allCompleted)
-            .subscribe(result => {
-                if (result) {
-                    this.snackBarService.success("Zakończono zamówienia");
-                    this.orders.forEach(o => o.completed = this.allCompleted);
-                } else {
-                    this.allCompleted = !this.allCompleted;
-                    this.snackBarService.failure("Operacja nie powiodła się");
-                }
-            });
+    selectAll(allChecked:boolean): void {
+        this.selectedIds.forEach((id,index)=>this.selectedIds[index] = allChecked);
     }
 
-    completedChecked(order: SimpleOrder): void {
-        this.orderRestService.changeStatus([order.id], order.completed)
-            .subscribe(result => {
-                if (result) {
-                    this.snackBarService.success("Zakończono zamówienie");
-                } else {
-                    order.completed = !order.completed;
-                    this.snackBarService.failure("Operacja nie powiodła się");
-                }
-            });
+    select(order: SimpleOrder, selected: boolean): void {
+        this.selectedIds[order.id] = selected;
+        this.allSelected = this.selectedIds.filter(id=>id == false).length == 0;
+    }
+
+    noOrdersChecked(): boolean {
+        return this.selectedIds.filter(val => val).length == 0;
+    }
+
+    private showSnackBarResponse(result:boolean): void {
+        if (result) {
+            this.snackBarService.success(`Zmieniono status dla ${this.getSelectedIds().length} zamówień `);
+        } else {
+            this.snackBarService.failure("Operacja nie powiodła się");
+        }
+    }
+
+    private getSelectedIds(): number[] {
+        return Array.from(this.selectedIds.entries())
+        .filter(entry=>entry[1])
+        .map(entry=> entry[0]);
     }
 }

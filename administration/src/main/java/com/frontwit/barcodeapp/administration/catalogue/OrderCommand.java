@@ -26,8 +26,7 @@ class OrderCommand {
         Query query = new Query(Criteria.where("id").in(ids));
         Update update = new Update().set("completed", completed);
         UpdateResult result = mongoTemplate.updateMulti(query, update, OrderEntity.class);
-        LOGGER.info(format("Status changed {count=%s, status=%s}",
-                result.getModifiedCount(), parseCompleted(completed)));
+        LOGGER.info(format("Status changed {count=%s, status=%s}", result.getModifiedCount(), parseCompleted(completed)));
     }
 
     void updateStatuses(Long id) {

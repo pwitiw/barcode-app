@@ -19,16 +19,17 @@
     overflow-x: hidden;
     margin-right: $margin-sm;
     margin-top: $margin-sm;
-
+   
     .packed-icon {
       position: absolute;
       left: 10px;
       color: green;
     }
 
-    .mat-column-completed, .mat-column-barcode {
+    .mat-column-selected, .mat-column-action {
       text-align: right;
       justify-content: flex-end;
+      width: 1%;
     }
 
     .mat-row {

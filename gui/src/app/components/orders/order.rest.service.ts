@@ -42,9 +42,18 @@ export class OrderRestService {
             .pipe(map(response => response == null));
     }
 
-    public getBarcodes(orderId: number): void {
-        this.restService.get(OrderRestService.ORDERS_ENDPOINT + `/${orderId}/barcodes`,
-        {responseType: 'arraybuffer'})
+    changeToInProgress(ids: number[]):Observable<boolean> {
+        return this.restService.put(OrderRestService.ORDERS_ENDPOINT + '/status', {ids: ids, completed: false})
+        .pipe(map(response => response == null));
+    }
+
+    changeToCompleted(ids: number[]):Observable<boolean> {
+        return this.restService.put(OrderRestService.ORDERS_ENDPOINT + '/status', {ids: ids, completed: true})
+        .pipe(map(response => response == null));
+    }
+
+    getBarcodes(ids: number[]): void {
+        this.restService.post(OrderRestService.ORDERS_ENDPOINT + '/barcodes', {ids: ids},{responseType: 'arraybuffer'})
         .subscribe((response: any) => {
             if (response.body) {
                 const file = new Blob([response.body], {type: 'application/pdf'});

@@ -5,6 +5,7 @@ import {SearchCriteriaComponent} from './search-criteria/search-criteria.compone
 import {CommonModule} from "@angular/common";
 import {CommonsModule} from "../commons/commons.module";
 import {NgxPaginationModule} from "ngx-pagination";
+import {MatMenuModule} from '@angular/material/menu';
 import {
     MatButtonModule,
     MatCheckboxModule,
@@ -45,6 +46,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
         MatIconModule,
         FormsModule,
         MatDatepickerModule,
+        MatMenuModule,
         MatMomentDateModule,
         MatListModule,
         MatDialogModule,

@@ -1,4 +1,3 @@
-- mozliwosc zaznaczania i drukowania wielu zamowien
 - data zlecenia mniejsza
 - deadline - pokazuje date 1970
 
@@ -7,9 +6,6 @@ BUGS:
 
 Pytania:
 - obgadac etapy produkcji
-
-!!!BARDZO WAŻNE:
--- logowanie kontekstu uzytkownika
 
 Features:
 -  jest zamowienie i jest juz spakowane i jest niekompletne i wiemy ze brakuje jednej witryny bo jest na docieciu

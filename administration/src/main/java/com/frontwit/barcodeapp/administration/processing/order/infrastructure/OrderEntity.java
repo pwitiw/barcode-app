@@ -2,6 +2,7 @@ package com.frontwit.barcodeapp.administration.processing.order.infrastructure;
 
 import com.frontwit.barcodeapp.administration.catalogue.dto.*;
 import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
+import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity;
 import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderType;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy;
@@ -93,12 +94,15 @@ public class OrderEntity {
         return new Order(new OrderId(id), notPackedFronts, stage, lastProcessedOn, completed, policy);
     }
 
-    public OrderDetailDto detailsDto(List<FrontDto> fronts, CustomerEntity customer) {
+    public OrderDetailDto detailsDto(List<FrontEntity> fronts, CustomerEntity customer) {
         var deadline = this.deadline != null ? this.deadline.toEpochMilli() : null;
         var customerName = customer.getName();
         var route = customer.getRoute();
+        var frontDtos = fronts.stream()
+                .map(FrontEntity::dto)
+                .collect(Collectors.toList());
         return new OrderDetailDto(id, name, color, size, cutter, comment, customerName, route, stage,
-                LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), fronts, completed, packed, deadline, valuation, type);
+                LocalDate.ofInstant(orderedAt, CLIENT_ZONE_ID), frontDtos, completed, packed, deadline, valuation, type);
     }
 
     public OrderDto dto(CustomerEntity customer) {

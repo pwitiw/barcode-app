@@ -10,6 +10,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Collection;
 
 @Service
 public class BarcodePdfGenerator {
@@ -18,7 +19,7 @@ public class BarcodePdfGenerator {
 
     private final BarcodeCellCreator cellCreator = new BarcodeCellCreator(MARGIN_BASE);
 
-    public BarcodePdf createBarcodesFor(OrderDetailDto orderDetails) {
+    public BarcodePdf createBarcodesFor(Collection<OrderDetailDto> orders) {
         Document document = new Document(PageSize.A4, MARGIN_BASE, MARGIN_BASE, MARGIN_BASE, MARGIN_BASE);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
@@ -26,13 +27,14 @@ public class BarcodePdfGenerator {
             document.open();
             var table = new PdfPTable(COLUMN_AMOUNT);
             table.setWidthPercentage(100f);
-            for (var front : orderDetails.getFronts()) {
-                for (var i = 0; i < front.getQuantity(); i++) {
-
-                    table.addCell(cellCreator.cell(i + 1, orderDetails, front, totalElements(orderDetails)));
+            for (var orderDetails : orders) {
+                for (var front : orderDetails.getFronts()) {
+                    for (var i = 0; i < front.getQuantity(); i++) {
+                        table.addCell(cellCreator.cell(i + 1, orderDetails, front, elementsInOrder(orderDetails)));
+                    }
                 }
             }
-            fillTableWithEmptyCells(orderDetails, table);
+            fillTableWithEmptyCells(orders, table);
             document.add(table);
             document.close();
         } catch (DocumentException e) {
@@ -41,15 +43,22 @@ public class BarcodePdfGenerator {
         return new BarcodePdf(out);
     }
 
-    private void fillTableWithEmptyCells(OrderDetailDto orderDetails, PdfPTable table) {
-        for (var i = totalElements(orderDetails) % COLUMN_AMOUNT; i % COLUMN_AMOUNT > 0; i++) {
+    private void fillTableWithEmptyCells(Collection<OrderDetailDto> orders, PdfPTable table) {
+        for (var i = totalElements(orders) % COLUMN_AMOUNT; i % COLUMN_AMOUNT > 0; i++) {
             table.addCell(cellCreator.emptyCell());
         }
     }
 
-    private Integer totalElements(OrderDetailDto orderDetails) {
-        return orderDetails.getFronts().stream()
+    private Integer elementsInOrder(OrderDetailDto orders) {
+        return orders.getFronts().stream()
                 .map(FrontDto::getQuantity)
+                .reduce(Integer::sum)
+                .orElse(0);
+    }
+
+    private Integer totalElements(Collection<OrderDetailDto> orders) {
+        return orders.stream()
+                .map(this::elementsInOrder)
                 .reduce(Integer::sum)
                 .orElse(0);
     }

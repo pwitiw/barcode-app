@@ -7,7 +7,7 @@ apply plugin: 'com.moowork.node'
 node {
   version = '13.5.0'
   npmVersion = '6.4.1'
-  download = true
+  download = false
   workDir = file("${project.buildDir}/node")
   nodeModulesDir = file("${project.projectDir}")
 }

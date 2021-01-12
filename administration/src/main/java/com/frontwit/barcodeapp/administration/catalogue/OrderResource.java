@@ -63,10 +63,10 @@ public class OrderResource {
         return routeQuery.findCustomersWithOrdersForRoute(routes);
     }
 
-    @GetMapping("/orders/{orderId}/barcodes")
-    void barcodesForOrder(@PathVariable Long orderId, HttpServletResponse response) throws IOException {
-        var orderDetails = orderQuery.getOrderDetails(orderId);
-        BarcodePdf pdf = barcodeFacade.createBarcodesFor(orderDetails);
+    @PostMapping("/orders/barcodes")
+    void barcodesForOrder(@RequestBody BarcodesDto dto, HttpServletResponse response) throws IOException {
+        var orders = orderQuery.getOrderDetails(dto.getIds());
+        BarcodePdf pdf = barcodeFacade.createBarcodesFor(orders);
         ByteArrayOutputStream bytes = pdf.asStream();
         response.setContentLength(bytes.size());
         response.setContentType("application/pdf");

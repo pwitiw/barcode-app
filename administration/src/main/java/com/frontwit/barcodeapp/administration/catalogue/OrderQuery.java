@@ -17,13 +17,12 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.frontwit.barcodeapp.administration.catalogue.CriteriaBuilder.COMPLETED_FIELD;
 import static com.frontwit.barcodeapp.administration.catalogue.CriteriaBuilder.DEADLINE_FIELD;
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
@@ -37,10 +36,18 @@ public class OrderQuery {
     private final CustomerRepository customerRepository;
 
     public OrderDetailDto getOrderDetails(long id) {
-        var frontDtos = findFrontsForOrderId(id);
+        var frontDtos = findFrontsForOrderIds(Collections.singletonList(id));
         return Optional.ofNullable(mongoTemplate.findById(id, OrderEntity.class))
                 .map(entity -> entity.detailsDto(frontDtos, findCustomerBy(entity.getCustomerId())))
                 .orElseThrow(() -> new IllegalArgumentException(format("No order for id %s", id)));
+    }
+
+    public List<OrderDetailDto> getOrderDetails(Collection<Long> orderIds) {
+        var fronts = findFrontsForOrderIds(orderIds).stream()
+                .collect(Collectors.groupingBy(FrontEntity::getOrderId));
+        return mongoTemplate.find(new Query(Criteria.where("id").in(orderIds)), OrderEntity.class).stream()
+                .map(entity -> entity.detailsDto(fronts.get(entity.getId()), findCustomerBy(entity.getCustomerId())))
+                .collect(Collectors.toList());
     }
 
     Page<OrderDto> getOrders(Pageable pageable, OrderSearchCriteria searchCriteria) {
@@ -62,13 +69,9 @@ public class OrderQuery {
         });
     }
 
-
-    private List<FrontDto> findFrontsForOrderId(long orderId) {
-        var query = new Query(new Criteria("orderId").is(orderId));
-        var frontEntities = mongoTemplate.find(query, FrontEntity.class);
-        return frontEntities.stream()
-                .map(FrontEntity::dto)
-                .collect(toList());
+    private List<FrontEntity> findFrontsForOrderIds(Collection<Long> orderIds) {
+        var query = new Query(Criteria.where("orderId").in(orderIds));
+        return mongoTemplate.find(query, FrontEntity.class);
     }
 
     Page<ReminderDto> findDeadlines(Pageable pageable) {
