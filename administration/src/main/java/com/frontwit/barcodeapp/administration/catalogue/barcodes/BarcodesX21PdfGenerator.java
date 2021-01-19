@@ -13,11 +13,14 @@ import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 
 @Service
-public class BarcodePdfGenerator {
-    private static final float MARGIN_BASE = 28.3f;
-    private static final int COLUMN_AMOUNT = 5;
+public class BarcodesX21PdfGenerator {
+    private static final float MARGIN_BASE = 0f;
+    private static final float CELL_PADDING = 20f;
+    private static final int ROW_AMOUNT = 7;
+    private static final int COLUMN_AMOUNT = 3;
+    private static final int FONT_SIZE = 12;
 
-    private final BarcodeCellCreator cellCreator = new BarcodeCellCreator(MARGIN_BASE);
+    private final BarcodeCellCreator cellCreator = new BarcodeCellCreator(MARGIN_BASE, ROW_AMOUNT, CELL_PADDING, FONT_SIZE);
 
     public BarcodePdf createBarcodesFor(Collection<OrderDetailDto> orders) {
         Document document = new Document(PageSize.A4, MARGIN_BASE, MARGIN_BASE, MARGIN_BASE, MARGIN_BASE);
@@ -63,3 +66,4 @@ public class BarcodePdfGenerator {
                 .orElse(0);
     }
 }
+

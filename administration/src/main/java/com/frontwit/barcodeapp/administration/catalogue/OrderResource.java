@@ -1,7 +1,7 @@
 package com.frontwit.barcodeapp.administration.catalogue;
 
 import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodePdf;
-import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodePdfGenerator;
+import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodesX21PdfGenerator;
 import com.frontwit.barcodeapp.administration.catalogue.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,7 +28,7 @@ public class OrderResource {
     private final OrderQuery orderQuery;
     private final RouteQuery routeQuery;
     private final OrderCommand orderCommand;
-    private final BarcodePdfGenerator barcodeFacade;
+    private final BarcodesX21PdfGenerator barcodeFacade;
 
     @GetMapping("/orders/{id}")
     OrderDetailDto getOrder(@PathVariable Long id) {

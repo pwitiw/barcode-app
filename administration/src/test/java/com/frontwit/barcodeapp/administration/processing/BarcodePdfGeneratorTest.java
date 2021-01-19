@@ -1,11 +1,10 @@
 package com.frontwit.barcodeapp.administration.processing;
 
 import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodePdf;
-import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodePdfGenerator;
+import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodesX21PdfGenerator;
+import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodesX64PdfGenerator;
 import com.frontwit.barcodeapp.administration.catalogue.dto.FrontDto;
 import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,7 +14,7 @@ import java.util.Arrays;
 public class BarcodePdfGeneratorTest {
 
     public static void main(String args[]) throws IOException {
-        var pdfGenerator = new BarcodePdfGenerator();
+        var pdfGenerator = new BarcodesX21PdfGenerator();
         var file = new File("test.pdf");
         var outputStream = new FileOutputStream(file);
 

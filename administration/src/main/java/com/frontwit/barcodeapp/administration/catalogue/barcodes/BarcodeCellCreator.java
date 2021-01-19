@@ -17,22 +17,25 @@ import static java.lang.String.format;
 class BarcodeCellCreator {
 
     private final float baseMargin;
+    private final int rows;
+    private final float cellPadding;
+    private final int fontSize;
 
     PdfPCell cell(int nr, OrderDetailDto order, FrontDto front, int totalElements) {
         var cell = emptyCell();
-        cell.setPadding(5f);
+        cell.setPadding(cellPadding);
         cell.addElement(centeredParagraph(order.getRoute()));
         cell.addElement(centeredParagraph(order.getCustomer()));
         cell.addElement(nameWithQuantity(order.getName(), totalElements));
         cell.addElement(dimensionsWithQuantity(nr, front));
-        cell.addElement(centeredParagraph(String.valueOf(front.getBarcode()), 7));
+        cell.addElement(centeredParagraph(String.valueOf(front.getBarcode()), fontSize - 1));
         return cell;
     }
 
     PdfPCell emptyCell() {
         var cell = new PdfPCell();
-        cell.setPadding(5f);
-        cell.setFixedHeight((float) Math.floor((PageSize.A4.getHeight() - 2 * baseMargin) / 13));
+        cell.setPadding(cellPadding);
+        cell.setFixedHeight((float) Math.floor((PageSize.A4.getHeight() - 2 * baseMargin) / rows));
         cell.setBorder(Rectangle.NO_BORDER);
         return cell;
     }
@@ -47,7 +50,7 @@ class BarcodeCellCreator {
     }
 
     private Paragraph centeredParagraph(String content) {
-        return centeredParagraph(content, 8);
+        return centeredParagraph(content, fontSize);
     }
 
     private Paragraph centeredParagraph(String content, int size) {
