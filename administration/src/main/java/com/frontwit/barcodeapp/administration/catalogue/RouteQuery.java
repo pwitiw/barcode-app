@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.frontwit.barcodeapp.administration.catalogue.CriteriaBuilder.COMPLETED_FIELD;
+import static com.frontwit.barcodeapp.administration.catalogue.OrderCriteriaBuilder.COMPLETED_FIELD;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;

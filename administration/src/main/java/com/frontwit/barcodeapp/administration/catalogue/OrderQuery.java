@@ -20,8 +20,8 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.frontwit.barcodeapp.administration.catalogue.CriteriaBuilder.COMPLETED_FIELD;
-import static com.frontwit.barcodeapp.administration.catalogue.CriteriaBuilder.DEADLINE_FIELD;
+import static com.frontwit.barcodeapp.administration.catalogue.OrderCriteriaBuilder.COMPLETED_FIELD;
+import static com.frontwit.barcodeapp.administration.catalogue.OrderCriteriaBuilder.DEADLINE_FIELD;
 import static java.lang.String.format;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
@@ -32,7 +32,8 @@ public class OrderQuery {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderQuery.class);
 
     private final MongoTemplate mongoTemplate;
-    private final CriteriaBuilder criteriaBuilder;
+    private final OrderCriteriaBuilder orderCriteriaBuilder;
+    private final CustomerCriteriaBuilder customerCriteriaBuilder;
     private final CustomerRepository customerRepository;
 
     public OrderDetailDto getOrderDetails(long id) {
@@ -51,11 +52,13 @@ public class OrderQuery {
     }
 
     Page<OrderDto> getOrders(Pageable pageable, OrderSearchCriteria searchCriteria) {
-        var criteria = criteriaBuilder.build(searchCriteria);
+        var orderCriteria = orderCriteriaBuilder.build(searchCriteria);
+        var customerCriteria = customerCriteriaBuilder.build(searchCriteria);
+        var criteria = orderCriteria.andOperator(customerCriteria);
         var query = new Query(criteria).with(pageable).with(Sort.by(DESC, "lastProcessedOn"));
         var orders = mongoTemplate.find(query, OrderEntity.class);
         return PageableExecutionUtils
-                .getPage(orders, pageable, () -> mongoTemplate.count(new Query(criteria), OrderEntity.class))
+                .getPage(orders, pageable, () -> mongoTemplate.count(new Query(orderCriteria), OrderEntity.class))
                 .map(o -> o.dto(findCustomerBy(o.getCustomerId())));
     }
 
