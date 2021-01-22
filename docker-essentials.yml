@@ -13,7 +13,7 @@ services:
       - "./administration/src/test/resources:/docker-entrypoint-initdb.d"
 
   mysql:
-    image: mysql
+    image: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: frontwit
