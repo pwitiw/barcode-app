@@ -73,7 +73,7 @@ public class Front {
         if (!details.getStage().equals(this.currentStage)) {
             eventsToProcess.add(stageChanged(details));
         } else {
-            LOGGER.info(format("PROCESSING {barcode=%s, stage=%s}", barcode, details.getStage()));
+            LOGGER.info(format("PROCESSING {barcode=%s, stage=%s, timestamp=%s}", barcode, details.getStage(), details.getDateTime()));
         }
         if (isPacked()) {
             eventsToProcess.add(new FrontPacked(barcode));
