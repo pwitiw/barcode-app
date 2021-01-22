@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `tzamowienia`
     `id`          int(10) unsigned NOT NULL,
     `tklienci_id` int(10) unsigned NOT NULL,
     `data_z`      date             NOT NULL,
-    `data_r`      date             NOT NULL,
+    `data_r`      date             NULL,
     `numer`       varchar(20)      NOT NULL,
     `opis`        varchar(255) DEFAULT NULL,
     `cechy`       varchar(255) DEFAULT NULL,
