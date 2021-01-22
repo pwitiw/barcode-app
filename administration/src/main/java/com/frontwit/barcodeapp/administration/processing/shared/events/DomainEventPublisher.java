@@ -16,8 +16,8 @@ public class DomainEventPublisher implements DomainEvents {
     public void publish(DomainEvent... events) {
         Stream.of(events)
                 .forEach(event -> {
-                    applicationEventPublisher.publishEvent(event);
                     LOGGER.info(event.toString());
+                    applicationEventPublisher.publishEvent(event);
                 });
     }
 }
