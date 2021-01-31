@@ -13,8 +13,6 @@ import org.springframework.context.event.EventListener;
 
 import java.time.Instant;
 
-import static java.lang.String.format;
-
 @AllArgsConstructor
 public class OrderSynchronizer {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderSynchronizer.class);
@@ -45,6 +43,7 @@ public class OrderSynchronizer {
     public long synchronize() {
         Instant now = Instant.now();
         var lastSyncDate = synchronizationRepository.getLastSynchronizationDate();
+        LOGGER.info("Synchronization for period: {} - {}", lastSyncDate, now);
         var dictionary = sourceRepository.getDictionary();
         long count = sourceRepository.findByDateBetween(lastSyncDate, now)
                 .stream()
@@ -52,7 +51,7 @@ public class OrderSynchronizer {
                 .peek(sourceOrder -> saveOrderWithFronts(sourceOrder, dictionary))
                 .count();
         synchronizationRepository.updateSyncDate(now);
-        LOGGER.debug(format("Synchronized {date= %s, orders=%s}", lastSyncDate, count));
+        LOGGER.info("Synchronization finished. Synchronized {} orders.", count);
         return count;
     }
 
@@ -79,9 +78,11 @@ public class OrderSynchronizer {
         orderRepository.save(targetOrder);
         frontRepository.save(targetOrder.getFronts());
         domainEvents.publish(orderPlaced(targetOrder));
-        LOGGER.info("OrderSynchronized {id={}, customer={}, frontsNr={}}",
+        LOGGER.info("OrderSynchronized {id={}, name={}, customer={},orderedAt={}, frontsNr={}}",
                 targetOrder.getOrderId().getId(),
+                targetOrder.getInfo().getName(),
                 targetOrder.getCustomerId(),
+                targetOrder.getInfo().getOrderedAt(),
                 targetOrder.getFronts().size()
         );
         return targetOrder;
