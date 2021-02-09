@@ -5,6 +5,7 @@
 @import 'src/app/components/commons/label-with-input/label-with-input.component.scss';
 @import 'src/app/components/commons/button/button.component.scss';
 @import 'src/app/components/commons/icon-with-text/icon-with-text.component.scss';
+@import 'src/app/components/commons/prompt-dialog/prompt.dialogg.scss';
 @import 'src/app/components/home/statistics/statistics.component.scss';
 @import 'src/app/components/home/home.component.scss';
 @import 'src/app/components/login/login.component.scss';
@@ -14,7 +15,7 @@
 @import 'src/app/components/orders/search-criteria/search-criteria.component.scss';
 @import 'src/app/components/routes/routes.component.scss';
 @import 'src/app/components/routes/compute-route/map-dialog/map.dialog.scss';
-
+@import 'src/app/components/routes/route-details/route-details.dialog.scss';
 
 html, body {
   margin: 0;

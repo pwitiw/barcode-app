@@ -1,0 +1,114 @@
+.routes-details {
+ padding: $padding-lg;
+
+  .search {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .wrapper {
+    position: relative;
+  }
+
+  .mask {
+    position: absolute;
+    background: transparent;
+    width: calc(20%);
+    z-index: 1;
+    height: 48px;
+  }
+
+  .tables {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .candidate-list {
+    width: 48%;
+
+    .mat-expanded {
+      background: $color-background;
+    }
+
+    .customer-orders-list {
+      display: flex;
+
+      .mat-checkbox-layout {
+        margin-bottom: 0;
+      }
+    }
+
+    .label {
+      display: flex;
+      align-items: center;
+      cursor: default;
+
+      &.customer {
+        flex-basis: 90%;
+      }
+
+      &.order {
+        flex-basis: 40%;
+        margin-left: $margin-sm;
+      }
+
+      &.quantity {
+        flex-basis: 20%;
+      }
+
+      &.price {
+        flex-basis: 20%;
+      }
+    }
+  }
+
+  .route-list {
+    width: 50%;
+    display: block;
+    background: white;
+    overflow: hidden;
+
+    .space-between {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .deliver-info-box {
+      min-height: 60px;
+      padding: 20px 10px;
+      border: solid 1px #ccc;
+      border-radius: 4px;
+
+      color: rgba(0, 0, 0, 0.87);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      cursor: grab;
+      background: white;
+
+      .label {
+        &.no {
+          flex-basis: 3%;
+        }
+
+        &.customer {
+          flex-basis: 42%;
+        }
+
+        &.orders {
+          flex-basis: 35%;
+        }
+
+        &.payment {
+          flex-basis: 3%;
+        }
+
+        &.price {
+          flex-basis: 12%;
+        }
+      }
+    }
+  }
+}

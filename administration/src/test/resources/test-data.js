@@ -96,7 +96,7 @@ db.front.insertMany([
         "height": 100,
         "width": 200,
         "quantity": 2,
-        "stage": "BASE",
+        "stage": "PACKING",
         "comment": "casadas",
         "processings": [
             {
@@ -118,7 +118,7 @@ db.front.insertMany([
         "height": 100,
         "width": 200,
         "quantity": 1,
-        "stage": "BASE",
+        "stage": "PACKING",
         "comment": "casadas",
         "processings": [
             {
@@ -135,7 +135,7 @@ db.front.insertMany([
         "height": 220,
         "width": 204,
         "quantity": 1,
-        "stage": "BASE",
+        "stage": "PACKING",
         "comment": "casadas",
         "processings": [
             {

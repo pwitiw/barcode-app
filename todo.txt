@@ -1,5 +1,7 @@
 - data zlecenia mniejsza
-- deadline - pokazuje date 1970
+- deadline - pokazuje date 1970 - bo pewnie dostajemy od bajta systemu sekundy, a w naszym milisekundy i jest miszmasz
+- SYNC moze nie dzialac, bo date bierzemy instant (czyli  jakas tam godzina, a przychodza same daty,
+czyli godzina jest 00:00)
 
 BUGS:
 - jak modal duzy to nie scrolluje
@@ -31,7 +33,9 @@ kompletne/ niekompletne
 ?? granularność? - dziennie, tygodniowo, miesięcznie
 ?? w jakiej formie wyświetlane
 
-
 TRASY:
-- kierowca
-- data
+dopytać:
+- kierowca?
+- mozna dodawac klientow / zamowienia z roznych tras?
+- ile km mniej wiece to wyjdzie?
+- co jeszcze takiego potrzebnego mogloby byc w trasie a np duzo roboty z recznym

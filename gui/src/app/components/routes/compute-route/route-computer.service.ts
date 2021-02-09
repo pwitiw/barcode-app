@@ -1,12 +1,12 @@
-import {Injectable, OnDestroy, OnInit} from '@angular/core';
-import {MapDialog} from "./map-dialog/map.dialog";
-import {SnackBarService} from "../../../services/snack-bar.service";
-import {MatDialog} from "@angular/material/dialog";
-import {GoogleApi} from "./GoogleApi";
-import {CustomerAddress} from "./CustomerAddress";
-import {LoadingService} from "../../../services/loading.service";
-import {Observable, Subject} from "rxjs";
-import {MatDialogRef} from "@angular/material/dialog/typings/dialog-ref";
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { MapDialog } from "./map-dialog/map.dialog";
+import { SnackBarService } from "../../../services/snack-bar.service";
+import { MatDialog } from "@angular/material/dialog";
+import { GoogleApi } from "./GoogleApi";
+import { CustomerAddress } from "./CustomerAddress";
+import { LoadingService } from "../../../services/loading.service";
+import { Observable, Subject } from "rxjs";
+import { MatDialogRef } from "@angular/material/dialog/typings/dialog-ref";
 
 @Injectable()
 export class RouteComputer implements OnDestroy {
@@ -16,9 +16,9 @@ export class RouteComputer implements OnDestroy {
     private dialogRef: MatDialogRef<MapDialog>;
 
     constructor(private snackBarService: SnackBarService,
-                private dialog: MatDialog,
-                private googleApi: GoogleApi,
-                private loadingService: LoadingService) {
+        private dialog: MatDialog,
+        private googleApi: GoogleApi,
+        private loadingService: LoadingService) {
     }
 
     ngOnDestroy(): void {
@@ -30,6 +30,9 @@ export class RouteComputer implements OnDestroy {
         this.googleApi.getDetails(addresses.concat(new CustomerAddress("Frontwit", RouteComputer.DEPARTURE)))
             .subscribe(customerAddresses => {
                 this.runWorker(customerAddresses);
+            }, e => {
+                this.loadingService.hide();
+                console.info(e);
             });
         return this.notify.asObservable();
     }
@@ -37,9 +40,10 @@ export class RouteComputer implements OnDestroy {
     private runWorker(customerAddresses: CustomerAddress[]): void {
         if (typeof Worker == 'undefined') {
             this.snackBarService.failure("Operacja nie powiodła się");
+            this.loadingService.hide();
             return;
         }
-        this.worker = new Worker('./routes.worker', {type: 'module'});
+        this.worker = new Worker('./routes.worker', { type: 'module' });
         this.worker.onmessage = (result: any) => {
             this.loadingService.hide();
             const cities = result.data as CustomerAddress[];

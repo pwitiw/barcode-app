@@ -44,6 +44,15 @@ export class RestService {
             ) as Observable<HttpResponse<T>>;
     }
 
+    public delete<T>(url: string): Observable<HttpResponse<T>> {
+        setTimeout(() => this.loadingService.show(), 500);
+        return this.http.delete(url)
+            .pipe(
+                tap(() => this.loadingService.hide()),
+                catchError(error => this.handleError(error))
+            ) as Observable<HttpResponse<T>>;
+    }
+
     private handleError<T>(error: any): Observable<T> {
         this.loadingService.hide();
         this.snackBarService.failure("Wystąpił błąd serwera");

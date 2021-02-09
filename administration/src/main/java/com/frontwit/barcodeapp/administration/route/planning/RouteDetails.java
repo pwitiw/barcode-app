@@ -1,8 +1,7 @@
 package com.frontwit.barcodeapp.administration.route.planning;
 
+import com.frontwit.barcodeapp.administration.catalogue.RouteDetailsDto;
 import com.frontwit.barcodeapp.administration.route.planning.dto.DeliveryInfoDto;
-import com.frontwit.barcodeapp.administration.route.planning.dto.DeliveryOrderDto;
-import com.frontwit.barcodeapp.administration.route.planning.dto.RouteInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -28,9 +27,11 @@ final class RouteDetails {
         return new ArrayList<>(reports);
     }
 
-    static RouteDetails of(RouteInfoDto dto) {
-        List<Report> reports = dto.getDeliveryInfos().stream().map(Report::of).collect(Collectors.toList());
-        String route = dto.getRoute();
+    static RouteDetails of(RouteDetailsDto dto) {
+        List<Report> reports = dto.getDeliveryInfos().stream()
+                .map(Report::of)
+                .collect(Collectors.toList());
+        String route = dto.getName();
         return new RouteDetails(reports, route);
     }
 
@@ -68,7 +69,6 @@ final class RouteDetails {
             String phoneNumber = dto.getPhoneNumber();
             SettlementType paymentType = SettlementType.of(dto.getPaymentType());
             List<Order> orders = dto.getOrders().stream()
-                    .filter(DeliveryOrderDto::isSelected)
                     .map(Order::of)
                     .collect(Collectors.toList());
             return new Report(customer, address, phoneNumber, orders, paymentType);

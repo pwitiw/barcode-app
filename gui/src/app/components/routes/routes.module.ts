@@ -2,6 +2,7 @@ import {NgModule} from "@angular/core";
 import {
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
@@ -20,11 +21,15 @@ import {AgmCoreModule} from "@agm/core";
 import {GoogleApi} from "./compute-route/GoogleApi";
 import {RouteComputer} from './compute-route/route-computer.service';
 import {MatDialogModule} from "@angular/material/dialog";
+import { RouteDetailsDialog } from "./route-details/route-details.dialog";
+import { RouteRestService } from "./route.rest.service";
+import { PromptDialog } from "../commons/prompt-dialog/prompt.dialog";
 
 @NgModule({
     declarations: [
         RoutesComponent,
         MapDialog,
+        RouteDetailsDialog,
     ],
     imports: [
         MatTableModule,
@@ -33,24 +38,27 @@ import {MatDialogModule} from "@angular/material/dialog";
         MatButtonModule,
         MatFormFieldModule,
         MatInputModule,
+        MatDatepickerModule,
         CommonModule,
         DragDropModule,
         MatExpansionModule,
         FormsModule,
         AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyApN1V5vUx2gnsPYgEbTby6D9YUgtDUe5c',
+            apiKey: '',
             region: 'pl',
             libraries: ['places', 'drawing', 'geometry', 'geocoder']
         }),
-        MatDialogModule
+        MatDialogModule,
+        MatTableModule,
     ],
-    entryComponents: [MapDialog],
+    entryComponents: [MapDialog, RouteDetailsDialog, PromptDialog],
     providers: [
         StageService,
         RestService,
         GoogleApi,
         RouteComputer,
-        {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}
+        RouteRestService,
+        {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
     ]
 })
 export class RoutesModule {

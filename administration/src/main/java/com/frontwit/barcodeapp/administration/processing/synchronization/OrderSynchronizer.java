@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 @AllArgsConstructor
 public class OrderSynchronizer {
@@ -82,7 +84,7 @@ public class OrderSynchronizer {
                 targetOrder.getOrderId().getId(),
                 targetOrder.getInfo().getName(),
                 targetOrder.getCustomerId(),
-                targetOrder.getInfo().getOrderedAt(),
+                LocalDate.ofInstant(targetOrder.getInfo().getOrderedAt(), ZoneId.systemDefault()),
                 targetOrder.getFronts().size()
         );
         return targetOrder;

@@ -8,12 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeliveryOrderDto {
+    private Long id;
     private String name;
     private int quantity;
     private double valuation;
-    private boolean isSelected;
-
-    public void setIsSelected(boolean selected) {
-        isSelected = selected;
-    }
 }

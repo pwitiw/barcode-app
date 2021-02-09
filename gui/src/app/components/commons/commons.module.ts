@@ -6,6 +6,8 @@ import {IconWithTextComponent} from "./icon-with-text/icon-with-text.component";
 import {ButtonComponent} from "./button/button.component";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {FormsModule} from '@angular/forms';
+import { PromptDialog } from './prompt-dialog/prompt.dialog';
+import { MatButtonModule, MatIconModule } from '@angular/material';
 
 
 @NgModule({
@@ -14,17 +16,21 @@ import {FormsModule} from '@angular/forms';
     LabelWithTextComponent,
     IconWithTextComponent,
     ButtonComponent,
+    PromptDialog
   ],
   imports: [
     CommonModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
   ],
   exports:[
     LabelWithInputComponent,
     LabelWithTextComponent,
     IconWithTextComponent,
     ButtonComponent,
+    PromptDialog
   ]
 })
 export class CommonsModule { }

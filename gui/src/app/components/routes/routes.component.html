@@ -1,67 +1,40 @@
 <div class="routes-component" *ngIf="true">
-    <h4 class="title">Planowanie trasy</h4>
-    <div class="tables">
-        <div class="candidate-list">
-            <span>
-                <mat-form-field>
-                    <input matInput placeholder="Trasa" [(ngModel)]="routes" name="route">
-                </mat-form-field>
-                <button mat-button color="primary" (click)="search()">
-                    <mat-icon>search</mat-icon>
-                    Szukaj
+    <h4 class="title">Aktywne trasy</h4>
+    <button mat-button color="primary" (click)="handleNewRoute()">
+        <mat-icon>add</mat-icon>
+        Nowa trasa
+    </button>
+    <table mat-table [dataSource]="routes" class="mat-elevation-z8" *ngIf="routes?.length > 0">
+        <ng-container matColumnDef="index" class="column">
+            <th mat-header-cell *matHeaderCellDef>L.p.</th>
+            <td mat-cell *matCellDef="let i= index">{{i+1}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="name" class="column">
+            <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+            <td mat-cell *matCellDef="let route">{{route.name}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="date" class="column">
+            <th mat-header-cell *matHeaderCellDef>Data realizacji</th>
+            <td mat-cell *matCellDef="let route">{{route.date | date:'dd/MM/yyyy' }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="action" class="column">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let route">
+                <button mat-button color="primary" (click)="handleEditRoute(route)" title="Edytuj trasę">
+                    <mat-icon >edit</mat-icon>
                 </button>
-            </span>
-            <mat-accordion>
-                <mat-expansion-panel *ngFor="let deliveryInfo of deliveryInfos">
-                    <mat-expansion-panel-header [expandedHeight]="'48px'">
-                        <mat-panel-title (click)="$event.stopPropagation()">
-                            <mat-checkbox color="primary" (change)="changeAllOrders($event.checked,deliveryInfo)" [(ngModel)]="deliveryInfo.allChecked">
-                            </mat-checkbox>
-                        </mat-panel-title>
-                        <mat-panel-title class="label customer">
-                            {{deliveryInfo.info.customer}}
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <table class="customer-orders-list" *ngFor="let order of deliveryInfo.info.orders">
-                        <mat-checkbox color="primary"
-                                      (change)="$event.checked?addToRoute(deliveryInfo,order):removeFromRoute(deliveryInfo,order)"
-                                      [checked]="order.isSelected"></mat-checkbox>
-                        <span title="Zamówienie" class="label order">
-                        <mat-icon>info_outline</mat-icon>
-                            {{order.name}}
-                    </span>
-                        <td class="label quantity"> {{order.quantity}} szt.</td>
-                        <td class="label price"> {{order.valuation}} zł</td>
-                    </table>
-                </mat-expansion-panel>
-            </mat-accordion>
-        </div>
-
-        <div class="route-list" *ngIf="selectedDeliveryInfos.length > 0">
-            <mat-form-field *ngIf="selectedDeliveryInfos.length > 0">
-                <input matInput placeholder="Nazwa trasy" [(ngModel)]="routeNamePdf" name="routeNamePdf">
-            </mat-form-field>
-            <button mat-button color="primary" (click)="setRouteClicked()">
-                <mat-icon>map</mat-icon>
-                Wyznacz trasę
-            </button>
-            <button mat-button color="primary" (click)="generateRouteDocument()">
-                <mat-icon>picture_as_pdf</mat-icon>
-                Generuj PDF
-            </button>
-            <div cdkDropList (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let selectedDeliveryInfo of selectedDeliveryInfos; let i=index" cdkDrag>
-                    <span class="label no">{{i + 1}}</span>
-                    <span class="label customer">
-                        {{selectedDeliveryInfo.info.customer}}
-                    </span>
-                    <span [innerHTML]="selectedDeliveryInfo.info.displayAggregateOrders()" class="label orders"></span>
-                    <span class="label payment">
-                        {{selectedDeliveryInfo.info.paymentType}}
-                    </span>
-                    <span class="label price">{{selectedDeliveryInfo.info.calculatePrice()}} zł</span>
-                </div>
-            </div>
-        </div>
-    </div>
+                <button mat-button color="primary" (click)="handleDeleteRoute(route)" title="Usuń trasę">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <button mat-button color="primary" (click)="handleFulfillRoute(route)" title="Oznacz trasę jako zakończoną">
+                    <mat-icon>check</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="routeColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: routeColumns"></tr>
+    </table>
 </div>

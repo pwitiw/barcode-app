@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
+import static org.springframework.http.ResponseEntity.ok;
 
 
 @RestController
@@ -25,6 +28,7 @@ import static java.util.Collections.emptyList;
 @SuppressWarnings("ClassFanOutComplexity")
 public class OrderResource {
 
+    private static final Map<String, RouteDetailsDto> ROUTES = new HashMap<>();
     private final OrderQuery orderQuery;
     private final RouteQuery routeQuery;
     private final OrderCommand orderCommand;
@@ -55,12 +59,41 @@ public class OrderResource {
         return orderQuery.findDeadlines(PageRequest.of(page, size));
     }
 
-    @GetMapping("/routes")
-    List<CustomerOrdersDto> getOrdersForRoute(@RequestParam String routes) {
-        if (StringUtils.isEmpty(routes)) {
+    @GetMapping("/routes/deliveryinfo")
+    List<CustomerOrdersDto> getOrdersForRoute(@RequestParam String route) {
+        if (StringUtils.isEmpty(route)) {
             return emptyList();
         }
-        return routeQuery.findCustomersWithOrdersForRoute(routes);
+        return routeQuery.findCustomersWithOrdersForRoute(route);
+    }
+
+    @GetMapping("/routes")
+    List<RouteDetailsDto> getRoutes() {
+        return ROUTES.values().stream()
+                .filter(dto -> !dto.isFulfilled())
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("/routes")
+    void saveRoute(@RequestBody RouteDetailsDto routeDetails) {
+        String id = routeDetails.getId() != null ? routeDetails.getId() : UUID.randomUUID().toString();
+        routeDetails.setId(id);
+        ROUTES.put(id, routeDetails);
+    }
+
+    @DeleteMapping("/routes/{id}")
+    ResponseEntity<Boolean> deleteRoute(@PathVariable("id") String id) {
+        RouteDetailsDto result = ROUTES.remove(id);
+        return ok().body(result != null);
+    }
+
+    @PutMapping("/routes/{id}/fulfill")
+    ResponseEntity<Boolean> fulfillRoute(@PathVariable("id") String id) {
+        var dto = ROUTES.get(id);
+        if (dto != null) {
+            dto.setFulfilled(true);
+        }
+        return ok().body(dto != null);
     }
 
     @PostMapping("/orders/barcodes")

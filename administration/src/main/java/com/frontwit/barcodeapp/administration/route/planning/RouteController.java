@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.route.planning;
 
-import com.frontwit.barcodeapp.administration.route.planning.dto.RouteInfoDto;
+import com.frontwit.barcodeapp.administration.catalogue.RouteDetailsDto;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +19,10 @@ public class RouteController {
         this.routeGenerator = routeGenerator;
     }
 
-    @PostMapping(value = "/route", produces = MediaType.APPLICATION_PDF_VALUE)
-    public byte[] generateRouteSummary(@RequestBody RouteInfoDto routeInfoDto) {
-        Objects.requireNonNull(routeInfoDto);
-        var routeReportDetails = RouteDetails.of(routeInfoDto);
+    @PostMapping(value = "/route/summary", produces = MediaType.APPLICATION_PDF_VALUE)
+    public byte[] generateRouteSummary(@RequestBody RouteDetailsDto dto) {
+        Objects.requireNonNull(dto);
+        var routeReportDetails = RouteDetails.of(dto);
         return routeGenerator.generateRouteSummary(routeReportDetails);
     }
 }

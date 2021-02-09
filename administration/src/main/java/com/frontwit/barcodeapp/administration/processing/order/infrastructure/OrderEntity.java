@@ -134,6 +134,6 @@ public class OrderEntity {
         double valuation = Optional.ofNullable(this.valuation)
                 .orElse(BigDecimal.valueOf(0d))
                 .doubleValue();
-        return new OrderInfoDto(name, quantity, valuation);
+        return new OrderInfoDto(id, name, quantity, valuation);
     }
 }
