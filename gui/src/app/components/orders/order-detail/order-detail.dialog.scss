@@ -29,6 +29,8 @@
       margin-top: $margin-lg;
       margin-right: $margin-sm;
       flex: 2 1 auto;
+      overflow-y:auto;
+      max-height: 400px;
 
       .front-row {
         display: flex;
