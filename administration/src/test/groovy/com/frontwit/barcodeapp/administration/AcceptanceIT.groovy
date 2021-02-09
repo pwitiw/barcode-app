@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration
 
-import com.frontwit.barcodeapp.administration.catalogue.OrderQuery
+import com.frontwit.barcodeapp.administration.catalogue.orders.OrderQuery
 import com.frontwit.barcodeapp.administration.processing.front.application.FrontProcessor
 import com.frontwit.barcodeapp.administration.processing.front.application.dto.ProcessFrontCommand
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity

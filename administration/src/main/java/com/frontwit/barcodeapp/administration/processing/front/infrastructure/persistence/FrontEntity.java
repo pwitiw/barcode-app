@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence;
 
-import com.frontwit.barcodeapp.administration.catalogue.dto.FrontDto;
+import com.frontwit.barcodeapp.administration.catalogue.orders.dto.FrontDto;
 import com.frontwit.barcodeapp.administration.processing.front.model.Front;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontProcessingPolicy;
 import com.frontwit.barcodeapp.administration.processing.front.model.ProcessingDetails;

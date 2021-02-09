@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.order.infrastructure;
 
-import com.frontwit.barcodeapp.administration.catalogue.dto.*;
+import com.frontwit.barcodeapp.administration.catalogue.orders.dto.*;
 import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity;
 import com.frontwit.barcodeapp.administration.processing.order.model.Order;

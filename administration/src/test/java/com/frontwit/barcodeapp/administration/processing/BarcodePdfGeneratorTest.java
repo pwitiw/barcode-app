@@ -1,10 +1,9 @@
 package com.frontwit.barcodeapp.administration.processing;
 
-import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodePdf;
-import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodesX21PdfGenerator;
-import com.frontwit.barcodeapp.administration.catalogue.barcodes.BarcodesX64PdfGenerator;
-import com.frontwit.barcodeapp.administration.catalogue.dto.FrontDto;
-import com.frontwit.barcodeapp.administration.catalogue.dto.OrderDetailDto;
+import com.frontwit.barcodeapp.administration.catalogue.orders.barcodes.BarcodePdf;
+import com.frontwit.barcodeapp.administration.catalogue.orders.barcodes.BarcodesX21PdfGenerator;
+import com.frontwit.barcodeapp.administration.catalogue.orders.dto.FrontDto;
+import com.frontwit.barcodeapp.administration.catalogue.orders.dto.OrderDetailDto;
 
 import java.io.File;
 import java.io.FileOutputStream;

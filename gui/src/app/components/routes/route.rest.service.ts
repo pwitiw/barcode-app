@@ -44,7 +44,7 @@ export class RouteRestService {
     }
 
     getRouteDocument(routeDetails: RouteDetails): Observable<any> {
-        return this.restService.post('/api/route/summary',
+        return this.restService.post(RouteRestService.ROUTES_ENDPOINT + 'summary',
             routeDetails,
             { responseType: 'arraybuffer' });
     }
