@@ -1,0 +1,96 @@
+<div class="routes-details" *ngIf="true">
+    <button class="dialog close" mat-icon-button color="primary" [mat-dialog-close]>
+        <mat-icon>close</mat-icon>
+    </button>
+    <h4 class="title">Planowanie trasy</h4>
+    <div class="tables">
+        <div class="candidate-list">
+            <span>
+                <mat-form-field>
+                    <input matInput placeholder="Trasa" [(ngModel)]="route" name="route">
+                </mat-form-field>
+                <button mat-button color="primary" (click)="search()" [disabled]="!route">
+                    <mat-icon>search</mat-icon>
+                    Szukaj
+                </button>
+            </span>
+            <mat-accordion>
+                <mat-expansion-panel *ngFor="let deliveryInfo of notEmptyDeliveryInfos()">
+                    <mat-expansion-panel-header [expandedHeight]="'48px'">
+                        <mat-panel-title (click)="$event.stopPropagation()">
+                            <button mat-button color="primary" title="Dodaj wszystkie zamówienia klienta"
+                                (click)="handleAddAllOrders(deliveryInfo)">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </mat-panel-title>
+                        <mat-panel-title class="label customer">
+                            {{deliveryInfo.customer}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <table class="customer-orders-list" *ngFor="let order of deliveryInfo.orders">
+                        <button mat-button color="primary" title="Dodaj zamówienie"
+                            (click)="handleAddOrder(deliveryInfo, order)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <span title="Zamówienie" class="label order">
+                            <mat-icon>info_outline</mat-icon>
+                            {{order.name}}
+                        </span>
+                        <td class="label quantity"> {{order.quantity}} szt.</td>
+                        <td class="label price"> {{order.valuation}} zł</td>
+                    </table>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+
+        <div class="route-list">
+            <div class="space-between">
+                <mat-form-field >
+                    <input matInput placeholder="Nazwa trasy" [(ngModel)]="routeDetails.name" name="routeNamePdf">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [matDatepicker]="processingPicker" placeholder="Data trasy"
+                        [(ngModel)]="routeDetails.date" name="routeDate">
+                    <mat-datepicker-toggle matSuffix [for]="processingPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #processingPicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="space-between">
+                <button mat-button color="primary" (click)="handleSaveRoute()">
+                    <mat-icon>save</mat-icon>
+                    Zapisz
+                </button>
+                <button mat-button color="primary" (click)="setRouteClicked()"
+                    *ngIf="routeDetails.deliveryInfos.length > 0">
+                    <mat-icon>map</mat-icon>
+                    Wyznacz trasę
+                </button>
+                <button mat-button color="primary" (click)="generateRouteDocument()"
+                    *ngIf="routeDetails.deliveryInfos.length > 0">
+                    <mat-icon>picture_as_pdf</mat-icon>
+                    Generuj PDF
+                </button>
+            </div>
+            <div cdkDropList (cdkDropListDropped)="drop($event)" *ngIf="routeDetails.deliveryInfos.length > 0">
+                <div class="deliver-info-box" *ngFor="let deliveryInfo of routeDetails.deliveryInfos; let i=index" cdkDrag>
+                    <span class="label no">{{i + 1}}</span>
+                    <span class="label customer">
+                        {{deliveryInfo.customer}}
+                    </span>
+                    <span>
+                        <div class="label orders" *ngFor="let order of deliveryInfo.orders">
+                            {{order.name}}
+                            <button mat-button color="primary" (click)="handleRemoveFromRoute(deliveryInfo, order)">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+                    </span>
+                    <span class="label payment">
+                        {{deliveryInfo.paymentType}}
+                    </span>
+                    <span class="label price">{{deliveryInfo.calculatePrice()}} zł</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
