@@ -1,6 +1,7 @@
 package com.frontwit.barcodeapp.administration.catalogue.routes;
 
 import com.frontwit.barcodeapp.administration.catalogue.orders.dto.CustomerOrdersDto;
+import com.frontwit.barcodeapp.administration.catalogue.routes.dto.RouteDetailsDto;
 import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.groupingBy;
@@ -36,6 +38,18 @@ public class RouteQuery {
                 .stream()
                 .filter(e -> e.getKey().isPresent())
                 .map(e -> CustomerOrdersDto.of(e.getKey().get(), e.getValue()))
+                .collect(toList());
+    }
+
+    public List<RouteDetailsDto> getAllRoutes() {
+        return mongoTemplate.findAll(RouteEntity.class).stream()
+                .map(RouteEntity::dto)
+                .collect(toList());
+    }
+
+    public List<RouteDetailsDto> getOpenedRoutes() {
+        return mongoTemplate.find(new Query(Criteria.where("fulfilled").is(false)), RouteEntity.class).stream()
+                .map(RouteEntity::dto)
                 .collect(toList());
     }
 

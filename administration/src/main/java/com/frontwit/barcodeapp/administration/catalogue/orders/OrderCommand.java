@@ -1,10 +1,12 @@
 package com.frontwit.barcodeapp.administration.catalogue.orders;
 
+import com.frontwit.barcodeapp.administration.catalogue.routes.RouteCompleted;
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
 import com.mongodb.client.result.UpdateResult;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,10 +19,11 @@ import static java.lang.String.format;
 
 @Component
 @AllArgsConstructor
+public
 class OrderCommand {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderCommand.class);
 
-    private MongoTemplate mongoTemplate;
+    private final MongoTemplate mongoTemplate;
 
     public void updateStatuses(Set<Long> ids, boolean completed) {
         Query query = new Query(Criteria.where("id").in(ids));

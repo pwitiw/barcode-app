@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static org.springframework.http.ResponseEntity.ok;
@@ -20,9 +19,8 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/routes")
 @AllArgsConstructor
 public class RouteResource {
-    private static final Map<String, RouteDetailsDto> ROUTES = new HashMap<>();
-
     private final RouteQuery routeQuery;
+    private final RouteCommand routeCommand;
     private final RouteSummary routeSummary;
 
     @PostMapping(value = "/summary", produces = MediaType.APPLICATION_PDF_VALUE)
@@ -42,30 +40,23 @@ public class RouteResource {
 
     @GetMapping
     List<RouteDetailsDto> getRoutes() {
-        return ROUTES.values().stream()
-                .filter(dto -> !dto.isFulfilled())
-                .collect(Collectors.toList());
+        return routeQuery.getOpenedRoutes();
     }
 
     @PostMapping
-    void saveRoute(@RequestBody RouteDetailsDto routeDetails) {
-        String id = routeDetails.getId() != null ? routeDetails.getId() : UUID.randomUUID().toString();
-        routeDetails.setId(id);
-        ROUTES.put(id, routeDetails);
+    void saveRoute(@RequestBody RouteDetailsDto dto) {
+        routeCommand.save(dto);
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<Boolean> deleteRoute(@PathVariable("id") String id) {
-        RouteDetailsDto result = ROUTES.remove(id);
-        return ok().body(result != null);
+        routeCommand.delete(id);;
+        return ok().body(true);
     }
 
     @PutMapping("/{id}/fulfill")
     ResponseEntity<Boolean> fulfillRoute(@PathVariable("id") String id) {
-        var dto = ROUTES.get(id);
-        if (dto != null) {
-            dto.setFulfilled(true);
-        }
-        return ok().body(dto != null);
+        routeCommand.fulfill(id);;
+        return ok().body(true);
     }
 }
