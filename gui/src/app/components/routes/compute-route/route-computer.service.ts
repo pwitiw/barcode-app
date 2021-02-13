@@ -56,8 +56,8 @@ export class RouteComputer implements OnDestroy {
 
     openMap(cities: CustomerAddress[]): void {
         this.dialogRef = this.dialog.open(MapDialog, {
-            minWidth: '100%',
-            minHeight: '100%',
+            minWidth: '95%',
+            height: '95%',
             data: cities
         });
         this.dialogRef.afterClosed().subscribe((result) => {
