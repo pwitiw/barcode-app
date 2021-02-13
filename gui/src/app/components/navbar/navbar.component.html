@@ -2,21 +2,21 @@
     <div class="nav-items left">
         <nav>
             <div class="nav-link-brand">
-                <a routerLink="/"><img src="/assets/frontwitlogo.jpg" alt="FRONTWIT"></a>
+                <a routerLink="/" (click)="handleTabChanged()"><img src="/assets/frontwitlogo.jpg" alt="FRONTWIT"></a>
             </div>
         </nav>
         <a routerLink="/">
-            <button color="primary" class="nav-items" mat-button>
+            <button color="primary" class="nav-items" mat-button (click)="handleTabChanged()">
                 <mat-icon>home</mat-icon>
             </button>
         </a>
         <a routerLink="/orders">
-            <button class="nav-items" mat-button>
+            <button class="nav-items" mat-button (click)="handleTabChanged()">
                 Zamówienia
             </button>
         </a>
         <a routerLink="/routes">
-            <button class="nav-items" mat-button>
+            <button class="nav-items" mat-button (click)="handleTabChanged()">
                 Trasy
             </button>
         </a>

@@ -21,6 +21,10 @@ export class NavbarComponent implements DoCheck {
         this.loggedUserService.logout();
     }
 
+    handleTabChanged(): void {
+        window.scroll(0,0);
+    }
+
     isAuthenticated(): boolean {
         return !!this.loggedUser;
     }
