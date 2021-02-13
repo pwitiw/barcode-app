@@ -1,7 +1,6 @@
 package com.frontwit.barcodeapp.administration.catalogue.routes;
 
 import com.frontwit.barcodeapp.administration.catalogue.routes.dto.RouteDetailsDto;
-import com.frontwit.barcodeapp.administration.catalogue.routes.dto.RouteInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

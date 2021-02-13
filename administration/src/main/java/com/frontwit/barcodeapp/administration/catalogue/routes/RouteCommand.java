@@ -41,7 +41,7 @@ public class RouteCommand {
                     .map(DeliveryOrderEntity::getId)
                     .collect(toSet());
 
-            domainEvents.publish(new RouteCompleted(entity.getId(), orderIds));
+            domainEvents.publish(new RouteCompleted(entity.getId(), entity.getName(), orderIds));
         }
     }
 }

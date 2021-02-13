@@ -1,12 +1,9 @@
 package com.frontwit.barcodeapp.administration.catalogue.orders;
 
-import com.frontwit.barcodeapp.administration.catalogue.routes.RouteCompleted;
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
-import com.mongodb.client.result.UpdateResult;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -28,8 +25,8 @@ class OrderCommand {
     public void updateStatuses(Set<Long> ids, boolean completed) {
         Query query = new Query(Criteria.where("id").in(ids));
         Update update = new Update().set("completed", completed);
-        UpdateResult result = mongoTemplate.updateMulti(query, update, OrderEntity.class);
-        LOGGER.info(format("Status changed {count=%s, status=%s}", result.getModifiedCount(), parseCompleted(completed)));
+        mongoTemplate.updateMulti(query, update, OrderEntity.class);
+        LOGGER.info("Status changed { status={}, orderIds={} }", parseCompleted(completed), ids);
     }
 
     void updateStatuses(Long id) {

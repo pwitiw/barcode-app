@@ -10,9 +10,20 @@ import java.util.Set;
 public class RouteCompleted implements DomainEvent {
     private final String id;
     private final Set<Long> orderIds;
+    private final String name;
 
-    public RouteCompleted(String id, Set<Long> orderIds) {
+    public RouteCompleted(String id, String name, Set<Long> orderIds) {
         this.id = id;
+        this.name = name;
         this.orderIds = new HashSet<>(orderIds);
+    }
+
+    @Override
+    public String toString() {
+        return "RouteCompleted{"
+                + "id='" + id + '\''
+                + ", name='" + name + '\''
+                + ", orderIds=" + orderIds
+                + '}';
     }
 }

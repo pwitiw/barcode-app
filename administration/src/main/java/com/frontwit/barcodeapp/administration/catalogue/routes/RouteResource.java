@@ -50,13 +50,13 @@ public class RouteResource {
 
     @DeleteMapping("/{id}")
     ResponseEntity<Boolean> deleteRoute(@PathVariable("id") String id) {
-        routeCommand.delete(id);;
+        routeCommand.delete(id);
         return ok().body(true);
     }
 
     @PutMapping("/{id}/fulfill")
     ResponseEntity<Boolean> fulfillRoute(@PathVariable("id") String id) {
-        routeCommand.fulfill(id);;
+        routeCommand.fulfill(id);
         return ok().body(true);
     }
 }
