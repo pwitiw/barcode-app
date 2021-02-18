@@ -1,6 +1,8 @@
 package com.frontwit.barcodeapp.administration.processing.front.model
 
+import com.frontwit.barcodeapp.administration.processing.shared.Quantity
 import com.frontwit.barcodeapp.administration.processing.shared.Stage
+import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvent
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -12,45 +14,34 @@ class FrontProcessorScenarios extends Specification implements SampleFront {
     @Unroll
     def "should apply front processing #nextStage and update status"() {
         given:
+        def processings = processedStages.size() + 1
         def front = aFrontWithAppliedProcesses(1, processedStages as Stage[])
 
         when:
         def events = front.apply(new ProcessingDetails(nextStage, getIncrementedDateTime()))
 
         then:
-        events.size() == amount
+        containsEvent(events, FrontProcessed, processings)
+        containsEvent(events, FrontStageChanged, processings)
 
         where:
-        processedStages                                | amount | nextStage
-        []                                             | 1      | MILLING
-        [MILLING]                                      | 2      | POLISHING
-        [MILLING, POLISHING]                           | 3      | BASE
-        [MILLING, POLISHING, BASE]                     | 4      | GRINDING
-        [MILLING, POLISHING, BASE, GRINDING]           | 5      | PAINTING
-        [MILLING, POLISHING, BASE, GRINDING, PAINTING] | 7      | PACKING
+        processedStages                                | nextStage
+        []                                             | MILLING
+        [MILLING]                                      | POLISHING
+        [MILLING, POLISHING]                           | BASE
+        [MILLING, POLISHING, BASE]                     | GRINDING
+        [MILLING, POLISHING, BASE, GRINDING]           | PAINTING
+        [MILLING, POLISHING, BASE, GRINDING, PAINTING] | PACKING
     }
 
-    def "stage is updated when at least one processed"() {
-        given:
-        def front = aFrontWithAppliedProcesses(2)
-
-        when:
-        def events = front.apply(new ProcessingDetails(MILLING, now()))
-
-        then:
-        !events.isEmpty()
-        MILLING == events.get(0).stage
-    }
-
-    def "stage is not downgraded when amendment applied"() {
+    def "should amend if all fronts processed on given stage"() {
         given:
         def front = aFrontWithAppliedProcesses(1, MILLING, POLISHING)
-
         when:
         def events = front.apply(new ProcessingDetails(MILLING, getIncrementedDateTime()))
 
         then:
-        events.size() == 2
+        containsEvent(events, FrontAmended)
     }
 
     def "amending on the same stage as current does not update stage"() {
@@ -61,7 +52,8 @@ class FrontProcessorScenarios extends Specification implements SampleFront {
         def events = front.apply(new ProcessingDetails(POLISHING, getIncrementedDateTime()))
 
         then:
-        events.size() == 2
+        containsEvent(events, FrontProcessed, 2)
+        containsEvent(events, FrontAmended)
     }
 
     def "can not process same front with frequency greater than once per 3 seconds"() {
@@ -98,14 +90,14 @@ class FrontProcessorScenarios extends Specification implements SampleFront {
     }
 
     def "raise event when all fronts packed"() {
-        def front = aFront(BARCODE, 1);
+        def quantity = new Quantity(1)
+        def front = aFront(BARCODE, quantity.getValue())
 
         when:
         def events = front.apply(new ProcessingDetails(PACKING, now()))
 
         then:
-        events.size() == 2
-        events.containsAll(new FrontPacked(BARCODE), new StageChanged(BARCODE, PACKING))
+        containsEvent(events, FrontPacked)
     }
 
     def "do not raise event when not all fronts packed"() {
@@ -115,7 +107,11 @@ class FrontProcessorScenarios extends Specification implements SampleFront {
         def events = front.apply(new ProcessingDetails(PACKING, now()))
 
         then:
-        events.size() == 1
-        events.containsAll( new StageChanged(BARCODE, PACKING))
+        events.containsAll(new FrontStageChanged(BARCODE, PACKING))
+    }
+
+    private static boolean containsEvent(List<DomainEvent> allEvents, Class<? extends DomainEvent> clazz, amount = 1) {
+        def result = allEvents.findAll { it -> it.getClass() == clazz }
+        result.size() == amount
     }
 }

@@ -20,10 +20,10 @@ public class RouteCompleted implements DomainEvent {
 
     @Override
     public String toString() {
-        return "RouteCompleted{"
+        return "RouteCompleted("
                 + "id='" + id + '\''
                 + ", name='" + name + '\''
                 + ", orderIds=" + orderIds
-                + '}';
+                + ')';
     }
 }

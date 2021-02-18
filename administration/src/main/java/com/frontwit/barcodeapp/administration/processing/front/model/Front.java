@@ -5,8 +5,6 @@ import com.frontwit.barcodeapp.administration.processing.shared.Quantity;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvent;
 import lombok.Getter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,10 +12,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static java.lang.String.format;
 
 public class Front {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Front.class);
 
     @Getter
     private final Barcode barcode;
@@ -31,6 +27,7 @@ public class Front {
 
     @Getter
     private Stage currentStage = Stage.INIT;
+    @Getter
     private final List<DomainEvent> eventsToProcess = new ArrayList<>();
 
     Front(Barcode barcode, Quantity quantity, FrontProcessingPolicy policy) {
@@ -63,21 +60,23 @@ public class Front {
             process(details);
         } else {
             amend(details);
-
         }
         return eventsToProcess;
     }
 
     private void process(ProcessingDetails details) {
         processings.add(details);
-        if (!details.getStage().equals(this.currentStage)) {
-            eventsToProcess.add(stageChanged(details));
-        } else {
-            LOGGER.info(format("PROCESSING {barcode=%s, stage=%s, timestamp=%s}", barcode, details.getStage(), details.getDateTime()));
+        eventsToProcess.add(new FrontProcessed(details.getStage(), details.getDateTime()));
+        if (hasStageChanged(details)) {
+            stageChanged(details);
         }
         if (isPacked()) {
-            eventsToProcess.add(new FrontPacked(barcode));
+            eventsToProcess.add(new FrontPacked(barcode, quantity));
         }
+    }
+
+    private boolean hasStageChanged(ProcessingDetails details) {
+        return !details.getStage().equals(this.currentStage);
     }
 
     private boolean isPacked() {
@@ -89,7 +88,7 @@ public class Front {
 
     private void amend(ProcessingDetails details) {
         amendments.add(details);
-        LOGGER.info(format("AMENDMENT {front=%s, stage=%s}", barcode, details.getStage()));
+        eventsToProcess.add(new FrontAmended(barcode, details.getStage()));
     }
 
     private boolean notCompletedAt(Stage stage) {
@@ -104,8 +103,8 @@ public class Front {
                 .anyMatch(detail -> detail.equalsWithTimeAccuracy(details, 3));
     }
 
-    private StageChanged stageChanged(ProcessingDetails details) {
+    private void stageChanged(ProcessingDetails details) {
         currentStage = details.getStage();
-        return new StageChanged(barcode, details.getStage());
+        eventsToProcess.add(new FrontStageChanged(barcode, currentStage));
     }
 }

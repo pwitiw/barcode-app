@@ -2,12 +2,9 @@ package com.frontwit.barcodeapp.administration.processing.front.application
 
 import com.frontwit.barcodeapp.administration.processing.front.application.dto.ProcessFrontCommand
 import com.frontwit.barcodeapp.administration.processing.front.model.*
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode
 import com.frontwit.barcodeapp.administration.processing.shared.Stage
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents
 import spock.lang.Specification
-
-import java.time.LocalDateTime
 
 class FrontProcessorTest extends Specification implements SampleFront {
 
@@ -27,7 +24,7 @@ class FrontProcessorTest extends Specification implements SampleFront {
         1 * domainEvents.publish({
             it.barcode == command.getBarcode()
             it.stage == Stage.valueOf(command.getStage())
-        } as StageChanged)
+        } as FrontStageChanged)
     }
 
     def "should not fire any event when stage not changed"() {
