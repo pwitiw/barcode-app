@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.Instant;
-import java.util.Date;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,8 +39,8 @@ public class JdbcSourceRepository implements SourceRepository {
 
     @Override
     public List<SourceOrder> findByDateBetween(Instant from, Instant to) {
-        Date fromDate = new Date(from.toEpochMilli());
-        Date toDate = new Date(to.toEpochMilli());
+        var fromDate = from.atZone(ZoneId.systemDefault()).toLocalDate().toString();
+        var toDate = to.atZone(ZoneId.systemDefault()).toLocalDate().toString();
         return jdbcTemplate.query(findOrdersByDateGteQuery(), new BeanPropertyRowMapper<>(SourceOrder.class), fromDate, toDate);
     }
 

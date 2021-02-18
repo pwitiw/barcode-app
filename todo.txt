@@ -1,9 +1,9 @@
 - data zlecenia wczesniejsza niz rzeczywiscie (do sprwadzeenia czy nadal)
 - deadline - pokazuje date 1970 - bo pewnie dostajemy od bajta systemu sekundy, a w naszym milisekundy i jest miszmasz
-- SYNC moze nie dzialac, bo date bierzemy instant (czyli  jakas tam godzina, a przychodza same daty,
-czyli godzina jest 00:00)
 
 BUGS:
+- jak klikna cos to sie nie pokazuje
+-
 
 Features:
 -  jest zamowienie i jest juz spakowane i jest niekompletne i wiemy ze brakuje jednej witryny bo jest na docieciu
