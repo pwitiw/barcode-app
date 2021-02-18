@@ -1,6 +1,5 @@
 package com.frontwit.barcodeapp.administration.processing.front.model;
 
-import com.frontwit.barcodeapp.administration.processing.shared.ProcessingException;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 
 import java.util.Arrays;
@@ -53,11 +52,5 @@ class CompositeFrontProcessingPolicy implements FrontProcessingPolicy {
     @Override
     public void verify(Front front, ProcessingDetails details) {
         policies.forEach(policy -> policy.verify(front, details));
-    }
-}
-
-class ProcessingPolicyViolationException extends ProcessingException {
-    ProcessingPolicyViolationException(String msg) {
-        super(msg);
     }
 }

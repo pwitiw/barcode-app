@@ -1,10 +1,7 @@
 package com.frontwit.barcodeapp.administration.processing.front.application;
 
 import com.frontwit.barcodeapp.administration.processing.front.application.dto.ProcessFrontCommand;
-import com.frontwit.barcodeapp.administration.processing.front.model.Front;
-import com.frontwit.barcodeapp.administration.processing.front.model.FrontNotFound;
-import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
-import com.frontwit.barcodeapp.administration.processing.front.model.ProcessingDetails;
+import com.frontwit.barcodeapp.administration.processing.front.model.*;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents;
 import com.frontwit.barcodeapp.administration.processing.synchronization.FrontSynchronized;
@@ -38,9 +35,13 @@ public class FrontProcessor {
     }
 
     private void process(Front front, ProcessFrontCommand command) {
-        var processingDetails = new ProcessingDetails(Stage.valueOf(command.getStage()), command.getDateTime());
-        front.apply(processingDetails).forEach(domainEvents::publish);
-        frontRepository.save(front);
+        try {
+            var processingDetails = new ProcessingDetails(Stage.valueOf(command.getStage()), command.getDateTime());
+            front.apply(processingDetails).forEach(domainEvents::publish);
+            frontRepository.save(front);
+        } catch (ProcessingPolicyViolationException e) {
+            LOGGER.info(e.getMessage());
+        }
     }
 
     private void publishFrontNotFound(ProcessFrontCommand command) {
