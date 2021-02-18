@@ -29,7 +29,7 @@ public class CompleteOrderScheduler {
         this.mongoTemplate = mongoTemplate;
     }
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     void markOrdersAsCompleted() {
         Instant threshold = Instant.now().minus(maxOrderAge, ChronoUnit.DAYS);
         Update markAsCompletedStatement = new Update().set(COMPLETED_FIELD, true);
