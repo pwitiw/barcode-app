@@ -6,6 +6,7 @@ import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -47,7 +48,7 @@ public class RouteQuery {
     }
 
     public List<RouteDetailsDto> getOpenedRoutes() {
-        return mongoTemplate.find(new Query(Criteria.where("fulfilled").is(false)), RouteEntity.class).stream()
+        return mongoTemplate.find(notFulfilledRouteOrderByDate(), RouteEntity.class).stream()
                 .map(RouteEntity::dto)
                 .collect(toList());
     }
@@ -76,5 +77,10 @@ public class RouteQuery {
                 new Criteria("id").in(ids)
                         .and("route").regex(format("^%s", route), "i")
         );
+    }
+
+    private Query notFulfilledRouteOrderByDate() {
+        return new Query(Criteria.where("fulfilled").is(false))
+                .with(Sort.by(Sort.Direction.ASC, "date"));
     }
 }
