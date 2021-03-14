@@ -5,7 +5,7 @@ import {Stage} from "./types/Stage";
 export class StageService {
 
     static INIT = new Stage("INIT", "-Nie rozpoczęto-");
-    static MILLING = new Stage("MILLING", "Frezowanie");
+    static MILLING = new Stage("MILLING", "Grabownica");
     static POLISHING = new Stage("POLISHING", "Czyszczenie");
     static BASE = new Stage("BASE", "Podkładowanie");
     static GRINDING = new Stage("GRINDING", "Szlifowanie");

@@ -47,7 +47,7 @@ db.order.insertMany([
         "orderedAt": ISODate("2020-12-14T22:00:00.000+0000"),
         "color": "CZARNY",
         "size": "18MM",
-        "stage": "BASE",
+        "stage": "MILLING",
         "cutter": "PŁYTA",
         "comment": "express",
         "customerId": 1,
