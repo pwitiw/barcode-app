@@ -10,6 +10,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import lombok.AllArgsConstructor;
 
 import static com.itextpdf.text.Element.ALIGN_CENTER;
+import static com.itextpdf.text.Font.BOLD;
 import static java.awt.Font.PLAIN;
 import static java.lang.String.format;
 
@@ -26,9 +27,9 @@ class BarcodeCellCreator {
         cell.setPadding(cellPadding);
         cell.addElement(centeredParagraph(order.getRoute()));
         cell.addElement(centeredParagraph(order.getCustomer()));
-        cell.addElement(nameWithQuantity(order.getName(), totalElements));
         cell.addElement(dimensionsWithQuantity(nr, front));
         cell.addElement(centeredParagraph(String.valueOf(front.getBarcode()), fontSize - 1));
+        cell.addElement(nameWithQuantity(order.getName(), totalElements));
         return cell;
     }
 
@@ -41,7 +42,7 @@ class BarcodeCellCreator {
     }
 
     private Paragraph nameWithQuantity(String orderName, int quantity) {
-        return centeredParagraph(format("%s - %s szt.", orderName, quantity));
+        return boldCenteredParagraph(format("%s - %s szt.", orderName, quantity), fontSize + 2);
     }
 
     private Paragraph dimensionsWithQuantity(int nr, FrontDto front) {
@@ -55,6 +56,13 @@ class BarcodeCellCreator {
 
     private Paragraph centeredParagraph(String content, int size) {
         var paragraph = new Paragraph(content, new Font(Font.FontFamily.UNDEFINED, size, PLAIN));
+        paragraph.setMultipliedLeading(1.1f);
+        paragraph.setAlignment(ALIGN_CENTER);
+        return paragraph;
+    }
+
+    private Paragraph boldCenteredParagraph(String content, int size) {
+        var paragraph = new Paragraph(content, new Font(Font.FontFamily.UNDEFINED, size, BOLD));
         paragraph.setMultipliedLeading(1.1f);
         paragraph.setAlignment(ALIGN_CENTER);
         return paragraph;
