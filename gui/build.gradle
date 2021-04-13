@@ -16,15 +16,15 @@ task npmBuild(type: NpmTask, dependsOn: npm_install) {
   args = ['run', 'build']
 }
 
-task cleanStatics(type: Delete) {
-  group 'build client'
-  delete "./dist"
-}
-
 task copyStatic(type: Copy, dependsOn: npmBuild) {
   from "dist/"
   into "../administration/src/main/resources/public"
 }
 
-assemble.dependsOn copyStatic
+task cleanStatics(type: Delete) {
+  delete "../administration/src/main/resources/public"
+  delete "./dist"
+}
 clean.dependsOn cleanStatics
+
+assemble.dependsOn copyStatic

@@ -3,7 +3,7 @@ plugins {
     id 'groovy'
     id 'com.bmuschko.docker-remote-api' version '6.6.1'
 }
-version = '1.0.9'
+version = '1.0.10'
 
 
 dependencies {
@@ -45,11 +45,6 @@ test {
         excludeTestsMatching "*IT"
     }
 }
-
-task cleanStatics(type: Delete) {
-    delete "src/main/resources/public"
-}
-clean.dependsOn cleanStatics
 
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
