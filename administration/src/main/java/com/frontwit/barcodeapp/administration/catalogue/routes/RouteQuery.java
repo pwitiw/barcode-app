@@ -4,7 +4,6 @@ import com.frontwit.barcodeapp.administration.catalogue.orders.dto.CustomerOrder
 import com.frontwit.barcodeapp.administration.catalogue.routes.dto.RouteDetailsDto;
 import com.frontwit.barcodeapp.administration.infrastructure.db.CustomerEntity;
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity;
-import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -61,8 +60,7 @@ public class RouteQuery {
 
     private List<OrderEntity> getPackedButNotCompletedOrders() {
         var query = new Query(new Criteria()
-                .and("completed").is(false)
-                .and("stage").is(Stage.PACKING));
+                .and("completed").is(false));
         return mongoTemplate.find(query, OrderEntity.class);
     }
 
