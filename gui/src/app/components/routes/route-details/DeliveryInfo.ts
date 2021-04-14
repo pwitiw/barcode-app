@@ -34,4 +34,5 @@ export interface Order {
     name: string;
     quantity: number;
     valuation: number;
+    orderedAt: string;
 }
