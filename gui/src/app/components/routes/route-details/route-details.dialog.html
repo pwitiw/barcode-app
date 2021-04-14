@@ -36,7 +36,11 @@
                             <mat-icon>info_outline</mat-icon>
                             {{order.name}}
                         </span>
-                        <td class="label date"> {{order.orderedAt | date:'dd/MM/yyyy'}}</td>
+                        <span title="Data zamówiena" class="label date">
+                            <mat-icon>date_range</mat-icon>
+                            {{order.orderedAt | date:'dd/MM/yyyy'}}
+                        </span>
+                        <!-- <td class="label date"></td> -->
                         <td class="label quantity"> {{order.quantity}} szt.</td>
                         <td class="label price"> {{order.valuation}} zł</td>
                     </table>
