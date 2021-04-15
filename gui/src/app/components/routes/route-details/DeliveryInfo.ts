@@ -35,4 +35,6 @@ export interface Order {
     quantity: number;
     valuation: number;
     orderedAt: string;
+    cutter: string;
+    color: string;
 }

@@ -133,6 +133,6 @@ public class OrderEntity {
                 .doubleValue();
         LocalDate zonedOrderedAt = getOrderedAt() != null ? LocalDate.ofInstant(getOrderedAt(), CLIENT_ZONE_ID) : null;
 
-        return new OrderInfoDto(id, name, quantity, valuation, zonedOrderedAt);
+        return new OrderInfoDto(id, name, quantity, valuation, zonedOrderedAt, cutter, color);
     }
 }

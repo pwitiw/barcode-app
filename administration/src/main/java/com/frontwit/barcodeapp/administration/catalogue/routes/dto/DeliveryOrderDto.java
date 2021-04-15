@@ -17,4 +17,6 @@ public class DeliveryOrderDto {
     private int quantity;
     private double valuation;
     private LocalDate orderedAt;
+    private String cutter;
+    private String color;
 }
