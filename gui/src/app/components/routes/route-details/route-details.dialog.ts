@@ -145,22 +145,22 @@ export class RouteDetailsDialog {
 function testData(): DeliveryInfo[] {
     return [
         DeliveryInfo.of("Ostatek", [
-            { id: 1, name: 'TW101', valuation: 222, quantity: 33, orderedAt: '12/06/2020' },
-            { id: 2, name: 'TW201', valuation: 222, quantity: 11, orderedAt: '12/06/2020' },
-            { id: 6, name: 'TW601', valuation: 222, quantity: 11, orderedAt: '12/06/2020' },
-            { id: 7, name: 'TW701', valuation: 222, quantity: 11, orderedAt: '12/06/2020' },
+            { id: 1, name: 'TW101', valuation: 222, quantity: 33, orderedAt: '12/06/2020', cutter: 'Płyta', color: 'czarny' },
+            { id: 2, name: 'TW201', valuation: 222, quantity: 11, orderedAt: '12/06/2020', cutter: 'Płyta', color: 'czarny' },
+            { id: 6, name: 'TW601', valuation: 222, quantity: 11, orderedAt: '12/06/2020', cutter: 'Płyta', color: 'czarny' },
+            { id: 7, name: 'TW701', valuation: 222, quantity: 11, orderedAt: '12/06/2020', cutter: 'Płyta', color: 'czarny' },
         ], "FV", "ascjaiucbajkvhalkwvabjlk", "12346789"),
         DeliveryInfo.of("Kowalczyk", [
-            { id: 3, name: 'TW301', valuation: 222, quantity: 11, orderedAt: '12/06/2020' },
+            { id: 3, name: 'TW301', valuation: 222, quantity: 11, orderedAt: '12/06/2020', cutter: 'Płyta', color: 'czarny' },
         ], "FV", "Wrocław", "789456123"),
         DeliveryInfo.of("Krawczyk", [
-            { id: 4, name: 'TW401', valuation: 222, quantity: 23, orderedAt: '12/06/2020' },
+            { id: 4, name: 'TW401', valuation: 222, quantity: 23, orderedAt: '12/06/2020', cutter: 'Płyta', color: 'czarny' },
         ], "FV", "Lubin", "456321963"),
         DeliveryInfo.of("Ambrozy", [
-            { id: 5, name: 'TW501', valuation: 222, quantity: 101, orderedAt: '12/06/2020' },
+            { id: 5, name: 'TW501', valuation: 222, quantity: 101, orderedAt: '12/06/2020', cutter: 'Płyta', color: 'czarny' },
         ], "FV", "Karpacz", "963852741"),
         DeliveryInfo.of("Wilczak", [
-            { id: 6, name: 'TW601', valuation: 222, quantity: 1, orderedAt: '12/06/2020' },
+            { id: 6, name: 'TW601', valuation: 222, quantity: 1, orderedAt: '12/06/2020', cutter: 'Płyta', color: 'czarny' },
         ], "FV", "Drezno", "852147963"),
     ];
 }

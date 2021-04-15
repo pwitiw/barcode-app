@@ -24,6 +24,12 @@ public class OrderInfoDto {
         var valuation = order.getValuation() != null ? order.getValuation().doubleValue() : 0;
         LocalDate zonedOrderedAt = order.getOrderedAt() != null ? LocalDate.ofInstant(order.getOrderedAt(), CLIENT_ZONE_ID) : null;
 
-        return new OrderInfoDto(order.getId(), order.getName(), order.getQuantity(), valuation, zonedOrderedAt, order.getCutter(), order.getColor());
+        return new OrderInfoDto(
+                order.getId(),
+                order.getName(),
+                order.getQuantity(),
+                valuation, zonedOrderedAt,
+                order.getCutter(),
+                order.getColor());
     }
 }
