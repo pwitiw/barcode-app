@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -14,4 +16,5 @@ public class DeliveryOrderDto {
     private String name;
     private int quantity;
     private double valuation;
+    private LocalDate orderedAt;
 }

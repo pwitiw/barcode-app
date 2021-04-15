@@ -60,9 +60,9 @@ export class RouteComputer implements OnDestroy {
             height: '95%',
             data: cities
         });
-        this.dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                this.notify.next(cities.slice(1));
+        this.dialogRef.afterClosed().subscribe((addresses) => {
+            if (addresses) {
+                this.notify.next(addresses.slice(1));
             }
         });
     }
