@@ -18,6 +18,8 @@ import java.util.Optional;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
+import static org.springframework.data.domain.Sort.Direction.ASC;
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @AllArgsConstructor
 @Component
@@ -26,7 +28,7 @@ public class RouteQuery {
     private final MongoTemplate mongoTemplate;
 
     List<CustomerOrdersDto> findCustomersWithOrdersForRoute(String route) {
-        List<OrderEntity> orderEntities = getPackedButNotCompletedOrders();
+        List<OrderEntity> orderEntities = getNotCompletedOrders();
         List<CustomerEntity> customerEntities = getCustomerEntities(orderEntities, route);
         if (customerEntities.isEmpty()) {
             return new ArrayList<>();
@@ -58,9 +60,10 @@ public class RouteQuery {
         return mongoTemplate.find(customerQuery, CustomerEntity.class);
     }
 
-    private List<OrderEntity> getPackedButNotCompletedOrders() {
+    private List<OrderEntity> getNotCompletedOrders() {
         var query = new Query(new Criteria()
-                .and("completed").is(false));
+                .and("completed").is(false))
+                .with(Sort.by(DESC, "orderedAt"));
         return mongoTemplate.find(query, OrderEntity.class);
     }
 
@@ -79,6 +82,6 @@ public class RouteQuery {
 
     private Query notFulfilledRouteOrderByDate() {
         return new Query(Criteria.where("fulfilled").is(false))
-                .with(Sort.by(Sort.Direction.ASC, "date"));
+                .with(Sort.by(ASC, "date"));
     }
 }
