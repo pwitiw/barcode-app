@@ -19,7 +19,7 @@ final class Order {
     }
 
     String displayOrder() {
-        return name + " - " + quantity + " szt., ";
+        return name + " - " + quantity + " szt.";
     }
 
     static Order of(DeliveryOrderDto dto) {

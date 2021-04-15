@@ -1,5 +1,5 @@
 .routes-details {
- padding: $padding-lg;
+ padding: $padding-sm;
 
   .search {
     display: flex;
@@ -24,7 +24,7 @@
   }
 
   .candidate-list {
-    width: 48%;
+    width: 58%;
 
     .mat-expanded {
       background: $color-background;
@@ -53,29 +53,29 @@
       }
 
       &.quantity {
-        flex-basis: 20%;
+        flex-basis: 22%;
       }
 
       &.date {
-        flex-basis: 30%;
+        flex-basis: 22%;
       }
 
       &.cutter {
-        flex-basis: 20%;
+        flex-basis: 22%;
       }
 
       &.color {
-        flex-basis: 20%;
+        flex-basis: 22%;
       }
 
       &.price {
-        flex-basis: 20%;
+        flex-basis: 22%;
       }
     }
   }
 
   .route-list {
-    width: 50%;
+    width: 40%;
     display: block;
     background: white;
     overflow: hidden;
@@ -87,7 +87,7 @@
 
     .deliver-info-box {
       min-height: 60px;
-      padding: 20px 10px;
+      padding: 5px 10px;
       border: solid 1px #ccc;
       border-radius: 4px;
 
@@ -111,6 +111,9 @@
 
         &.orders {
           flex-basis: 35%;
+          .mat-button {
+             line-height: 25px;
+          }
         }
 
         &.payment {
