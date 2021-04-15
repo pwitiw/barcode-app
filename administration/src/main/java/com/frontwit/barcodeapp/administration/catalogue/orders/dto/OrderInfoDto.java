@@ -30,6 +30,7 @@ public class OrderInfoDto {
                 order.getQuantity(),
                 valuation, zonedOrderedAt,
                 order.getCutter(),
-                order.getColor());
+                order.getColor()
+        );
     }
 }
