@@ -36,12 +36,19 @@
                             <mat-icon>info_outline</mat-icon>
                             {{order.name}}
                         </span>
-                        <span title="Data zamówiena" class="label date">
+                        <span title="Data zamówienia" class="label date">
                             <mat-icon>date_range</mat-icon>
                             {{order.orderedAt | date:'dd/MM/yyyy'}}
                         </span>
-                        <td class="label quantity"> {{order.quantity}} szt.</td>
-                        <td class="label price"> {{order.valuation}} zł</td>
+                        <span title="Kolor" class="label color">
+                            <mat-icon>palette</mat-icon>
+                            {{order.color}}
+                        </span>
+                        <span title="Frez" class="label cutter">
+                            {{order.cutter}}
+                        </span>
+                        <!-- <td class="label quantity"> {{order.quantity}} szt.</td> -->
+                        <!-- <td class="label price"> {{order.valuation}} zł</td> -->
                     </table>
                 </mat-expansion-panel>
             </mat-accordion>
