@@ -20,8 +20,12 @@ export class MapDialog implements OnInit {
         this.calculateWaypoints();
     }
 
-    close(result) {
-        this.dialogRef.close(result);
+    close(result: boolean) {
+        if (result) {
+            this.dialogRef.close(this.addresses);
+        } else {
+            this.dialogRef.close(null);
+        }
     }
 
     contentLoaded(): boolean {
@@ -38,7 +42,6 @@ export class MapDialog implements OnInit {
     calculateWaypoints() {
         this.waypoints = this.addresses.map(address => {
             return { lat: address.city.lat, lng: address.city.lng };
-
         });
     }
 }
