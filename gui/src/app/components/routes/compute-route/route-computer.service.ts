@@ -29,6 +29,13 @@ export class RouteComputer implements OnDestroy {
         this.loadingService.show();
         this.googleApi.getDetails(addresses.concat(new CustomerAddress("Frontwit", RouteComputer.DEPARTURE)))
             .subscribe(customerAddresses => {
+                const duplicates = this.getDuplicates(customerAddresses)
+                if (duplicates.length != 0) {
+                    const duplicateNames = duplicates.reduce((allCustomers, customer) => allCustomers + ", " + customer);
+                    this.snackBarService.failure(`Wystąpił błąd. Sprawdź poprawność adresów dla klientów: ${duplicateNames}`);
+                    this.loadingService.hide();
+                    return;
+                }
                 this.runWorker(customerAddresses);
             }, e => {
                 this.loadingService.hide();
@@ -46,6 +53,10 @@ export class RouteComputer implements OnDestroy {
         this.worker = new Worker('./routes.worker', { type: 'module' });
         this.worker.onmessage = (result: any) => {
             this.loadingService.hide();
+            if (!result.data) {
+                this.snackBarService.failure("Operacja nie powiodła się.");
+                return;
+            }
             const cities = result.data as CustomerAddress[];
             const indexOfDeparture = cities.findIndex(address => address.city.name == RouteComputer.DEPARTURE);
             const sortedCities = cities.slice(indexOfDeparture).concat(cities.slice(0, indexOfDeparture));
@@ -65,5 +76,16 @@ export class RouteComputer implements OnDestroy {
                 this.notify.next(addresses.slice(1));
             }
         });
+    }
+
+    getDuplicates(customerAddress: CustomerAddress[]): string[] {
+        let duplicates: string[] = [];
+        const cities = customerAddress.map(ca => ca.city.name);
+        cities.forEach((city, pos) => {
+            if (cities.lastIndexOf(city) != cities.indexOf(city)) {
+                duplicates.push(customerAddress[pos].customer);
+            }
+        });
+        return duplicates;
     }
 }
