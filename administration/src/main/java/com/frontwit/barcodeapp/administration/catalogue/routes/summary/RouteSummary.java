@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -20,6 +24,8 @@ public class RouteSummary {
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(RouteSummary.class.getName());
     private static final String TOTAL = "Kwota całkowita: %s zł";
     private static final String ROUTE = "Trasa: ";
+    private static final String DRIVER = "Kierowca: ";
+    private static final String DATE = "Data: ";
     private static final String EMPTY_STRING = "";
     private static final int SPACE_SMALL = 5;
     private static final int SPACE_BIG = 10;
@@ -51,11 +57,19 @@ public class RouteSummary {
         addSummary(document, details.getReports());
     }
 
-    private void addTitle(Document document, RouteDetails reportDetails) throws DocumentException {
-        String name = reportDetails.getRoute() == null ? EMPTY_STRING : reportDetails.getRoute();
-        final Paragraph title = pdfParts.createParagraph(ROUTE + name, TITLE_SIZE);
+    private void addTitle(Document document, RouteDetails details) throws DocumentException {
+        var name = details.getRoute() == null ? EMPTY_STRING : details.getRoute();
+        var title = pdfParts.createParagraph(DATE + date(details) + ",  " + ROUTE + name + ",  " + DRIVER, TITLE_SIZE);
         document.add(title);
         document.add(pdfParts.createSpace(SPACE_SMALL));
+    }
+
+    private String date(RouteDetails details) {
+        if (details.getDate() == null) {
+            return EMPTY_STRING;
+        }
+        return DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+                .format(LocalDate.ofInstant(details.getDate(), ZoneId.of("Europe/Paris")));
     }
 
     private void addSummary(Document document, List<RouteDetails.Report> reports) throws DocumentException {

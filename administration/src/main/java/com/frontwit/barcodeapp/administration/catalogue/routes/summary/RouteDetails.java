@@ -1,38 +1,31 @@
 package com.frontwit.barcodeapp.administration.catalogue.routes.summary;
 
-import com.frontwit.barcodeapp.administration.catalogue.routes.dto.RouteDetailsDto;
 import com.frontwit.barcodeapp.administration.catalogue.routes.dto.DeliveryInfoDto;
+import com.frontwit.barcodeapp.administration.catalogue.routes.dto.RouteDetailsDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @ToString
+@Getter
+@RequiredArgsConstructor
 public final class RouteDetails {
 
     private final List<Report> reports;
-    @Getter
     private final String route;
+    private final Instant date;
 
-    private RouteDetails(List<Report> reports, String route) {
-        this.reports = reports;
-        this.route = route;
-    }
-
-    List<Report> getReports() {
-        return new ArrayList<>(reports);
-    }
-
-   public static RouteDetails of(RouteDetailsDto dto) {
+    public static RouteDetails of(RouteDetailsDto dto) {
         List<Report> reports = dto.getDeliveryInfos().stream()
                 .map(Report::of)
                 .collect(Collectors.toList());
-        String route = dto.getName();
-        return new RouteDetails(reports, route);
+        return new RouteDetails(reports, dto.getName(), dto.getDate());
     }
 
     @ToString
