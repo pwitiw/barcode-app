@@ -41,7 +41,7 @@ export class GoogleApi {
             .pipe(
                 map((results: GeocoderResult[]) => {
                     const {lat, lng} = results[0].geometry.location;
-                    const name = results[0].formatted_address.split(",")[0];
+                    const name = results[0].formatted_address;
                     const city: City = {name, lat: lat(), lng: lng()};
                     this.localStorage.storeCity(customer, city);
                     return city;

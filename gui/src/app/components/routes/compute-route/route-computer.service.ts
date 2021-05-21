@@ -10,7 +10,7 @@ import { MatDialogRef } from "@angular/material/dialog/typings/dialog-ref";
 
 @Injectable()
 export class RouteComputer implements OnDestroy {
-    private static DEPARTURE = "Twardogóra";
+    private static DEPARTURE = "Twardogóra, Polska";
     private worker: Worker;
     private notify = new Subject<CustomerAddress[]>();
     private dialogRef: MatDialogRef<MapDialog>;
