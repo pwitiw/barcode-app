@@ -25,7 +25,7 @@ public class RouteSummary {
     private static final String TOTAL = "Kwota całkowita: %s zł";
     private static final String ROUTE = "Trasa: ";
     private static final String DRIVER = "Kierowca: ";
-    private static final String DATE = "Data: ";
+    private static final String DATE_LABEL = "Data: ";
     private static final String EMPTY_STRING = "";
     private static final int SPACE_SMALL = 5;
     private static final int SPACE_BIG = 10;
@@ -59,7 +59,8 @@ public class RouteSummary {
 
     private void addTitle(Document document, RouteDetails details) throws DocumentException {
         var name = details.getRoute() == null ? EMPTY_STRING : details.getRoute();
-        var title = pdfParts.createParagraph(DATE + date(details) + ",  " + ROUTE + name + ",  " + DRIVER, TITLE_SIZE);
+        var separator = ",  ";
+        var title = pdfParts.createParagraph(DATE_LABEL + date(details) + separator + ROUTE + name + separator + DRIVER, TITLE_SIZE);
         document.add(title);
         document.add(pdfParts.createSpace(SPACE_SMALL));
     }
