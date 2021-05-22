@@ -42,7 +42,7 @@ class BarcodeCellCreator {
     }
 
     private Paragraph nameWithQuantity(String orderName, int quantity) {
-        return boldCenteredParagraph(format("%s - %s szt.", orderName, quantity), fontSize + 2);
+        return boldCenteredParagraph(format("%s - %s szt.", orderName, quantity), fontSize + 9);
     }
 
     private Paragraph dimensionsWithQuantity(int nr, FrontDto front) {

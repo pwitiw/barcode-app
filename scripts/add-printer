@@ -1,0 +1,17 @@
+-- add printer
+lpadmin -p zebra-codes -E -v socket://IP:9100 -D "Zebra label printer" -o Resolution=300dpi -o printer-error-policy="retry-job" -u allow:all  -m drv:///sample.drv/zebra.ppd
+
+-- check printer properties
+lpoptions -p zebra-codes -l
+
+-- delete printer
+lpadmin -x zebra-codes
+
+-- check printer drivers
+lpinfo -m
+
+-- make sure 300dpi is set
+lpadmin -p zebra-codes  -o Resolution=300dpi
+
+-- check list of printers
+lpstat -v

@@ -43,7 +43,7 @@ public class BarcodesX64PdfGenerator {
         } catch (DocumentException e) {
             throw new BarcodeGenerationException("Error while generating barcodes", e);
         }
-        return new BarcodePdf(out);
+        return new BarcodePdf(null, out);
     }
 
     private void fillTableWithEmptyCells(Collection<OrderDetailDto> orders, PdfPTable table) {

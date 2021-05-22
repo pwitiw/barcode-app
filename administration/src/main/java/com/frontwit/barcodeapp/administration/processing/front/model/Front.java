@@ -66,7 +66,7 @@ public class Front {
 
     private void process(ProcessingDetails details) {
         processings.add(details);
-        eventsToProcess.add(new FrontProcessed(details.getStage(), details.getDateTime()));
+        eventsToProcess.add(new FrontProcessed(barcode, details.getStage(), details.getDateTime()));
         if (hasStageChanged(details)) {
             stageChanged(details);
         }

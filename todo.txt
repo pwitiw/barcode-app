@@ -35,3 +35,13 @@ dopytać:
 - mozna dodawac klientow / zamowienia z roznych tras?
 - ile km mniej wiece to wyjdzie?
 - co jeszcze takiego potrzebnego mogloby byc w trasie a np duzo roboty z recznym
+
+
+
+excel wewnetrzny:
+- premie dla przedstawicieli po klientach - ile metrow klienci dla danego przedstawiciela w miesiacu
+- wyniki finansowe za miesiac z rozroznieniem na faktury i kp
+- rozchod zamowien
+- mapowanie klient na przedstawiciel
+- zaznaczaja co faktycznie pojechalo
+- reklamacje  z podzialem na przyczyne

@@ -47,7 +47,7 @@ public class SqsCommandHandler {
                 .build();
     }
 
-    @Scheduled(cron = "0 * * * * MON-SAT")
+    @Scheduled(cron = "${aws.sqs.polling.cron}")
     public void handleCommands() {
         List<DeleteMessageBatchRequestEntry> messagesForDeletion =
                 sqs.receiveMessage(aRequest())
