@@ -3,7 +3,6 @@ package com.frontwit.barcodeapp.administration.infrastructure.printer;
 import com.frontwit.barcodeapp.administration.catalogue.orders.barcodes.BarcodePdf;
 import com.frontwit.barcodeapp.administration.domain.qr.QrCodePreparationException;
 import com.frontwit.barcodeapp.administration.domain.qr.QrCodePrinter;
-import com.frontwit.barcodeapp.administration.processing.front.infrastructure.messaging.SqsCommandHandler;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.viewerpreferences.PDViewerPreferences;
 import org.apache.pdfbox.printing.PDFPageable;
@@ -28,10 +27,11 @@ import java.util.Optional;
 import static java.lang.String.format;
 
 @Service
-@SuppressWarnings({"ClassDataAbstractionCoupling", "PMD.UnusedPrivateMethod"})
+@SuppressWarnings({"ClassDataAbstractionCoupling", "PMD.UnusedPrivateMethod", "ClassFanOutComplexity"})
 public class PdfPrinter implements QrCodePrinter {
     private static final Logger LOGGER = LoggerFactory.getLogger(PdfPrinter.class);
 
+    private static final String QR_CODE_PRINTING_ERROR = "Error while qr code printing";
     private final String printerName;
 
     public PdfPrinter(@Value("${printer.name}") String printerName) {
@@ -53,11 +53,11 @@ public class PdfPrinter implements QrCodePrinter {
             job.setPrintService(printService.get());
             job.print();
         } catch (Exception ex) {
-            throw new QrCodePreparationException("Error while qr code printing", ex);
+            throw new QrCodePreparationException(QR_CODE_PRINTING_ERROR, ex);
         }
     }
 
-    public static void printWithAttributes(BarcodePdf barcodePdf) {
+    public void printWithAttributes(BarcodePdf barcodePdf) {
         try {
             PDDocument document = PDDocument.load(barcodePdf.asStream().toByteArray());
             PrinterJob job = PrinterJob.getPrinterJob();
@@ -68,11 +68,11 @@ public class PdfPrinter implements QrCodePrinter {
 
             job.print(attr);
         } catch (Exception ex) {
-            throw new QrCodePreparationException("Error while qr code printing", ex);
+            throw new QrCodePreparationException(QR_CODE_PRINTING_ERROR, ex);
         }
     }
 
-    public static void printWithDialog(BarcodePdf barcodePdf) {
+    public void printWithDialog(BarcodePdf barcodePdf) {
         try {
             PDDocument document = PDDocument.load(barcodePdf.asStream().toByteArray());
             PrinterJob job = PrinterJob.getPrinterJob();
@@ -81,11 +81,11 @@ public class PdfPrinter implements QrCodePrinter {
                 job.print();
             }
         } catch (Exception ex) {
-            throw new QrCodePreparationException("Error while qr code printing", ex);
+            throw new QrCodePreparationException(QR_CODE_PRINTING_ERROR, ex);
         }
     }
 
-    public static void printWithDialogAndAttributes(PDDocument document) throws PrinterException {
+    public void printWithDialogAndAttributes(PDDocument document) throws PrinterException {
         PrinterJob job = PrinterJob.getPrinterJob();
         job.setPageable(new PDFPageable(document));
         PrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
