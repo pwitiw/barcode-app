@@ -3,7 +3,7 @@ plugins {
     id 'groovy'
     id 'com.bmuschko.docker-remote-api' version '6.6.1'
 }
-version = '1.0.15'
+version = '1.0.17'
 
 
 dependencies {

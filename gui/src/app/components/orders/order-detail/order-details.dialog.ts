@@ -71,14 +71,6 @@ export class OrderDetailsDialog {
         return processedQuantity + "/" + front.quantity;
     }
 
-    displayNameWithOptionalType(name: string, type: string): string {
-        if (type === 'COMPLAINT') {
-            return name + ' (Reklamacja)';
-        }
-        return name;
-    }
-
-
     private quantityProcessedAtCurrentstage(front: Front): number {
         return front.processings.filter(p => front.stage === p.stage).length;
     }

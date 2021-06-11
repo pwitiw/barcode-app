@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.frontwit.barcodeapp.administration.processing.order.model.OrderType.COMPLAINT;
 import static java.lang.String.format;
 
 @AllArgsConstructor
@@ -46,7 +47,8 @@ public class OrderMapper {
             var cutter = dictionary.getValue(features.getCutter());
             var size = dictionary.getValue(features.getSize());
             var type = OrderTypeMapper.map(source.getType());
-            return new TargetOrder.Info(color, cutter, size, source.getNr(), source.getOrderedAt().toInstant(), type);
+            var name = source.getNr() + (type == COMPLAINT ? " (R)" : "");
+            return new TargetOrder.Info(color, cutter, size, name, source.getOrderedAt().toInstant(), type);
         } catch (IOException e) {
             LOG.warn(format("Order parsing error. Default order info set {orderId= %s}", source.getId()), e);
         }

@@ -3,7 +3,9 @@
 
 BUGS:
 - jak klikna cos to sie nie pokazuje
--
+- po dodaniu do tras zamowienia, zapisaniu go, przy kolejnym wyszukiwaniu po usunieciu z trasy zamowienie trafia
+na liste dostepnych zamowien bez nazwy zamowienia, daty itd
+
 
 Features:
 -  jest zamowienie i jest juz spakowane i jest niekompletne i wiemy ze brakuje jednej witryny bo jest na docieciu

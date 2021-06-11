@@ -53,6 +53,7 @@ db.order.insertMany([
         "customerId": 1,
         "completed": false,
         "quantity": 2,
+        "type": "COMPLAINT",
         "lastProcessedOn": ISODate("2019-12-22T23:00:00.000+0000"),
         "_class": "com.frontwit.barcodeapp.administration.infrastructure.database.OrderEntity"
     },
