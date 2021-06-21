@@ -11,7 +11,8 @@ import static com.frontwit.barcodeapp.administration.statistics.StatisticsFixtur
 class StatisticsEventsHandlerTest extends Specification {
 
     private OrderStatisticsRepository repository = Mock()
-    private StatisticsEventsHandler statisticsEventsHandler = new StatisticsEventsHandler(repository)
+    private StageStatisticsRepository frontPackedRepository = Mock()
+    private StatisticsEventsHandler statisticsEventsHandler = new StatisticsEventsHandler(repository, frontPackedRepository)
 
     def "should create statistics for today if not present"() {
         given:

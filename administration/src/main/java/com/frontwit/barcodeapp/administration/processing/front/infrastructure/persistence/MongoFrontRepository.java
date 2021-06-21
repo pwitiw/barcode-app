@@ -3,6 +3,7 @@ package com.frontwit.barcodeapp.administration.processing.front.infrastructure.p
 import com.frontwit.barcodeapp.administration.processing.front.model.Front;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontProcessingPolicy;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
+import com.frontwit.barcodeapp.administration.processing.front.model.FrontStatisticsRepository;
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
 import com.frontwit.barcodeapp.administration.processing.synchronization.TargetFront;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class MongoFrontRepository implements FrontRepository {
+public class MongoFrontRepository implements FrontRepository, FrontStatisticsRepository {
 
     private final MongoTemplate mongoTemplate;
     private final FrontProcessingPolicy processingPolicy;
@@ -41,5 +42,10 @@ public class MongoFrontRepository implements FrontRepository {
 
     private Optional<FrontEntity> findById(Long id) {
         return Optional.ofNullable(mongoTemplate.findById(id, FrontEntity.class));
+    }
+
+    @Override
+    public Optional<FrontEntity> findByBarcode(Barcode barcode) {
+        return findById(barcode.getBarcode());
     }
 }
