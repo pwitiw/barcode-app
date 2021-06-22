@@ -13,7 +13,7 @@ class StatisticsFixtures {
     public static final Instant TODAY = Instant.now()
 
     static OrderStatistics aStatistics() {
-        return OrderStatistics.of(StatisticsPeriod.of(Instant.now()))
+        return OrderStatistics.of(StatisticsPeriod.dailyFrom(Instant.now()))
     }
 
     static OrderPlaced anOrderPlacedEvent() {

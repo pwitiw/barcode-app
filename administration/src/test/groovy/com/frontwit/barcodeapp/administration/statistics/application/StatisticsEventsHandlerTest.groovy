@@ -23,7 +23,7 @@ class StatisticsEventsHandlerTest extends Specification {
         statisticsEventsHandler.handle(anOrderPlacedEvent())
         then:
         repository.save(_ as OrderStatistics) >> {
-            it.period == StatisticsPeriod.of(TODAY)
+            it.period == StatisticsPeriod.dailyFrom(TODAY)
         }
     }
 
@@ -41,7 +41,7 @@ class StatisticsEventsHandlerTest extends Specification {
     }
 
     OrderStatistics thereAreSomeStatisticsWithOneMeterForToday() {
-        def period = StatisticsPeriod.of(TODAY)
+        def period = StatisticsPeriod.dailyFrom(TODAY)
         def statistics = OrderStatistics.of(period)
         statistics.apply(OrderType.ORDER, ONE_METER)
         repository.findBy(period) >> Optional.of(statistics)

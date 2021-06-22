@@ -18,18 +18,26 @@ public class MongoStageStatisticsRepository implements StageStatisticsRepository
 
     @Override
     public void save(StageStatistics statistics) {
-        var entity = PackingStatisticsEntity.of(statistics);
+        var entity = StageStatisticsEntity.of(statistics);
         mongoTemplate.save(entity);
     }
 
     public Optional<StageStatistics> findByShiftAndPeriodAndStage(Shift shift, StatisticsPeriod period, Stage stage) {
-        return mongoTemplate.find(query(shift, period, stage), StageStatistics.class).stream().findFirst();
+        return mongoTemplate.find(query(shift, period, stage), StageStatisticsEntity.class).stream().findFirst().map(this::of);
+    }
+
+    private StageStatistics of(StageStatisticsEntity entity) {
+        StageStatistics statistics = new StageStatistics();
+        statistics.setPeriod(entity.getPeriod());
+        statistics.setStage(entity.getStage());
+        statistics.setShift(entity.getShift());
+        statistics.setMeters(entity.getMeters());
+        return statistics;
     }
 
     private Query query(Shift shift, StatisticsPeriod statisticsPeriod, Stage stage) {
-        Criteria c = new Criteria().andOperator(Criteria.where("statisticsPeriod").is(statisticsPeriod),
+        Criteria c = new Criteria().andOperator(Criteria.where("period").is(statisticsPeriod),
                 Criteria.where("stage").is(stage), Criteria.where("shift").is(shift));
         return new Query(c);
     }
-
 }

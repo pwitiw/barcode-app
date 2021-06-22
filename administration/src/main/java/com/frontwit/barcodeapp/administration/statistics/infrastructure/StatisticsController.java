@@ -19,6 +19,6 @@ public class StatisticsController {
 
     @GetMapping("/statistics/orders")
     public OrderStatisticsDto findStatistics() {
-        return statisticsCreator.statisticsFor(StatisticsPeriod.of(Instant.now()));
+        return statisticsCreator.statisticsFor(StatisticsPeriod.dailyFrom(Instant.now()));
     }
 }

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @Document(collection = "stageStatistics")
-public class PackingStatisticsEntity {
+public class StageStatisticsEntity {
     @Id
     private String id = UUID.randomUUID().toString();
     private Double meters;
@@ -18,8 +18,8 @@ public class PackingStatisticsEntity {
     private Stage stage;
     private Shift shift;
 
-    public static PackingStatisticsEntity of(StageStatistics statistics) {
-        var entity = new PackingStatisticsEntity();
+    public static StageStatisticsEntity of(StageStatistics statistics) {
+        var entity = new StageStatisticsEntity();
         entity.setMeters(statistics.getMeters());
         entity.setPeriod(statistics.getPeriod());
         entity.setShift(statistics.getShift());
