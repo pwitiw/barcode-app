@@ -3,7 +3,7 @@ plugins {
     id 'groovy'
     id 'com.bmuschko.docker-remote-api' version '6.6.1'
 }
-version = '1.0.17'
+version = '1.0.19'
 
 
 dependencies {
@@ -27,7 +27,7 @@ dependencies {
 
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
-    implementation 'org.apache.pdfbox:pdfbox:2.0.23'
+    implementation 'org.apache.pdfbox:pdfbox:2.0.24'
 
     testImplementation "com.tngtech.archunit:archunit-junit4:${archUnitVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

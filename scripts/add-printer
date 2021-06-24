@@ -1,3 +1,10 @@
+-- install cups (https://www.raspberrypi.org/blog/printing-at-home-from-your-raspberry-pi/)
+sudo apt-get install cups
+-- add lpadmin group to pi user
+sudo usermod -a -G lpadmin pi
+
+
+======================
 -- add printer
 lpadmin -p zebra-codes -E -v socket://IP:9100 -D "Zebra label printer" -o Resolution=300dpi -o printer-error-policy="retry-job" -u allow:all  -m drv:///sample.drv/zebra.ppd
 

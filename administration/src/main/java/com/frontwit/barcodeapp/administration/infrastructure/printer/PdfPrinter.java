@@ -40,8 +40,7 @@ public class PdfPrinter implements QrCodePrinter {
 
     @Override
     public void print(BarcodePdf barcodePdf) {
-        try {
-            PDDocument document = PDDocument.load(barcodePdf.asStream().toByteArray());
+        try (PDDocument document = PDDocument.load(barcodePdf.asStream().toByteArray())) {
             PrinterJob job = PrinterJob.getPrinterJob();
             job.setPageable(new PDFPageable(document));
             job.setJobName("Front: " + barcodePdf.getBarcode().toString());
@@ -58,8 +57,7 @@ public class PdfPrinter implements QrCodePrinter {
     }
 
     public void printWithAttributes(BarcodePdf barcodePdf) {
-        try {
-            PDDocument document = PDDocument.load(barcodePdf.asStream().toByteArray());
+        try (PDDocument document = PDDocument.load(barcodePdf.asStream().toByteArray())) {
             PrinterJob job = PrinterJob.getPrinterJob();
             job.setPageable(new PDFPageable(document));
 
@@ -73,8 +71,7 @@ public class PdfPrinter implements QrCodePrinter {
     }
 
     public void printWithDialog(BarcodePdf barcodePdf) {
-        try {
-            PDDocument document = PDDocument.load(barcodePdf.asStream().toByteArray());
+        try (PDDocument document = PDDocument.load(barcodePdf.asStream().toByteArray())) {
             PrinterJob job = PrinterJob.getPrinterJob();
             job.setPageable(new PDFPageable(document));
             if (job.printDialog()) {

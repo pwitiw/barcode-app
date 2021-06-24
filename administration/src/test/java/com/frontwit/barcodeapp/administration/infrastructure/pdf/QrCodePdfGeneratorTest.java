@@ -10,19 +10,19 @@ import java.io.IOException;
 
 public class QrCodePdfGeneratorTest {
     public static void main(String[] args) throws IOException {
-        var barcode = Barcode.valueOf(new OrderId(1000), 2);
+        var barcode = Barcode.valueOf(new OrderId(4781609), 2);
         var info = new QrCodeInfo(
                 new QrCodeInfo.QrOrder(
                         barcode.getOrderId().getId(),
-                        "TW202",
-                        3,
-                        "Wrocław",
-                        "Kowalski"
+                        "MIKS-116",
+                        39,
+                        "WROCLAW",
+                        "MIKS MEBLE"
                 ),
                 new QrCodeInfo.QrFront(
                         barcode.getBarcode(),
-                        new Dimensions(800, 10400),
-                        1
+                        new Dimensions(284, 1155),
+                        2
                 )
         );
         var qrCode = new QrCodePdfGenerator().create(info);
