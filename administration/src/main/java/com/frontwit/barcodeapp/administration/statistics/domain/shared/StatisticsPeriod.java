@@ -24,6 +24,11 @@ public class StatisticsPeriod {
         return new StatisticsPeriod(time.getHour(), time.getDayOfMonth(), time.getMonth(), Year.from(time));
     }
 
+    public static StatisticsPeriod from(Instant instant) {
+        ZonedDateTime zdt = instant.atZone(ZONE);
+        return new StatisticsPeriod(zdt.getHour(), zdt.getDayOfMonth(), Month.from(zdt), Year.from(zdt));
+    }
+
     public static StatisticsPeriod beginningOfYear(Year year) {
         return new StatisticsPeriod(1, 1, Month.JANUARY, year);
     }
@@ -38,8 +43,17 @@ public class StatisticsPeriod {
         return StatisticsPeriod.dailyFrom(beginningOfWeek().toInstant().plus(6, ChronoUnit.DAYS));
     }
 
+    public StatisticsPeriod beginningOfDay() {
+        return new StatisticsPeriod(0, day, month, year);
+    }
+
+    public StatisticsPeriod endOfDay() {
+        return new StatisticsPeriod(23, day, month, year);
+    }
+
     public Instant toInstant() {
-        LocalDate zonedDateTime = LocalDate.of(year.getValue(), month, day);
-        return zonedDateTime.atStartOfDay().atZone(ZONE).toInstant();
+        var localDate = LocalDate.of(year.getValue(), month, day);
+        var localTime = LocalTime.of(hour, 0);
+        return ZonedDateTime.of(LocalDateTime.of(localDate, localTime), ZONE).toInstant();
     }
 }

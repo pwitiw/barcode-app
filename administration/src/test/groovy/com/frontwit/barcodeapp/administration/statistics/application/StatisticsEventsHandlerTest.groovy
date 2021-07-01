@@ -1,5 +1,6 @@
 package com.frontwit.barcodeapp.administration.statistics.application
 
+import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderType
 import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStatistics
 import com.frontwit.barcodeapp.administration.statistics.domain.order.OrderStatisticsRepository
@@ -11,8 +12,9 @@ import static com.frontwit.barcodeapp.administration.statistics.StatisticsFixtur
 class StatisticsEventsHandlerTest extends Specification {
 
     private OrderStatisticsRepository repository = Mock()
-    private StageStatisticsRepository frontPackedRepository = Mock()
-    private StatisticsEventsHandler statisticsEventsHandler = new StatisticsEventsHandler(repository, frontPackedRepository)
+    private StageStatisticsCalculator stageStatisticsCalculator = Mock()
+    private FrontRepository frontRepository = Mock()
+    private StatisticsEventsHandler statisticsEventsHandler = new StatisticsEventsHandler(repository, stageStatisticsCalculator, frontRepository)
 
     def "should create statistics for today if not present"() {
         given:

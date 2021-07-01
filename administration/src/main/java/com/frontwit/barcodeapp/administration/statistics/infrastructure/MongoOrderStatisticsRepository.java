@@ -35,7 +35,7 @@ public class MongoOrderStatisticsRepository implements OrderStatisticsRepository
     @Override
     public List<OrderStatistics> findForYearUntil(StatisticsPeriod period) {
         var beginningOfYear = StatisticsPeriod.beginningOfYear(period.getYear()).toInstant();
-        var statisticsEntity = mongoTemplate.find(forGivenYear(period, beginningOfYear), OrderStatisticsEntity.class);
+        var statisticsEntity = mongoTemplate.find(periodBetween(beginningOfYear, period.toInstant()), OrderStatisticsEntity.class);
         return statisticsEntity.stream()
                 .map(OrderStatisticsEntity::toOrderStatics)
                 .collect(Collectors.toList());
@@ -46,9 +46,11 @@ public class MongoOrderStatisticsRepository implements OrderStatisticsRepository
         return mongoTemplate.count(new Query(), OrderStatisticsEntity.class) == 0;
     }
 
-    private Query forGivenYear(StatisticsPeriod period, Instant beginningOfYear) {
-        Criteria c = new Criteria().andOperator(Criteria.where(PERIOD_FIELD).lte(period.toInstant()),
-                Criteria.where(PERIOD_FIELD).gte(beginningOfYear));
+    private Query periodBetween(Instant from, Instant to) {
+        Criteria c = new Criteria().andOperator(
+                Criteria.where(PERIOD_FIELD).lte(to),
+                Criteria.where(PERIOD_FIELD).gte(from)
+        );
         return new Query(c);
     }
 }

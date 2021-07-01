@@ -42,6 +42,6 @@ public class StatisticsEventsHandler {
         }
         var date = event.getDateTime().atZone(ZoneId.of("Europe/Warsaw"));
         StatisticsPeriod period = StatisticsPeriod.hourlyFrom(date);
-        stageStatisticsCalculator.calculateStageStatistics(period, event.getStage(), front.get());
+        stageStatisticsCalculator.saveStageStatistics(period, event.getStage(), front.get());
     }
 }

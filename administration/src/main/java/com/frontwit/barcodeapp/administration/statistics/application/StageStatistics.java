@@ -7,17 +7,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @Data
 public class StageStatistics {
+    private UUID id;
     private Double meters;
     private StatisticsPeriod period;
     private Stage stage;
-    private Shift shift;
 
-    static StageStatistics emptyStatistics(StatisticsPeriod period, Stage stage, Shift shift) {
-        return new StageStatistics(0.0, period, stage, shift);
+    static StageStatistics emptyStatistics(StatisticsPeriod period, Stage stage) {
+        return new StageStatistics(UUID.randomUUID(), 0.0, period, stage);
+    }
+
+    public static StageStatistics of(UUID id, Double meters, StatisticsPeriod period, Stage stage) {
+        return new StageStatistics(id, meters, period, stage);
     }
 
     public void addMeters(Double newMeters) {

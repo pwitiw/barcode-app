@@ -13,6 +13,17 @@ interface OrderStatistics {
     complaints: number;
 }
 
+interface StageStatistics {
+    period: string,
+    stage: string,
+    hourlyStatisticsDto:HourlyStatisticsDto[]
+}
+
+interface HourlyStatisticsDto {
+    hour: number,
+    meters: number
+}
+
 @Component({
     selector: 'app-statistics',
     templateUrl: './statistics.component.html',
@@ -24,6 +35,7 @@ export class StatisticsComponent implements OnInit {
     customerColumns: string[];
     orders: OrderStatistics[];
     orderColumns: string[];
+    stages: StageStatistics;
 
     constructor(private restService: RestService) {
         this.customerColumns = ['index', 'name', 'quantity', 'meters'];
@@ -37,6 +49,7 @@ export class StatisticsComponent implements OnInit {
 
     ngOnInit() {
         this.loadOrderStatistics();
+        this.loadStageStatistics();
     }
 
     loadOrderStatistics(): void {
@@ -48,6 +61,20 @@ export class StatisticsComponent implements OnInit {
                     this.orders = result;
                 }
             });
+    }
+
+    display(stages){
+        return JSON.stringify(stages);
+    }
+
+    loadStageStatistics(): void {
+        this.restService.get<any>(`/api/statistics/stage`)
+            .subscribe(response => {
+                const result = response.body;
+                if (result) {
+                    this.stages = result;
+                }
+            })
     }
 
     private static translate(type: string): string {
