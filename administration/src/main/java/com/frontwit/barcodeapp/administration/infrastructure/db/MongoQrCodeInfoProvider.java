@@ -7,6 +7,8 @@ import com.frontwit.barcodeapp.administration.processing.order.infrastructure.Or
 import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
 import com.frontwit.barcodeapp.administration.processing.shared.Dimensions;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class MongoQrCodeInfoProvider implements QrCodeInfoProvider {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MongoQrCodeInfoProvider.class.getName());
 
     private final MongoTemplate mongoTemplate;
 
@@ -23,6 +26,12 @@ public class MongoQrCodeInfoProvider implements QrCodeInfoProvider {
         var orderId = barcode.getOrderId().getId();
         var order = mongoTemplate.findById(orderId, OrderEntity.class);
         var front = mongoTemplate.findById(barcode.getBarcode(), FrontEntity.class);
+        LOGGER.debug("orderId: {}, barcode: {}, order: {}, front: {} ",
+                orderId,
+                barcode.getBarcode(),
+                valueOrNullString(order),
+                valueOrNullString(front)
+        );
         if (order == null || front == null) {
             return Optional.empty();
         }
@@ -46,5 +55,9 @@ public class MongoQrCodeInfoProvider implements QrCodeInfoProvider {
                         front.getQuantity()
                 )
         );
+    }
+
+    private static String valueOrNullString(Object obj) {
+        return obj == null ? " null" : obj.toString();
     }
 }
