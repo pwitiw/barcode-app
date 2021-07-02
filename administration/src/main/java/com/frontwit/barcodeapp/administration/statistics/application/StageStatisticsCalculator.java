@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class StageStatisticsCalculator {
         List<StageStatistics> statistics = repository.findByPeriodAndStageDaily(period, stage);
         if (statistics.isEmpty()) {
             List<HourlyStatisticsDto> hourlyDto = new ArrayList<>();
-            return new StageStatisticsDto(hourlyDto, stage, period);
+            return new StageStatisticsDto(hourlyDto, stage, period, 0.0, 0.0);
         }
         return createDto(statistics, stage);
     }
@@ -40,11 +41,26 @@ public class StageStatisticsCalculator {
     private StageStatisticsDto createDto(List<StageStatistics> stageStatistics, Stage stage) {
         StageStatisticsDto dto = new StageStatisticsDto();
         dto.setStage(stage);
-        List<HourlyStatisticsDto> hourlyDto = stageStatistics.stream().map(s -> new HourlyStatisticsDto(s.getMeters(), s.getPeriod().getHour())).collect(Collectors.toList());
+        List<HourlyStatisticsDto> hourlyDto = stageStatistics.stream()
+                .map(s -> new HourlyStatisticsDto(s.getMeters(), s.getPeriod().getHour()))
+                .sorted(Comparator.comparing(HourlyStatisticsDto::getHour))
+                .collect(Collectors.toList());
 
         dto.setHourlyStatistics(hourlyDto);
         var date = stageStatistics.get(0).getPeriod();
         dto.setPeriod(new StatisticsPeriod(0, date.getDay(), date.getMonth(), date.getYear()));
+
+        Double firstShift = hourlyDto.stream()
+                .filter(f -> f.getHour() >= 6 && f.getHour() < 14)
+                .map(HourlyStatisticsDto::getMeters)
+                .reduce(Double::sum).orElse(0.0);
+        Double secondShift = hourlyDto.stream()
+                .filter(f -> f.getHour() >= 14)
+                .map(HourlyStatisticsDto::getMeters)
+                .reduce(Double::sum).orElse(0.0);
+
+        dto.setFirstShift(firstShift);
+        dto.setSecondShift(secondShift);
         return dto;
     }
 

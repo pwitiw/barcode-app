@@ -25,7 +25,31 @@
 
     <div>
         <h4 class="title" >Statystyki godzinowe</h4>
-        <div>{{display(stages)}}</div>
-  
+        
+        <mat-form-field>
+            <input matInput [matDatepicker]="orderedAtPicker" [max]="today" placeholder="Wybierz datę"
+                   name="date">
+            <mat-datepicker-toggle matSuffix [for]="orderedAtPicker"></mat-datepicker-toggle>
+            <mat-datepicker #orderedAtPicker></mat-datepicker>
+        </mat-form-field>
+        <div>Stanowisko: {{stageStatistics.stage}}</div>
+
+        <table mat-table [dataSource]="stageStatistics.hourlyStatistics" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="hour">
+                <th mat-header-cell *matHeaderCellDef>Godzina</th>
+                <td mat-cell *matCellDef="let st"> {{st.hour}}</td>
+            </ng-container>
+            <ng-container matColumnDef="meters">
+                <th mat-header-cell *matHeaderCellDef>Metry</th>
+                <td mat-cell *matCellDef="let st"> {{st.meters}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="stageColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: stageColumns"></tr>
+        </table>
+        <div>Pierwsza zmiana: {{stageStatistics.firstShift}}</div>
+        <div>Druga zmiana: {{stageStatistics.secondShift}}</div>
+
     </div>
 </div>

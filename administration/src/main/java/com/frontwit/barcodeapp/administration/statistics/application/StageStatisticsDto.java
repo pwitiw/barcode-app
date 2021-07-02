@@ -15,5 +15,7 @@ public class StageStatisticsDto {
     List<HourlyStatisticsDto> hourlyStatistics;
     Stage stage;
     StatisticsPeriod period;
+    Double firstShift;
+    Double secondShift;
 
 }

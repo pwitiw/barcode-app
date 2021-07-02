@@ -4,6 +4,7 @@ import {HomeComponent} from './home.component';
 import {StatisticsComponent} from "./statistics/statistics.component";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
+import { MatFormFieldModule, MatInputModule, MatDatepickerModule } from '@angular/material';
 
 @NgModule({
     declarations: [
@@ -14,6 +15,9 @@ import {MatTableModule} from "@angular/material/table";
         CommonModule,
         MatPaginatorModule,
         MatTableModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule
     ],
     providers: []
 })

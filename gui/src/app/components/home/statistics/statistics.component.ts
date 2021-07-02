@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
 import {RestService} from "../../../services/rest.service";
 
 interface CustomerStatistics {
@@ -6,7 +6,7 @@ interface CustomerStatistics {
     quantity: number;
     meters: number;
 }
-
+ó
 interface OrderStatistics {
     type: string;
     orders: number;
@@ -16,10 +16,12 @@ interface OrderStatistics {
 interface StageStatistics {
     period: string,
     stage: string,
-    hourlyStatisticsDto:HourlyStatisticsDto[]
+    hourlyStatistics:HourlyStatistics[],
+    firstShift: string,
+    secondShift: string
 }
 
-interface HourlyStatisticsDto {
+interface HourlyStatistics {
     hour: number,
     meters: number
 }
@@ -35,7 +37,10 @@ export class StatisticsComponent implements OnInit {
     customerColumns: string[];
     orders: OrderStatistics[];
     orderColumns: string[];
-    stages: StageStatistics;
+    stageColumns: string[];
+    stageStatistics: StageStatistics;
+    stage: string;
+    date: string;
 
     constructor(private restService: RestService) {
         this.customerColumns = ['index', 'name', 'quantity', 'meters'];
@@ -45,6 +50,7 @@ export class StatisticsComponent implements OnInit {
             {name: "Paź", quantity: 12, meters: 232.0},
         ];
         this.orderColumns = ['type', 'orders', 'complaints'];
+        this.stageColumns = ['hour', 'meters'];
     }
 
     ngOnInit() {
@@ -63,16 +69,16 @@ export class StatisticsComponent implements OnInit {
             });
     }
 
-    display(stages){
-        return JSON.stringify(stages);
-    }
+    // display(stages){
+    //     return JSON.stringify(stages);
+    // }
 
     loadStageStatistics(): void {
         this.restService.get<any>(`/api/statistics/stage`)
             .subscribe(response => {
                 const result = response.body;
                 if (result) {
-                    this.stages = result;
+                    this.stageStatistics = result;
                 }
             })
     }

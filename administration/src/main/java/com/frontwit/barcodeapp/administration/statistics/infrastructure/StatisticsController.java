@@ -31,7 +31,7 @@ public class StatisticsController {
     @GetMapping("/statistics/stage")
     public StageStatisticsDto findStatistics2() {
 //            (@RequestParam StatisticsPeriod period, @RequestParam Stage stage) {
-        StatisticsPeriod period1 = new StatisticsPeriod(15, 30, Month.JUNE, Year.now());
+        StatisticsPeriod period1 = new StatisticsPeriod(14, 1, Month.JULY, Year.now());
         Stage stage1 = Stage.PACKING;
         return stageStatisticsCalculator.statisticsFor(period1, stage1);
     }
