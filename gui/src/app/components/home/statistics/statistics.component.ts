@@ -83,7 +83,8 @@ export class StatisticsComponent implements OnInit {
             return;
         }
         const date = this.dateForStatistics.getTime ? this.dateForStatistics.getTime() : this.dateForStatistics;
-        this.restService.get<any>(`/api/statistics/stage?date=` + date + `&stage=` + this.stage)
+        const stage = this.stage? this.stage: StageService.PACKING.value;
+        this.restService.get<any>(`/api/statistics/stage?date=` + date + `&stage=` + stage)
             .subscribe(response => {
                 const result = response.body;
                 if (result) {
