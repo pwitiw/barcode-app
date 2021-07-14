@@ -9,11 +9,10 @@ import com.frontwit.barcodeapp.administration.statistics.domain.shared.Statistic
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
-import java.time.Month;
-import java.time.Year;
 
 @RestController
 @RequestMapping("/api")
@@ -29,10 +28,8 @@ public class StatisticsController {
     }
 
     @GetMapping("/statistics/stage")
-    public StageStatisticsDto findStatistics2() {
-//            (@RequestParam StatisticsPeriod period, @RequestParam Stage stage) {
-        StatisticsPeriod period1 = new StatisticsPeriod(14, 1, Month.JULY, Year.now());
-        Stage stage1 = Stage.PACKING;
-        return stageStatisticsCalculator.statisticsFor(period1, stage1);
+    public StageStatisticsDto findStatisticsFor(@RequestParam Long date, @RequestParam Stage stage) {
+        StatisticsPeriod period1 = StatisticsPeriod.from(Instant.ofEpochMilli(date));
+        return stageStatisticsCalculator.statisticsFor(period1, stage);
     }
 }

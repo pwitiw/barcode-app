@@ -1,12 +1,15 @@
-import {Component, OnInit, Output} from '@angular/core';
-import {RestService} from "../../../services/rest.service";
+import { Component, OnInit, Output } from '@angular/core';
+import { now } from 'moment';
+import { RestService } from "../../../services/rest.service";
+import { StageService } from '../../orders/stage.service';
+import { Stage } from '../../orders/types/Stage';
 
 interface CustomerStatistics {
     name: string;
     quantity: number;
     meters: number;
 }
-ó
+
 interface OrderStatistics {
     type: string;
     orders: number;
@@ -16,7 +19,7 @@ interface OrderStatistics {
 interface StageStatistics {
     period: string,
     stage: string,
-    hourlyStatistics:HourlyStatistics[],
+    hourlyStatistics: HourlyStatistics[],
     firstShift: string,
     secondShift: string
 }
@@ -40,21 +43,27 @@ export class StatisticsComponent implements OnInit {
     stageColumns: string[];
     stageStatistics: StageStatistics;
     stage: string;
+    stages: Stage[];
     date: string;
+    dateForStatistics: Date;
 
-    constructor(private restService: RestService) {
+    constructor(private restService: RestService,
+        public stageService: StageService) {
         this.customerColumns = ['index', 'name', 'quantity', 'meters'];
         this.customers = [
-            {name: "Kowalski Andrzej", quantity: 12, meters: 232.0},
-            {name: "Paweł Jankowsczykiewicz", quantity: 12, meters: 232.0},
-            {name: "Paź", quantity: 12, meters: 232.0},
+            { name: "Kowalski Andrzej", quantity: 12, meters: 232.0 },
+            { name: "Paweł Jankowsczykiewicz", quantity: 12, meters: 232.0 },
+            { name: "Paź", quantity: 12, meters: 232.0 },
         ];
         this.orderColumns = ['type', 'orders', 'complaints'];
         this.stageColumns = ['hour', 'meters'];
+        this.stages = stageService.getStages();
     }
 
     ngOnInit() {
         this.loadOrderStatistics();
+        this.dateForStatistics = new Date(now());
+        this.stage = StageService.PACKING.value;
         this.loadStageStatistics();
     }
 
@@ -69,12 +78,12 @@ export class StatisticsComponent implements OnInit {
             });
     }
 
-    // display(stages){
-    //     return JSON.stringify(stages);
-    // }
-
     loadStageStatistics(): void {
-        this.restService.get<any>(`/api/statistics/stage`)
+        if (!this.dateForStatistics) {
+            return;
+        }
+        const date = this.dateForStatistics.getTime ? this.dateForStatistics.getTime() : this.dateForStatistics;
+        this.restService.get<any>(`/api/statistics/stage?date=` + date + `&stage=` + this.stage)
             .subscribe(response => {
                 const result = response.body;
                 if (result) {

@@ -8,6 +8,8 @@ import com.frontwit.barcodeapp.administration.statistics.infrastructure.StageSta
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -66,8 +68,12 @@ public class StageStatisticsCalculator {
 
     private Double calculateMeters(Front front) {
         var frontEntity = frontStatisticsRepository.findByBarcode(front.getBarcode());
-        return frontEntity
+        var value =  frontEntity
                 .map(entity -> entity.getHeight() * entity.getWidth() / 1000000.0)
                 .orElse(0.0);
+
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(value));
+        bigDecimal = bigDecimal.setScale(2, RoundingMode.HALF_UP);
+        return bigDecimal.doubleValue();
     }
 }

@@ -54,8 +54,11 @@ public class StatisticsEventsHandler {
 
     @Scheduled(initialDelay = 1_000, fixedDelay = Long.MAX_VALUE)
     void generateStatistics() {
-        handle(new FrontProcessed(Barcode.valueOf(new OrderId(1L), 101), Stage.PACKING, LocalDateTime.now()));
-        handle(new FrontProcessed(Barcode.valueOf(new OrderId(1L), 101), Stage.PACKING, LocalDateTime.now()));
-        handle(new FrontProcessed(Barcode.valueOf(new OrderId(1L), 101), Stage.PACKING, LocalDateTime.of(2021, 7, 1, 13, 20)));
+        //todo wykresy
+        handle(new FrontProcessed(Barcode.valueOf(new OrderId(1L), 1), Stage.PACKING, LocalDateTime.now()));
+        handle(new FrontProcessed(Barcode.valueOf(new OrderId(1L), 1), Stage.PACKING, LocalDateTime.now()));
+        handle(new FrontProcessed(Barcode.valueOf(new OrderId(1L), 1), Stage.PACKING, LocalDateTime.of(2021, 7, 13, 13, 59)));
+        handle(new FrontProcessed(Barcode.valueOf(new OrderId(1L), 1), Stage.PACKING, LocalDateTime.of(2021, 7, 13, 14, 00)));
+        handle(new FrontProcessed(Barcode.valueOf(new OrderId(1L), 1), Stage.PACKING, LocalDateTime.of(2021, 7, 13, 14, 00)));
     }
 }
