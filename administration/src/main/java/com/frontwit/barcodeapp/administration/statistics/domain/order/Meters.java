@@ -16,6 +16,10 @@ public final class Meters {
         return new Meters(value);
     }
 
+    public static Meters ofMilimeters(int height, int width) {
+        return of(height * width / 1_000_000.0);
+    }
+
     public Meters plus(Meters arg) {
         return new Meters(this.value + arg.value);
     }

@@ -1,4 +1,4 @@
-package com.frontwit.barcodeapp.administration.statistics.infrastructure;
+package com.frontwit.barcodeapp.administration.statistics.domain.stage;
 
 import com.frontwit.barcodeapp.administration.processing.shared.Stage;
 import com.frontwit.barcodeapp.administration.statistics.application.StageStatistics;

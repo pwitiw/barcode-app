@@ -29,7 +29,7 @@ public class StatisticsController {
 
     @GetMapping("/statistics/stage")
     public StageStatisticsDto findStatisticsFor(@RequestParam Long date, @RequestParam Stage stage) {
-        StatisticsPeriod period1 = StatisticsPeriod.from(Instant.ofEpochMilli(date));
-        return stageStatisticsCalculator.statisticsFor(period1, stage);
+        StatisticsPeriod period = StatisticsPeriod.from(Instant.ofEpochMilli(date));
+        return stageStatisticsCalculator.statisticsFor(period, stage);
     }
 }

@@ -47,8 +47,8 @@
             Szukaj
         </button>
 
-        <div>Pierwsza zmiana: {{stageStatistics?.firstShift}}</div>
-        <div>Druga zmiana: {{stageStatistics?.secondShift}}</div>
+        <div>Pierwsza zmiana: {{roundMeters(stageStatistics?.firstShift)}}</div>
+        <div>Druga zmiana: {{roundMeters(stageStatistics?.secondShift)}}</div>
 
         <table mat-table [dataSource]="stageStatistics?.hourlyStatistics" class="mat-elevation-z8">
             <ng-container matColumnDef="hour">
@@ -57,7 +57,7 @@
             </ng-container>
             <ng-container matColumnDef="meters">
                 <th mat-header-cell *matHeaderCellDef>Metry</th>
-                <td mat-cell *matCellDef="let st"> {{st.meters}}</td>
+                <td mat-cell *matCellDef="let st"> {{roundMeters(st.meters)}}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="stageColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: stageColumns"></tr>

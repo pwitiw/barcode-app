@@ -44,7 +44,6 @@ export class StatisticsComponent implements OnInit {
     stageStatistics: StageStatistics;
     stage: string;
     stages: Stage[];
-    date: string;
     dateForStatistics: Date;
 
     constructor(private restService: RestService,
@@ -83,7 +82,7 @@ export class StatisticsComponent implements OnInit {
             return;
         }
         const date = this.dateForStatistics.getTime ? this.dateForStatistics.getTime() : this.dateForStatistics;
-        const stage = this.stage? this.stage: StageService.PACKING.value;
+        const stage = this.stage ? this.stage : StageService.PACKING.value;
         this.restService.get<any>(`/api/statistics/stage?date=` + date + `&stage=` + stage)
             .subscribe(response => {
                 const result = response.body;
@@ -91,6 +90,10 @@ export class StatisticsComponent implements OnInit {
                     this.stageStatistics = result;
                 }
             })
+    }
+
+    roundMeters(meters: number): number {
+        return Number(meters.toFixed(2));
     }
 
     private static translate(type: string): string {

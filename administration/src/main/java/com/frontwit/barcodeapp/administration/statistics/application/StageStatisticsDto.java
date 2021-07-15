@@ -12,10 +12,23 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StageStatisticsDto {
-    List<HourlyStatisticsDto> hourlyStatistics;
-    Stage stage;
-    StatisticsPeriod period;
-    Double firstShift;
-    Double secondShift;
+    private List<HourlyStatisticsDto> hourlyStatistics;
+    private Stage stage;
+    private StatisticsPeriod period;
+    private Double firstShift;
+    private Double secondShift;
 
+    public static StageStatisticsDto of(List<HourlyStatisticsDto> hourlyDto,
+                                        Stage stage,
+                                        StatisticsPeriod period,
+                                        Double firstShift,
+                                        Double secondShift) {
+        StageStatisticsDto dto = new StageStatisticsDto();
+        dto.setStage(stage);
+        dto.setHourlyStatistics(hourlyDto);
+        dto.setPeriod(period);
+        dto.setFirstShift(firstShift);
+        dto.setSecondShift(secondShift);
+        return dto;
+    }
 }

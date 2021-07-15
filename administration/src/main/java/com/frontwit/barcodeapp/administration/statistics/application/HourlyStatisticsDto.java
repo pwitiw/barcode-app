@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class HourlyStatisticsDto {
-    Double meters;
-    int hour;
+    private Double meters;
+    private int hour;
 }
