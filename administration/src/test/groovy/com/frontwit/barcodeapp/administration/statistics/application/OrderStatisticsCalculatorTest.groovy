@@ -18,11 +18,11 @@ class OrderStatisticsCalculatorTest extends Specification {
 
     def "calculate statistics at given day"() {
         given:
-        def statisticsPeriod1 = new StatisticsPeriod(19, Month.JUNE as Month, Year.of(2020))
-        def statisticsPeriod2 = new StatisticsPeriod(16, Month.JUNE as Month, Year.of(2020))
-        def statisticsPeriod3 = new StatisticsPeriod(10, Month.JUNE as Month, Year.of(2020))
-        def statisticsPeriod4 = new StatisticsPeriod(2, Month.MAY as Month, Year.of(2020))
-        def statisticsPeriod5 = new StatisticsPeriod(7, Month.FEBRUARY as Month, Year.of(2020))
+        def statisticsPeriod1 = new StatisticsPeriod(0, 19, Month.JUNE as Month, Year.of(2020))
+        def statisticsPeriod2 = new StatisticsPeriod(0, 16, Month.JUNE as Month, Year.of(2020))
+        def statisticsPeriod3 = new StatisticsPeriod(0, 10, Month.JUNE as Month, Year.of(2020))
+        def statisticsPeriod4 = new StatisticsPeriod(0, 2, Month.MAY as Month, Year.of(2020))
+        def statisticsPeriod5 = new StatisticsPeriod(0, 7, Month.FEBRUARY as Month, Year.of(2020))
 
         def statistics = [
                 OrderStatistics.of(statisticsPeriod1, Meters.of(1), Meters.of(1)),

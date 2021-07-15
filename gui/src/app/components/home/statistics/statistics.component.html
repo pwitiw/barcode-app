@@ -23,4 +23,44 @@
         </table>
     </div>
 
+    <div class = "stages">
+        <h4 class="title" >Statystyki stanowiskowe</h4>
+        <div class = "stage-statistics-search">
+        <mat-form-field>
+                <input matInput [matDatepicker]="stageStatisticsAtPicker" [max]="today"  
+                       [(ngModel)]="dateForStatistics" name="dateForStatistics" >
+                <mat-datepicker-toggle matSuffix [for]="stageStatisticsAtPicker"></mat-datepicker-toggle>
+                <mat-datepicker #stageStatisticsAtPicker  ></mat-datepicker>
+        </mat-form-field>
+            <mat-form-field>
+                <mat-label>Etap produkcji</mat-label>
+                <mat-select [(value)]="stage">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let stage of stages" [value]="stage.value">
+                        {{stage.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <button mat-button color="primary"  (click)="loadStageStatistics()">
+            <mat-icon>search</mat-icon>
+            Szukaj
+        </button>
+
+        <div>Pierwsza zmiana: {{roundMeters(stageStatistics?.firstShift)}}</div>
+        <div>Druga zmiana: {{roundMeters(stageStatistics?.secondShift)}}</div>
+
+        <table mat-table [dataSource]="stageStatistics?.hourlyStatistics" class="mat-elevation-z8">
+            <ng-container matColumnDef="hour">
+                <th mat-header-cell *matHeaderCellDef>Godzina</th>
+                <td mat-cell *matCellDef="let st"> {{st.hour}}</td>
+            </ng-container>
+            <ng-container matColumnDef="meters">
+                <th mat-header-cell *matHeaderCellDef>Metry</th>
+                <td mat-cell *matCellDef="let st"> {{roundMeters(st.meters)}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="stageColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: stageColumns"></tr>
+        </table>
+       </div>
 </div>

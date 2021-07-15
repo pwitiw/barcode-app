@@ -31,7 +31,7 @@ public class OrderStatisticsEntity {
     }
 
     public OrderStatistics toOrderStatics() {
-        return OrderStatistics.of(StatisticsPeriod.of(period), orders, complainments);
+        return OrderStatistics.of(StatisticsPeriod.dailyFrom(period), orders, complainments);
     }
 }
 

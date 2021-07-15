@@ -12,8 +12,8 @@ class QuarterlyStatisticsCalculatorTest extends Specification {
 
     def "should successfully calculate quarterly meters for 2 statistics"() {
         given:
-        def statisticsPeriod1 = new StatisticsPeriod(12, Month.JANUARY as Month, Year.of(2020))
-        def statisticsPeriod2 = new StatisticsPeriod(12, Month.FEBRUARY as Month, Year.of(2020))
+        def statisticsPeriod1 = new StatisticsPeriod(0, 12, Month.JANUARY as Month, Year.of(2020))
+        def statisticsPeriod2 = new StatisticsPeriod(0, 12, Month.FEBRUARY as Month, Year.of(2020))
 
         def statistics = [
                 OrderStatistics.of(statisticsPeriod1, Meters.of(1), Meters.of(2)),
@@ -30,8 +30,8 @@ class QuarterlyStatisticsCalculatorTest extends Specification {
 
     def "should successfully calculate quarterly meters for 1 statistics"() {
         given:
-        def statisticsPeriod1 = new StatisticsPeriod(12, Month.MARCH as Month, Year.of(2020))
-        def statisticsPeriod2 = new StatisticsPeriod(13, Month.APRIL as Month, Year.of(2020))
+        def statisticsPeriod1 = new StatisticsPeriod(0, 12, Month.MARCH as Month, Year.of(2020))
+        def statisticsPeriod2 = new StatisticsPeriod(0, 13, Month.APRIL as Month, Year.of(2020))
 
         def statistics = [
                 OrderStatistics.of(statisticsPeriod1, Meters.of(1), Meters.of(2)),
@@ -48,9 +48,9 @@ class QuarterlyStatisticsCalculatorTest extends Specification {
 
     def "should successfully calculate quarterly meters for 3 statistics"() {
         given:
-        def statisticsPeriod1 = new StatisticsPeriod(12, Month.SEPTEMBER as Month, Year.of(2020))
-        def statisticsPeriod2 = new StatisticsPeriod(13, Month.JULY as Month, Year.of(2020))
-        def statisticsPeriod3 = new StatisticsPeriod(14, Month.AUGUST as Month, Year.of(2020))
+        def statisticsPeriod1 = new StatisticsPeriod(0, 12, Month.SEPTEMBER as Month, Year.of(2020))
+        def statisticsPeriod2 = new StatisticsPeriod(0, 13, Month.JULY as Month, Year.of(2020))
+        def statisticsPeriod3 = new StatisticsPeriod(0, 14, Month.AUGUST as Month, Year.of(2020))
 
         def statistics = [
                 OrderStatistics.of(statisticsPeriod1, Meters.of(1), Meters.of(2)),

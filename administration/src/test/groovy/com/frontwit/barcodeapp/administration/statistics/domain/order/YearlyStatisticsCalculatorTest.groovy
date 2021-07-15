@@ -12,8 +12,8 @@ class YearlyStatisticsCalculatorTest extends Specification {
 
     def "should successfully calculate yearly meters for 2 statistics"() {
         given:
-        def statisticsPeriod1 = new StatisticsPeriod(12, Month.AUGUST as Month, Year.of(2020))
-        def statisticsPeriod2 = new StatisticsPeriod(12, Month.DECEMBER as Month, Year.of(2020))
+        def statisticsPeriod1 = new StatisticsPeriod(0, 12, Month.AUGUST as Month, Year.of(2020))
+        def statisticsPeriod2 = new StatisticsPeriod(0, 12, Month.DECEMBER as Month, Year.of(2020))
 
         def statistics = [
                 OrderStatistics.of(statisticsPeriod1, Meters.of(1), Meters.of(2)),
@@ -30,8 +30,8 @@ class YearlyStatisticsCalculatorTest extends Specification {
 
     def "should successfully calculate yearly meters for 1 statistics"() {
         given:
-        def statisticsPeriod1 = new StatisticsPeriod(12, Month.AUGUST as Month, Year.of(2019))
-        def statisticsPeriod2 = new StatisticsPeriod(12, Month.DECEMBER as Month, Year.of(2020))
+        def statisticsPeriod1 = new StatisticsPeriod(0, 12, Month.AUGUST as Month, Year.of(2019))
+        def statisticsPeriod2 = new StatisticsPeriod(0, 12, Month.DECEMBER as Month, Year.of(2020))
 
         def statistics = [
                 OrderStatistics.of(statisticsPeriod1, Meters.of(1), Meters.of(2)),

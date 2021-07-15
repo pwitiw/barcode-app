@@ -11,6 +11,40 @@ db.createUser(
     }
 );
 
+db.stages.insertMany([
+    {
+        "_id": "123e4567-e891-12d3-a456-426614174000",
+        "meters": 3500.0,
+        "period": ISODate("2021-06-30T14:00:00.00Z"),
+        "stage": "PACKING"
+    },
+    {
+            "_id": "123e4567-e89b-12d1-a456-426614174000",
+            "meters": 6500.0,
+            "period": ISODate("2021-06-30T15:05:00.00Z"),
+            "stage": "PACKING"
+        },
+    {
+            "_id": "123e4567-e89b-12d3-a456-126614174000",
+            "meters": 3500.0,
+            "period": ISODate("2021-06-30T16:48:00.00Z"),
+            "stage": "PACKING"
+        },
+    {
+            "_id": "123e4567-e89b-12d3-a456-426614171000",
+            "meters": 1500.0,
+            "period": ISODate("2021-06-30T17:00:00.00Z"),
+            "stage": "PACKING"
+        },
+    {
+                "_id": "123e4567-e89b-12d3-a456-426614174000",
+                "meters": 10000.0,
+                "period": ISODate("2021-06-29T10:00:00.00Z"),
+                "stage": "PACKING"
+            }
+
+]);
+
 db.user.insert({
     "_id": ObjectId("5d8c654890f5443c5e721ff1"),
     "username": "patryk",
@@ -94,8 +128,8 @@ db.front.insertMany([
     {
         "_id": 101,
         "orderId": 1,
-        "height": 100,
-        "width": 200,
+        "height": 1456,
+        "width": 2389,
         "quantity": 2,
         "stage": "PACKING",
         "comment": "casadas",
