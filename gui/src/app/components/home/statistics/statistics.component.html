@@ -27,7 +27,7 @@
         <h4 class="title" >Statystyki stanowiskowe</h4>
         <div class = "stage-statistics-search">
         <mat-form-field>
-                <input matInput [matDatepicker]="stageStatisticsAtPicker" [max]="today"  
+                <input matInput [matDatepicker]="stageStatisticsAtPicker"
                        [(ngModel)]="dateForStatistics" name="dateForStatistics" >
                 <mat-datepicker-toggle matSuffix [for]="stageStatisticsAtPicker"></mat-datepicker-toggle>
                 <mat-datepicker #stageStatisticsAtPicker  ></mat-datepicker>
