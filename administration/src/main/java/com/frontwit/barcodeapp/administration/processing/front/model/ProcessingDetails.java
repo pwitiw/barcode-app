@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.front.model;
 
-import com.frontwit.barcodeapp.administration.processing.shared.Stage;
+import com.frontwit.barcodeapp.api.shared.Stage;
 import lombok.NonNull;
 import lombok.Value;
 

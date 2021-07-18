@@ -1,0 +1,7 @@
+server.port: 7777
+aws.sqs.profile: default
+barcode-app.labels:
+  stage: PACKING
+  printer.name: zebra-codes
+  polling.frequency: '*/10 * 5-22 * * MON-SAT'
+  front-packed-queue-url: https://sqs.eu-central-1.amazonaws.com/189706958568/frontwit-front-packed-queue

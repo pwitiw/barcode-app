@@ -1,7 +1,7 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization;
 
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderType;
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
+import com.frontwit.barcodeapp.api.shared.OrderId;
 import lombok.Value;
 
 import java.math.BigDecimal;

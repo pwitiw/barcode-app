@@ -2,7 +2,7 @@ package com.frontwit.barcodeapp.administration.processing.front.application;
 
 import com.frontwit.barcodeapp.administration.processing.front.application.dto.ProcessFrontCommand;
 import com.frontwit.barcodeapp.administration.processing.front.model.*;
-import com.frontwit.barcodeapp.administration.processing.shared.Stage;
+import com.frontwit.barcodeapp.api.shared.Stage;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents;
 import com.frontwit.barcodeapp.administration.processing.synchronization.FrontSynchronized;
 import lombok.AllArgsConstructor;

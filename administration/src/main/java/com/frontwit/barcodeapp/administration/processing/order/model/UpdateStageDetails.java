@@ -1,7 +1,7 @@
 package com.frontwit.barcodeapp.administration.processing.order.model;
 
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
-import com.frontwit.barcodeapp.administration.processing.shared.Stage;
+import com.frontwit.barcodeapp.api.shared.Barcode;
+import com.frontwit.barcodeapp.api.shared.Stage;
 import lombok.Value;
 
 @Value

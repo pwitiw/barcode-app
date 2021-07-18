@@ -1,8 +1,8 @@
 package com.frontwit.barcodeapp.administration
 
 
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId
+import com.frontwit.barcodeapp.api.shared.Barcode
+import com.frontwit.barcodeapp.api.shared.OrderId
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents
 import groovy.transform.TypeChecked
 import org.springframework.beans.factory.annotation.Autowired

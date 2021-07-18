@@ -3,7 +3,7 @@ package com.frontwit.barcodeapp.administration.processing.synchronization;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontNotFound;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderRepository;
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
+import com.frontwit.barcodeapp.api.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvents;
 import com.frontwit.barcodeapp.administration.statistics.domain.OrderPlaced;
 import lombok.AllArgsConstructor;

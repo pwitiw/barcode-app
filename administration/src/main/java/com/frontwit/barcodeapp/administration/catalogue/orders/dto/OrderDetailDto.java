@@ -1,7 +1,7 @@
 package com.frontwit.barcodeapp.administration.catalogue.orders.dto;
 
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderType;
-import com.frontwit.barcodeapp.administration.processing.shared.Stage;
+import com.frontwit.barcodeapp.api.shared.Stage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

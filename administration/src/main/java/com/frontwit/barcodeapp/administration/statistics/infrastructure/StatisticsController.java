@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.statistics.infrastructure;
 
-import com.frontwit.barcodeapp.administration.processing.shared.Stage;
+import com.frontwit.barcodeapp.api.shared.Stage;
 import com.frontwit.barcodeapp.administration.statistics.application.OrderStatisticsCalculator;
 import com.frontwit.barcodeapp.administration.statistics.application.OrderStatisticsDto;
 import com.frontwit.barcodeapp.administration.statistics.application.StageStatisticsCalculator;

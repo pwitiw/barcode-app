@@ -1,7 +1,7 @@
 package com.frontwit.barcodeapp.administration
 
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId
+import com.frontwit.barcodeapp.api.shared.Barcode
+import com.frontwit.barcodeapp.api.shared.OrderId
 
 class CommonFixtures {
 

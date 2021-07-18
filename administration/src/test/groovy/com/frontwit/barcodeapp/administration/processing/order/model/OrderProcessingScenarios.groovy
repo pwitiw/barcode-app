@@ -1,15 +1,12 @@
 package com.frontwit.barcodeapp.administration.processing.order.model
 
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId
-import com.frontwit.barcodeapp.administration.processing.shared.Stage
+import com.frontwit.barcodeapp.api.shared.Barcode
+import com.frontwit.barcodeapp.api.shared.OrderId
+import com.frontwit.barcodeapp.api.shared.Stage
 import spock.lang.Specification
 
-import java.time.Instant
-import java.time.LocalDate
-
 import static com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy.*
-import static com.frontwit.barcodeapp.administration.processing.shared.Stage.*
+import static com.frontwit.barcodeapp.api.shared.Stage.*
 
 class OrderProcessingScenarios extends Specification {
 

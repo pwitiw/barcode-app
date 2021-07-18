@@ -1,13 +1,13 @@
 package com.frontwit.barcodeapp.administration.processing.front.model
 
 
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode
-import com.frontwit.barcodeapp.administration.processing.shared.Quantity
-import com.frontwit.barcodeapp.administration.processing.shared.Stage
+import com.frontwit.barcodeapp.api.shared.Barcode
+import com.frontwit.barcodeapp.api.shared.Quantity
+import com.frontwit.barcodeapp.api.shared.Stage
 
 import java.time.LocalDateTime
 
-import static com.frontwit.barcodeapp.administration.processing.shared.Stage.*
+import static com.frontwit.barcodeapp.api.shared.Stage.*
 
 trait SampleFront {
 

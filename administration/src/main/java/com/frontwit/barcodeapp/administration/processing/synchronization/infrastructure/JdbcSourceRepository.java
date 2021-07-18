@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization.infrastructure;
 
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
+import com.frontwit.barcodeapp.api.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.synchronization.Dictionary;
 import com.frontwit.barcodeapp.administration.processing.synchronization.SourceCustomer;
 import com.frontwit.barcodeapp.administration.processing.synchronization.SourceOrder;

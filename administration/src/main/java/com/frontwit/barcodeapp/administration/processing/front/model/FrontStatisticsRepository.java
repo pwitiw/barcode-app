@@ -1,7 +1,7 @@
 package com.frontwit.barcodeapp.administration.processing.front.model;
 
 import com.frontwit.barcodeapp.administration.processing.front.infrastructure.persistence.FrontEntity;
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
+import com.frontwit.barcodeapp.api.shared.Barcode;
 
 import java.util.Optional;
 

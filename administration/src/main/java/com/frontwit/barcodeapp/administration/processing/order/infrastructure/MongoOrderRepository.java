@@ -3,7 +3,7 @@ package com.frontwit.barcodeapp.administration.processing.order.infrastructure;
 import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderRepository;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy;
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
+import com.frontwit.barcodeapp.api.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.synchronization.TargetOrder;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;

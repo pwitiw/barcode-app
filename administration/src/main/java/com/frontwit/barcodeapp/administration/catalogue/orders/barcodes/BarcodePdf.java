@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.catalogue.orders.barcodes;
 
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
+import com.frontwit.barcodeapp.api.shared.Barcode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

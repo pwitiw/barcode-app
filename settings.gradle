@@ -2,3 +2,6 @@ rootProject.name = "barcode-app"
 include 'gui'
 include 'administration'
 include 'reader'
+include 'api'
+include 'labels'
+

@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.statistics.application;
 
-import com.frontwit.barcodeapp.administration.processing.shared.Stage;
+import com.frontwit.barcodeapp.api.shared.Stage;
 import com.frontwit.barcodeapp.administration.statistics.domain.order.Meters;
 import com.frontwit.barcodeapp.administration.statistics.domain.shared.StatisticsPeriod;
 import lombok.AccessLevel;

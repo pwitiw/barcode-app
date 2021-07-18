@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.front.application.dto;
 
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
+import com.frontwit.barcodeapp.api.shared.Barcode;
 import lombok.*;
 
 import java.time.LocalDateTime;

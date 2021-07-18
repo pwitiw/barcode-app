@@ -1,12 +1,12 @@
 package com.frontwit.barcodeapp.administration.processing.front.model
 
-import com.frontwit.barcodeapp.administration.processing.shared.Quantity
-import com.frontwit.barcodeapp.administration.processing.shared.Stage
+import com.frontwit.barcodeapp.api.shared.Quantity
+import com.frontwit.barcodeapp.api.shared.Stage
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvent
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.frontwit.barcodeapp.administration.processing.shared.Stage.*
+import static com.frontwit.barcodeapp.api.shared.Stage.*
 import static java.time.LocalDateTime.now
 
 class FrontProcessorScenarios extends Specification implements SampleFront {

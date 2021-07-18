@@ -1,7 +1,7 @@
 package com.frontwit.barcodeapp.administration.processing.front.model;
 
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
+import com.frontwit.barcodeapp.api.shared.Barcode;
+import com.frontwit.barcodeapp.api.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvent;
 import lombok.NonNull;
 import lombok.Value;

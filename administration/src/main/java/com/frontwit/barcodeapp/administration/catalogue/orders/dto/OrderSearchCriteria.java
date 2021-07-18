@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.catalogue.orders.dto;
 
-import com.frontwit.barcodeapp.administration.processing.shared.Stage;
+import com.frontwit.barcodeapp.api.shared.Stage;
 import lombok.Getter;
 import lombok.ToString;
 

@@ -2,9 +2,9 @@ package com.frontwit.barcodeapp.administration.processing.synchronization
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderType
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId
-import com.frontwit.barcodeapp.administration.processing.shared.Quantity
+import com.frontwit.barcodeapp.api.shared.Barcode
+import com.frontwit.barcodeapp.api.shared.OrderId
+import com.frontwit.barcodeapp.api.shared.Quantity
 import spock.lang.Specification
 
 class OrderMapperTest extends Specification implements SampleOrder {

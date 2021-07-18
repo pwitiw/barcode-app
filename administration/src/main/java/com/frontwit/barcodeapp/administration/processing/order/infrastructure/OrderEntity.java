@@ -6,10 +6,10 @@ import com.frontwit.barcodeapp.administration.processing.front.infrastructure.pe
 import com.frontwit.barcodeapp.administration.processing.order.model.Order;
 import com.frontwit.barcodeapp.administration.processing.order.model.OrderType;
 import com.frontwit.barcodeapp.administration.processing.order.model.UpdateStagePolicy;
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
-import com.frontwit.barcodeapp.administration.processing.shared.Quantity;
-import com.frontwit.barcodeapp.administration.processing.shared.Stage;
+import com.frontwit.barcodeapp.api.shared.Barcode;
+import com.frontwit.barcodeapp.api.shared.OrderId;
+import com.frontwit.barcodeapp.api.shared.Quantity;
+import com.frontwit.barcodeapp.api.shared.Stage;
 import com.frontwit.barcodeapp.administration.processing.synchronization.TargetFront;
 import com.frontwit.barcodeapp.administration.processing.synchronization.TargetOrder;
 import lombok.Data;

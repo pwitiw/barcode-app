@@ -4,13 +4,13 @@ import com.frontwit.barcodeapp.administration.catalogue.orders.OrderQuery
 import com.frontwit.barcodeapp.administration.processing.front.application.FrontProcessor
 import com.frontwit.barcodeapp.administration.processing.front.application.dto.ProcessFrontCommand
 import com.frontwit.barcodeapp.administration.processing.order.infrastructure.OrderEntity
-import com.frontwit.barcodeapp.administration.processing.shared.Stage
+import com.frontwit.barcodeapp.api.shared.Stage
 import com.frontwit.barcodeapp.administration.statistics.infrastructure.OrderStatisticsEntity
 import org.springframework.beans.factory.annotation.Autowired
 
 import java.time.LocalDateTime
 
-import static com.frontwit.barcodeapp.administration.processing.shared.Stage.*
+import static com.frontwit.barcodeapp.api.shared.Stage.*
 
 class AcceptanceIT extends IntegrationSpec {
 

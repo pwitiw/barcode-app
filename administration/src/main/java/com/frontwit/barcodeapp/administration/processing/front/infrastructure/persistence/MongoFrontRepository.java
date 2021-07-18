@@ -4,7 +4,7 @@ import com.frontwit.barcodeapp.administration.processing.front.model.Front;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontProcessingPolicy;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontRepository;
 import com.frontwit.barcodeapp.administration.processing.front.model.FrontStatisticsRepository;
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
+import com.frontwit.barcodeapp.api.shared.Barcode;
 import com.frontwit.barcodeapp.administration.processing.synchronization.TargetFront;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;

@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.order.model;
 
-import com.frontwit.barcodeapp.administration.processing.shared.OrderId;
+import com.frontwit.barcodeapp.api.shared.OrderId;
 import com.frontwit.barcodeapp.administration.processing.synchronization.TargetOrder;
 
 import java.util.Optional;

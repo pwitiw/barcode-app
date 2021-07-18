@@ -1,6 +1,6 @@
 package com.frontwit.barcodeapp.administration.processing.synchronization;
 
-import com.frontwit.barcodeapp.administration.processing.shared.Barcode;
+import com.frontwit.barcodeapp.api.shared.Barcode;
 import com.frontwit.barcodeapp.administration.processing.shared.events.DomainEvent;
 import lombok.Value;
 
